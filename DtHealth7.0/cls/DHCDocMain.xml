@@ -1,0 +1,1431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2012-06-29 15:03:50">
+<Class name="web.DHCDocMain">
+<Super>%RegisteredObject</Super>
+<TimeChanged>62637,54220.51602</TimeChanged>
+<TimeCreated>62508,61378.219005</TimeCreated>
+
+<Query name="FindOrderExecDet">
+<Type>websys.Query</Type>
+<FormalSpec>orderId,execStDate,execEndDate</FormalSpec>
+<Parameter name="ROWSPEC" value="HIDDEN:%String:OrderExecId,HIDDEN:%String:TItemStatCode,TExStDate:%String:要求执行时间,TExecState:%String:状态,TExecStateCode:%String:状态代码,TRealExecDate:%String:执行时间,THourExEnTime:%String:小时医嘱结束时间,TExecRes:%String:执行原因,TExecFreeRes:%String:免费原因,TExecUser:%String:处理人,TExecLoc:%String:处理科室,TBillState:%String:帐单状态,TExecFreeChargeFlag:%String:免费状态,TgiveDrugQty:%String:发药数量,TcancelDrugQty:%String:退药数量,TPBOID:%String:帐单号"/>
+</Query>
+
+<Method name="FindOrderExecDetExecute">
+<Description>
+d ##class(%ResultSet).RunQuery("web.DHCDocMain","FindOrderExecDet","77067||4","","")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,orderId,execStDate="",execEndDate=""]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+		set repid = $I(^CacheTemp)
+		if $g(ind) = "" set ind = 0
+		s ^||RepidTemp("web.DHCDocMain","FindOrderExecDet","CacheTemp")=repid
+		i orderId="" set qHandle = $lb(0,repid,0)  Q $$$OK
+		K ^||TMP
+		s ^Temp("wanghc","orderId")=orderId_","_execStDate_","_execEndDate
+		s:execStDate'="" execStDate=$zdh(execStDate,3)
+		s:execEndDate'="" execEndDate=$zdh(execEndDate,3)
+		s order = +orderId
+		s ordItem = $p(orderId,"||",2)
+		s pb=""
+		s pb=$o(^DHCPBi(0,"OEORI",orderId,0))
+		s deptDesc=""
+		
+		i (order>0) &&(ordItem>0) d
+		.s ordDept = $p(^OEORD(order,"I",ordItem,1),"^",3)
+		.s:+ordDept>0 deptDesc = $p(^CTLOC(ordDept),"^",2)
+		.s TOrderStatusDR=$p(^OEORD(order,"I",ordItem,1),"^",13)
+		.s:+TOrderStatusDR>0 TItemStatCode = $p(^OEC("OSTAT",TOrderStatusDR),"^",1)
+		
+		s orderExecId=0
+		f  s orderExecId=$O(^OEORD(order,"I",ordItem,"X",orderExecId)) q:orderExecId=""  d
+		.s (TExecDate,TExecState,TExecStateCode,TExecRes,TExecFreeRes,TRealExecDate,TExecUser,TExecLoc,TBillState,TExecFreeChargeFlag,TgiveDrugQty,TcancelDrugQty,pbo,TPBOID)=""
+		.s str = ^OEORD(order,"I",ordItem,"X",orderExecId)
+		.s CtpcpDR = $p(str,"^",15)
+		.s:(+CtpcpDR>0)&&($d(^CTPCP(CtpcpDR,1))=1) TExecUser = $p(^CTPCP(CtpcpDR,1),"^",2)
+		.s TExStDate = $p(str,"^",1)			// OEORE_ExStDate
+		.q:(execStDate'="")&&(TExStDate<execStDate)
+		.q:(execEndDate'="")&&(TExStDate>execEndDate)
+		.;s TOrderStatusDR=$p(^OEORD(order,"I",ordItem,"X",orderExecId,"BILL"),"^",1) ;OEORE_OrderStatus_DR
+		.s TExecFreeChargeFlag=""
+		.s:$d(^OEORD(order,"I",ordItem,"X",orderExecId,"BILL")) TExecFreeChargeFlag=$p(^OEORD(order,"I",ordItem,"X",orderExecId,"BILL"),"^",18)	;OEORE_FreeChargeFlag
+		.s TExecFreeChargeFlag=$s(TExecFreeChargeFlag="Y":"免费",1:"")
+		.s TExStTime = $p(str,"^",2)			// OEORE_ExStTime
+		.s:TExStDate'="" TExStDateDesc = $p($zd(TExStDate,3),"-",2,3)
+		.s:TExStTime'="" TExStTimeDesc = $zt(TExStTime,2)
+		.s TExecDate = $p(str,"^",19)		// OEORE_DateExecuted
+		.s:TExecDate'="" TExecDate = $p($zd(TExecDate,3),"-",2,3)
+		.s TExecTime = $p(str,"^",20)		// OEORE_TimeExecuted
+		.s:TExecTime'="" TExecTime = $zt(TExecTime,2)
+		.s ExecStateDR= $p(str,"^",16)
+		
+		.i +ExecStateDR>0 s TExecState = $p(^OEC("STAT",ExecStateDR),"^",2),TExecStateCode=$p(^OEC("STAT",ExecStateDR),"^",1)	;OEC_Order_AdminStatus
+		.e  s TExecState = "未执行",TExecStateCode="未执行"
+		.;执行的原因
+		.i $d(^OEORD(order,"I",ordItem,"X",orderExecId,"STCH"))=10 d
+		..s STCHSub = $o(^OEORD(order,"I",ordItem,"X",orderExecId,"STCH",""),-1)		;OE_OrdExecStatus
+		..s:STCHSub>0 ExecResDr = $p(^OEORD(order,"I",ordItem,"X",orderExecId,"STCH",STCHSub),"^",2) ;STCH_Reason_DR
+		..s:ExecResDr>0 TExecRes= $p(^OEC("ASCR",ExecResDr),"^",2)	;OEC_AdminStatusChReason->ASCR_Desc
+		.;免费原因
+		.i $d(^OEORD(order,"I",ordItem,"X",orderExecId,"FCCH"))=10 d
+		..s FCCHSub = $o(^OEORD(order,"I",ordItem,"X",orderExecId,"FCCH",""),-1)		;OE_OrdExecFreeCharge
+		..s:FCCHSub>0 ExecResDr = $p(^OEORD(order,"I",ordItem,"X",orderExecId,"FCCH",FCCHSub),"^",2) ;FCCH_Reason_DR
+		..s:ExecResDr>0 TExecFreeRes= $p(^OEC("ASCR",ExecResDr),"^",2)	;OEC_AdminStatusChReason->ASCR_Desc
+		.;
+		.s TExecLoc = deptDesc
+		.s TBillState = $p(str,"^",6)
+		.s TBillState=$s(TBillState="B":"计费", TBillState="P":"结算", TBillState="I":"停止后未做账单", TBillState="R":"已退费",1:"需要计费") ;TBillState="TB":"需要计费", 
+		.s drugRtnInfo=##class(web.DHCSTCOMMONSRV).GetDispReturnQty(orderId_"||"_orderExecId) ;返回：发药数量^退药数量
+		.s TgiveDrugQty = $p(drugRtnInfo,"^",1)
+		.s TcancelDrugQty = $p(drugRtnInfo,"^",2)
+		.s THourExEnTime=$p(str,"^",36)
+		.s:THourExEnTime'="" THourExEnTime=$zt(THourExEnTime,2)
+		.s:+pb>0 pbo= $o(^DHCPB(0,"OEEXC",orderId_"||"_orderExecId,pb,0))
+		.s:+pbo>0 TPBOID=pb_"||"_pbo
+		.s ^||TMP(TExStDate,TExStTime)=$lb(orderId_"||"_orderExecId,TItemStatCode,TExStDateDesc_" "_TExStTimeDesc,TExecState,TExecStateCode,TExecDate_" "_TExecTime,THourExEnTime,TExecRes,TExecFreeRes,TExecUser,TExecLoc,TBillState,TExecFreeChargeFlag,TgiveDrugQty,TcancelDrugQty,TPBOID)
+		
+		;按要求执行时间排序
+		s sd="" f  s sd = $o(^||TMP(sd),-1) q:sd=""  d
+		.s st = "" f  s st = $o(^||TMP(sd,st),-1) q:st=""  d
+		..s ind = ind+1
+		..s ^CacheTemp(repid,ind) = ^||TMP(sd,st)
+		set qHandle = $lb(0,repid,0)
+		Q $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="FindOrderFee">
+<Type>websys.Query</Type>
+<FormalSpec>orderId</FormalSpec>
+<Parameter name="ROWSPEC" value="HIDDEN:%String:FeeId,HIDDEN:%String:TCancelStatu,TTarDesc:%String:收费项名称^150,TTarCode:%String:代码^80,TQty:%String:数量^50,TPrice:%String:单价^50,TAmount:%String:金额^50,TDate:%String:记账时间,TExtralComment:%String:原因"/>
+</Query>
+
+<Method name="FindOrderFeeExecute">
+<Description>
+d ##class(%ResultSet).RunQuery("web.DHCDocMain","FindOrderFee","77071||59||2")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,orderId]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+		set repid = $I(^CacheTemp)
+		if $g(ind) = "" set ind = 0
+		i orderId="" set qHandle = $lb(0,repid,0) Q $$$OK
+		s ^Temp("wanghc","orderfee")=orderId
+		s flag = $l(orderId,"||")
+		i flag'=3 set qHandle = $lb(0,repid,0) Q $$$OK
+		
+		s (pb,pbo,pbd)=0
+		//医嘱表 写法有问题
+		i flag=2 d	//医嘱orditemrowid
+		.s pb = $o(^DHCPBi(0,"OEORI",orderId,0))
+		.q:+pb'>0
+		.s pbo = $o(^DHCPBi(0,"OEORI",orderId,pb,0))
+		.q:+pbo'>0
+		e  i flag=3 d	//执行医嘱ordexecrowid
+		.s pb = $O(^DHCPB(0,"OEEXC",orderId,0))
+		.q:+pb'>0
+		.s pbo = $O(^DHCPB(0,"OEEXC",orderId,pb,0))
+		.q:+pbo'>0
+		
+		i pbo'>0 set qHandle = $lb(0,repid,0) Q $$$OK
+		s TPBOrderBillStatus = $p(^DHCPB(pb,"O",pbo),"^",16)
+		f  s pbd = $o(^DHCPB(pb,"O",pbo,"D",pbd)) q:pbd=""  d
+		.s (TTarDesc,TTarCode,TQty,TPrice,TAmount,TDate)=""
+		.s str = ^DHCPB(pb,"O",pbo,"D",pbd)
+		.s tar = $p(str,"^",3)
+		.q:+tar'>0
+		.s TTarDesc = $p(^DHCTARI(tar),"^",2)
+		.s TTarCode = $p(^DHCTARI(tar),"^",1)
+		.s TQty = $p(str,"^",5)
+		.s TPBDBillStatus="B"
+		.i TPBOrderBillStatus="R" s TPBDBillStatus="R"
+		.i TPBOrderBillStatus="P" s TPBDBillStatus="R"
+		.s TPBDOriginalDR = $p(str,"^",23)
+		.i +TPBDOriginalDR>0 s TPBDBillStatus="R"
+		.e  i $d(^DHCPB(0,"OriginalDR",pb_"||"_pbo_"||"_pbd))=10 s TPBDBillStatus="R"
+		.;e  s TPBDBillStatus="B"
+		.s TExtralComment=$p(str,"^",24)
+		.s TPrice = $p(str,"^",4)
+		.s TAmount = $p(str,"^",7)
+		.s TDate = $p(str,"^",11)
+		.s:TDate'="" TDate=$zd(TDate,3)
+		.s ind = ind+1
+		.s ^CacheTemp(repid,ind) = $lb(pb_"||"_pbo_"||"_pbd,TPBDBillStatus,TTarDesc,TTarCode,TQty,TPrice,TAmount,TDate,TExtralComment)
+		set qHandle = $lb(0,repid,0)
+		Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="CheckUpdateHour">
+<Description>
+	@params: oeore 执行医嘱rowid,
+@params: endTime 结束时间 数字格式</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>oeore,endTime</FormalSpec>
+<Implementation><![CDATA[
+	s oeori = $p(oeore,"||",1)
+	s oeorisub = $p(oeore,"||",2)
+	s oeoresub = $p(oeore,"||",3)
+	s TItemStatCode=""
+	s str1 = ^OEORD(oeori,"I",oeorisub,1)
+	s itemStatDr = $p(str1,"^",13) 			;OEORI_ItemStat_DR ;OEC_OrderStatus
+	s:+itemStatDr>0 TItemStatCode = $p(^OEC("OSTAT",itemStatDr),"^",1)
+	q:(TItemStatCode'="D") "医嘱未停止不能修改HOUR医嘱!"
+	
+	s arcim = $p(str1,"^",2) 
+	s billuom=$p($g(^ARCIM(+arcim,$p(arcim,"||",2),8)),"^",14)      ;UOM
+	s:+billuom'=0 buomcod=$p($g(^CT("UOM",billuom)),"^")
+	s buomcod=$zcvt($g(buomcod),"U")
+	q:(buomcod'="HOUR") "不是HOUR医嘱,不能修改时间!"
+	
+	s TStopDate = $p(^OEORD(oeori,"I",oeorisub,3),"^",34)		;XDate
+	s TStopTime = $p(^OEORD(oeori,"I",oeorisub,2),"^",15)		;XTime
+ 	s execstr = ^OEORD(oeori,"I",oeorisub,"X",oeoresub)
+ 	s TExStDate = $p(execstr,"^",1)			// OEORE_ExStDate
+	s TExStTime = $p(execstr,"^",2)
+	
+	q:(TExStDate'=TStopDate) "最后一条执行记录才能修改结束时间!"
+	
+	;q:(TExStDate>TStopDate)&&(endTime'="") "执行记录在医嘱停止后生成!执行记录无效"
+	
+	q:(TExStDate=TStopDate)&&(TStopTime<endTime)&&(endTime'="") "结束时间不能大于医嘱停止时间"
+	
+	q:(TExStDate=TStopDate)&&(TExStTime>endTime)&&(endTime'="") "结束时间不能小于要求停止时间"
+	q 1
+]]></Implementation>
+</Method>
+
+<Method name="CheckStopPermission">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ids</FormalSpec>
+<Implementation><![CDATA[
+	s flag=1
+	s oeori = ids
+	s user = %session.Get("LOGON.USERID")
+	s locid = %session.Get("LOGON.CTLOCID")
+	s groupid = %session.Get("LOGON.GROUPID")
+	s len = $l(oeori,"^")
+	f i=1:1:len q:(flag=0)  d
+	.s oeorirowid = $p(oeori,"^",i)
+	.s flag = ##class(appcom.OEOrdItem).CheckStopPermission(oeorirowid,user,locid,groupid)
+	.q:(flag=0)
+	if (flag=1){
+		q "1"
+	}else{
+		s str1 = ^OEORD(+oeorirowid,"I",$p(oeorirowid,"||",2),1)
+		s ItmMastDR=$p(str1,"^",2)
+		s TOrderDesc=$p(^ARCIM(+ItmMastDR,$p(ItmMastDR,"||",2),1),"^",2)	;医嘱名称
+		q "您无权停止 "_TOrderDesc_" 医嘱!"
+	}
+]]></Implementation>
+</Method>
+
+<Method name="isNurseLogin">
+<Description>
+@author: wanghc
+@date:   2013/3/31
+@desc:   登记是不是病区,用于区分护士登录与医生登录
+			是护士返回1,否刚返回0</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	s ctloctype = $P($G(^CTLOC(%session.Get("LOGON.CTLOCID"))),"^",13)
+	q:ctloctype="W" 1
+	q 0
+]]></Implementation>
+</Method>
+
+<Method name="getExecDateScope">
+<Description>
+入参 oe_orditem表rowid</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>orderId</FormalSpec>
+<Implementation><![CDATA[
+	s order = +orderId
+	s ordItem = $p(orderId,"||",2)
+	s stDate = "", endDate=""
+	s orderExecId=0
+	f  s orderExecId=$O(^OEORD(order,"I",ordItem,"X",orderExecId)) q:orderExecId=""  d
+	.s str = ^OEORD(order,"I",ordItem,"X",orderExecId)
+	.s TExStDate = $p(str,"^",1)	//要求执行时间
+	.i stDate="" s stDate=TExStDate
+	.e  i stDate>TExStDate d
+	..s stDate=TExStDate
+	.i endDate="" s endDate=TExStDate
+	.e  i endDate<TExStDate d
+	..s endDate=TExStDate
+	i orderId>0 d
+	.s space = "&nbsp"
+	.s orderParref=+orderId
+	.s oeori = $p(orderId,"||",2)
+	.s str1 = ^OEORD(orderParref,"I",oeori,1)
+	.s ItmMastDR = $p(str1,"^",2)	
+	.i +ItmMastDR>0 d
+	..s instrDesc1="",PHFreqDesc1="",depProcNotes="",doseQty=""
+	..i $d(^OEORD(orderParref,"I",oeori,2)) d
+	...s doseQty = $p(^OEORD(orderParref,"I",oeori,2),"^",1)	;用量 OEORI_DoseQty		
+	...s instrDr = $p(^OEORD(orderParref,"I",oeori,2),"^",7)	;用法 OEORI_Instr_DR
+	...s:+instrDr'=0 instrDesc1=$p(^PHCIN(instrDr),"^",2)
+	...s PHFreqDr = $p(^OEORD(orderParref,"I",oeori,2),"^",4)	;频次 OEORI_PHFreq_DR
+	...s:PHFreqDr PHFreqDesc1 = $p(^PHCFR(PHFreqDr),"^",3)
+	..s:$d(^OEORD(orderParref,"I",oeori,"DEP"))=11 depProcNotes = ^OEORD(orderParref,"I",oeori,"DEP")	;备注 OEORI_DepProcNotes
+	..s TOrderDesc=$p(^ARCIM(+ItmMastDR,$p(ItmMastDR,"||",2),1),"^",2)	;医嘱名称
+	..s TOrderDesc=TOrderDesc_space_doseQty_space_instrDesc1_space_PHFreqDesc1_space_depProcNotes
+
+	q:stDate'="" $zd(stDate,3)_"^"_$zd(endDate,3)_"^"_TOrderDesc
+	q "^^"_TOrderDesc
+	q ""
+]]></Implementation>
+</Method>
+
+<Method name="cancelFee">
+<Description>
+取消费用 pbdrowid</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>pbd,user</FormalSpec>
+<Implementation><![CDATA[
+	s obj = ##class(User.DHCPatBillDetails).%OpenId(pbd,0)
+	q:'$IsObject(obj) -1_" 没找到费用明细"
+	s qty = obj.PBDBillQty
+	s unit = obj.PBDUnitPrice
+	s disprice = obj.PBDDiscPrice
+	s insprice = obj.PBDInsPrice
+	s patprice = obj.PBDPatPrice
+	s tari = obj.PBDTARIDR.%Id()
+	s statu = "R"
+	s iteminfo = -qty_"^"_unit_"^"_disprice_"^"_insprice_"^"_patprice_"^"_tari_"^"_statu
+	s adm = $p(^DHCPB(+pbd),"^",2)
+	s oeore = $p(^DHCPB(+pbd,"O",$p(pbd,"||",2)),"^",20)
+	s err = ##class(web.DHCIPBillInsExpItm).InsOrdExcExpItm(adm,oeore,iteminfo,user)	
+	q err
+]]></Implementation>
+</Method>
+
+<Method name="GetPatientTreeJson">
+<Description>
+d ##class(%ResultSet).RunQuery("web.DHCDocMain","FindLocDocCurrentAdm","","","","on","","","","","","","")
+把某科室内的所有病人组成json(床位、姓名、登记号)
+@param: type [1,"本科室病人"],[2,"本病区病人"],[3,"本单元病人"],[4,"在院历史病人"]
+w ##class(web.DHCDocMain).GetPatientTreeJson(3,"")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Type:%String=0,PatientNo:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	s (AllPatient,ArrivedQue,MedUnit,HisPat)=""
+	s LocID=%session.Get("LOGON.CTLOCID")
+	s:Type="" Type=0
+	;s ^Temp("wanghc","tree")=%session.Get("LOGON.CTLOCID")_","_%session.Get("LOGON.USERID")_",,"_AllPatient_","_PatientNo_",,,,"_ArrivedQue_",,"_MedUnit
+	s json = ""
+	s tab = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
+	k ^||OrderByBed,^||OrderByNullBed
+	if (PatientNo=""){
+		s isNurse = ..isNurseLogin()
+		if (isNurse){
+			i Type=0 s AllPatient="on"		;病区
+			i Type=1 s HisPat="on"			;以前在本科的在院病人
+			
+		}else{
+			i Type=0 ;本人病人
+			i Type=1 s ArrivedQue="on"		;科室
+			i Type=2 s MedUnit="on"
+			i Type=3 s HisPat="on"			;以前在本科的在院病人
+			
+		}
+		if (HisPat=""){
+			if (isNurse){
+				s rs = 	##class(%ResultSet).%New("web.DHCDocMain:FindLocDocCurrentAdm")
+			}else{
+				s rs = ##class(%ResultSet).%New("web.DHCDocInPatientList:FindLocDocCurrentAdm")
+			}
+			//LocID,UserID,IPAddress , AllPatient , PatientNo , SurName , StartDate  , EndDate  , ArrivedQue  , RegQue , MedUnit
+			d rs.Execute("","","",AllPatient,"","","","",ArrivedQue,"",MedUnit)
+			while(rs.Next()){
+				s bed = rs.GetDataByName("PAAdmBed")
+				i bed="" s bed=tab
+				;i $l(bed)<5 s bed=bed_$e(tab,5*$l(bed)+1,)
+				s admno= rs.GetDataByName("PAAdmNo")
+				s papmino = rs.GetDataByName("PAPMINO")
+				s name = rs.GetDataByName("PAPMIName")
+				i $l(name)=2 s name=$e(name,1)_"&nbsp&nbsp&nbsp"_$e(name,2)
+				s PatientID = rs.GetDataByName("PatientID")
+				s EpisodeID = rs.GetDataByName("EpisodeID")
+				s mradm = $p(^PAADM(EpisodeID),"^",61)
+				s sexDr=$p(^PAPER(PatientID,"ALL"),"^",7) 
+				i sexDr'="" s sex=$p(^CT("SEX",sexDr),"^","2")
+				i ($g(sex)["男") s iconPerson="iconM"
+				e  s iconPerson="iconF"
+				d genJson
+			}
+			d rs.%Close()
+		}else{
+			s admrowid=0 f  s admrowid=$o(^PAADMi("AdmTypeCurr","I",admrowid)) q:admrowid=""  d
+			.q:$p(^PAADM(admrowid),"^",20)'="A"	 ;VisitStatus
+			.s PAPMI = $p(^PAADM(admrowid),"^",1)
+			.S:$d(^PAPER(PAPMI,"PAT",1)) PatientNo=$P(^PAPER(PAPMI,"PAT",1),"^",1)
+			.i isNurse d
+			..s WardID = $O(^PAWARD(0,"WARD_LocationDR",LocID,""))
+			..i $d(^PAPER(PAPMI,"PAT",1)),$$findAdmTransWard(admrowid,WardID),$p(^PAADM(admrowid),"^",70)'=WardID d
+			...;d genJsonByPatientNo			;PA_Admtransaction
+			...d genJsonByAdm(admrowid)
+			.e  i $d(^PAPER(PAPMI,"PAT",1)),$d(^PAADMi("TransLoc",admrowid,LocID)),$p(^PAADM(admrowid),"^",4)'=LocID d
+			..;d genJsonByPatientNo			;PA_Admtransaction
+			..d genJsonByAdm(admrowid)
+		}
+	}else{
+		d genJsonByPatientNo
+	}
+	
+	;输出病人列表信息
+	s ind=0 for  s ind=$o(^||OrderByBed(ind)) q:ind=""  d
+	.s subind="" f   s subind=$o(^||OrderByBed(ind,subind)) q:subind=""  d
+	..i json="" s json=^||OrderByBed(ind,subind)
+	..e  s json=json_","_^||OrderByBed(ind,subind)
+	
+	s subind="" f   s subind=$o(^||OrderByNullBed(subind)) q:subind=""  d
+	.i json="" s json=^||OrderByNullBed(subind)
+	.e  s json=json_","_^||OrderByNullBed(subind)
+	
+	q "["_json_"]"
+findAdmTransWard(PAAdm,WardID)
+	s find=0
+	s child=0 f {
+		s child=$O(^PAADM(PAAdm,"TRANS",child))
+		Q:child=""
+		s TransWardID=$P(^PAADM(PAAdm,"TRANS",child),"^",9)
+		if TransWardID=WardID {
+			s find=1
+			Quit
+		}
+	}
+	Q find
+genJsonByAdm(PAAdm)	
+	Set PAPMI=$p(^PAADM(admrowid),"^",1)
+
+	Set (PatientID,EpisodeID,bed,name,papmino)=""
+	Set PatientID=$P(^PAADM(PAAdm),"^",1)
+	Set EpisodeID=PAAdm
+	set mradm = $p(^PAADM(PAAdm),"^",61)
+	Set name=$P(^PAPER(PatientID,"ALL"),"^",1)
+	Set papmino=$P(^PAPER(PatientID,"PAT",1),"^",1)
+	Set BedId=$P($g(^PAADM(PAAdm)),"^",73)
+	s:BedId'="" bed=$P($g(^PAWARD(+BedId,"BED",$P(BedId,"||",2))),"^",1)
+	i bed="" s bed=tab
+	s sexDr=$p(^PAPER(PatientID,"ALL"),"^",7) 
+	i sexDr'="" s sex=$p(^CT("SEX",sexDr),"^","2")
+	i ($g(sex)["男") s iconPerson="iconM"
+	e  s iconPerson="iconF"
+	d genJson
+	q
+	
+genJsonByPatientNo	
+	Set PAPMI=$O(^PAPERi("PAPMI_PatNo",PatientNo,""))
+	Set PAAdm=""
+	Set CurrentAdmType="I"
+	For  Set PAAdm=$O(^PAPERdr(PAPMI,"ADM",CurrentAdmType,PAAdm)) Quit:PAAdm=""  Do
+	.;Set PAAdmStatus=$P($g(^PAADM(PAAdm)),"^",20)
+	.;Quit:PAAdmStatus'="A"
+	.s (PatientID,EpisodeID,bed,name,papmino)=""
+	.s depCode = $p(^PAADM(PAAdm),"^",4) ;PAADM_DepCode_DR
+	.s currWard= $p(^PAADM(PAAdm),"^",70) ;PAADM_CurrentWard_DR
+	.s ctloctype = $P($G(^CTLOC(LocID)),"^",13)
+	.s:ctloctype="W" depCode = $p(^PAWARD(currWard),"^",5)
+	.Q:LocID'=depCode
+	.S PatientID=$P(^PAADM(PAAdm),"^",1)
+	.S EpisodeID=PAAdm
+	.s mradm = $p(^PAADM(PAAdm),"^",61)
+	.S name=$P(^PAPER(PatientID,"ALL"),"^",1)
+	.S papmino=$P(^PAPER(PatientID,"PAT",1),"^",1)
+	.S BedId=$P($g(^PAADM(PAAdm)),"^",73)
+	.s:BedId'="" bed=$P($g(^PAWARD(+BedId,"BED",$P(BedId,"||",2))),"^",1)
+	.i bed="" s bed=tab
+	.s sexDr=$p(^PAPER(PatientID,"ALL"),"^",7) 
+	.i sexDr'="" s sex=$p(^CT("SEX",sexDr),"^","2")
+	.i ($g(sex)["男") s iconPerson="iconM"
+	.e  s iconPerson="iconF"
+	.d genJson
+	q
+	
+genJson
+	s item = "{id:'PAPER-"_PatientID_"-"_EpisodeID_"-"_mradm_"',text:'"_bed_" "_name_" "_papmino_"', iconCls:'"_iconPerson_"',leaf:true}"
+	i (bed=tab)||(bed="") s ^||OrderByNullBed(EpisodeID)=item
+	e  s ^||OrderByBed(" "_bed,EpisodeID)=item			
+	q
+]]></Implementation>
+</Method>
+
+<Method name="GetPatientBaseInfo">
+<Description>
+{baseInfoName:name,baseInfoBedno:bedno,baseInfoAge:age,baseInfoBodyWeight:weight}</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>papmi,adm</FormalSpec>
+<Implementation><![CDATA[
+	s name="",bedno="",age="",sex="",weight="",ipno="",insu="",ipdate=""
+	q:(papmi="")||(adm="") "{}"
+	q:'$d(^PAPER(papmi)) "{}"
+	s:$d(^PAPER(papmi,"ALL")) name = $p(^PAPER(papmi,"ALL"),"^",1)
+	s:$d(^PAADM(adm)) beddr = $p(^PAADM(adm),"^",73)
+	s:+beddr>0 bedno=$p(^PAWARD(+beddr,"BED",$p(beddr,"||",2)),"^",1)	
+	s sexDr=$p(^PAPER(papmi,"ALL"),"^",7) 
+	i sexDr'="" s sex=$p(^CT("SEX",sexDr),"^","2")
+	s weight=##class(web.DHCDocInPatientList).GetWeight(adm)
+	s age = ##class(web.PAPerson).calculateAgeUnitsShow(papmi)
+	;s ipno = ##class(web.PAPatMas).GetRegistration(papmi)
+	s ipno=""
+	s:$d(^PAPER(papmi,"PAT",1)) ipno = $p(^PAPER(papmi,"PAT",1),"^",22)
+	s insu = $p(^PAADM(adm,1),"^",7) ;PAADMAdmReasonDR
+	s:insu'="" insu=$p(^PAC("ADMREA",insu),"^",2)
+	s ipdate = $p(^PAADM(adm),"^",6)
+	s:ipdate'="" ipdate=$zd(ipdate,3)
+	q "{baseInfoName:"""_name_""",baseInfoBedno:"""_bedno_""",baseInfoAge:"""_age_""",baseInfoSex:"""_sex_""",baseInfoBodyWeight:"""_weight_""",baseInfoIPNo:"""_ipno_""",baseInfoInsu:"""_insu_""",baseInfoIPDate:"""_ipdate_"""}"
+]]></Implementation>
+</Method>
+
+<Method name="GetDoctorList">
+<Description>
+获得 给adm下医嘱的医生列表
+[[rowid,desc],[rowid,desc]]
+w ##class(web.DHCDocMain).GetDoctorList(77343)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>adm</FormalSpec>
+<Implementation><![CDATA[
+	q:adm="" "[[0,'全部']]"
+	s orderParref=$o(^OEORD(0,"Adm",adm,0))
+	q:+orderParref=0 "[[0,'全部']]"
+	s orderId=0,rtn=""
+	f  s orderId = $o(^OEORD(orderParref,"I",orderId)) q:orderId=""  d
+	.q:$d(^OEORD(orderParref,"I",orderId,1))'=1
+	.s DoctorDr=$p(^OEORD(orderParref,"I",orderId,1),"^",11)
+	.q:+DoctorDr=0
+	.s TDoctor = $p(^CTPCP(DoctorDr,1),"^",2)
+	.i rtn'="" d	
+	..i rtn'[("["_DoctorDr_",") d
+	...s rtn = rtn_",["_DoctorDr_",'"_TDoctor_"']"
+	.e  d
+	..s rtn = "["_DoctorDr_",'"_TDoctor_"']"
+	q "[[0,'全部'],"_rtn_"]"
+]]></Implementation>
+</Method>
+
+<Query name="FindOECStatusChReason">
+<Type>%SQLQuery</Type>
+<FormalSpec>param:%String</FormalSpec>
+<SqlQuery>SELECT ASCR_RowId, ASCR_Code, ASCR_Desc FROM sqluser.OEC_AdminStatusChReason
+ WHERE (ASCR_Code %STARTSWITH :param) OR (ASCR_Desc %STARTSWITH :param)</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="HIDDEN:%String:ID, ASCRCode:%String:代码, ASCRDesc:%String:描述"/>
+</Query>
+
+<Query name="FindLocDocCurrentAdm">
+<Type>websys.Query</Type>
+<FormalSpec>LocID:%String,UserID:%String,IPAddress:%String,AllPatient:%String,PatientNo:%String,SurName:%String,StartDate:%Date,EndDate:%Date,ArrivedQue:%String,RegQue:%String,MedUnit:%String=""</FormalSpec>
+<Parameter name="ROWSPEC" value="PatientID:%String,EpisodeID:%String,mradm:%String,PAPMINO:%String,PAPMIName:%String,PAPMIDOB:%String,PAPMISex:%String,PAAdmDate:%Date,PAAdmTime:%Time,PAAdmNo:%String,PAAdmDepCodeDR:%String,PAAdmDocCodeDR:%String,PAAdmType:%String,Hospital:%String,PAAdmWard:%String,PAAdmBed:%String,FinancialDischargeFlag:%String,MedicalDischargeFlag:%String,FinalDischargeFlag:%String,PAAdmReason:%String,DischargeDate:%String,RegDoctor:%String,Diagnosis:%String,ArrivedDate:%String,ArrivedTime:%String,LeavedDate:%String,LeavedTime:%String,LocSeqNo:%String,PAAdmPriority:%String,WalkStatus:%String,ConsultRoom:%String,ConsultArea:%String,PAAdmReasonCode:%String,StatusCode:%String,Age:%String,PriorityCode:%String,Called:%String,RegDocDr:%String"/>
+</Query>
+
+<Method name="FindLocDocCurrentAdmExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,LocID:%String,UserID:%String,IPAddress:%String,AllPatient:%String,PatientNo:%String,SurName:%String,StartDate:%Date,EndDate:%Date,ArrivedQue:%String,RegQue:%String,MedUnit:%String=""]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	//PatientNo,SurName,CurrentDept,CurrentBed,CurrentWard,CurrentDoctor,StartDate,EndDate,CurrentAdmType
+	;Set ^SMLPara=PatientNo_"^"_SurName_"^"_CurrentDept_"^"_CurrentBed_"^"_CurrentWard_"^"_CurrentDoctor_"^"_StartDate_"^"_EndDate_"^"_CurrentAdmType_"^"_MedUnit
+	//;
+	Set LocID=%session.Get("LOGON.CTLOCID")
+	Set UserID=%session.Get("LOGON.USERID")
+	If LocID="" Quit $$$OK
+	If UserID="" Quit $$$OK
+	//
+	//
+	Set repid=$I(^CacheTemp)
+ 	Set DocId=$p($g(^SSU("SSUSR",UserID)),"^",14)
+ 	If $g(DocId)="" s qHandle=$lb(0,repid,0) Quit $$$OK
+ 	Set DocGrp=$P($g(^CTPCP(DocId,3)),"^",1)
+	//Set DocId=$p($g(^CTPCP(DocId,1)),"^",1)
+	//	
+	Set CurrentAdmType="I"
+	//
+	Kill ^TMP("DHCDocWorkBench",$j)
+	Set Count=0
+	Set repid=$I(^CacheTemp)
+	If $g(ind)="" Set ind=1
+	//
+	Set Singleflag=0
+	//
+	If ($g(PatientNo)'="") Do
+		.Set Singleflag=1
+		.Set PAPMI=$O(^PAPERi("PAPMI_PatNo",PatientNo,""))
+		.Quit:$g(PAPMI)=""
+		.Do OutPAPMI
+	If ($g(SurName)'="")&($g(PatientNo)="") Do
+		.Set Singleflag=1
+		.Set name=SurName
+		.Set name0=name
+		.Set PAPMI=$O(^PAPERi("PAPER_PatName",SurName,""))
+		.If PAPMI'="" Do OutPAPMI
+		.Set Qflag="N"
+		.For  Set name0=$O(^PAPERi("PAPER_PatName",name0)) Quit:(name0="")!(Qflag="Y")  Do
+		..If $l(name),$e(name0,1,$l(name))'[name Set Qflag="Y" Quit
+		..Set PAPMI=$O(^PAPERi("PAPER_PatName",name0,""))
+		..If PAPMI="" Set Qflag="Y" Quit
+		..Else  Do OutPAPMI
+	Set L1="" For  Set L1=$O(^TMP("DHCDocWorkBench",$j,L1)) Quit:L1=""  Do
+	.Set L2=0 For  Set L2=$O(^TMP("DHCDocWorkBench",$j,L1,L2)) Quit:L2=""  Do
+	..Set ^CacheTemp(repid,ind)=^TMP("DHCDocWorkBench",$j,L1,L2)
+	..Set ind=ind+1 
+	Set qHandle=$lb(0,repid,0)
+	Kill ^TMP("DHCDocWorkBench",$j)
+	Quit:Singleflag=1 $$$OK
+	//
+	//全病区病人
+	If AllPatient="on"	Do 
+	.Do StayInWard
+	.Set L1="" For  Set L1=$O(^TMP("DHCDocWorkBench",$j,L1)) Quit:L1=""  Do
+	..Set L2=0 For  Set L2=$O(^TMP("DHCDocWorkBench",$j,L1,L2)) Quit:L2=""  Do
+	...Set ^CacheTemp(repid,ind)=^TMP("DHCDocWorkBench",$j,L1,L2)
+	...Set ind=ind+1 
+	.Set qHandle=$lb(0,repid,0)
+	.Kill ^TMP("DHCDocWorkBench",$j)
+	Quit:AllPatient="on" $$$OK
+	//
+	//本科病人
+	If ArrivedQue="on"	Do 
+	.Do DeptPatList
+	.Set L1="" For  Set L1=$O(^TMP("DHCDocWorkBench",$j,L1)) Quit:L1=""  Do
+	..Set L2=0 For  Set L2=$O(^TMP("DHCDocWorkBench",$j,L1,L2)) Quit:L2=""  Do
+	...Set ^CacheTemp(repid,ind)=^TMP("DHCDocWorkBench",$j,L1,L2)
+	...Set ind=ind+1 
+	.Set qHandle=$lb(0,repid,0)
+	.Kill ^TMP("DHCDocWorkBench",$j)
+	Quit:ArrivedQue="on" $$$OK
+	//
+	//;----------------------------------------------------------------------;
+	//
+	Set Count=0
+	Set repid=$I(^CacheTemp)
+	If $g(ind)="" Set ind=1
+	//
+	//Set CurrentDoctor=$g(CurrentDoctor),CurrentWard=$g(CurrentWard),CurrentDept=$g(CurrentDept)
+	//if Singleflag=0 Do SetDefaultPara,SetDefaultDate
+	//
+	//Set CurrentDept=LocID 
+	//if ($g(CurrentWard)="")&($g(CurrentDept)'="") Do
+	//	.Set DeptLst=$L(CurrentDept,$C(1))
+	//	.For I=1:1:DeptLst Do
+	//	..Set DeptItem=$P(CurrentDept,$C(1),I)
+	//	..Do DeptPatList
+	//
+	Do DocPatList
+	Set L1="" For  Set L1=$O(^TMP("DHCDocWorkBench",$j,L1)) Quit:L1=""  Do
+	.Set L2=0 For  Set L2=$O(^TMP("DHCDocWorkBench",$j,L1,L2)) Quit:L2=""  Do
+	..Set ^CacheTemp(repid,ind)=^TMP("DHCDocWorkBench",$j,L1,L2)
+	..Set ind=ind+1 
+	Set qHandle=$lb(0,repid,0)
+	Kill ^TMP("DHCDocWorkBench",$j)
+	Quit $$$OK
+	//
+OutputRow
+	Do ResetVariables
+	//PatientID,EpisodeID,mradm
+	Set PatientID=$P(^PAADM(PAAdm),"^",1)
+	Set EpisodeID=PAAdm
+	Set mradm=$P(^PAADM(PAAdm),"^",61)
+	//PAPMINO,PAPMIName,PAPMIDOB,PAPMISex
+	Set PAPMINO=$P(^PAPER(PatientID,"PAT",1),"^",1)
+	Set PAPMIName=$P(^PAPER(PatientID,"ALL"),"^",1)
+	Set PAPMIDOB=$ZD($P(^PAPER(PatientID,"ALL"),"^",6),3)
+	Set Sex=$P(^PAPER(PatientID,"ALL"),"^",7)
+	Set PAPMISex=$P($g(^CT("SEX",Sex)),"^",2)
+	//
+	Set DobDate=$P($g(^PAPER(PatientID,"ALL")),"^",6)
+	If DobDate'="" Do
+	.Set PAPMIDOB=$ZD($P(^PAPER(PatientID,"ALL"),"^",6),3)
+	.Set PAPMIAge=$fn((+$H-DobDate)/365,"",0)
+	Else  Set PAPMIDOB="",PAPMIAge=""
+	//PAAdmDate,PAAdmTime,PAAdmNo,PAAdmDepCodeDR,PAAdmDocCodeDR,PAAdmType,Hospital,PAAdmWard,PAAdmBed
+	Set PAAdmDate=$ZD($P($g(^PAADM(PAAdm)),"^",6),3)
+	Set PAAdmTime=$ZT($P($g(^PAADM(PAAdm)),"^",7),3)
+	//
+	//Add Date Check
+	//	
+	Set PAAdmNo=$P($g(^PAADM(PAAdm)),"^",81)
+	Set Loc=$P($g(^PAADM(PAAdm)),"^",4)
+	Set PAAdmDepCodeDR=##class(web.DHCDocInPatientList).RemoveAlias($P($g(^CTLOC(Loc)),"^",2))
+	Set Doctor=$P($g(^PAADM(PAAdm)),"^",9)
+	If Doctor'="" Set PAAdmDocCodeDR=$P($g(^CTPCP(Doctor,1)),"^",2)
+	Else  Set PAAdmDocCodeDR=""
+	Set PAAdmType=$P($g(^PAADM(PAAdm)),"^",2)
+	Set Hosp=$P($g(^CTLOC(Loc)),"^",22)
+	If Hosp'="" Set Hospital=$P($g(^CT("HOSP",Hosp)),"^",2)
+	Set WardDr=$P($g(^PAADM(PAAdm)),"^",70)
+	if WardDr'="" Set PAAdmWard=##class(web.DHCDocInPatientList).RemoveAlias($P($g(^PAWARD(WardDr)),"^",2))
+	else  Set PAAdmWard=""
+	Set BedId=$P($g(^PAADM(PAAdm)),"^",73)
+	if BedId'="" Set PAAdmBed=$P($g(^PAWARD(+BedId,"BED",$P(BedId,"||",2))),"^",1)
+	else  Set PAAdmBed="" 
+	//FinancialDischargeFlag,MedicalDischargeFlag,FinalDischargeFlag,PAAdmReason,DischargeDate,Diagnosis
+	Set FinancialDischargeFlag=$P($g(^PAADM(PAAdm)),"^",45)
+	Set MedicalDischargeFlag=$P($g(^PAADM(PAAdm)),"^",63)
+	Set PAAdmStatus=$P($g(^PAADM(PAAdm)),"^",20)
+	Set FinalDischargeFlag=$S($g(PAAdmStatus)="D":"Y",1:"N")
+	Set AdmReason=$P($g(^PAADM(PAAdm,1)),"^",7)
+	If AdmReason'="" Set PAAdmReason=$P($g(^PAC("ADMREA",AdmReason)),"^",2),PAAdmReasonCode=$P($g(^PAC("ADMREA",AdmReason)),"^",5)
+	Else  Set PAAdmReason="",PAAdmReasonCode=""
+	Set DischargeDate=$P($g(^PAADM(PAAdm)),"^",17)
+	If mradm'="" Set Diagnosis=##class(web.DHCDocInPatientList).GetMRAdmDiagnosis(mradm) 
+	Else  Set Diagnosis=""
+	//RegDoctor,ArrivedDate,ArrivedTime,LeavedDate,LeavedTime,LocSeqNo,PAAdmPriority
+	//
+	Set Count=Count+1
+	Set Seq=EpisodeID
+	set Data=$LB(PatientID,EpisodeID,mradm,PAPMINO,PAPMIName,PAPMIDOB,PAPMISex,PAAdmDate,PAAdmTime,PAAdmNo,PAAdmDepCodeDR,PAAdmDocCodeDR,PAAdmType,Hospital,PAAdmWard,PAAdmBed,FinancialDischargeFlag,MedicalDischargeFlag,FinalDischargeFlag,PAAdmReason,DischargeDate,RegDoctor,Diagnosis,ArrivedDate,ArrivedTime,LeavedDate,LeavedTime,LocSeqNo,PAAdmPriority,WalkStatus,ConsultRoom,ConsultArea,PAAdmReasonCode,StatusCode,PAPMIAge,PriorityCode,Called,RegDocDr)
+ 	Set ^TMP("DHCDocWorkBench",$j,Seq,Count)=Data
+	Quit
+	;PatientID,EpisodeID,mradm,PAPMINO,PAPMIName,PAPMIDOB,PAPMISex,PAAdmDate,PAAdmTime,PAAdmNo,PAAdmDepCodeDR,PAAdmDocCodeDR,PAAdmType,Hospital,PAAdmWard,PAAdmBed,FinancialDischargeFlag,MedicalDischargeFlag,FinalDischargeFlag,PAAdmReason,DischargeDate,RegDoctor,Diagnosis,ArrivedDate,ArrivedTime,LeavedDate,LeavedTime,LocSeqNo,PAAdmPriority
+	//
+	If Seq="" Set Seq="ZZZZZ"
+	set Data=$LB(PatientID,EpisodeID,mradm,PAPMINO,PAPMIName,PAPMIDOB,PAPMISex,PAAdmDate,PAAdmTime,PAAdmNo,PAAdmDepCodeDR,PAAdmDocCodeDR,PAAdmType,Hospital,PAAdmWard,PAAdmBed,FinancialDischargeFlag,MedicalDischargeFlag,FinalDischargeFlag,PAAdmReason,DischargeDate,RegDoctor,Diagnosis,ArrivedDate,ArrivedTime,LeavedDate,LeavedTime,LocSeqNo,PAAdmPriority,WalkStatus,ConsultRoom,ConsultArea,PAAdmReasonCode,OEOrdItemID)
+ 	Set ^TMP("DHCDocWorkBench",$j,Seq,Count)=Data
+	Quit
+ResetVariables
+	///Set (repid)=0
+	Set (PatientID,EpisodeID,mradm,PAPMINO,PAPMIName,PAPMIDOB,PAPMISex,PAAdmDate,PAAdmTime,PAAdmNo,PAAdmDepCodeDR,PAAdmDocCodeDR,PAAdmType,Hospital,PAAdmWard,PAAdmBed,FinancialDischargeFlag,MedicalDischargeFlag,FinalDischargeFlag,PAAdmReason,DischargeDate,Diagnosis,RegDoctor,ArrivedDate,ArrivedTime,LeavedDate,LeavedTime,LocSeqNo,PAAdmPriority,WalkStatus,ConsultRoom,ConsultArea,PAAdmReasonCode)=""
+	Quit
+StayInWard	
+	;wanghc 2012/03/31
+	Set LocEmerType=$P($G(^CTLOC(LocID)),"^",13)
+	Quit:LocEmerType'="W"	
+	Set EmerWard=$O(^PAWARD(0,"WARD_LocationDR",LocID,""))
+	Quit:EmerWard=""
+	Set WardItem=EmerWard
+	If WardItem'="" Do WardPatList
+	Quit
+StayInWardLoc
+	Set WardStr=""
+	Set LocLink=""
+	For  Set LocLink=$O(^CTLOC(LocID,"LINK",LocLink)) Quit:LocLink=""  Do
+		.Set LocItem=$P($G(^CTLOC(LocID,"LINK",LocLink)),"^",1)
+		.Set LocEmerType=$P($G(^CTLOC(LocItem)),"^",13)
+		.;Quit:LocEmerType'="W"
+		.Set EmerWard=$O(^PAWARD(0,"WARD_LocationDR",LocItem,""))
+		.Quit:EmerWard=""
+		.If WardStr="" Set WardStr=EmerWard
+		.Else  Set WardStr=WardStr_$C(1)_EmerWard
+	If WardStr'="" DO
+		.Set WardLst=$L(WardStr,$C(1))
+		.For I=1:1:WardLst Do
+		..Set WardItem=$P(WardStr,$C(1),I)
+		..Do WLDPatList
+	Quit
+	//
+DocPatList
+	Set DeptItem=LocID
+	Quit:DeptItem=""
+	If StartDate'="" Set Date=StartDate-1
+	Else  Set Date=""
+	//^PAADMi("AdmTypeCurrLoc",{PAADM_Type},{PAADM_DepCode_DR},{PAADM_AdmDate},{PAADM_AdmTime},{PAADM_RowID})
+	For  Set Date=$O(^PAADMi("AdmTypeCurrLoc",CurrentAdmType,DeptItem,Date)) Quit:(Date="")  Do
+	.Set Time=""
+	.For  Set Time=$O(^PAADMi("AdmTypeCurrLoc",CurrentAdmType,DeptItem,Date,Time)) Quit:(Time="")  Do
+	..Set PAAdm=""
+	..For  Set PAAdm=$O(^PAADMi("AdmTypeCurrLoc",CurrentAdmType,DeptItem,Date,Time,PAAdm)) Quit:(PAAdm="")  Do
+	...Set QuitFlag=0
+	...if MedUnit="" d
+	....Set PatDoc=$P($g(^PAADM(PAAdm)),"^",9)
+	....if PatDoc="" Set QuitFlag=1
+	....if PatDoc'=DocId Set QuitFlag=1
+	...else  d
+	....s AllowFlag=##class(web.DHCDocInPatientList).CheckCTLocMedUnit(PAAdm,DocId,DeptItem,MedUnit)
+	....if AllowFlag'="1" Set QuitFlag=1
+	...Q:QuitFlag=1
+	...Do OutputRow
+	Quit
+	//
+OutPAPMI
+	If CurrentAdmType'="" Do
+	.Set PAAdm=""
+	.For  Set PAAdm=$O(^PAPERdr(PAPMI,"ADM",CurrentAdmType,PAAdm)) Quit:PAAdm=""  Do
+	..Set PAAdmStatus=$P($g(^PAADM(PAAdm)),"^",20)
+	..Quit:PAAdmStatus'="A"
+	..;Quit:PAAdmStatus="P"
+	..Quit:##class(web.DHCDocInPatientList).CheckAdmDate(PAAdm,StartDate,EndDate)
+	..Do OutputRow
+	Quit
+DeptPatList
+	Set DeptItem=LocID
+	Quit:DeptItem=""
+	If StartDate'="" Set Date=StartDate-1
+	Else  Set Date=""
+	if ($p(^CTLOC(LocID),"^",2)["产房")
+	{
+	s DeptItem="1"
+	For  Set Date=$O(^PAADMi("AdmTypeCurrLoc",CurrentAdmType,DeptItem,Date)) Quit:(Date="")  Do
+	.Set Time=""
+	.For  Set Time=$O(^PAADMi("AdmTypeCurrLoc",CurrentAdmType,DeptItem,Date,Time)) Quit:(Time="")  Do
+	..Set PAAdm=""
+	..For  Set PAAdm=$O(^PAADMi("AdmTypeCurrLoc",CurrentAdmType,DeptItem,Date,Time,PAAdm)) Quit:(PAAdm="")  Do
+	...s OrderRowId=$O(^OEORD(0,"Adm",PAAdm,""))
+	...Q:OrderRowId=""
+	...s OEItemRowId="" f  s OEItemRowId=$O(^OEORD(OrderRowId,"I",OEItemRowId)) q:OEItemRowId=""  d
+	....//判断是待产医嘱,医嘱是核实并且护士执行状态为未执行
+	....s ItmRowId=$p($g(^OEORD(OrderRowId,"I",OEItemRowId,1)),"^",2)
+	....Q:ItmRowId'="12759||1"
+	....s OrderStatusDR=$p(^OEORD(OrderRowId,"I",OEItemRowId,1),"^",13)
+	....s OrderStatus=""
+	....if OrderStatusDR'="" s OrderStatus=$p(^OEC("OSTAT",OrderStatusDR),"^",1)
+	....Q:OrderStatus'="V"
+	....s OEExcID="",str=""
+	....f  s OEExcID=$O(^OEORD(OrderRowId,"I",OEItemRowId,"X",OEExcID)) q:(OEExcID="")  d
+	.....s ctpcpDr=$P(^OEORD(OrderRowId,"I",OEItemRowId,"X",OEExcID),"^",15)
+	.....s str=str_ctpcpDr
+	....if str'="" quit
+	....Do OutputRow
+	}else{
+	//^PAADMi("AdmTypeCurrLoc",{PAADM_Type},{PAADM_DepCode_DR},{PAADM_AdmDate},{PAADM_AdmTime},{PAADM_RowID})
+	For  Set Date=$O(^PAADMi("AdmTypeCurrLoc",CurrentAdmType,DeptItem,Date)) Quit:(Date="")  Do
+	.Set Time=""
+	.For  Set Time=$O(^PAADMi("AdmTypeCurrLoc",CurrentAdmType,DeptItem,Date,Time)) Quit:(Time="")  Do
+	..Set PAAdm=""
+	..For  Set PAAdm=$O(^PAADMi("AdmTypeCurrLoc",CurrentAdmType,DeptItem,Date,Time,PAAdm)) Quit:(PAAdm="")  Do
+	...Do OutputRow
+	}
+	Quit
+WLDPatList
+	Quit:WardItem=""
+	Set RoomDr=""
+	For RoomDr=$O(^PAADMi("CurrWard",WardItem,RoomDr)) Quit:RoomDr=""  Do
+	.Set PAAdm=""
+	.For  Set PAAdm=$O(^PAADMi("CurrWard",WardItem,RoomDr,PAAdm)) Quit:PAAdm=""  Do
+	..Set PatLoc=$P($g(^PAADM(PAAdm)),"^",4)
+	..Quit:(PatLoc'=LocID)
+	..Set AdmDate=$P($g(^PAADM(PAAdm)),"^",6)
+	..Quit:(StartDate'="")&(AdmDate<StartDate)
+	..Quit:(EndDate'="")&(AdmDate>EndDate)
+	..Do OutputRow
+	Set AdmItm=0
+	For  Set AdmItm=$O(^PAWARDA(WardItem,"WADM",AdmItm)) Quit:AdmItm=""  Do
+	.Set PAAdm=$P(^PAWARDA(WardItem,"WADM",AdmItm),"^",1)
+	.Set PatLoc=$P($g(^PAADM(PAAdm)),"^",4)
+	.Quit:(PatLoc'=LocID)
+	.Set AdmDate=$P($g(^PAADM(PAAdm)),"^",6)
+	.Quit:(StartDate'="")&(AdmDate<StartDate)
+	.Quit:(EndDate'="")&(AdmDate>EndDate)
+	.Do OutputRow
+	Quit
+	//
+WardPatList
+	Set RoomDr=""
+	;wanghc add set 2012/4/1 For ->For  set
+	For  set RoomDr=$O(^PAADMi("CurrWard",WardItem,RoomDr)) Quit:RoomDr=""  Do
+	.Set PAAdm=""
+	.For  Set PAAdm=$O(^PAADMi("CurrWard",WardItem,RoomDr,PAAdm)) Quit:PAAdm=""  Do
+	..Set AdmDate=$P($g(^PAADM(PAAdm)),"^",6)
+	..Quit:(StartDate'="")&(AdmDate<StartDate)
+	..Quit:(EndDate'="")&(AdmDate>EndDate)
+	..Do OutputRow
+	Set AdmItm=0
+	For  Set AdmItm=$O(^PAWARDA(WardItem,"WADM",AdmItm)) Quit:AdmItm=""  Do
+	.Set PAAdm=$P(^PAWARDA(WardItem,"WADM",AdmItm),"^",1)
+	.Set AdmDate=$P($g(^PAADM(PAAdm)),"^",6)
+	.Quit:(StartDate'="")&(AdmDate<StartDate)
+	.Quit:(EndDate'="")&(AdmDate>EndDate)
+	.Do OutputRow
+	Quit
+SetDefaultPara
+	If (StartDate="")&(%request.Get("WIPDateFromToday")="on") Set StartDate=+$H
+	If (StartDate="")&(%request.Get("WIPDtFromOffset")'="") Set StartDate=$ZDH(%request.Get("WIPDtFromOffset"),5)
+	//
+	If (EndDate="")&(%request.Get("WIPDateToToday")="on") Set EndDate=+$H
+	If (EndDate="")&(%request.Get("WIPDtToOffset")'="") Set EndDate=$ZDH(%request.Get("WIPDtToOffset"),5)
+	//
+	If $g(CurrentDept)="" Do
+	.Set LocStr=%request.Get("WIPLocList")
+	.Set Loclen=$L(LocStr,$C(1))
+	.For I=1:1:Loclen Do
+	..If CurrentDept="" Set CurrentDept=$P($P(LocStr,$C(1),I),$C(2),3)
+	..Else  Set CurrentDept=CurrentDept_$C(1)_$P($P(LocStr,$C(1),I),$C(2),3)
+	//
+	If $g(CurrentDoctor)="" Do
+	.Set DocStr=%request.Get("WIPCPList")
+	.Set Doclen=$L(DocStr,$C(1))
+	.For I=1:1:Doclen Do
+	..Set DoctCode=$P($P(DocStr,$C(1),I),$C(2),1)
+	..Quit:DoctCode=""
+	..Set DocRowId=$O(^CTPCP(0,"Code",$$ALPHAUP^SSUTIL4(DoctCode),""))
+	..Quit:DocRowId=""
+	..If CurrentDoctor="" Set CurrentDoctor=DocRowId
+	..Else  Set CurrentDoctor=CurrentDoctor_$C(1)_DocRowId
+	//
+	If $g(CurrentWard)="" Do
+	.Set WardStr=%request.Get("WIPWardList")
+	.Set Wardlen=$L(WardStr,$C(1))
+	.For I=1:1:Wardlen Do
+	..If CurrentWard="" Set CurrentWard=$P($P(WardStr,$C(1),I),$C(2),3)
+	..Else  Set CurrentWard=CurrentWard_$C(1)_$P($P(WardStr,$C(1),I),$C(2),3)
+	//
+	If $g(CurrentAdmType)="" Do
+	.Set AdmStr=%request.Get("WIPEpisodeTypeList")
+	.If $L(AdmStr)>0 Set CurrentAdmType=$E(AdmStr,1)
+	Quit
+SetDefaultDate
+	if StartDate="" Set StartDate=+$H-6
+	If EndDate="" Set EndDate=+$H
+	Quit
+]]></Implementation>
+</Method>
+
+<Query name="FindCurrentAdmProxy">
+<Type>websys.Query</Type>
+<FormalSpec>Type:%String=0,PatientNo:%String=""</FormalSpec>
+<Parameter name="ROWSPEC" value="PatientID:%String,EpisodeID:%String,mradm:%String,PAPMINO:%String:登记号,PAPMIName:%String:姓名,PAPMIDOB:%String:出生日期,PAPMISex:%String:性别,PAAdmDate:%Date:就诊日期,PAAdmTime:%Time:就诊时间,PAAdmNo:%String:就诊号,PAAdmDepCodeDR:%String:就诊科室,PAAdmDocCodeDR:%String:医生,PAAdmType:%String:就诊类型,Hospital:%String:医院,PAAdmWard:%String:病房,PAAdmBed:%String:床号^50,FinancialDischargeFlag:%String,MedicalDischargeFlag:%String,FinalDischargeFlag:%String,PAAdmReason:%String:病人类型,DischargeDate:%String:撤消日期,RegDoctor:%String:号别,Diagnosis:%String:诊断,ArrivedDate:%String:到达日期,ArrivedTime:%String:到达时间,LeavedDate:%String:离开日期,LeavedTime:%String:离开时间,LocSeqNo:%String:顺序号,PAAdmPriority:%String:优先级,WalkStatus:%String:状态,ConsultRoom:%String:诊室,ConsultArea:%String:诊区,PAAdmReasonCode:%String,StatusCode:%String,Age:%String:年龄,PriorityCode:%String,Called:%String,RegDocDr:%String,IconProfile:%String:图表菜单"/>
+</Query>
+
+<Method name="FindCurrentAdmProxyExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,Type:%String=0,PatientNo:%String=""]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$I(^CacheTemp)
+	If $g(ind)="" Set ind=1
+	s (AllPatient,ArrivedQue,MedUnit,HisPat)=""	
+	s LocID=%session.Get("LOGON.CTLOCID")
+	S CONTEXT = $g(%session.Data("CONTEXT"))
+	s:Type="" Type=0
+	k ^||OrderByBed,^||OrderByNullBed
+	if (PatientNo=""){
+		s isNurse = ..isNurseLogin()
+		if (isNurse){
+			i Type=0 s AllPatient="on"		;病区
+			i Type=1 s HisPat="on"			;曾转科的在院病人			
+		}else{
+			i Type=0 						;本人病人
+			i Type=1 s ArrivedQue="on"		;本科室病人
+			i Type=2 s MedUnit="on"			;本单元病人
+			i Type=3 s HisPat="on"			;曾转科的在院病人
+		}
+		if (HisPat=""){
+			#dim rs As %ResultSet
+			if (isNurse){
+				s rs = 	##class(%ResultSet).%New("web.DHCDocMain:FindLocDocCurrentAdm")
+			}else{
+				s rs = ##class(%ResultSet).%New("web.DHCDocInPatientList:FindLocDocCurrentAdm")
+			}
+			//LocID,UserID,IPAddress , AllPatient , PatientNo , SurName , StartDate  , EndDate  , ArrivedQue  , RegQue , MedUnit
+			d rs.Execute("","","",AllPatient,"","","","",ArrivedQue,"",MedUnit)
+			s columnNum = rs.GetColumnCount()
+			s rowNum=0
+			while(rs.Next()){
+				s rowNum = rowNum+1
+				s rowData=""
+				f i=1:1:columnNum  s $list(rowData,i)=rs.GetData(i)
+				s bed = rs.GetDataByName("PAAdmBed")
+				s EpisodeID = rs.GetDataByName("EpisodeID")
+				s PatientID = rs.GetDataByName("PatientID")
+				s $list(rowData,columnNum+1)=$zcvt(..ShowIcon("MAP",EpisodeID_"^^^"_PatientID,CONTEXT),"O","HTML")	//加图表菜单
+				
+				i bed="" s ^||OrderByNullBed(EpisodeID)=rowData
+				e  s ^||OrderByBed(" "_bed,EpisodeID)=rowData
+			}
+			d rs.%Close()
+			s rs = ""
+		}else{	//;曾转科的在院病人
+			s admrowid=0 f  s admrowid=$o(^PAADMi("AdmTypeCurr","I",admrowid)) q:admrowid=""  d
+			.q:$p(^PAADM(admrowid),"^",20)'="A"	 ;VisitStatus
+			.s PAPMI = $p(^PAADM(admrowid),"^",1)
+			.S:$d(^PAPER(PAPMI,"PAT",1)) PatientNo=$P(^PAPER(PAPMI,"PAT",1),"^",1)
+			.i isNurse d
+			..s WardID = $O(^PAWARD(0,"WARD_LocationDR",LocID,""))
+			..i $d(^PAPER(PAPMI,"PAT",1)),$$findAdmTransWard(admrowid,WardID),$p(^PAADM(admrowid),"^",70)'=WardID d
+			...s PAAdm=admrowid
+			...d OutputRow
+			.e  i $d(^PAPER(PAPMI,"PAT",1)),$d(^PAADMi("TransLoc",admrowid,LocID)),$p(^PAADM(admrowid),"^",4)'=LocID d
+			..s PAAdm=admrowid
+			..d OutputRow
+
+		}
+	}else{	//登记号查询
+		Set PAPMI=$O(^PAPERi("PAPMI_PatNo",PatientNo,""))
+		Quit:$g(PAPMI)=""
+		Set PAAdm=""
+		Set CurrentAdmType="I"
+		For  Set PAAdm=$O(^PAPERdr(PAPMI,"ADM",CurrentAdmType,PAAdm)) Quit:PAAdm=""  Do
+		.d OutputRow
+	}
+	
+	
+	;输出病人列表信息
+	s bedind=0 for  s bedind=$o(^||OrderByBed(bedind)) q:bedind=""  d
+	.s subind="" f   s subind=$o(^||OrderByBed(bedind,subind)) q:subind=""  d
+	..s ^CacheTemp(repid,ind) = ^||OrderByBed(bedind,subind)
+	..s ind=ind+1
+	
+	s subind="" f   s subind=$o(^||OrderByNullBed(subind)) q:subind=""  d
+	.s ^CacheTemp(repid,ind) = ^||OrderByNullBed(subind)
+	.s ind=ind+1
+
+	Set qHandle=$lb(0,repid,0)	
+	Quit $$$OK
+findAdmTransWard(PAAdm,WardID)
+	s find=0
+	s child=0 f {
+		s child=$O(^PAADM(PAAdm,"TRANS",child))
+		Q:child=""
+		s TransWardID=$P(^PAADM(PAAdm,"TRANS",child),"^",9)
+		if TransWardID=WardID {
+			s find=1
+			Quit
+		}
+	}
+	Q find
+ResetVariables
+	Set (PatientID,EpisodeID,mradm,PAPMINO,PAPMIName,PAPMIDOB,PAPMISex,PAAdmDate,PAAdmTime,PAAdmNo,PAAdmDepCodeDR,PAAdmDocCodeDR,PAAdmType,Hospital,PAAdmWard,PAAdmBed,FinancialDischargeFlag,MedicalDischargeFlag,FinalDischargeFlag,PAAdmReason,DischargeDate,Diagnosis,RegDoctor,ArrivedDate,ArrivedTime,LeavedDate,LeavedTime,LocSeqNo,PAAdmPriority,WalkStatus,ConsultRoom,ConsultArea,PAAdmReasonCode,StatusCode,PAPMIAge,PriorityCode,Called,RegDocDr)=""
+	Quit
+
+OutputRow
+	Do ResetVariables
+	//PatientID,EpisodeID,mradm
+	Set PatientID=$P(^PAADM(PAAdm),"^",1)
+	Set EpisodeID=PAAdm
+	Set mradm=$P(^PAADM(PAAdm),"^",61)
+	//PAPMINO,PAPMIName,PAPMIDOB,PAPMISex
+	Set PAPMINO=$P(^PAPER(PatientID,"PAT",1),"^",1)
+	Set PAPMIName=$P(^PAPER(PatientID,"ALL"),"^",1)
+	Set PAPMIDOB=$ZD($P(^PAPER(PatientID,"ALL"),"^",6),3)
+	Set Sex=$P(^PAPER(PatientID,"ALL"),"^",7)
+	Set PAPMISex=$P($g(^CT("SEX",Sex)),"^",2)
+	//
+	Set DobDate=$P($g(^PAPER(PatientID,"ALL")),"^",6)
+	If DobDate'="" Do
+	.Set PAPMIDOB=$ZD($P(^PAPER(PatientID,"ALL"),"^",6),3)
+	.Set PAPMIAge=$fn((+$H-DobDate)/365,"",0)
+	Else  Set PAPMIDOB="",PAPMIAge=""
+	//PAAdmDate,PAAdmTime,PAAdmNo,PAAdmDepCodeDR,PAAdmDocCodeDR,PAAdmType,Hospital,PAAdmWard,PAAdmBed
+	Set PAAdmDate=$ZD($P($g(^PAADM(PAAdm)),"^",6),3)
+	Set PAAdmTime=$ZT($P($g(^PAADM(PAAdm)),"^",7),3)
+	//Add Date Check
+	Set PAAdmNo=$P($g(^PAADM(PAAdm)),"^",81)
+	Set Loc=$P($g(^PAADM(PAAdm)),"^",4)
+	Set PAAdmDepCodeDR=##class(web.DHCDocInPatientList).RemoveAlias($P($g(^CTLOC(Loc)),"^",2))
+	Set Doctor=$P($g(^PAADM(PAAdm)),"^",9)
+	If Doctor'="" Set PAAdmDocCodeDR=$P($g(^CTPCP(Doctor,1)),"^",2)
+	Else  Set PAAdmDocCodeDR=""
+	Set PAAdmType=$P($g(^PAADM(PAAdm)),"^",2)
+	Set Hosp=$P($g(^CTLOC(Loc)),"^",22)
+	If Hosp'="" Set Hospital=$P($g(^CT("HOSP",Hosp)),"^",2)
+	Set WardDr=$P($g(^PAADM(PAAdm)),"^",70)
+	if WardDr'="" Set PAAdmWard=##class(web.DHCDocInPatientList).RemoveAlias($P($g(^PAWARD(WardDr)),"^",2))
+	else  Set PAAdmWard=""
+	Set BedId=$P($g(^PAADM(PAAdm)),"^",73)
+	if BedId'="" Set PAAdmBed=$P($g(^PAWARD(+BedId,"BED",$P(BedId,"||",2))),"^",1)
+	else  Set PAAdmBed="" 
+	//FinancialDischargeFlag,MedicalDischargeFlag,FinalDischargeFlag,PAAdmReason,DischargeDate,Diagnosis
+	Set FinancialDischargeFlag=$P($g(^PAADM(PAAdm)),"^",45)
+	Set MedicalDischargeFlag=$P($g(^PAADM(PAAdm)),"^",63)
+	Set PAAdmStatus=$P($g(^PAADM(PAAdm)),"^",20)
+	Set FinalDischargeFlag=$S($g(PAAdmStatus)="D":"Y",1:"N")
+	Set AdmReason=$P($g(^PAADM(PAAdm,1)),"^",7)
+	If AdmReason'="" Set PAAdmReason=$P($g(^PAC("ADMREA",AdmReason)),"^",2),PAAdmReasonCode=$P($g(^PAC("ADMREA",AdmReason)),"^",5)
+	Else  Set PAAdmReason="",PAAdmReasonCode=""
+	Set DischargeDate=$P($g(^PAADM(PAAdm)),"^",17)
+	If mradm'="" Set Diagnosis=##class(web.DHCDocInPatientList).GetMRAdmDiagnosis(mradm) 
+	Else  Set Diagnosis=""
+	//RegDoctor,ArrivedDate,ArrivedTime,LeavedDate,LeavedTime,LocSeqNo,PAAdmPriority
+	Set Seq=EpisodeID
+	s IconProfile=$ZCVT(..ShowIcon("MAP",EpisodeID_"^^^"_PatientID,CONTEXT),"O","HTML")	//加图表菜单
+	set Data=$LB(PatientID,EpisodeID,mradm,PAPMINO,PAPMIName,PAPMIDOB,PAPMISex,PAAdmDate,PAAdmTime,PAAdmNo,PAAdmDepCodeDR,PAAdmDocCodeDR,PAAdmType,Hospital,PAAdmWard,PAAdmBed,FinancialDischargeFlag,MedicalDischargeFlag,FinalDischargeFlag,PAAdmReason,DischargeDate,RegDoctor,Diagnosis,ArrivedDate,ArrivedTime,LeavedDate,LeavedTime,LocSeqNo,PAAdmPriority,WalkStatus,ConsultRoom,ConsultArea,PAAdmReasonCode,StatusCode,PAPMIAge,PriorityCode,Called,RegDocDr,IconProfile)
+	i PAAdmBed="" s ^||OrderByNullBed(EpisodeID)=Data
+	e  s ^||OrderByBed(" "_PAAdmBed,EpisodeID)=Data
+	Quit
+]]></Implementation>
+</Method>
+
+<Method name="getPrintInfo">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>oeordItemID</FormalSpec>
+<Implementation><![CDATA[
+	S oeord = +oeordItemID
+	s oeordsub = $p(oeordItemID,"||",2)
+	s oecPriority = $p(^OEORD(oeord,"I",oeordsub,1),"^",8)
+	s pageInfo="^"
+	i $d(^DHCLOGSHORTORD("longord",oeordItemID)) d
+	.s pageInfo = $p(^DHCLOGSHORTORD("longord",oeordItemID),"^",5,6)
+	i $d(^DHCLOGSHORTORD("lsord",oeordItemID)) d
+	.s pageInfo = $p(^DHCLOGSHORTORD("lsord",oeordItemID),"^",5,6)
+	q pageInfo
+]]></Implementation>
+</Method>
+
+<Method name="OrderInfo">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>oeori</FormalSpec>
+<Implementation><![CDATA[
+	s (TStDate,TStTime,TOrderDesc,TDoctor,TStopDate,TStopTime,TStopDoctor,str1,str2,str3,TItemStatCode,oeorioeoridr,DoctorUserDr,TStopNurse,TdeptDesc,TRecDepDesc,TPermission) = ""
+	s sessionUserId=%session.Data("LOGON.USERID")
+	s sessionLocId=%session.Data("LOGON.CTLOCID")
+	s sessionGroupId=%session.Data("LOGON.GROUPID")
+	s space = "&nbsp&nbsp",tab = space_space_space_space
+	;m ^Temp("wanghc","session")=%session.Data
+	s orderParref=+oeori,orderId=$p(oeori,"||",2)
+	s instrDesc1="",PHFreqDesc1="",depProcNotes="",doseQty=""
+	s str2 = $g(^OEORD(orderParref,"I",orderId,2))
+	s doseQty = $p(str2,"^",1)	;用量 OEORI_DoseQty		
+	s doseUnitDr= $p(str2,"^",3)	;剂量单位 OEORI_Unit_DR
+	s doseUOM=##class(web.DHCDocOrderCommon).GetUOMDesc(doseUnitDr)
+	s instrDr = $p(str2,"^",7)	;用法 OEORI_Instr_DR
+	s:+instrDr'=0 instrDesc1=$p(^PHCIN(instrDr),"^",2)
+	s PHFreqDr = $p(str2,"^",4)	;频次 OEORI_PHFreq_DR
+	s:PHFreqDr PHFreqDesc1 = $p(^PHCFR(PHFreqDr),"^",3)
+	s:PHFreqDr PHFreqCode = $p(^PHCFR(PHFreqDr),"^",1)
+	s depProcNotes = ""  ;备注 OEORI_DepProcNotes
+	s depProcNotesIndex = 0
+	f  s depProcNotesIndex=$o(^OEORD(orderParref,"I",orderId,"DEP",depProcNotesIndex)) q:depProcNotesIndex=""  d
+	.s depProcNotes = depProcNotes_" "_^OEORD(orderParref,"I",orderId,"DEP",depProcNotesIndex)
+	s str1=^OEORD(orderParref,"I",orderId,1)
+	s:$d(^OEORD(orderParref,"I",orderId,2)) str2=^OEORD(orderParref,"I",orderId,2)
+	s:$d(^OEORD(orderParref,"I",orderId,3)) str3=^OEORD(orderParref,"I",orderId,3)
+	;s ordDept = $p(str1,"^",3)
+	s ordDept = $p($g(^OEORD(orderParref,"I",orderId,7)),"^",2)
+	s:+ordDept>0 TdeptDesc = ##class(web.DHCDocOrderCommon).GetLocDesc(ordDept)
+	s:str3'="" TRecDepDR = $p(str3,"^",6)
+	s:+TRecDepDR>0 TRecDepDesc = ##class(web.DHCDocOrderCommon).GetLocDesc(TRecDepDR)
+	s ItmMastDR = $p(str1,"^",2)
+	s TOrderDesc=$p(^ARCIM(+ItmMastDR,$p(ItmMastDR,"||",2),1),"^",2)	;医嘱名称
+	s TOrderDesc=TOrderDesc_space_doseQty_doseUOM_space_instrDesc1_space_PHFreqDesc1_space_depProcNotes
+	i $d(^OEORD(orderParref,"I",orderId,1))=1 s DoctorDr=$p(^OEORD(orderParref,"I",orderId,1),"^",11)
+	s:+$g(DoctorDr)>0 TDoctor = $p(^CTPCP(DoctorDr,1),"^",2),DoctorUserDr = $o(^SSU("SSUSR",0,"CTPCP",DoctorDr,""))
+	
+	s TStDate = $zd($p(str1,"^",9),3)
+	s TStTime = $zt($p(str1,"^",10),2)
+	
+	s TStopDate = $p(^OEORD(orderParref,"I",orderId,3),"^",34)		;XDate
+	s:$d(^OEORD(orderParref,"I",orderId,2)) TStopTime = $p(^OEORD(orderParref,"I",orderId,2),"^",15)		;XTime
+	s TExEndDate = $p(^OEORD(orderParref,"I",orderId,9),"^",9)		;OEORI_EndDate	
+	s TExEndTime = $p(^OEORD(orderParref,"I",orderId,9),"^",10) 	;OEORI_EndTime
+	s TStopDate = $s(TStopDate="":TExEndDate, 1:TStopDate)			;没停止日期时,取预停日期	
+	s TStopTime = $s(TStopTime="":TExEndTime, 1:TStopTime)
+	
+	s:TStopDate'="" TStopDate=$zd(TStopDate,3)
+	s:TStopTime'="" TStopTime=$zt(TStopTime,2) 
+	s itemStatDr = $p(str1,"^",13) 		;OEORI_ItemStat_DR ;OEC_OrderStatus
+	s:+itemStatDr>0 TItemStatCode = $p(^OEC("OSTAT",itemStatDr),"^",1)
+	
+	s userUpdateDr=$p(^OEORD(orderParref,"I",orderId,8),"^",12)
+	s:(+userUpdateDr>0)&&(TExEndDate'="") TStopDoctor = $p(^SSU("SSUSR",userUpdateDr),"^",2)	;预停医生
+	s StopDoctorDR = $p(^OEORD(orderParref,"I",orderId,3),"^",29)
+	s:+StopDoctorDR>0 TStopDoctor = $p(^CTPCP(StopDoctorDR,1),"^",2)	;重新覆盖停医嘱医生
+	s oeorioeoridr = $p(^OEORD(orderParref,"I",orderId,11),"^",39)
+	s:+oeorioeoridr>0 TOrderDesc = tab_TOrderDesc
+	;i $d(^OEORD(orderParref,"I",orderId,"NUR")) d
+	;.s TStopNurse = $p(^OEORD(orderParref,"I",orderId,"NUR"),"^",1)	;OEORI_DisconUser_DR
+	;.s:+TStopNurse>0 TStopNurse=$p(^SSU("SSUSR",TStopNurse),"^",2)
+	s TNurseXOrdExecInfo = ##class(web.DHCNurCom).GetXOrdExecInfo(orderParref_"||"_orderId)	
+	s CtpcpDR = $p(TNurseXOrdExecInfo,"^",1)
+	s:(+CtpcpDR>0)&&($d(^CTPCP(CtpcpDR,1))=1) TStopNurse = $p(^CTPCP(CtpcpDR,1),"^",2)
+	;s TPermission=##class(appcom.OEOrdItem).CheckStopPermission(oeori,sessionUserId,sessionLocId,sessionGroupId)
+	;i TPermission=1 s TPermission="Y^Y^"_$s(DoctorUserDr=sessionUserId:"Y", 1:"N")	//stop^cancel^unuse
+	;e  s TPermission="N^N^N"
+	s StopPermission=..CheckStopOrder(oeori,sessionUserId,sessionLocId,sessionGroupId)
+	s CancelPermission=..CheckCancelOrder(oeori,sessionUserId,sessionLocId,sessionGroupId)
+	s UnusePermission = ..CheckUnuseOrder(oeori,sessionUserId,sessionLocId,sessionGroupId)
+	q $lb(orderParref_"||"_orderId,TItemStatCode,oeorioeoridr,PHFreqCode,TPermission,0,TStDate,TStTime,TOrderDesc,TDoctor,TStopDate,TStopTime,TStopDoctor,TStopNurse,TdeptDesc,TRecDepDesc,orderParref_"||"_orderId,StopPermission,CancelPermission,UnusePermission)
+]]></Implementation>
+</Method>
+
+<Method name="isHiddenMenu">
+<Description>
+判断哪些病人能操作
+1 出院的
+2 医疗结算</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>adm,ctloc</FormalSpec>
+<Implementation><![CDATA[
+	s statu = $p(^PAADM(adm),"^",20) ;PAADM_VisitStatus
+	q:statu'="A" 1
+	s EstDischConfirmed=$p(^PAADM(adm,2),"^",25)
+	q:EstDischConfirmed="Y" 2
+	;s depCode = $p(^PAADM(adm),"^",4) ;PAADM_DepCode_DR
+	;s currWard= $p(^PAADM(adm),"^",70) ;PAADM_CurrentWard_DR
+	;s ctloctype = $P($G(^CTLOC(ctloc)),"^",13)
+	;s:ctloctype="W" depCode = $p(^PAWARD(currWard),"^",5)
+	;Q:ctloc'=depCode 1	
+	q 0
+]]></Implementation>
+</Method>
+
+<Method name="CheckOperationPermission">
+<Description>
+执行记录能不能 停止 执行 撤销
+0 允许, 1 不允许
+医嘱子类为药物的子医嘱不能执行</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>oeori</FormalSpec>
+<Implementation><![CDATA[
+	i $l(oeori,"||")=3 s oeori=$p(oeori,"||",1,2)
+	s oeord=+oeori
+	s oeordsub = $p(oeori,"||",2)
+	s itmMastDR = $p(^OEORD(oeord,"I",oeordsub,1),"^",2)
+	s oeoriOeoriDR=""
+	s:$d(^OEORD(oeord,"I",oeordsub,11)) oeoriOeoriDR = $p(^OEORD(oeord,"I",oeordsub,11),"^",39)
+	s ItemCat = $p(^ARCIM(+itmMastDR,$p(itmMastDR,"||",2),1),"^",10)
+	s type = $p(^ARC("IC",ItemCat),"^",7)
+	q:(type="R")&&(oeoriOeoriDR'="") 1
+	q 0
+]]></Implementation>
+</Method>
+
+<Method name="ShowIcon">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>code:%String,val:%String,context:%String=""</FormalSpec>
+<ProcedureBlock>0</ProcedureBlock>
+<Implementation><![CDATA[
+	n (code,val,context)
+	i code="" s code="MAP"
+	s html=""	
+	s PAADMDepType="",mradm=""
+	s EpisodeID=$P(val,"^",1)
+	s PatientID=$P(val,"^",4)
+	if EpisodeID'="" {
+		s PatientID=$P(^PAADM(EpisodeID),"^",1)
+		s mradm=$P(^PAADM(EpisodeID),"^",61)
+		s WardID=$P(^PAADM(EpisodeID),"^",70)
+		s AdmDepDR=$P(^PAADM(EpisodeID),"^",4)
+		if AdmDepDR'="" s PAADMDepType=$P(^CTLOC(AdmDepDR),"^",13)
+	}
+	s WardID=$P(val,"^",5)
+	s ApptID=$P(val,"^",2)
+	s SchedDate=$P(val,"^",3)
+	k ARY
+    s ARY("AllergyActive")=##class(web.PAAllergy).FindIfPatientHasAllergy(PatientID)
+	s ARY("AllergyInd")=##class(web.PAAllergy).FindIfPatientHasIndAllergy(PatientID)
+	s ARY("AllergyTBC")=##class(web.PAAllergy).GotTBCAllergy(PatientID)
+	s ARY("ApptID")=ApptID
+	s ARY("EpisodeID")=EpisodeID
+	s ARY("MRADMDischClassifID")=""
+	s ARY("MRADMDischDestinID")=""
+	s ARY("MRADMDischTransportID")=""
+	s ARY("MRADMPatCondID")=""
+	s ARY("PAADMDepType")="E"
+	s ARY("PAADMLikelyTransICUID")=""
+	s ARY("PAADMPriorityID")=""
+	s ARY("PAADMRefStatCode")=""
+	s ARY("PAADMSeenDate")=""
+	s ARY("PatientID")=PatientID
+	s ARY("PriorityWaitingTime")=""
+	s ARY("SchedDate")=SchedDate
+	s ARY("VIPStatus")=""
+	s ARY("WardID")=WardID
+	s ARY("isEMLoc")=""
+	s ARY("mradm")=mradm
+	s profileHTML=""
+	
+	s profileobj=##Class(epr.CTIconProfile).UDESCOpen(code)
+	if $IsObject(profileobj){
+		s ProfileID=profileobj.%Id()
+		s count=profileobj.Items.Count()
+		for i=1:1:count {
+			s itemobj=profileobj.Items.GetAt(i)
+			;可能是调用epr.CTIconProfileItem.Get产生imgLIST
+			s iconobj=itemobj.IconDR
+			if $IsObject(iconobj) {
+				s img=0,title=""
+				continue:iconobj.CondExpr=""
+				d ##class(websys.Conversions).expressionExecute(iconobj.CondExpr)
+				continue:img'=1 
+				continue:iconobj.Icon=""
+				if $g(title)="" s title=iconobj.Description
+				;if iconobj.CondDescription'="" XECUTE iconobj.CondDescription  //add by wuqk 2011-07-14
+				s iconHTML="<IMG align='top' SRC='../images/"_iconobj.Icon_"' title='"_title_"' border=0>"
+				s LinkUrl=itemobj.LinkUrl
+				s LinkComponent=itemobj.LinkComponent
+				s LinkExpression=##class(websys.Conversions).expressionEvaluate(itemobj.LinkExpression)
+				s LinkChartBookDR=itemobj.LinkChartBookDR
+				s Sequence=itemobj.Sequence
+				if LinkUrl'="" {
+					s LinkUrl=LinkUrl_"?"
+					if LinkComponent'="" s LinkUrl=LinkUrl_"WEBSYS.TCOMPONENT="_LinkComponent
+					s LinkUrl=LinkUrl_"&FromIconProfile="_ProfileID_"&EpisodeID="_ARY("EpisodeID")_LinkExpression_"&CONTEXT="_context
+					;未实现chart
+					s iconHTML="<A HREF=""#"" onClick=""websys_lu('"_LinkUrl_"',false,'top=40,left=40,width=640,height=480');"">"_iconHTML_"</A>"
+				}
+				if Sequence="" {
+					s profileHTML=profileHTML_iconHTML
+				}else{
+					s iconArr(Sequence)=iconHTML
+				}
+			}
+		}
+		s profileHTML1=""
+		s seq=$O(iconArr(""))
+		while (seq'=""){
+			s profileHTML1=profileHTML1_iconArr(seq)
+			s seq=$O(iconArr(seq))
+			Q:seq=""
+		}
+		k iconArr
+		q profileHTML1_profileHTML
+	}
+	q ""
+]]></Implementation>
+</Method>
+
+<Method name="CreateCopyItem">
+<Description>
+@ params : 传入医嘱Rowid, 医嘱类型Rowid
+@ params : 返回copy串</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>oeori:%String,InOrderPriorRowid:%String</FormalSpec>
+<Implementation><![CDATA[
+	q:oeori="" ""
+	s ch1 = $char(1)
+	s (OrderName,OrderSeqNo,OrderDoseQty,OrderDoseUOM,OrderDoseUOMRowid)=""
+	s (OrderFreq,OrderFreqRowid,OrderFreqFactor,OrderFreqInterval)=""
+	s (OrderInstr,OrderInstrRowid,OrderDur,OrderDurRowid,OrderDurFactor)=""
+	s (OrderPackQty,OrderPackUOM,OrderPackUOMRowid,OrderPrior,OrderPriorRowid)=""
+	s (OrderType,OrderBillTypeRowId,OrderResume)=""
+	;
+	&sql(SELECT OEORI_Rowid,OEORI_ItmMast_DR,OEORI_ItmMast_DR->ARCIM_Desc,
+		OEORI_SttDat,OEORI_SttTim,Todate(OEORI_SttDat,'yyyy-mm-dd'),
+		OEORI_DoseQty,OEORI_Unit_DR,OEORI_Unit_DR->CTUOM_Desc,
+		OEORI_QtyPackUOM,OEORI_ItmMast_DR->ARCIM_BillingUOM_DR->CTUOM_Desc,OEORI_ItmMast_DR->ARCIM_BillingUOM_DR,
+		OEORI_Priority_dr,OEORI_Priority_dr->OECPR_Desc,
+		OEORI_Itemstat_dr,OEORI_Itemstat_dr->OSTAT_Desc,
+		OEORI_PHFreq_DR,OEORI_PHFreq_DR->PHCFR_Desc1,
+		OEORI_Instr_DR,OEORI_Instr_DR->PHCIN_Desc1,
+		OEORI_Durat_DR,OEORI_Durat_DR->PHCDU_Desc1,
+		OEORI_RecDep_DR,OEORI_RecDep_DR->CTLOC_Desc,
+		OEORI_UserDepartment_DR,OEORI_UserDepartment_DR->CTLOC_Desc,
+		OEORI_Doctor_DR,OEORI_Doctor_DR->CTPCP_Desc,OEORI_UserAdd,OEORI_UserAdd->SSUSR_Name,
+		OEORI_Billed,OEORI_AdministerSkinTest,OEORI_BBExtCode,
+		OEORI_ItmMast_DR->ARCIM_ItemCat_DR->ARCIC_OrderType,
+		OEORI_SeqNo,OEORI_LinkNo,OEORI_LinkToOrder,OEORI_PrescNo,OEORI_LabEpisodeNo,
+		OEORI_ARCOS_DR,OEORI_OEORI_DR,Todate(OEORI_Date,'yyyy-mm-dd'),
+		OEORI_OrdDept_DR,OEORI_OrdDept_DR->CTLOC_Desc
+	 INTO :OrderItemRowid,:ARCIMRowid,:OrderName,:OrderSttDate,:OrderSttTime,:StartDate,
+		:OrderDoseQty,:OrderDoseUOMRowid,:OrderDoseUOM,:OrderPackQty,:OrderPackUOM,:OrderPackUOMRowid,
+		:OrderPriorRowid,:OrderPrior,:OrderStatusRowid,:OrderStatus,:OrderFreqRowid,:OrderFreq,
+		:OrderInstrRowid,:OrderInstr,:OrderDurRowid,:OrderDur,
+		:OrderRecDepRowid,:OrderRecDep,:OrderUserDepRowid,:OrderUserDep,
+		:OrderDocRowid,:OrderDoc,:OrderUserAddRowid,:OrderUserAdd,
+		:OrderBilled,:OrderSkinTest,:OrderBillTypeRowid,:OrderType,
+		:OrderSeqNo,:OrderMasterSeqNo,:OrderLinkTo,:OrderPrescNo,:OrderLabEpisodeNo,
+		:OrderARCOSRowid,:LinkOrderItem,:OrderDate,
+		:OrderOrdDepRowid,:OrderOrdDep
+	 From SQLUser.OE_OrdItem WHERE OEORI_Rowid=:oeori)
+ 	if OrderFreqRowid'="" {
+		s OrderFreqFactor=$P($g(^PHCFR(OrderFreqRowid)),"^",2)
+		s OrderFreqInterval=$P($g(^PHCFR(OrderFreqRowid)),"^",5)
+ 	}
+	i OrderDurRowid'="" s OrderDurFactor=$P($g(^PHCDU(OrderDurRowid)),"^",2)
+	s ItemData = ARCIMRowid_"!"_OrderSeqNo_"!"_OrderDoseQty_ch1_OrderDoseUOM_ch1_OrderDoseUOMRowid
+	s ItemData = ItemData_"^"_OrderFreq_ch1_OrderFreqRowid_ch1_OrderFreqFactor_ch1_OrderFreqInterval
+	s ItemData = ItemData_"^"_OrderInstr_ch1_OrderInstrRowid
+	s ItemData = ItemData_"^"_OrderDur_ch1_OrderDurRowid_ch1_OrderDurFactor
+	s ItemData = ItemData_"^"_OrderPackQty_ch1_OrderPackUOM_ch1_OrderPackUOMRowid
+	s ItemData = ItemData_"^"_OrderPrior_ch1_InOrderPriorRowid
+	s ItemData = ItemData_"^^^"	//医嘱套ID、空、医嘱子类ID
+	s ItemData=ItemData_"^"_OrderResume
+	s ItemData = ItemData_"!"_OrderType_"!"_OrderBillTypeRowId_"!"_"Order"
+	q ItemData
+]]></Implementation>
+</Method>
+
+<Method name="CheckStopOrder">
+<Description>
+检查 停止 权限
+同一科室的人能停止
+护士也能停止--医生开出的绑定其他医嘱的非医嘱单子医嘱</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>OrderItemRowId:%String,UserRowId:%String,LocID:%String,GroupID:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	s DoctorDr=$P($G(^OEORD(+OrderItemRowId,"I",$P(OrderItemRowId,"||",2),1)),"^",11) 
+	Q:DoctorDr="" 1
+	s ret=0
+	if $d(^RB("RES",0,"CTPCP",DoctorDr,LocID)) s ret=1 q ret
+	s ret=0,isNurse=0
+	s ctpcprowid=$P(^SSU("SSUSR",UserRowId),"^",14)
+	s CTPCPCarPrvTpDR = $p(^CTPCP(ctpcprowid,1),"^",4)
+	s CTCPTInternalType = $p(^CT("CPT",CTPCPCarPrvTpDR),"^",4)
+	s:CTCPTInternalType="NURSE" isNurse=1
+	s oeori = ++OrderItemRowId
+	s oeorisub = $P(OrderItemRowId,"||",2) 
+	if isNurse=1 d
+	.;护士可以单独停医生开出的绑定其他医嘱的非医嘱单医嘱
+	.s currLocId=","_LocID_","
+	.s id=0 f  s id=$o(^CTLOC(id)) q:id=""  d
+	..i $d(^CTLOC(id,"LINK",0,"Loc",LocID))=10 s currLocId=currLocId_id_","
+	.s ordDept = $p($g(^OEORD(oeori,"I",oeorisub,7)),"^",2) ;OEORI_UserDepartment_DR
+	.q:currLocId'[ordDept ;转科医嘱不能停
+	.q:'$d(^OEORD(oeori,"I",oeorisub,11))
+	.s oriOriDr=$p(^OEORD(oeori,"I",oeorisub,11),"^",39)
+	.q:oriOriDr="" ;非子嘱不能停
+	.s str1 = ^OEORD(oeori,"I",oeorisub,1)
+	.s ItmMastDR = $p(str1,"^",2)
+	.s mastItemCat = $p(^ARCIM(+ItmMastDR,$p(ItmMastDR,"||",2),1),"^",10) ;护士站配置 子类 
+	.s:$g(^DHCOEOrdPrintSet("NotSordCat"))[("^"_mastItemCat_"^") ret=1 q
+	.s arcicOrdCatDR = $p(^ARC("IC",mastItemCat),"^",8) ;护士站配置 大类
+	.s:$g(^DHCOEOrdPrintSet("NotOrdCat"))[("^"_arcicOrdCatDR_"^") ret=1 q
+	q ret
+]]></Implementation>
+</Method>
+
+<Method name="CheckCancelOrder">
+<Description>
+检查 撤销 权限
+同一科室的人 能撤销
+没有下医嘱人 能撤销</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>OrderItemRowId:%String,UserRowId:%String,LocID:%String,GroupID:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	s OrderRowId = +OrderItemRowId
+	s OrderSub = $p(OrderItemRowId,"||",2)
+	s DoctorDr=$P($G(^OEORD(OrderRowId,"I",OrderSub,1)),"^",11) 
+	Q:DoctorDr="" 1
+	s ret=0
+	if $d(^RB("RES",0,"CTPCP",DoctorDr,LocID)) s ret=1
+	s OrderSubChild=0
+	f  s OrderSubChild=$o(^OEORD(OrderRowId,"I",OrderSub,"X",OrderSubChild)) q:(OrderSubChild="")||(ret=0)  s item=^(OrderSubChild)  d
+	.s OrderAdminStatus = $p(item,"^",16) ;	OEORE_Order_Status_DR->User.OECOrderAdminStatus
+	.s STATCode=$s(OrderAdminStatus'="":$p(^OEC("STAT",OrderAdminStatus),"^",1),1:"")
+	.s:STATCode="F" ret=0	;执行过就不能再撤销了
+	q ret
+]]></Implementation>
+</Method>
+
+<Method name="CheckUnuseOrder">
+<Description>
+检查 作废 权限
+下医嘱人自己 能作废
+没有下医嘱人 能作废</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>OrderItemRowId:%String,UserRowId:%String,LocID:%String,GroupID:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	s OrderRowId = +OrderItemRowId
+	s OrderSub = $p(OrderItemRowId,"||",2)
+	s DoctorDr=$P($G(^OEORD(OrderRowId,"I",OrderSub,1)),"^",11) 
+	Q:DoctorDr="" 1
+
+	s ret=0
+	s DoctorUserDr = $o(^SSU("SSUSR",0,"CTPCP",DoctorDr,""))
+	i (+DoctorUserDr=+UserRowId) s ret=1
+	s OrderSubChild=0
+	f  s OrderSubChild=$o(^OEORD(OrderRowId,"I",OrderSub,"X",OrderSubChild)) q:(OrderSubChild="")||(ret=0)  s item=^(OrderSubChild)  d
+	.s OrderAdminStatus = $p(item,"^",16) ;	OEORE_Order_Status_DR->User.OECOrderAdminStatus
+	.s STATCode=$s(OrderAdminStatus'="":$p(^OEC("STAT",OrderAdminStatus),"^",1),1:"")
+	.s:STATCode="F" ret=0	;执行过就不能再作废了
+	q ret
+]]></Implementation>
+</Method>
+
+<Method name="CheckOperationOrder">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>OrderItemRowId:%String,UserRowId:%String,LocID:%String,GroupID:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	s rtn = "N^N^N"
+	s stop = ..CheckStopOrder(OrderItemRowId, UserRowId, LocID , GroupID)
+	s cancel = ..CheckCancelOrder(OrderItemRowId, UserRowId, LocID , GroupID)
+	s unnuse = ..CheckUnuseOrder(OrderItemRowId, UserRowId, LocID , GroupID)
+	s:(stop=1) $p(rtn,"^",1)="Y"
+	s:(cancel=1) $p(rtn,"^",2)="Y"
+	s:(unnuse=1) $p(rtn,"^",3)="Y"
+	q rtn
+]]></Implementation>
+</Method>
+</Class>
+</Export>

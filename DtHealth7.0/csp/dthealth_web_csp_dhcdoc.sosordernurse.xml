@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2012-06-29 15:52:33">
+<CSP name="csp/dhcdoc.sosordernurse.csp" application="/dthealth/web/"><![CDATA[
+<!--dhcdoc.sosordernurse.csp-->
+<csp:method name=OnPreHTTP arguments="" returntype=%Boolean>
+ i ##Class(websys.SessionEvents).SessionExpired() q 1
+ quit 1
+</csp:method>
+<html>
+<head>
+<TITLE><EXTHEALTH:TRANSLATE id=title>##(%session.Get("TITLE"))##</EXTHEALTH:TRANSLATE></TITLE>
+<EXTHEALTH:HEAD></EXTHEALTH:HEAD>
+<EXTHEALTH:EXT321></EXTHEALTH:EXT321>
+<link type="text/css" rel="stylesheet" href="../scripts/dhcdoc/css/dhcdocCustomExt.css" />
+<script type="text/javascript" src="../scripts/framework/ExtCustom/GroupHeaderPlugin.js"></script>
+<script type="text/javascript" src="../scripts/framework/dhcc.icare.MixGridPanel.js"></script>
+<script type="text/javascript" src="../scripts/dhcdoc/dhcc.doc.OrderCenter.js"></script>
+</head>
+<body>
+<script runat=server language=cache>
+	s orderMetaDataJson = ##class(ext.websys.QueryBroker).ReadRSNew("web.DHCDocSosOrder","FindSosOrderNurse")
+	 s execMetaDataJson = ##class(ext.websys.QueryBroker).ReadRSNew("web.DHCDocMain","FindOrderExecDet")
+	  s feeMetaDataJson = ##class(ext.websys.QueryBroker).ReadRSNew("web.DHCDocMain","FindOrderFee") 
+	s group=%session.Get("LOGON.GROUPID")
+	s menucode = "NURSOSOrder"
+	#dim obj As websys.ExtMenu
+	s obj = ##class(websys.ExtMenu).EMCodeMenuOpen(menucode)
+	s orderMenuJson = obj.GetMenusJson(group)
+	d obj.%Close()
+	s obj=""
+	i orderMenuJson="" s orderMenuJson="{}"
+	;-
+	s menucode = "NURSOSExec"
+	s obj = ##class(websys.ExtMenu).EMCodeMenuOpen(menucode)
+	s execMenuJson = obj.GetMenusJson(group)
+	d obj.%Close()
+	s obj=""
+	i execMenuJson="" s execMenuJson="{}"
+	;-
+	s menucode = "NURSOSFee"
+	s obj = ##class(websys.ExtMenu).EMCodeMenuOpen(menucode)
+	s feeMenuJson = obj.GetMenusJson(group)
+	d obj.%Close()
+	s obj=""
+	i feeMenuJson="" s feeMenuJson="{}"
+
+</script>
+<script type="text/javascript">
+	var orderMetaDataJson = #(orderMetaDataJson)#;
+	var execMetaDataJson = #(execMetaDataJson)#;
+	var feeMetaDataJson = #(feeMetaDataJson)#;
+</script>
+<script type="text/javascript" src="../scripts/dhcdoc/dhcc.doc.sosNurseCenter.js"></script>
+<script type="text/javascript"src="../scripts/dhcdoc/dhcc.doc.execOrder.js"></script>
+<script type="text/javascript"src="../scripts/dhcdoc/dhcc.doc.feeOrder.js"></script>
+<script type="text/javascript">	
+	function xhrRefresh(obj){	
+		dhcc.doc.orderGridPanel.refreshData(obj);
+		if(obj.adm){
+			if (tkMakeServerCall("web.DHCDocMain", "isHiddenMenu", obj.adm, session['LOGON.CTLOCID'])==1){
+				dhcc.doc.orderGridPanel.rightKeyMenuHidden = true;
+				dhcc.doc.execOrder.rightKeyMenuHidden = true;		
+				dhcc.doc.feeOrder.rightKeyMenuHidden = true;
+			}else{
+				dhcc.doc.orderGridPanel.rightKeyMenuHidden = false;
+				dhcc.doc.execOrder.rightKeyMenuHidden = false;		
+				dhcc.doc.feeOrder.rightKeyMenuHidden =  false;
+			}
+		}
+	}
+	Ext.onReady(function(){
+		var viewport = new Ext.Viewport({
+			layout:'border',					
+			items:[dhcc.doc.orderGridPanel,{	
+					xtype:'panel',
+					width:380,
+					layout:'border',
+					region:"east",
+					split:true,
+					items:[
+						dhcc.doc.execOrder,
+						dhcc.doc.feeOrder
+					]	
+			}]
+		});	
+		var orderRightMenuJson = #(orderMenuJson)#;
+		if (orderRightMenuJson && orderRightMenuJson.menu){
+			dhcc.doc.orderGridPanel.rightKeyMenu = new Ext.menu.Menu(orderRightMenuJson.menu);	
+		}
+		var execRightMenuJson = #(execMenuJson)#;
+		if (execRightMenuJson && execRightMenuJson.menu){
+			dhcc.doc.execOrder.rightKeyMenu = new Ext.menu.Menu(execRightMenuJson.menu);	
+		}
+		var feeRightMenuJson = #(feeMenuJson)#;
+		if (feeRightMenuJson && feeRightMenuJson.menu){
+			dhcc.doc.feeOrder.rightKeyMenu = new Ext.menu.Menu(feeRightMenuJson.menu);	
+		}	
+		var frm = dhcsys_getmenuform();
+		if (frm && frm.EpisodeID.value !== "0" ) {
+			xhrRefresh({papmi:frm.PatientID.value, adm: frm.EpisodeID.value});
+		}
+	});	
+</script>
+</body>
+</html>]]></CSP>
+</Export>

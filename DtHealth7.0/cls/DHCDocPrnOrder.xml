@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2012-06-27 16:50:54">
+<Class name="web.DHCDocPrnOrder">
+<Super>%RegisteredObject</Super>
+<TimeChanged>62635,60547.618325</TimeChanged>
+<TimeCreated>62514,47527.187782</TimeCreated>
+
+<Query name="FindPrnOrder">
+<Description>
+@param: papmi 	 	病人rowid
+@param: adm   		病人就诊表rowid
+@param: doctor 		开医嘱医生
+@param: scopeId 	1 全部   非作废, 
+					2 作废   为不打印的医嘱U 
+					3 当前   为所有未停医嘱和停止时间迟于当前系统时间的医嘱 
+					4 待审核 I未激活 
+@param: stloc 		开出科室 1表示当前科室与病区 2表示其它科室
+@param: nursebill  	医嘱单类型  "ALL" 全部 		"N" 医嘱单 
+d ##class(%ResultSet).RunQuery("web.DHCDocPrnOrder","FindPrnOrder",20,77351,0,1,1)</Description>
+<Type>websys.Query</Type>
+<FormalSpec>papmi,adm,doctor,scope,stloc,nursebill</FormalSpec>
+<Parameter name="ROWSPEC" value="HIDDEN:%String:OrderId,HIDDEN:%String:TItemStatCode,HIDDEN:%String:TOeoriOeori,HIDDEN:%String:PHFreqDesc1,HIDDEN:%String:TPermission,CustomSelected:%String:选择^40,TStDate:%String:开始日期^80,TStTime:%String:时间^55,TOrderDesc:%String:医嘱^400,TDoctor:%String:开医嘱人^80,TStopDate:%String:日期^80,TStopTime:%String:时间^55,TStopDoctor:%String:医生^70,TStopNurse:%String:护士^70,TdeptDesc:%String:开单科室,TRecDepDesc:%String:接收科室,TOeoriRowid:%String:医嘱id,StopPermission,CancelPermission,UnusePermission"/>
+</Query>
+
+<Method name="FindPrnOrderExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,papmi,adm,doctor=0,scope=1,stloc=1,nursebill="ALL"]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set repid = $I(^CacheTemp)
+	if $g(ind) = "" set ind = 0
+	s sessionLocId= %session.Get("LOGON.CTLOCID")
+	s currLocId=","_sessionLocId_","
+	s id=0 f  s id= $o(^CTLOC(sessionLocId,"LINK",0,"Loc",id)) q:id=""  d
+	.s currLocId=currLocId_id_","
+	s ^Temp("wanghc","prnq")=papmi_","_adm_","_doctor_","_scope_","_stloc_","_currLocId
+	s ^||RepidTemp("web.DHCDocPrnOrder","FindPrnOrder","CacheTemp")=repid
+	k ^||GroupOeori
+	s subOeoriIndex=0
+	i +adm'>0 set qHandle = $lb(0,repid,0) Q $$$OK
+	s space = "&nbsp&nbsp"
+	s tab = space_space_space_space
+	s orderParref=$o(^OEORD(0,"Adm",adm,0))
+	i orderParref=""  set qHandle = $lb(0,repid,0) Q $$$OK	
+	s orderId = 0 
+	f  s orderId = $o(^OEORD(orderParref,"I",orderId)) q:orderId=""  d
+	.s (TStDate,TStTime,TOrderDesc,TDoctor,TStopDate,TStopDoctor,str1,TItemStatCode,oeorioeoridr,addUserDR,TStopNurse) = ""
+	.q:'$d(^OEORD(orderParref,"I",orderId,1))
+	.s str1 = ^OEORD(orderParref,"I",orderId,1)
+	.;s OrdDeptDR =$p(str1,"^",3) 				; OEORI_OrdDept_DR
+	.s ordDept = $p($g(^OEORD(orderParref,"I",orderId,7)),"^",2)
+	.q:(currLocId'[ordDept)&&((stloc=1))		;当前科室或病区
+	.q:(currLocId[ordDept)&&((stloc=2))		;其它科室
+	.i $d(^OEORD(orderParref,"I",orderId,1))=1 d
+	..s DoctorDr=$p(^OEORD(orderParref,"I",orderId,1),"^",11)
+	.q:(+doctor'=0)&&(doctor'=DoctorDr)
+	.s CTCPTInternalType=""
+	.i DoctorDr>0 d		
+	..s CTPCPCarPrvTpDR = $p(^CTPCP(DoctorDr,1),"^",4)
+	..s CTCPTInternalType = $p(^CT("CPT",CTPCPCarPrvTpDR),"^",4)
+	.q:(nursebill="N")&&((CTCPTInternalType="NURSE")&&($g(^DHCOEOrdPrintSet("ifnur"))'="true"))	;护士站配置-护嘱可不可见
+	.s PriorityDR = $p(str1,"^",8)
+	.q:PriorityDR=""
+	.q:'##class(appcom.OEOrdItem).ISLongOrderPrior(PriorityDR)
+	.s PriorityCode = $p(^OECPR(PriorityDR),"^",2)
+	.q:(nursebill="N")&&($g(^DHCOEOrdPrintSet("L","OrdTyp"))'[("^"_PriorityCode_"^"))		;护士站配置-长嘱类型
+	.s ItmMastDR = $p(str1,"^",2)
+	.q:+ItmMastDR'>0
+	.s itemStatDr = $p(str1,"^",13) 		;OEORI_ItemStat_DR ;OEC_OrderStatus
+	.s:+itemStatDr>0 TItemStatCode = $p(^OEC("OSTAT",itemStatDr),"^",1)
+	.q:(scope=1)&&(TItemStatCode="U")						//全部时不显示作废的
+	.q:(scope=2)&&(TItemStatCode'="U")						//只显示作废
+	.;s TExEndDate = $p(^OEORD(orderParref,"I",orderId,9),"^",9)		;OEORI_EndDate	
+	.;s TExEndTime = $p(^OEORD(orderParref,"I",orderId,9),"^",10) 	;OEORI_EndTime
+	.s TStopDate = $p(^OEORD(orderParref,"I",orderId,3),"^",34)		;XDate
+	.s:$d(^OEORD(orderParref,"I",orderId,2)) TStopTime = $p(^OEORD(orderParref,"I",orderId,2),"^",15)		;XTime
+	.q:(scope=3)&&((TItemStatCode'="V")&&(TItemStatCode'="D"))
+	.q:(scope=3)&&((TItemStatCode="D")&&(TStopDate=+$H)&&(TStopTime<$p($H,",",2))) 		//当前 当天停止 不是核实的
+	.q:(scope=3)&&((TItemStatCode="D")&&(TStopDate<+$H)) 					//2012-4-20
+	.q:(scope=4)&&((TItemStatCode'="I"))
+	.s mastItemCat = $p(^ARCIM(+ItmMastDR,$p(ItmMastDR,"||",2),1),"^",10)			;护士站配置 子类		
+	.q:(nursebill="N")&&($g(^DHCOEOrdPrintSet("NotSordCat"))[("^"_mastItemCat_"^"))
+	.s arcicOrdCatDR = $p(^ARC("IC",mastItemCat),"^",8)								;护士站配置 大类
+	.q:(nursebill="N")&&($g(^DHCOEOrdPrintSet("NotOrdCat"))[("^"_arcicOrdCatDR_"^"))	
+	.s rslist = ##class(web.DHCDocMain).OrderInfo(orderParref_"||"_orderId)
+	.s groupdr = $p(^OEORD(orderParref,"I",orderId,11),"^",39)
+	.i +groupdr>0 d
+	..s groupIndex = $i(^||GroupOeori(+groupdr,$p(groupdr,"||",2),"I"))
+	..s ^||GroupOeori(+groupdr,$p(groupdr,"||",2),"I", groupIndex) = rslist 
+	.e  d
+	..s ^||GroupOeori(orderParref,orderId) = rslist 
+	//按成组输出医嘱
+	s groupIndex = 0
+	s oeori=orderParref
+	s sub=0 f  s sub=$o(^||GroupOeori(oeori,sub)) q:sub=""  d
+	.s ind = ind+1		
+	.s ^CacheTemp(repid,ind) = ^||GroupOeori(oeori,sub)
+	.s groupIndex=groupIndex+1
+	.s count=$g(^||GroupOeori(oeori,sub,"I"),0)
+	.f i=1:1:count d
+	..s ind = ind+1
+	..s ^CacheTemp(repid,ind) = ^||GroupOeori(oeori,sub,"I",i)
+	..s $list(^CacheTemp(repid,ind),6)=groupIndex_"."_i
+	.s $list(^CacheTemp(repid,ind-count),6)=groupIndex_"-"_count	;4-3表示他有3条子嘱 
+	set qHandle = $lb(0,repid,0)
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="FindPrnOrderNurse">
+<Description>
+@param: papmi  病人rowid
+@param: adm    病人就诊表rowid
+@param: doctor 开医嘱医生
+@param: scopeId 1 全部   非作废, 
+					2 作废   为不打印的医嘱U 
+					3 当前   为所有未停医嘱和停止时间迟于当前系统时间的医嘱 
+					4 待审核 I未激活 
+@param: stloc 开出科室 1表示当前科室与病区 2表示其它科室
+@param: nursebill 是不是护嘱单 Y是护嘱单,N是医嘱单,ALL是全部
+d ##class(%ResultSet).RunQuery("web.DHCDocPrnOrder","FindPrnOrder",16,77346,0,1,1)</Description>
+<Type>websys.Query</Type>
+<FormalSpec>papmi,adm,doctor,scope,stloc,nursebill="ALL"</FormalSpec>
+<Parameter name="ROWSPEC" value="HIDDEN:%String:OrderId,HIDDEN:%String:TItemStatCode,HIDDEN:%String:TOeoriOeori,HIDDEN:%String:PHFreqDesc1,HIDDEN:%String:TPermission,CustomSelected:%String:选择^40,TStDate:%String:开始日期,TStTime:%String:时间^50,TOrderDesc:%String:医嘱^400,TDoctor:%String:开医嘱人^80,TStopDate:%String:日期,TStopTime:%String:时间^50,TStopDoctor:%String:医生^70,TStopNurse:%String:护士^70,TdeptDesc:%String:开单科室,TRecDepDesc:%String:接收科室,TOeoriRowid:%String:医嘱id,StopPermission,CancelPermission,UnusePermission"/>
+</Query>
+
+<Method name="FindPrnOrderNurseExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,papmi,adm,doctor,scope,stloc=1,nursebill="ALL"]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+		set repid = $I(^CacheTemp)
+		if $g(ind) = "" set ind = 0
+		k ^||GroupOeori
+		i +adm'>0 set qHandle = $lb(0,repid,0) Q $$$OK
+		s ^Temp("wanghc","prnnurse")=papmi_","_adm_","_doctor_","_scope_","_stloc
+		s ^||RepidTemp("web.DHCDocPrnOrder","FindPrnOrderNurse","CacheTemp")=repid
+		s sessionLocId= %session.Get("LOGON.CTLOCID")
+		s currLocId=","_sessionLocId_","
+		;当前病区的科室
+		s id=0 f  s id=$o(^CTLOC(id)) q:id=""  d
+	 	.i $d(^CTLOC(id,"LINK",0,"Loc",sessionLocId))=10 s currLocId=currLocId_id_"," 
+		s space = "&nbsp"
+		s tab = space_space_space_space
+		s orderParref=$o(^OEORD(0,"Adm",adm,0))
+		I orderParref="" set qHandle = $lb(0,repid,0) Q $$$OK
+		s orderId = 0 
+		f  s orderId = $o(^OEORD(orderParref,"I",orderId)) q:orderId=""  d
+		.s (TStDate,TStTime,TOrderDesc,TDoctor,TStopDate,TStopDoctor,str1,TItemStatCode,oeorioeoridr,addUserDR) = ""
+		.q:'$d(^OEORD(orderParref,"I",orderId,1))
+		.s str1 = ^OEORD(orderParref,"I",orderId,1)
+		.;s OrdDeptDR = $p(str1,"^",3) ; OEORI_OrdDept_DR
+		.s ordDept = $p($g(^OEORD(orderParref,"I",orderId,7)),"^",2)	;OEORI_UserDepartment_DR
+		.q:(stloc=1)&&(currLocId'[ordDept)	;本病区或科室
+		.q:(stloc=2)&&(currLocId[ordDept)
+		.i $d(^OEORD(orderParref,"I",orderId,1))=1 d
+		..s DoctorDr=$p(^OEORD(orderParref,"I",orderId,1),"^",11)
+		.q:(+doctor'=0)&&(doctor'=DoctorDr)
+		.s CTCPTInternalType=""
+		.i DoctorDr>0 d		
+		..s CTPCPCarPrvTpDR = $p(^CTPCP(DoctorDr,1),"^",4)
+		..s CTCPTInternalType = $p(^CT("CPT",CTPCPCarPrvTpDR),"^",4)
+		.q:(nursebill="Y")&&(CTCPTInternalType'="NURSE")
+		.;q:(nursebill="N")&&(CTCPTInternalType'="DOCTOR")
+		.q:(nursebill="N")&&((CTCPTInternalType="NURSE")&&($g(^DHCOEOrdPrintSet("ifnur"))'="true"))
+		.s PriorityDR = $p(str1,"^",8)
+		.q:PriorityDR=""
+		.q:'##class(appcom.OEOrdItem).ISLongOrderPrior(PriorityDR)
+		.s PriorityCode = $p(^OECPR(PriorityDR),"^",2)
+		.q:(nursebill="N")&&($G(^DHCOEOrdPrintSet("L","OrdTyp"))'[("^"_PriorityCode_"^"))
+		.s ItmMastDR = $p(str1,"^",2)
+		.q:+ItmMastDR'>0
+		.s itemStatDr = $p(str1,"^",13) ;OEORI_ItemStat_DR ;OEC_OrderStatus
+		.s:+itemStatDr>0 TItemStatCode = $p(^OEC("OSTAT",itemStatDr),"^",1)
+		.q:(scope=1)&&(TItemStatCode="U")	//全部时不显示作废的
+		.q:(scope=2)&&(TItemStatCode'="U")	//只显示作废
+		.s TStopDate = $p(^OEORD(orderParref,"I",orderId,3),"^",34)		;XDate
+		.s:$d(^OEORD(orderParref,"I",orderId,2)) TStopTime = $p(^OEORD(orderParref,"I",orderId,2),"^",15)		;XTime
+		.q:(scope=3)&&((TItemStatCode'="V")&&(TItemStatCode'="D"))
+		.q:(scope=3)&&((TItemStatCode="D")&&(TStopDate=+$H)&&(TStopTime<$p($H,",",2))) 		//当前 当天停止 不是核实的
+		.q:(scope=3)&&((TItemStatCode="D")&&(TStopDate<+$H)) 					//2012-4-20
+		.q:(scope=4)&&((TItemStatCode'="I"))
+		.s mastItemCat = $p(^ARCIM(+ItmMastDR,$p(ItmMastDR,"||",2),1),"^",10)	;子类
+		.q:(nursebill="N")&&($g(^DHCOEOrdPrintSet("NotSordCat"))[("^"_mastItemCat_"^"))
+		.s arcicOrdCatDR = $p(^ARC("IC",mastItemCat),"^",8)	; 大类
+		.q:(nursebill="N")&&($g(^DHCOEOrdPrintSet("NotOrdCat"))[("^"_arcicOrdCatDR_"^"))
+		.s rslist = ##class(web.DHCDocMain).OrderInfo(orderParref_"||"_orderId)
+		.s groupdr = $p(^OEORD(orderParref,"I",orderId,11),"^",39)
+		.i +groupdr>0 d
+		..s groupIndex = $i(^||GroupOeori(+groupdr,$p(groupdr,"||",2),"I"))
+		..s ^||GroupOeori(+groupdr,$p(groupdr,"||",2),"I", groupIndex) = rslist 
+		.e  d
+		..s ^||GroupOeori(orderParref,orderId) = rslist 
+		//按成组输出医嘱
+		s groupIndex = 0
+		s oeori=orderParref
+		s sub=0 f  s sub=$o(^||GroupOeori(oeori,sub)) q:sub=""  d
+		.s ind = ind+1		
+		.s ^CacheTemp(repid,ind) = ^||GroupOeori(oeori,sub)
+		.s groupIndex=groupIndex+1
+		.s count=$g(^||GroupOeori(oeori,sub,"I"),0)
+		.f i=1:1:count d
+		..s ind = ind+1
+		..s ^CacheTemp(repid,ind) = ^||GroupOeori(oeori,sub,"I",i)
+		..s $list(^CacheTemp(repid,ind),6)=groupIndex_"."_i
+		.s $list(^CacheTemp(repid,ind-count),6)=groupIndex_"-"_count	;4-3表示他有3条子嘱 
+		set qHandle = $lb(0,repid,0)
+		Q $$$OK
+]]></Implementation>
+</Method>
+</Class>
+</Export>
+
