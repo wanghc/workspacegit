@@ -134,9 +134,9 @@ d ##class(%ResultSet).RunQuery("web.DHCDocSosOrder","FindSosOrder",80,169,0,1,1)
 	.;s TPermission=##class(appcom.OEOrdItem).CheckStopPermission(orderParref_"||"_orderId,LogonUserID,currLocId,LogonGroupID)
 	.;i TPermission=1 s TPermission="Y^Y^"_$s(DoctorUserDr=LogonUserID:"Y", 1:"N")
 	.;e  s TPermission="N^N^N"
-	.s StopPermission=##class(web.DHCDocMain).CheckStopOrder(orderParref_"||"_orderId,LogonUserID,currLocId,LogonGroupID)
-	.s CancelPermission=##class(web.DHCDocMain).CheckCancelOrder(orderParref_"||"_orderId,LogonUserID,currLocId,LogonGroupID)
-	.s UnusePermission =##class(web.DHCDocMain).CheckUnuseOrder(orderParref_"||"_orderId,LogonUserID,currLocId,LogonGroupID)
+	.s StopPermission=##class(web.DHCDocMain).CheckStopOrder(orderParref_"||"_orderId,LogonUserID,sessionLocId,LogonGroupID)
+	.s CancelPermission=##class(web.DHCDocMain).CheckCancelOrder(orderParref_"||"_orderId,LogonUserID,sessionLocId,LogonGroupID)
+	.s UnusePermission =##class(web.DHCDocMain).CheckUnuseOrder(orderParref_"||"_orderId,LogonUserID,sessionLocId,LogonGroupID)
 
 	.s oeorioeoridr = $p($g(^OEORD(orderParref,"I",orderId,11)),"^",39)
 	.s:+oeorioeoridr>0 TOrderDesc = tab_TOrderDesc
