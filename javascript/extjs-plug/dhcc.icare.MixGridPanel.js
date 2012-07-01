@@ -1,12 +1,12 @@
 /**
 * @author: wanghc
 * @date  : 2012/4/1
-* 自动生成查询条件,右键菜单
+* 锟皆讹拷锟斤拷锟缴诧拷询锟斤拷锟斤拷,锟揭硷拷锟剿碉拷
 *tbar: [
-			'开医嘱人:',			
+			'锟斤拷医锟斤拷锟斤拷:',			
 			{ paramPosition: 1, xtype:"textfield"}
 		]
-*在compoent上多加一个 paramPosition 配置,对应后台query的参数位置,实现自动匹配参数查询
+*锟斤拷compoent锟较讹拷锟斤拷一锟斤拷 paramPosition 锟斤拷锟斤拷,锟斤拷应锟斤拷台query锟侥诧拷锟斤拷位锟斤拷,实锟斤拷锟皆讹拷匹锟斤拷锟斤拷锟斤拷锟斤拷询
 */
 Ext.namespace('dhcc.icare');
 /**
@@ -16,67 +16,67 @@ Ext.namespace('dhcc.icare');
 dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	/**
 	* @cfg {Json} columnModelFieldJson
-	*  类ext.websys.QueryBroker方法ReadRSNew的返回值
-	*  或
-	*  手动拼Json
-	* 格式如:
+	*  锟斤拷ext.websys.QueryBroker锟斤拷锟斤拷ReadRSNew锟侥凤拷锟斤拷值
+	*  锟斤拷
+	*  锟街讹拷拼Json
+	* 锟斤拷式锟斤拷:
 	{
-		'cms':[{header:'要求执行时间',dataIndex:'TExStDate'}], 
+		'cms':[{header:'要锟斤拷执锟斤拷时锟斤拷',dataIndex:'TExStDate'}], 
 		'fns':[{'name':'TExStDate','type':'string'}],
 		'pageSize': 15
 	};
 	*/
 	/**
-	* @cfg {String}  listClassName 后台Query类名
-	* 与listQueryName一起生成cm与store
-	* columnModelFieldJson为空对象时,通过listClassName与listQueryName生成columnModelFieldJson
+	* @cfg {String}  listClassName 锟斤拷台Query锟斤拷锟斤拷
+	* 锟斤拷listQueryName一锟斤拷锟斤拷锟斤拷cm锟斤拷store
+	* columnModelFieldJson为锟秸讹拷锟斤拷时,通锟斤拷listClassName锟斤拷listQueryName锟斤拷锟斤拷columnModelFieldJson
 	*/
     listClassName: '',
     /**
-    * @cfg {String} listQueryName 后台Query名字
-    * 与listClassName一起生成cm与store
+    * @cfg {String} listQueryName 锟斤拷台Query锟斤拷锟斤拷
+    * 锟斤拷listClassName一锟斤拷锟斤拷锟斤拷cm锟斤拷store
     */
     listQueryName: '',
     
     /**
-	* @cfg {Array} listProperties 后台Query的参数
+	* @cfg {Array} listProperties 锟斤拷台Query锟侥诧拷锟斤拷
     */
     listProperties: [],
       
    	/**
 	* @cfg {String} queryBroker
-	* 解析Query的元数据
+	* 锟斤拷锟斤拷Query锟斤拷元锟斤拷锟斤拷
 	*/
 	metaDataBroker: "ext.websys.QueryBroker",
 	/**
 	* @cfg {String} readMetaData
-	* 解析Query的元数据
+	* 锟斤拷锟斤拷Query锟斤拷元锟斤拷锟斤拷
 	*/
 	readMetaData: "ReadRSNew",
 	/**
 	* @cfg {String} dsUrl
-	* 获取store数据的地址
+	* 锟斤拷取store锟斤拷锟捷的碉拷址
 	*/	
 	dataUrl: "ext.websys.querydatatrans.csp",
 	/**
-	* @cfg {int} pageSize 必须的
-	*一页显示多少行数据
+	* @cfg {int} pageSize 锟斤拷锟斤拷锟斤拷
+	*一页锟斤拷示锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
 	*/	
 	/**
 	* @cfg {Array} dispalyCM
-	* 显示哪几个列
-	* 如: displayCM: [ARCIMDesc,ARCIMCode],
-	* ARCIMDesc-->cm的dataIndex
+	* 锟斤拷示锟侥硷拷锟斤拷锟斤拷
+	* 锟斤拷: displayCM: [ARCIMDesc,ARCIMCode],
+	* ARCIMDesc-->cm锟斤拷dataIndex
 	*/
 	/**
 	* @cfg {Array} hiddenCM
-	* 隐藏哪几列
-	* 如: hiddenCM: [ARCIMCode],
+	* 锟斤拷锟斤拷锟侥硷拷锟斤拷
+	* 锟斤拷: hiddenCM: [ARCIMCode],
 	*/
 	/**
-    * @cfg {String} lookupListComponetId websys.Lookup.List组件对应的ID 如:1872
-    * 在自定义列布局用到
-    * 如果值为websys.Lookup.List组件对应的ID,则双击列头会出现自定义界面
+    * @cfg {String} lookupListComponetId websys.Lookup.List锟斤拷锟斤拷锟斤拷应锟斤拷ID 锟斤拷:1872
+    * 锟斤拷锟皆讹拷锟斤拷锟叫诧拷锟斤拷锟矫碉拷
+    * 锟斤拷锟斤拷值为websys.Lookup.List锟斤拷锟斤拷锟斤拷应锟斤拷ID,锟斤拷双锟斤拷锟斤拷头锟斤拷锟斤拷锟斤拷锟皆讹拷锟斤拷锟斤拷锟斤拷
     */
 	lookupListComponetId: 1872,
 	/**!
@@ -85,29 +85,29 @@ dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			items: [{	
 				id: 'stopOrderMenuItem',
 				iconCls:'iconStop',
-				disabledStatu: {Statu_Disable:['D','S']},	//选中行的Statu字段值为 D或S 就禁止该item功能
+				disabledStatu: {Statu_Disable:['D','S']},	//选锟斤拷锟叫碉拷Statu锟街讹拷值为 D锟斤拷S 锟酵斤拷止锟斤拷item锟斤拷锟斤拷
 				handler: stopOrderHandler,
-				text: '停医嘱'
+				text: '停医锟斤拷'
 			},{	
 				id: 'addExecOrderMenuItem',	
-				disabledStatu: {Statu2_Display:['Prn']},	//选中行的Statu2字段值为Prn就显示该item功能
+				disabledStatu: {Statu2_Display:['Prn']},	//选锟斤拷锟叫碉拷Statu2锟街讹拷值为Prn锟斤拷锟斤拷示锟斤拷item锟斤拷锟斤拷
 				handler: cancelOrderHandler,
-				text: '增加执行医嘱'
+				text: '锟斤拷锟斤拷执锟斤拷医锟斤拷'
 			}]
 		});
 	*/
 	
 	/**!
-    * @cfg {Array} displayCM grid显示的列名集合 默认是通过后台query产生
+    * @cfg {Array} displayCM grid锟斤拷示锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷 默锟斤拷锟斤拷通锟斤拷锟斤拷台query锟斤拷锟斤拷
     * sample :
-    *后台 query包含多个字段现只要显示描述 displayCM: ['arcim']
+    *锟斤拷台 query锟斤拷锟斤拷锟斤拷锟斤拷锟街讹拷锟斤拷只要锟斤拷示锟斤拷锟斤拷 displayCM: ['arcim']
 	*/
 	//private
 	conditionCmp: [],
-	//private 优化grid,在查询时不再接受查询命令
+	//private 锟脚伙拷grid,锟节诧拷询时锟斤拷锟劫斤拷锟杰诧拷询锟斤拷锟斤拷
 	loadingflag: false,
     /**
-	* 刷新store
+	* 刷锟斤拷store
     * @method refreshData
     * @param {Object} paramConfig {P1: value1, P2: value2}
 	* @return void
@@ -119,7 +119,7 @@ dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		}					  
 	},
 	/**
-	* 处理后台返回的cm
+	* 锟斤拷锟斤拷锟斤拷台锟斤拷锟截碉拷cm
 	* @method cmHandler
 	* @param {Object} cm 
 	* @return cm
@@ -139,6 +139,7 @@ dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			this.getTopToolbar().items.each(function(item,index){
 				if(item.paramPosition){
 					that.conditionCmp.push(item);
+					that.store.baseParams["P"+(item.paramPosition)] = item.getValue();  
 					if(item.xtype == 'combo'){				
 						item.on('select', function(cb,r,index){					
 							var v =  cb.getValue();
@@ -159,17 +160,17 @@ dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			try{		
 				this.columnModelFieldJson =  Ext.decode(tkMakeServerCall(this.metaDataBroker,this.readMetaData, this.listClassName, this.listQueryName ));				
 			}catch(e){
-				alert("请正确配置listClassName与listQueryName属性");
+				alert("锟斤拷锟斤拷确锟斤拷锟斤拷listClassName锟斤拷listQueryName锟斤拷锟斤拷");
 			}
 		}
 		if(!this.columnModelFieldJson) {
-			alert("请配置columnModelFieldJson属性!");
+			alert("锟斤拷锟斤拷锟斤拷columnModelFieldJson锟斤拷锟斤拷!");
 			return "";
 		}
 			
 		this.pageSize = this.columnModelFieldJson.pageSize || this.pageSize;  	
 		if(!this.pageSize){
-			alert("pageSize属性是必须的!");
+			alert("pageSize锟斤拷锟斤拷锟角憋拷锟斤拷锟斤拷!");
 		}
 		var ds = new Ext.data.JsonStore ({
 			url: this.dataUrl,
@@ -182,7 +183,7 @@ dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
     	var cmslen = 0;
 		var i=0; 		
     	if(this.displayCM && this.displayCM["indexOf"] ){
-	    	//通过displayCM显示列
+	    	//通锟斤拷displayCM锟斤拷示锟斤拷
 	    	cmslen = cms.length;
 	    	for( i=0 ; i < cmslen ; i++){
 		    	if(this.displayCM.indexOf(cms[i].dataIndex)>-1){
@@ -192,7 +193,7 @@ dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				}	
 		    }
 	    }else if (this.hiddenCM && this.hiddenCM["indexOf"]){
-			//通过hiddenCM显示列
+			//通锟斤拷hiddenCM锟斤拷示锟斤拷
 	    	cmslen = cms.length;
 	    	for( i = 0 ; i < cmslen; i++){
 		    	if(this.hiddenCM.indexOf(cms[i].dataIndex)>-1){
@@ -210,7 +211,7 @@ dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		this.loadMask = true;
 		/*var myloadM;
 		if (Ext.isIE){
-			myloadM = new Ext.LoadMask(dhcc.icare.lookupconfig.lookupDiv, {msg:"正在加载数据...",store:this.store});
+			myloadM = new Ext.LoadMask(dhcc.icare.lookupconfig.lookupDiv, {msg:"锟斤拷锟节硷拷锟斤拷锟斤拷锟斤拷...",store:this.store});
 			//this.loadMask = myloadM;
 		}else{
 			myloadM = true;
@@ -223,7 +224,7 @@ dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			pageSize: that.pageSize, 
 			store: that.store, 
 			displayInfo: true , 
-			displayMsg: '{0}-{1},共{2}条'
+			displayMsg: '{0}-{1},锟斤拷{2}锟斤拷'
 		});
 		dhcc.icare.MixGridPanel.superclass.initComponent.call(this);		
 		this.addEvents('rightKeyMenuShow','pagingToolbarRender');
@@ -255,11 +256,11 @@ dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			var status = item.displayHandler || {};			//2012-04-18 wanghc
 			var arr,flag = true;
 			if('function' == typeof status){				
-				flag = status.call(this);	//this-->item 当前菜单项目
+				flag = status.call(this);	//this-->item 锟斤拷前锟剿碉拷锟斤拷目
 			}else if('object' == typeof status){
-				//{status1_Display:['A','B'],status2_Display:['C','D']}	二个条件是且的关系 二个条件都成立时才display
+				//{status1_Display:['A','B'],status2_Display:['C','D']}	锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟揭的癸拷系 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷时锟斤拷display
 				//{HIDDEN2_Disable:['U','E'],HIDDEN5_Display:['Y^Y^Y']}	
-				//statu 的格式是 cmitem名_Display或cmitem名_Disable					
+				//statu 锟侥革拷式锟斤拷 cmitem锟斤拷_Display锟斤拷cmitem锟斤拷_Disable					
 				for (statu in status){
 					if(status.hasOwnProperty(statu)){
 						arr = statu.split("_");							
@@ -268,7 +269,7 @@ dhcc.icare.MixGridPanel = Ext.extend(Ext.grid.GridPanel, {
 							flag = !flag;								
 						} 													
 					}
-					if (!flag){break;}					//不显示就跳出
+					if (!flag){break;}					//锟斤拷锟斤拷示锟斤拷锟斤拷锟斤拷
 				}	
 			}			
 			item.setDisabled(!flag);				
