@@ -1,0 +1,4024 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="dtwebsys.ComponentXRef">
+<Description>
+生成DTDTGCOM的类</Description>
+<IncludeCode>webgen</IncludeCode>
+<Owner>_SYSTEM</Owner>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Persistent</Super>
+<TimeChanged>63257,59540.623883</TimeChanged>
+<TimeCreated>61517,34039.770201</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="BUILD">
+<Default>592</Default>
+</Parameter>
+
+<Parameter name="MAJORVERSION">
+</Parameter>
+
+<Parameter name="MINORVERSION">
+</Parameter>
+
+<Parameter name="SQLCODE">
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+</Parameter>
+
+<Parameter name="SQLFILTER">
+</Parameter>
+
+<Parameter name="SQLROWID">
+</Parameter>
+
+<Parameter name="RTNPREFIX">
+<Default>DTGCOM</Default>
+</Parameter>
+
+<Parameter name="QUALIFIERS">
+<Description>
+/Complier Qualifiers /display=none</Description>
+<Default>/display=all</Default>
+</Parameter>
+
+<Method name="Gen">
+<Description>
+[Previously private]</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>cmpid:%Library.String,template:%Library.String,rtn:%Library.String,ActiveObject:%Library.String,ActiveReference:%Library.String,ActiveContext:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	
+	/*
+	; 说明
+	; rtn  = GTOM_ RowID _".1"
+	; UserClassName  对应的实体类名称
+	; WebClassName   Web包下的类名称
+	; t 数组 是消息数组
+	;cmpid , template , rtn, ActiveObject, ActiveReference, ActiveContext
+	s myCompName=cmp.Name
+	
+	s myRowID=cmpid
+	s myComponentID=myRowID
+	s myMacName=rtn			;..#RTNPREFIX_rtn_""
+	s myExt="MAC"
+	s myRoutine=myMacName_"."_myExt
+	s myWSVer=##class(websys.Component).GetCompiledVersion()
+	
+	; -------------------原版 Gen  使用的变量 名称 ----------------------------------------
+	s UserClassName="User."_myCompName
+	s WebClassName="web."_myCompName
+	
+	d ##class(websys.Component).GetComponentMessages(.t,myCompName)
+	
+	;------------------  end -------------------------------
+	
+	s myIdx=0
+	q 
+	
+	s ^TMPPreferenceGetData("Routine")=myRoutine
+	Set return = $$ROUTINE^%R(myRoutine, .code, .myErrors, myOptions)
+	b	;;
+	if (+return=""){
+		Write $$FMTERR^%R(.errors, .code), !
+	}else{
+		s myPoint="Start^"_myMacName
+	}
+	*/
+	
+	
+	;do ##class(web.DHCComponent).Gen(50151,"","","User.SSUser","804","W50002")
+	;do ##class(web.DHCComponent).Gen(50464,"","","SITE","DHCHealth","")
+	/*
+	s langid=101
+	s Appkey="LAYOUT"_ActiveContext
+	&SQL(Select ID into :id From websys.Preferences 
+		Where Appkey=:Appkey And Appsubkey=:cmpid And
+			  ObjectType=:ActiveObject And 
+			  ObjectReference=:ActiveReference)
+
+	if id="" Q 100
+
+	s App=ActiveObject_"."_ActiveReference
+	if ActiveContext="" {
+		&SQL(Select ID into :cmpxrefid From websys.ComponentXRef
+			Where ComponentId=:cmpid And App=:App And LangId=:langid)
+	}else{
+		&SQL(Select ID into :cmpxrefid From websys.ComponentXRef
+			Where ComponentId=:cmpid And Context=:ActiveContext And App=:App And LangId=:langid)
+	}
+
+	if SQLCODE {
+		Set obj=##class(websys.ComponentXRef).%New()
+		Set obj.ComponentId=cmpids
+		Set obj.Context=ActiveContext
+		Set obj.App=ActiveObject
+		Do obj.%Save()
+		Set id=obj.%Id()
+		Do obj.%Close()
+	}
+	
+	i cmpxrefid="" Q 100
+	*/
+	//do ##class(websys.ComponentXRef).Gen(4,"","DTGCOM66","SYS","SYS","")
+	s Appkey="LAYOUT"_ActiveContext
+	
+	s langid=%session.Data("LOGON.LANGID")
+	s SiteCode=%session.Data("LOGON.SITECODE")
+	;s langid=20,SiteCode="DHCHEALTH"
+	if template="" {
+		S LayOut=##Class(websys.Preferences).GetData(ActiveObject,ActiveReference,Appkey,cmpid)
+		if template="" {
+			Set objComp=##Class(websys.Component).%OpenId(cmpid)
+			s template=objComp.Template
+		}else{
+			S template=$LIST(LayOut,1)
+		}
+	}
+	
+	if ActiveContext="-100000000000000" s ActiveContext=""
+	s LayOut=template
+	s LayOut=$TRANSLATE(LayOut,$C(13,10))
+
+	Set objComp=##Class(websys.Component).%OpenId(cmpid)
+	Set style=objComp.Style
+	Set cmpname=objComp.Name
+	Set WebClassName=objComp.ClassName
+	Set UserClassName=..GetUserClassName(WebClassName)
+	Set QueryName=objComp.QueryName
+	Set CustomScript=objComp.CustomScript
+	Set Script=objComp.Script
+	Set disabled=objComp.Disabled
+	Set menus=objComp.Menus
+
+	Set DisplayType=objComp.DisplayType
+	Set QuerySQL=objComp.QuerySQL
+	//Set RoutineName="DHCGCOM"_cmpxrefid
+	Set RoutineName=rtn
+	
+	Set RoutineFile=RoutineName_".1.MAC"
+	d ..Init()
+	Do routine.WriteLine("Show(name,hidemenus,hideheadings,disabled,style,shownextinnewwindow,app,context,nested,listrowsx) ;")
+	Do routine.WriteLine(" n (%request,%session,%response,msg,name,hidemenus,hideheadings,disabled,style,shownextinnewwindow,app,context,nested,TWKFL,TWKFLI,TRELOADNEW,listrowsx,t)")
+	Do routine.WriteLine(" w ""<!-- COMPONENT "",!")
+	Do routine.WriteLine(" w ""Routine                  "",$ZN,!")
+	Do routine.WriteLine(" w ""Page Name                "",%request.PageName,!")
+	Do routine.WriteLine(" w ""Component ID             "_cmpid_""",!")
+	Do routine.WriteLine(" w ""Component Name           "_cmpname_""",!")
+	Do routine.WriteLine(" w ""websys.Component Version .51.1225 at 2007-01-23 12:49:42PM"",!")
+	Do routine.WriteLine(" w ""Component Version        6.42.71 on 2009-05-26 04:16:10PM"",!")
+	Do routine.WriteLine(" w ""Layout for               "_ActiveObject_"."_ActiveReference_" "_ActiveContext_""",!")
+	Do routine.WriteLine(" w ""-->"",!")
+
+	if (DisplayType="K")  {
+		Do routine.WriteLine(" d ShowListLookup^"_RoutineName_".L1(name,hidemenus,hideheadings)")
+		Do routine.WriteLine(" if '$g(tprint),$g(%session.Data(""LOGON.ALLOWLAYOUTMANAGER""))=""Y"" d")
+		Do routine.WriteLine(" . w ""<A HREF=""""javascript:websys_layout('"_cmpid_"','"",$g(%session.Data(""LOGON.LAYOUTMANAGER"")),""','"",$g(%request.Data(""CONTEXT"",1)),""');"""" title=""""websys.LookUp.List""""><img SRC=""""../images/websys/component.gif""""  BORDER=""""0""""></A>"" d ##class(websys.Component).ShowLayoutEditor()")
+		Do routine.WriteLine(" q")
+		
+		Do ..SaveRoutine()
+
+		d ..GenLookup()
+		Q
+	} 
+
+    Do routine.WriteLine(" s cls(""E"")=""clsInvalid"",cls(""W"")=""clsWarning"",cls(""I"")=""clsInfo""")
+    
+    ///打开消息对象,为后面的判断及生成Js提示用,
+    ///消息类型分为：Error,Warning,Information,Javascript
+	Do routine.WriteLine(" s msg=##class(websys.Message).%OpenId(%session.SessionId),TERROR="""",TDIRTY=""""")
+	
+	//下面这段话P8才有,配合定义在组件上的DSS规则,生成OnLoad事件消息
+	Do routine.WriteLine(" if $o(^websys.DSSEventI(""ComponentIndex"","" "_cmpid_""","" ONLOAD"","""")) {d ##class(websys.DSSActionType).doSomething($g(%request.Data(""ID"",1))_""^""_$g(%request.Data(""PARREF"",1))_""^""_$g(%request.Data(""PatientID"",1)),""C"","_cmpid_",""OnLoad"")} ") 
+	
+	Do routine.WriteLine(" i +$g(msg.Count)&($d(msg.Name("_cmpid_"))) {")
+	Do routine.WriteLine("	if (+$g(msg.Count(""E""))) { s TERROR=""E"" }")
+	Do routine.WriteLine("	elseif (+$g(msg.Count(""W""))) { s TERROR=""W"" }")
+	Do routine.WriteLine("	elseif (+$g(msg.Count(""I""))) { s TERROR=""I"" }")	
+	Do routine.WriteLine("	elseif (+$g(msg.Count(""J""))) { s TERROR=""J"" }")
+	Do routine.WriteLine("	s (msgitm,zdesc,zjdesc,zji)=""""")
+	Do routine.WriteLine("	s zdesc=""""")	
+ 	Do routine.WriteLine("	f   s msgitm=$o(msg.Item(msgitm)) q:msgitm=""""  s:$lg(msg.Item(msgitm),1)'=""J"" zdesc=zdesc_$zcvt($lg(msg.Item(msgitm),2),""O"",""JS"")_"": ""_$zcvt($lg(msg.Item(msgitm),3),""O"",""JS"")_"" \n"" i $lg(msg.Item(msgitm),1)=""J"" s zji=zji+1,$li(zjdesc,zji)=$lb($lg(msg.Item(msgitm),2),$lg(msg.Item(msgitm),6))")
+ 	if DisplayType="F" {
+	 	;如果为Find类型,会记录下当前提交查询的数据,当返回本页面时可以上次保留参数
+		Do routine.WriteLine(" } else {")
+ 		Do routine.WriteLine("	i $g(%request.Data(""TWKFL"",1)),$g(%request.Data(""TWKFLI"",1)) {")
+	 	Do routine.WriteLine("	 k formdata")
+ 		Do routine.WriteLine("	 i $g(^TMP(""find"",%session.SessionId))=$g(%request.Data(""TWKFL"",1)) {")
+ 		Do routine.WriteLine("	  m formdata=^TMP(""find"",%session.SessionId,+$g(%request.Data(""TWKFLI"",1))+1)")
+ 		Do routine.WriteLine("   }")
+ 		Do routine.WriteLine("  }")
+	}
+	Do routine.WriteLine(" }")
+		
+	Do routine.WriteLine(" s obj="""",tprint=$g(%request.Data(""TPRINT"",1)),warning="""" i style'="""" s style=""STYLE=""""""_style_""""""""")
+	//P8,好像是要求去CODETABLE SERVER 更新
+	if DisplayType="E" {
+	 	Do routine.WriteLine(" i '$lg($g(^websys.ConfigurationD(1)),28) s warning=$g(t(""XLOCKEDCT""),""CODE TABLE UPDATES DISABLED""),disabled=1")
+	 	Do routine.WriteLine(" i 'disabled,%session,$p($g(^CF(""SM"",1)),""^"",22)'="""",$zcvt($g(%session.Data(""SERVER_NAME"")),""U"")'=$zcvt($p($p($g(^CF(""SM"",1)),""^"",22),""|"",1),""U"")  s warning=$g(t(""XNOTCT""),""YOU MUST CONNECT TO THE CODE TABLE SERVER TO UPDATE THIS COMPONENT""),disabled=1")
+	}
+	;Do routine.WriteLine(" i style'="""" s style=""STYLE=""""""_style_""""""""")
+	Do routine.WriteLine(" w ""<DIV "",style,"" id=""""d"",$tr(name,""."",""_""),"""""" onkeydown=""""websys_help('websys.help.csp?XCOMPONENT="_cmpid_"&XCONTEXT="",context,""&XTWKFL="",$g(%request.Data(""TWKFL"",1)),""',event);"""">""")
+	;如果组件是edit类型的,会用到websys.Lock,提示信息可以改造
+	if DisplayType="E" {
+		Set UserClassName=..GetUserClassName(WebClassName)
+		Do routine.WriteLine(" s id=$g(%request.Data(""ID"",1))")
+		Do routine.WriteLine(" i id'="""" d")
+		Do routine.WriteLine(" . s obj=$$InvokeMethod^%apiOBJ("""_UserClassName_""",,""%OpenId"",id)")
+		Do routine.WriteLine(" . i 'disabled d")
+		Do routine.WriteLine(" . . ; Use OID as it contains class and ID for locking")
+		Do routine.WriteLine(" . . i obj,'##class(websys.Lock).Lock(obj.%Oid(),%session.SessionId,$g(%session.Data(""LOGON.USERID"")),.warning) d")
+		Do routine.WriteLine(" . . . s disabled=1")
+		Do routine.WriteLine(" i 'disabled d")
+		Do routine.WriteLine(" . i 'obj s obj=$zobjclassmethod("""_UserClassName_""",""%OpenId"",id,0) s warning=""Record is locked by MEDTRAK.""")
+		Do routine.WriteLine(" . i obj,warning=""Record is locked by MEDTRAK."" s disabled=1")
+		Do routine.WriteLine(" . i 'obj,warning=""Record is locked by MEDTRAK."" s warning="""" ;reset warning because object doesn't exist, not because of locking")
+		Do routine.WriteLine(" if id="""" d")
+		Do routine.WriteLine(" . s parref=$g(%request.Data(""PARREF"",1))")
+		Do routine.WriteLine(" . i parref="""" s obj=$zobjclassmethod("""_UserClassName_""",""%New"")")
+		Do routine.WriteLine(" . i parref'="""" s obj=$zobjclassmethod("""_UserClassName_""",""%New"",parref)")
+		Do routine.WriteLine(" . i ##class(websys.UserDefinedFunctions).Evaluate("""_$P(WebClassName,".",2)_""",""OnNew"")")
+	}
+
+	;显示组件菜单
+	Do routine.WriteLine(" i 'hidemenus d")
+	Do routine.WriteLine(" . s title="""" i name'="""" s title=$s($d(t(name)):t(name),1:"""") i title="""" s title=name")
+	Do routine.WriteLine(" . d ##class(websys.Menu).ShowMenuMS("""_menus_""",title,"_cmpid_",name)")
+	Do routine.WriteLine(" i warning'="""" w ""<DIV><STRONG><FONT COLOR=RED>"",warning,""</FONT></STRONG></DIV>""")
+	;以下应该是对Report的处理
+	Do routine.WriteLine(" i 'nested {")
+	Do routine.WriteLine("	s action=""websys.csp""")
+	Do routine.WriteLine("	i $g(%request.Data(""TREPORT"",1))'="""" {")
+	Do routine.WriteLine("		s rep=##class(websys.Report).%OpenId($g(%request.Data(""TREPORT"",1)))")
+	Do routine.WriteLine("		s urltocrystal=$lg(^websys.ConfigurationD(1),65)")
+	Do routine.WriteLine("		i rep,rep.Type=""Crystal"" {")
+	Do routine.WriteLine("			i urltocrystal="""" {")
+	Do routine.WriteLine("				s action=""../custom/""_$g(%session.Data(""LOGON.SITECODE""))_""/reports/""_rep.ReportUrl_"""" ")
+	Do routine.WriteLine("			} else {")
+	Do routine.WriteLine("				i $e(urltocrystal,$l(urltocrystal))'=""/"" s urltocrystal=urltocrystal_""/"" ")
+	Do routine.WriteLine("				s action=urltocrystal_rep.ReportUrl_"""" ")
+	Do routine.WriteLine("			}")
+	Do routine.WriteLine("		}")
+	Do routine.WriteLine("		i rep d rep.%Close()")
+	Do routine.WriteLine("	}")
+	Do routine.WriteLine("	w ""<FORM ACTION="""""",action,""""""""")
+	Do routine.WriteLine("	w "" method=post name=""""f"",$tr(name,""."",""_""),"""""" id=""""f"",$tr(name,""."",""_""),"""""">"",!")
+	Do routine.WriteLine("	w ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TFORM"""" VALUE="""""",name,"""""">"",!")
+	Do routine.WriteLine("	w ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TPAGID"""" VALUE="""""",$i(^websys.Counters(""tpagid"")),"""""">"",!")
+	Do routine.WriteLine("	w ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TEVENT"""" VALUE="""""""">"",!")
+	Do routine.WriteLine("	w ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TOVERRIDE"""" VALUE="""""""">"",!")
+	Do routine.WriteLine("	w:'$d(msg.IsDirty) ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TDIRTY"""" VALUE=""""1"""">"",!")
+	Do routine.WriteLine("	w:$d(msg.IsDirty) ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TDIRTY"""" VALUE=""""2"""">"",!")
+	Do routine.WriteLine("	w:TERROR="""" ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TWKFL"""" VALUE="""""",$g(%request.Data(""TWKFL"",1)),"""""">"",!")
+	Do routine.WriteLine("	w:TERROR'="""" ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TWKFL"""" VALUE="""""",$g(msg.Data(""TWKFL"",1)),"""""">"",!")
+	Do routine.WriteLine("	w:TERROR="""" ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TWKFLI"""" VALUE="""""",$g(%request.Data(""TWKFLI"",1)),"""""">"",!")
+	Do routine.WriteLine("	w:TERROR'="""" ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TWKFLI"""" VALUE="""""",$g(msg.Data(""TWKFLI"",1)),"""""">"",!")
+	Do routine.WriteLine("	w ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TWKFLL"""" VALUE="""""",$g(%request.Data(""TWKFLL"",1)),"""""">"",!")
+	Do routine.WriteLine("	w ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TWKFLJ"""" VALUE="""""",$g(%request.Data(""TWKFLJ"",1)),"""""">"",!")
+	Do routine.WriteLine("	w ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TREPORT"""" VALUE="""""",$g(%request.Data(""TREPORT"",1)),"""""">"",!")
+	Do routine.WriteLine("	w ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TRELOADID"""" VALUE="""""",$g(TRELOADNEW),"""""">"",!")
+	Do routine.WriteLine("	w ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TFRAME"""" VALUE="""""""">"",!")
+	Do routine.WriteLine("	w:$g(%request.Data(""TCONTEXT"",1))'="""" ""<INPUT TYPE=""""HIDDEN"""" NAME=""""TCONTEXT"""" VALUE="""""",$g(%request.Data(""TCONTEXT"",1)),"""""">"",!")
+	Do routine.WriteLine(" }")
+	
+	;取得元素属性;应该可以通过websys.Component.LoadTrans来生成数组,需要验证
+	;处理Hidden元素时也需要tc，所以放在前面
+	d ##class(websys.Translation).LoadContext(langid,cmpid,ActiveContext,ActiveObject,ActiveReference)
+	m ^DHCLOG("DTGCOM","tc")=tc
+
+	;先处理隐藏元素
+	Set DisableHTML=$s(disabled:"disabled ",1:"")
+	
+	;是否有表格
+	s HaveTableElement=0
+ 	s ItemsID=0  f  {
+	 	s ItemsID=$o(^websys.ComponentItemsD(cmpid,ItemsID)) 
+	 	q:ItemsID="" 
+		s objCompitem=##class(websys.ComponentItems).%OpenId(cmpid_"||"_ItemsID)
+		if objCompitem.Hidden'=1 continue
+		s LookupBrokerMethod=objCompitem.LookupBrokerMethod
+		s LookupClassName=objCompitem.LookupClassName
+		s displaytype=objCompitem.DisplayType
+		s ItemName=objCompitem.Name
+		s DefaultValueAlways=objCompitem.DefaultValueAlways
+		s DefaultValueExpression=objCompitem.DefaultValueExpression
+
+		Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_objCompitem.Name_""",1))!(0)) {")
+		Do routine.WriteLine(" 	s val=$g(msg.Data("""_objCompitem.Name_""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+		Do routine.WriteLine(" } else {")
+		Set valueget=objCompitem.ValueGet
+		set valueget=$p(valueget,";",1)  //wanghc OEOrdItem.ListEMR->AlternateResult ;PharmacyStatusz
+		set valueget=$p(valueget,"//",1) //还是有bug 如:s var=";"
+		if ($E(valueget,1)=";")!($E(valueget,1,2)="//") s valueget=""
+		e  s valueget= ..GenRequestData(valueget)
+		Do routine.WriteLine(" 	s val="""" i (1) {"_valueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+		Do routine.WriteLine(" }")
+		if displaytype="S" {
+			s CustomExpression=objCompitem.CustomExpression
+			Do routine.WriteLine(" "_CustomExpression)
+			continue
+		} 
+		if (LookupBrokerMethod'="") && (LookupClassName'="") {
+			Do routine.WriteLine(" s encmeth=##class(%CSP.Page).Encrypt($lb("""_LookupClassName_"."_LookupBrokerMethod_"""))") 
+			Do routine.WriteLine(" w ""<input "_DisableHTML_"id="""""_objCompitem.Name_""""" name="""""_objCompitem.Name_""""" type=""""hidden""""""_$s($g(msg.Name("""_cmpid_""","""_objCompitem.Name_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_objCompitem.Name_"""))_"""""""",1:"""")_""""_$s(disabled:"""",1:"" onchange="""""_objCompitem.Name_"_changehandler('""_encmeth_""');"""""")_"" value=""""""_val_"""""">"",!")
+			Continue
+		}
+		
+		if DefaultValueExpression'="" {
+			if (($ZConvert(DefaultValueExpression,"U"))'["##CLASS")&&((($ZConvert(DefaultValueExpression,"U"))'["$")){
+				s DefaultValueExpression=""""_DefaultValueExpression_""""
+			}
+
+			Do routine.WriteLine(" i ($g(val)'="""") s ITEMDATA("""_ItemName_""")=1")
+			if DefaultValueAlways=1 {
+				Do routine.WriteLine(" i TERROR=""""&($g(val)="""") { s val=$ZCVT("_DefaultValueExpression_",""O"",""HTML"") s:'$d(%request.Data("""_ItemName_""",1)) %request.Data("""_ItemName_""",1)="_DefaultValueExpression_" s:val'="""" TDIRTY=2}") 
+			}else{
+				Do routine.WriteLine(" s:$g(%request.Data(""TPAGCNT"",1))'="""" resetdef=1  i $g(%request.Data(""TFORM"",1))=name,$g(val)="""" s resetdef=1")
+				Do routine.WriteLine(" i TERROR=""""&($g(val)="""")&($g(%request.Data(""ID"",1))="""")&('$g(resetdef)) { s val=$ZCVT("_DefaultValueExpression_",""O"",""HTML"") s:'$d(%request.Data("""_ItemName_""",1)) %request.Data("""_ItemName_""",1)="_DefaultValueExpression_" }")
+			}
+		}
+ 		if (displaytype="C"){
+			//CHECKBOX
+			s shortcutkey=objCompitem.ShortcutKey
+			s style=objCompitem.Style
+			s tabIndex=objCompitem.TabSequence
+			i style'="" s style=" style="""""_style_""""""
+			if tabIndex="0" s tabIndex=""
+			i (tabIndex'="") s tabIndex=" tabIndex="""""_tabIndex_""""""
+			i shortcutkey'="" s shortcutkey=" accesskey="""""_shortcutkey_""""""
+			Do routine.WriteLine(" w ""<input "_DisableHTML_"id="""""_ItemName_""""" name="""""_ItemName_""""" type=""""hidden""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_""""_$s(val=""1"":"" CHECKED"",val=""on"":"" CHECKED"",val=""Y"":"" CHECKED"",val=""YD"":"" CHECKED DISABLED"",val=""D"":"" DISABLED"",1:"""")_"""_style_tabIndex_shortcutkey_" type=""""checkbox"""">"",!")
+ 		}else{
+			Do routine.WriteLine(" w ""<input "_DisableHTML_"id="""""_ItemName_""""" name="""""_ItemName_""""" type=""""hidden""""""_$s($g(msg.Name("""_cmpid_""","""_objCompitem.Name_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_objCompitem.Name_"""))_"""""""",1:"""")_"" value=""""""_val_"""""">"",!")
+ 		}
+		Do ..GenRoutine()
+ 	}
+	
+	;取得元素caption
+	//d ##class(websys.Translation).Load("COMP",20,3)
+	k t
+	d ##class(websys.Translation).Load("COMP",langid,cmpid)
+	;m ^DHCLOG("DTGCOM","t")=t
+	;s ^DHCLOG("DTGCOM","LayOut")=LayOut
+	;记录按钮元素和lookup元素数组用以生成Javascript
+	n ItemScript
+	;用来记录界面的第一个焦点元素名
+	s tabIndex=0,MintabIndexItemName="",MintabIndex=0
+	SET elementcount=$LENGTH(LayOut,"}")
+   	FOR k=1:1:elementcount {
+		Set LayOutTemp=$P(LayOut,"}",k)
+	   	if (k=elementcount) {
+			;Set LayOutTemp1=..GenDoubleQuote(LayOutTemp)
+			Set LayOutTemp1=##class(websys.Conversions).QuotedCacheString(LayOutTemp)
+			Do routine.WriteLine(" w """_LayOutTemp1_""",!")
+			continue
+	   	}
+		Set LayOutTemp1=$P(LayOutTemp,"{",1)
+		Set LayOutItemId=$P(LayOutTemp,"{",2)
+		
+		Set LayOutTemp1=##class(websys.Conversions).QuotedCacheString(LayOutTemp1)
+		Do routine.WriteLine(" w """_LayOutTemp1_""",!")
+		
+		if LayOutItemId="table" {
+			;如果没有定义Query则不执行Query查询Routine
+			if QuerySQL="" {
+				if (WebClassName="")||(QueryName="") continue
+			}
+			s HaveTableElement=1
+			Do routine.WriteLine(" d ShowList^"_RoutineName_".L1(name,hidemenus,hideheadings,disabled,style,shownextinnewwindow,app,context,nested,listrowsx)")
+		}else{
+			;因为ItemName也会有"i"字母存在
+			s ItemName=$P(LayOutItemId,"i",2,$length(LayOutItemId,"i"))
+			s LayOutItemType=$e(LayOutItemId,1)
+			;s compid=$e($p(TEVENT,"i",1),2,999)
+ 			;s itmname=$p(TEVENT,"i",2,99)
+
+			s ItemsID=$O(^websys.ComponentItemsI("Name",cmpid," "_$ZCVT($g(ItemName),"U"),0))
+			if ItemsID="" {
+				Do routine.WriteLine(" w ""{"_LayOutItemId_"}"",!") 
+				Continue
+			}
+		
+			;需要重新赋值,因为界面元素的名字组件指针值部分有可能不正确,可能是导组件造成的
+			s LayOutItemId=LayOutItemType_cmpid_"i"_ItemName
+			s objCompitem=##class(websys.ComponentItems).%OpenId(cmpid_"||"_ItemsID)
+			if objCompitem.Hidden {
+				Do routine.WriteLine(" w ""{"_LayOutItemId_"}"",!") 
+				Continue
+			}
+		
+			s src=objCompitem.Image
+			s displaytype=objCompitem.DisplayType
+			
+			s ShowInNewWindow=objCompitem.ShowInNewWindow
+			s LinkExpression=objCompitem.LinkExpression
+			s LinkUrl=objCompitem.LinkUrl
+			s LinkWorkFlow=objCompitem.LinkWorkFlow
+			s DataType=objCompitem.DataType
+			s Password=objCompitem.Password
+			s Disabled=objCompitem.Disabled
+			
+			s LookupClassName=objCompitem.LookupClassName
+			s LookupJavascriptFunction=objCompitem.LookupJavascriptFunction
+			s LookupProperties=objCompitem.LookupProperties
+			s LookupQueryName=objCompitem.LookupQueryName
+			s LookupBrokerMethod=objCompitem.LookupBrokerMethod
+			s DefaultValueAlways=objCompitem.DefaultValueAlways
+			s IconProfileId=objCompitem.IconProfile
+			
+			s shortcutkey=$G(tc(ItemName,"ShortcutKey"))
+			i shortcutkey="" s shortcutkey=objCompitem.ShortcutKey
+			
+			if $d(tc(ItemName,"Style")){
+				s style=tc(ItemName,"Style")
+			}else{
+				s style=objCompitem.Style
+			}
+			;表示是否显示为文本元素或者输入元素,适用于 TEXTBOX,TEXTAREA,LISTBOX,CHECKBOX type fields.
+			s DisplayOnly=objCompitem.DisplayOnly
+			if $d(tc(ItemName,"DisplayOnly")) s DisplayOnly=$G(tc(ItemName,"DisplayOnly"))
+			
+			s ReadOnly=objCompitem.ReadOnly
+			if $d(tc(ItemName,"ReadOnly")) s ReadOnly=$G(tc(ItemName,"ReadOnly"))
+			
+			s tooltip=objCompitem.Tooltip
+			if $d(tc(ItemName,"Tooltip")) s tooltip=$G(tc(ItemName,"Tooltip"))
+			
+			s CaptionStyle=objCompitem.CaptionStyle
+			if $d(tc(ItemName,"CaptionStyle")) s CaptionStyle=$G(tc(ItemName,"CaptionStyle"))
+
+			s tabIndex=$G(tc(ItemName,"TabSequence"))
+			
+			if $d(tc(ItemName,"DefaultValueExpression")){
+				s DefaultValueExpression=$G(tc(ItemName,"DefaultValueExpression"))
+			}else{	
+				s DefaultValueExpression=objCompitem.DefaultValueExpression
+			}
+			
+			//s DefaultValueAlways=$G(tc(ItemName,"DefaultValueAlways"))
+			s IconProfileId=$G(tc(ItemName,"IconProfile"))
+			
+			if $d(tc(ItemName,"Required")){
+				s Required=$G(tc(ItemName,"Required"))
+			}else{	
+				s Required=objCompitem.Required
+			}
+
+			;首先取组件翻译里的描述，如果不存在则取组件里定义
+			s ItemCaption=$g(t(ItemName))
+			if '$d(t(ItemName)) s ItemCaption=objCompitem.Caption
+			
+			
+			if LayOutItemType="c" {
+				if (displaytype'="A")&&(displaytype'="B"){
+					s ElementId=LayOutItemType_ItemName
+					if shortcutkey'="" {
+						s shortcutkey="(<u>"_shortcutkey_"</u>)"
+						s ItemCaption=ItemCaption_shortcutkey
+					}
+				
+					if Required="1" s Required=" CLASS=""""clsRequired"""""
+					else  s Required=""
+					Do routine.WriteLine(" w ""<label id="""""_ElementId_""""" "_Required_$s(CaptionStyle="":"",1:" style="""""_CaptionStyle_"""""")_">"_ItemCaption_"</label>"",!")
+				}
+				continue
+			}
+
+			;取valget定义
+			;CHECKBOX
+			Set ErrorFlag=0
+			if displaytype="C" Set ErrorFlag=1
+			
+	  		Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_ItemName_""",1))!("_ErrorFlag_")) {")
+	  		Do routine.WriteLine(" 	s val=$g(msg.Data("""_ItemName_""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+			Do routine.WriteLine(" } else {")
+			
+			s valueget=objCompitem.ValueGet
+			;代表被注释了
+			set valueget=$p(valueget,";",1)  //wanghc OEOrdItem.ListEMR->AlternateResult ;PharmacyStatusz
+			set valueget=$p(valueget,"//",1) //还是有bug 如:s var=";"
+			if ($E(valueget,1)=";")!($E(valueget,1,2)="//") s valueget=""
+			if displaytype="L" {
+				if valueget'="" s valueget=" "_objCompitem.ValueGet
+				Do routine.WriteLine(" 	s val="""""_valueget_"  s val=$g(val)")	
+			}else{
+				if valueget'="" s valueget=..GenRequestData(objCompitem.ValueGet)
+				Do routine.WriteLine(" 	s val="""" i (1) {"_valueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+			}
+			Do routine.WriteLine(" }")
+			
+			if src'="" {
+				if (($ZConvert(src,"U"))'["##CLASS")&&((($ZConvert(src,"U"))'["$")){
+					Do routine.WriteLine(" s src=""../images/"_src_"""")
+				}else{
+					Do routine.WriteLine(" s src=$s(obj:"_src_",1:"""") i src'="""" s src=""../images/""_src")
+				}
+			}else{
+				if (displaytype="A")||((displaytype="B"))  {
+					Do routine.WriteLine(" s src=""""")
+				}
+			}
+			
+			;界面编辑器里默认值设置
+			if DefaultValueExpression'="" {
+				;debug
+				;Do routine.WriteLine(" ///"_DefaultValueExpression)
+				;如果定义的是类方法,连接串就要有变化
+				if (($ZConvert(DefaultValueExpression,"U"))'["##CLASS")&&((($ZConvert(DefaultValueExpression,"U"))'["$")){
+					s DefaultValueExpression=""""_DefaultValueExpression_""""
+				}
+
+				if DefaultValueAlways=1 {
+					Do routine.WriteLine(" i TERROR=""""&($g(val)="""") { s val=$ZCVT("_DefaultValueExpression_",""O"",""HTML"") s:'$d(%request.Data("""_ItemName_""",1)) %request.Data("""_ItemName_""",1)="_DefaultValueExpression_" s:val'="""" TDIRTY=2}") ;wanghc 去了DefaultValueExpression二头的""
+				}else{
+					Do routine.WriteLine(" s:$g(%request.Data(""TPAGCNT"",1))'="""" resetdef=1  i $g(%request.Data(""TFORM"",1))=name,$g(val)="""" s resetdef=1")
+					Do routine.WriteLine(" i TERROR=""""&($g(val)="""")&($g(%request.Data(""ID"",1))="""")&('$g(resetdef)) { s val=$ZCVT("_DefaultValueExpression_",""O"",""HTML"") s:'$d(%request.Data("""_ItemName_""",1)) %request.Data("""_ItemName_""",1)="_DefaultValueExpression_" }")
+				}
+			}
+
+			Set tooltip=$tr(tooltip,"""","'")
+			if tooltip'="" {
+				Do routine.WriteLine(" s tooltip="""_tooltip_""" s tooltip=$ZCVT(tooltip,""O"",""HTML"")")
+				Set tooltipHTML="""_$s($g(tooltip)'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+			}else{
+				Do routine.WriteLine(" s tooltip="""_tooltip_"""")
+				Set tooltipHTML=""
+			}
+			
+			;如果元素定义为disabled,优先级高于组件的disabeled定义
+			Set disabledHTML=""
+			if Disabled s disabledHTML=" disabled "
+			
+			s styleHTML=""
+			i style'="" s styleHTML=" style="""""_style_""""""
+			
+			if displaytype="B" {
+				;BUTTON
+				if tabIndex>0 {
+					if MintabIndex=0 {
+						s MintabIndex=tabIndex
+						s MintabIndexItemName=ItemName
+					}else{
+						if tabIndex<MintabIndex {
+							s MintabIndex=tabIndex
+							s MintabIndexItemName=ItemName
+						}
+					}
+				}
+				s ItemScript(ItemsID)="d"_cmpid_"i"_ItemName_"^"_tabIndex
+			
+				;i style'="" s style=" style="""""_style_""""""
+				if (tabIndex="0")!(tabIndex="") {
+					s tabIndexHTML=""
+				}else{
+					s tabIndexHTML=" tabIndex="""""_tabIndex_""""""
+				}
+				;判断名称里是否有重复的快捷方式字符定义
+				if shortcutkey'="" {
+					if $length(ItemCaption,shortcutkey)>1 {
+						s ItemCaption=$P(ItemCaption,shortcutkey,1)_"(<u>"_shortcutkey_"</u>)"_$P(ItemCaption,shortcutkey,2)
+					}else{
+						s ItemCaption=ItemCaption_"(<u>"_shortcutkey_"</u>)"
+					}
+					;s shortcutkey="(<u>"_shortcutkey_"</u>)"
+				}
+				s classHTML=" class="""""_"button4"_""""""
+				;修改button到新的样式
+				if ItemCaption'="" {	;为按钮增加button4样式, 去掉小图标
+					Do routine.WriteLine(" w ""<a href=""""#"""" id="""""_ItemName_""""" name="""""_ItemName_""""""_styleHTML_classHTML_tabIndexHTML_"""_$s(tooltip'="""":"" title=""""""_tooltip_"""""""",1:"""")_""><SPAN>"_ItemCaption_"</SPAN></A>"",!")
+				}elseif (src'=""){	;没有Caption就显示小图标
+					Do routine.WriteLine(" w ""<a href=""""#"""" id="""""_ItemName_""""" name="""""_ItemName_""""""_styleHTML_tabIndexHTML_"""_$s(tooltip'="""":"" title=""""""_tooltip_"""""""",1:"""")_"">""_$s(src'="""":""<img SRC=""""""_src_"""""" BORDER=""""0"""">"",1:"""")_""<SPAN>"_ItemCaption_"</SPAN></A>"",!")
+				}
+				;Do routine.WriteLine(" w ""<a href=""""#"""" id="""""_ItemName_""""" name="""""_ItemName_""""""_styleHTML_tabIndexHTML_"""_$s(tooltip'="""":"" title=""""""_tooltip_"""""""",1:"""")_"">""_$s(src'="""":""<img SRC=""""""_src_"""""" BORDER=""""0"""">"",1:"""")_"""_ItemCaption_"</A>"",!")
+				Do ..GenRoutine()
+			}elseif (displaytype="A"){
+				;LINK				
+				s ItemScript(ItemsID)="d"_cmpid_"i"_ItemName_"^"_tabIndex
+				if (tabIndex="") {
+					s tabIndexHTML=""
+				}else{
+					s tabIndexHTML=" tabIndex="""""_tabIndex_""""""
+				}
+				if tooltip'="" {
+					Set tooltipHTML="""_$s(tooltip'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+				}
+				if shortcutkey'="" {
+					if $length(ItemCaption,shortcutkey)>1 {
+						s ItemCaption=$P(ItemCaption,shortcutkey,1)_"(<u>"_shortcutkey_"</u>)"_$P(ItemCaption,shortcutkey,2)
+					}else{
+						s ItemCaption=ItemCaption_"(<u>"_shortcutkey_"</u>)"
+					}
+					;s shortcutkey="(<u>"_shortcutkey_"</u>)"
+				}
+				Do routine.WriteLine(" s TWKFL=$g(%request.Data(""TWKFL"",1)),TWKFLI=$g(%request.Data(""TWKFLI"",1)),TWKFLL=$g(%request.Data(""TWKFLL"",1)),TWKFLJ=$g(%request.Data(""TWKFLJ"",1)),tpagid=$i(^websys.Counters(""tpagid""))")
+				//if $EXTRACT(LinkExpression,2)'="&" s LinkExpression="&"_LinkExpression
+				
+				
+				;如果linkurl定义为“NONE”,则不产生链接语法
+				if LinkUrl'="NONE" {
+					if (ShowInNewWindow'="") {
+						if LinkWorkFlow'="" {
+							s LinkExpression="""&TWKFL="_LinkWorkFlow_$s(LinkExpression="":"""",1:"""_"_LinkExpression)
+						}
+						if LinkExpression'="" s LinkExpression="_"_LinkExpression
+						Do routine.WriteLine(" w ""<A id="""""_ItemName_""""" name="""""_ItemName_""""" HREF=""""#"""" onClick=""""websys_lu('websys.csp?TEVENT=d"_cmpid_"i"_ItemName_"&TPAGID=""_tpagid"_LinkExpression_"_""',false,'"_ShowInNewWindow_"');return false;"""""_styleHTML_tabIndexHTML_tooltipHTML_">""") 
+					}else{
+						if LinkWorkFlow="" {
+							if LinkExpression'="" s LinkExpression="_"_LinkExpression
+							Do routine.WriteLine(" w ""<A id="""""_ItemName_""""" name="""""_ItemName_""""" HREF=""""websys.csp?TEVENT=d"_cmpid_"i"_ItemName_"&TPAGID=""_tpagid_$s(TWKFL'="""":""&TWKFL=""_TWKFL,1:"""")_$s(TWKFLI'="""":""&TWKFLI=""_TWKFLI,1:"""")_$s(TWKFLL'="""":""&TWKFLL=""_TWKFLL,1:"""")_$s(TWKFLJ'="""":""&TWKFLJ=""_TWKFLJ,1:"""")_""&TRELOADID=""_$g(TRELOADNEW)"_LinkExpression_"_"""""""_styleHTML_tabIndexHTML_tooltipHTML_">"" ")
+						}else{
+							s LinkExpression="_""&TWKFL="_LinkWorkFlow_"&TRELOADID=""_$g(TRELOADNEW)"_$s(LinkExpression="":"",1:"_"_LinkExpression)
+							Do routine.WriteLine(" w ""<A id="""""_ItemName_""""" name="""""_ItemName_""""" HREF=""""websys.csp?TEVENT=d"_cmpid_"i"_ItemName_"&TPAGID=""_tpagid"_LinkExpression_"_"""""""_styleHTML_tabIndexHTML_tooltipHTML_">""")
+						}
+					}
+				}
+				Do routine.WriteLine(" w $s(src'="""":""<img SRC=""""""_src_"""""" BORDER=""""0"""">"",1:"""")")
+				Do routine.WriteLine(" w """_ItemCaption_"</A>"",!")
+				Do ..GenRoutine()
+			}elseif (displaytype="T"){
+				;TEXTBOX
+				;如果DisplayOnly=1 ,则认为是一个label元素，否则为TextBox
+				if Disabled {
+					Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""""_disabledHTML_"name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_styleHTML_tooltipHTML_" value=""""""_val_"""""">"",!")
+					continue
+				}
+				if ReadOnly {
+					Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_styleHTML_" READONLY class='clsReadOnly'"_tooltipHTML_" value=""""""_val_"""""">"",!")
+					continue
+				}
+				if DisplayOnly'=1 {
+					if (Required="1"){
+						s ItemRequire(ItemsID)="d"_cmpid_"i"_ItemName_"^"_tabIndex
+					}
+					;如果默认值不为空,将元素名记录到数组,提供给后面的生成TK_init方法要用
+					if DefaultValueExpression'="" {
+						s ItemDefault(ItemsID)="d"_cmpid_"i"_ItemName_"^"_tabIndex
+						Do routine.WriteLine(" i ($g(val)'="""") s ITEMDATA("""_ItemName_""")=1")
+					}
+					
+					;if style'="" s style=" style="""""_style_""""""
+					if (tabIndex="0")!(tabIndex="") {
+						s tabIndexHTML=""
+					}else{
+						s tabIndexHTML=" tabIndex="""""_tabIndex_""""""
+					}
+					if shortcutkey'="" s shortcutkey=" accesskey="""""_shortcutkey_""""""
+					if (DataType="%Date")!(DataType="%Library.Date") {
+						s ImageElementId="ld"_cmpid_"i"_ItemName
+						Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_styleHTML_tabIndexHTML_shortcutkey_" value=""""""_val_"""""">""_$s(disabled:"""",1:""<IMG id="""""_ImageElementId_""""" name="""""_ImageElementId_""""" src=""""../images/websys/lookupdate.gif"""">"")_"""",!")
+						s ItemScript(ItemsID)="d"_cmpid_"i"_ItemName_"^"_tabIndex
+					}elseif (DataType="%Time")!(DataType="%Library.Time"){
+						Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_tabIndexHTML_styleHTML_shortcutkey_" value=""""""_val_"""""">"",!")
+						s ItemScript(ItemsID)="d"_cmpid_"i"_ItemName_"^"_tabIndex
+					}elseif (DataType[("%Integer"))!(DataType[("%Library.Integer")){
+						s ItemScript(ItemsID)="d"_cmpid_"i"_ItemName_"^"_tabIndex
+						Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_tabIndexHTML_styleHTML_shortcutkey_" value=""""""_val_"""""">"",!")
+					}elseif Password=1 {
+						;password
+						Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_""""" type=""""password""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_styleHTML_tabIndexHTML_shortcutkey_tooltipHTML_" value=""""""_val_"""""">"",!")
+					}else{
+						;Lookup
+						if (LookupQueryName'="") &&(LookupClassName'=""){
+							s ImageElementId="ld"_cmpid_"i"_ItemName
+							if LookupBrokerMethod'=""{
+								Do routine.WriteLine(" s encmeth=##class(%CSP.Page).Encrypt($lb("""_LookupClassName_"."_LookupBrokerMethod_"""))")
+								Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_styleHTML_tabIndexHTML_shortcutkey_"""_$s(disabled:"""",1:"" onchange="""""_ItemName_"_changehandler('""_encmeth_""');"""""")_"""_tooltipHTML_" value=""""""_val_"""""">""_$s(disabled:"""",1:""<IMG id="""""_ImageElementId_""""" name="""""_ImageElementId_""""" src=""""../images/websys/lookup.gif"""">"")_"""",!")
+							}else{
+								Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_styleHTML_tabIndexHTML_shortcutkey_tooltipHTML_" value=""""""_val_"""""">""_$s(disabled:"""",1:""<IMG id="""""_ImageElementId_""""" name="""""_ImageElementId_""""" src=""""../images/websys/lookup.gif"""">"")_"""",!")
+							}
+							s ItemScript(ItemsID)="d"_cmpid_"i"_ItemName_"^"_tabIndex
+						}else{
+							Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""""_disabledHTML_"name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_tabIndexHTML_styleHTML_shortcutkey_tooltipHTML_" value=""""""_val_"""""">"",!")
+						}
+					}
+					if tabIndex>0 {
+						if MintabIndex=0 {
+							s MintabIndex=tabIndex
+							s MintabIndexItemName=ItemName
+						}else{
+							if tabIndex<MintabIndex {
+								s MintabIndex=tabIndex
+								s MintabIndexItemName=ItemName
+							}
+						}
+					}
+
+				}else{
+			 		Do routine.WriteLine(" w ""<label id="""""_ItemName_""""" name="""""_ItemName_""""" value=""""""_$g(val)_"""""""_styleHTML_">""_$s(val'="""":val,1:""&nbsp;"")_""</label>"" ") 
+				}
+				Do ..GenRoutine()
+			}elseif (displaytype="TA"){
+				;TEXTAREA
+				i style'="" s style=" style="""""_style_""""""
+				if tabIndex="0" s tabIndex=""
+				s ItemScript(ItemsID)="d"_cmpid_"i"_ItemName_"^"_tabIndex
+				i (tabIndex'="") s tabIndex=" tabIndex="""""_tabIndex_""""""
+				i shortcutkey'="" s shortcutkey=" accesskey="""""_shortcutkey_""""""
+				Do routine.WriteLine(" s encmeth=##class(%CSP.Page).Encrypt($lb(""epr.CannedText.LookUpCodeBroker""))")
+				if 'Disabled {
+					s disabledHTML=" ""_$s(disabled:""READONLY class='disabledField' "",1:"""")_"""
+				}
+ 				Do routine.WriteLine(" w ""<textarea"_disabledHTML_"id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s('disabled:"" onkeydown="""""_ItemName_"_keydownhandler('""_encmeth_""');"""""",1:"""")_"""_style_tabIndex_shortcutkey_"""_$s(tooltip'="""":"" title=""""""_tooltip_"""""""",1:"""")_"">""_val_""</textarea>"",!")
+			}elseif (displaytype="C"){
+				//CHECKBOX
+				i style'="" s style=" style="""""_style_""""""
+				if tabIndex="0" s tabIndex=""
+				i (tabIndex'="") s tabIndex=" tabIndex="""""_tabIndex_""""""
+				i shortcutkey'="" s shortcutkey=" accesskey="""""_shortcutkey_""""""
+				if 'Disabled {
+					s disabledHTML=" ""_$s(disabled:""disabled "",1:"""")_"""
+				}
+				
+				Do routine.WriteLine(" w ""<input"_disabledHTML_"id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_""""_$s(val=""1"":"" CHECKED"",val=""on"":"" CHECKED"",val=""Y"":"" CHECKED"",val=""YD"":"" CHECKED DISABLED"",val=""D"":"" DISABLED"",1:"""")_"""_style_tabIndex_shortcutkey_" type=""""checkbox"""">"",!")
+			}elseif (displaytype="IP"){
+				//ICONPROFILE   epr.CTIconProfile
+				Do routine.WriteLine(" d ##class(epr.CTIconProfile).Show("""_cmpid_""","""_LayOutItemId_""","""_IconProfileId_""",val) k ARY")
+			}elseif (displaytype="S"){
+				//CUSTOM  ,如果放到界面上sh,就在界面相应的位置执行CustomExpression
+				Set CustomExpression=objCompitem.CustomExpression
+				if style'="" {
+					Do routine.WriteLine(" s style="""_style_"""")
+				}
+				if CustomExpression'="" {
+					Do routine.WriteLine(" "_CustomExpression)
+				}
+			}elseif (displaytype="R") {
+				//RTF  需要用到epr.CannedText.LookUpCodeBroker"
+				if style'="" s style=" style="""""_style_""""""
+				if tabIndex="0" s tabIndex=""
+				if tabIndex'="" s tabIndex=" tabIndex="""""_tabIndex_""""""
+				if shortcutkey'="" s shortcutkey=" accesskey="""""_shortcutkey_""""""
+				Do routine.WriteLine(" w ""<OBJECT classid=""""CLSID:B5B5AF17-CE26-4B52-89F6-D7AFA885484C"""" VIEWASTEXT CODEBASE=""""../addins/client/tkRichText.CAB#version=1,0,0,52"""" id="""""_ItemName_""""" name="""""_ItemName_""""""_style_tabIndex_shortcutkey_"><PARAM NAME=""""TextRTF"""" VALUE=""""""_$ZCVT(val,""O"",""HTML"")_""""""><PARAM NAME=""""Title"""" VALUE=""""""_tooltip_"""""">""_$s(disabled:""<PARAM NAME=""""ReadOnly"""" VALUE=""""0"""">"",1:"""")_""</OBJECT>"",!")
+				Do routine.WriteLine(" s encmeth=##class(%CSP.Page).Encrypt($lb(""epr.CannedText.LookUpCodeBroker""))")
+				Do routine.WriteLine(" w:'disabled ""<SCRIPT LANGUAGE=javascript FOR="_ItemName_" EVENT=onkeydown(keycode,shift)>"_ItemName_"_keydownhandler('""_encmeth_""',keycode);</SCRIPT>"",!")
+			}elseif (displaytype="CT"){
+				if style'="" s style=" style="""""_style_""""""
+				if tabIndex="0" s tabIndex=""
+				if tabIndex'="" s tabIndex=" tabIndex="""""_tabIndex_""""""
+				if shortcutkey'="" s shortcutkey=" accesskey="""""_shortcutkey_""""""
+				Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_tabIndex_style_shortcutkey_" value=""""""_val_"""""">"",!")
+			}elseif (displaytype="L"){
+				if style'="" s style=" style="""""_style_""""""
+				if tabIndex="0" s tabIndex=""
+				if tabIndex'="" s tabIndex=" tabIndex="""""_tabIndex_""""""
+				if shortcutkey'="" s shortcutkey=" accesskey="""""_shortcutkey_""""""
+				
+				Do routine.WriteLine(" n rs,code,desc,PX,params,value")
+				//List上也可以定义query,List上的code和desc分别为query返回数据集的1,2位
+				if LookupQueryName'="" {
+					/*
+					s ImageElementId="ld"_cmpid_"i"_ItemName
+					if LookupBrokerMethod'=""{
+						Do routine.WriteLine(" s encmeth=##class(%CSP.Page).Encrypt($lb("""_LookupClassName_"."_LookupBrokerMethod_"""))")
+						Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_style_tabIndexHTML_shortcutkey_"""_$s(disabled:"""",1:"" onchange="""""_ItemName_"_changehandler('""_encmeth_""');"""""")_"""_tooltipHTML_" value=""""""_val_"""""">""_$s(disabled:"""",1:""<IMG id="""""_ImageElementId_""""" name="""""_ImageElementId_""""" src=""""../images/websys/lookup.gif"""">"")_"""",!")
+					}else{
+						Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_style_tabIndexHTML_shortcutkey_tooltipHTML_" value=""""""_val_"""""">""_$s(disabled:"""",1:""<IMG id="""""_ImageElementId_""""" name="""""_ImageElementId_""""" src=""""../images/websys/lookup.gif"""">"")_"""",!")
+					}
+					*/
+					Do routine.WriteLine(" s rs=##Class(%Library.ResultSet).%New("""_LookupClassName_"."_LookupQueryName_""")")
+ 					;s tooltip=""   ///前面已经实现
+					Do routine.WriteLine(" s value="",""_val_"",""")
+					Do routine.WriteLine(" i (rs) {")
+					Do routine.WriteLine(" s params=rs.GetParamCount()")
+					Do routine.WriteLine(" f j=1:1:params s PX(j)=""""")
+					if LookupProperties'="" {
+						f i=1:1:$length(LookupProperties,",") {
+							s LookupPropertyName=$P(LookupProperties,",",i)
+							Do routine.WriteLine(" s PX("_i_")="_LookupPropertyName)
+						}
+					}
+
+					Do routine.WriteLine(" d:params=0 rs.Execute()")
+					Do routine.WriteLine(" d:params=1 rs.Execute(PX(1))")
+					Do routine.WriteLine(" d:params=2 rs.Execute(PX(1),PX(2))")
+					Do routine.WriteLine(" d:params=3 rs.Execute(PX(1),PX(2),PX(3))")
+					Do routine.WriteLine(" d:params=4 rs.Execute(PX(1),PX(2),PX(3),PX(4))")
+					Do routine.WriteLine(" d:params=5 rs.Execute(PX(1),PX(2),PX(3),PX(4),PX(5))")
+					Do routine.WriteLine(" d:params=6 rs.Execute(PX(1),PX(2),PX(3),PX(4),PX(5),PX(6))")
+					Do routine.WriteLine(" d:params=7 rs.Execute(PX(1),PX(2),PX(3),PX(4),PX(5),PX(6),PX(7))")
+					Do routine.WriteLine(" d:params=8 rs.Execute(PX(1),PX(2),PX(3),PX(4),PX(5),PX(6),PX(7),PX(8))")
+					Do routine.WriteLine(" s code=1,desc=2")
+					Do routine.WriteLine(" i rs.GetColumnCount()<2 s desc=1")
+					Do routine.WriteLine(" }")
+					Do routine.WriteLine(" w ""<select ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_""""" multiple size=4"_style_tabIndex_shortcutkey_"""_$s(tooltip'="""":"" title=""""""_tooltip_"""""""",1:"""")_"">"",!")
+					Do routine.WriteLine(" i rs f  q:'rs.Next()  w ""<option ""_$s(value[("",""_rs.GetData(code)_"",""):""selected "",1:"""")_"" value=""""""_rs.GetData(code)_"""""">""_rs.GetData(desc)_""</option>""")
+					Do routine.WriteLine(" w ""</select>"",!")
+					Do routine.WriteLine(" i rs d rs.Close()")
+				}else{
+					Do routine.WriteLine(" s value="",""_val_"",""")
+					Do routine.WriteLine(" w ""<select ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_""""" multiple size=4"_style_tabIndex_shortcutkey_"""_$s(tooltip'="""":"" title=""""""_tooltip_"""""""",1:"""")_"">"",!")
+					Do routine.WriteLine(" w ""</select>"",!")
+					Do ..GenRoutine()
+				}
+			}
+		}
+	}
+	Do routine.WriteLine(" i 'nested w ""</FORM>"",!")
+	
+	if ActiveObject="User.SSUser"{
+		s genjsname=cmpname_"_U"_ActiveReference_$s(ActiveContext'="":"_W"_ActiveContext,1:"")_".js"
+	}elseif ActiveObject="User.SSGroup"{
+		s genjsname=cmpname_"_G"_ActiveReference_$s(ActiveContext'="":"_W"_ActiveContext,1:"")_".js"
+	}else{
+		s genjsname=cmpname_$s(ActiveContext'="":"_W"_ActiveContext,1:"")_".js"
+	}
+	s jsname=cmpname_".js"
+	
+	;生成应用的javascript
+	;s genjsname="DHC"_genjsname
+	Do routine.WriteLine(" s tmp=""../scripts_gen/V7/"_genjsname_"""")
+	Do routine.WriteLine(" w ""<SCRIPT SRC="""""",tmp,""""""></SCRIPT>"",!")
+	if Script=1 {
+		Do routine.WriteLine(" w ""<SCRIPT SRC=""""../scripts/"_jsname_"""""></SCRIPT>"",!")
+	}
+	;P8不判断是否要查找custom下的js,也许是个bug,现在不修改,怕影响现有程序
+	;if CustomScript=1 {
+		Do routine.WriteLine(" w ""<SCRIPT SRC=""""../custom/""_$g(%session.Data(""LOGON.SITECODE""))_""/scripts/"_jsname_"""""></SCRIPT>"",!")
+	;}
+	s OtherScripts=objComp.OtherScripts
+	if OtherScripts'="" {
+		for j=1:1:$length(OtherScripts,",") {
+			s otherjsname=$P(OtherScripts,",",j)
+			Do routine.WriteLine(" w ""<SCRIPT SRC=""""../scripts/"_otherjsname_"""""></SCRIPT>"",!")
+		}
+	}
+
+	Do routine.WriteLine(" w ""<SCRIPT>"",!")
+	
+	;生成数组变量，记录元素标题,快捷键，和Message
+	Do routine.WriteLine(" w ""var tsc=new Array();"",!")
+	Set ItemsID=0 for {
+		Set ItemsID=$o(^websys.ComponentItemsD(cmpid,ItemsID)) 
+	 	Quit:ItemsID=""
+		Set objCompitem=##class(websys.ComponentItems).%OpenId(cmpid_"||"_ItemsID)
+		Set hidden=objCompitem.Hidden
+		Set displaytype=objCompitem.DisplayType
+		Set ItemName=objCompitem.Name
+		s ItemCaption=$g(t(ItemName))
+		if '$d(t(ItemName)) s ItemCaption=objCompitem.Caption
+		Do routine.WriteLine(" w ""t['"_ItemName_"']="_##class(%CSP.Page).QuoteJS(ItemCaption)_";"",!")
+		if hidden'=1 {
+			if (displaytype="B")||(displaytype="A")  {
+				s ShortcutKey=$G(tc(ItemName,"ShortcutKey"))
+				if ShortcutKey="" s ShortcutKey=objCompitem.ShortcutKey
+				if ShortcutKey'="" {
+					Do routine.WriteLine(" w ""try {"",!")
+					Do routine.WriteLine(" w ""tsc['"_ItemName_"']='"_ShortcutKey_"';"",!")
+					Do routine.WriteLine(" w ""websys_sckeys['"_ShortcutKey_"']="_ItemName_"_click;"",!")
+					Do routine.WriteLine(" w ""} catch(e) {};"",!")
+					Do ..GenRoutine()
+				}
+			}
+		}
+	}
+
+	;生成列元素的title数组,##class(%CSP.Page).QuoteJS的作用是将单引号"'"加上通配符"\'\'"
+	Set TableItemsID=0 for {
+		Set TableItemsID=$o(^websys.ComponentTableItemsD(cmpid,TableItemsID))
+		Quit:TableItemsID=""
+		Set colname=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),19)
+		Do routine.WriteLine(" w ""t['"_colname_"']="_##class(%CSP.Page).QuoteJS($s($d(t(colname)):t(colname),1:colname))_";"",!")
+		Do ..GenRoutine()
+	}
+
+	;根据组件Message定义生成数组
+	Set MessageID=0 for {
+		Set MessageID=$o(^websys.ComponentD(cmpid,"Messages",MessageID))
+		Quit:MessageID=""
+		Set MessageCode=$lg(^websys.ComponentD(cmpid,"Messages",MessageID),1)
+		Set MesageDesc=$lg(^websys.ComponentD(cmpid,"Messages",MessageID),2)
+		
+		Set MesageDesc1 = ##class(websys.DictionaryTranslated).GetItemByPhrase(langid,MesageDesc)
+		if MesageDesc1'="" s MesageDesc=MesageDesc1
+		;Set MesageDesc=$s($d(t(MessageCode)):t(MessageCode),1:$lg(^websys.ComponentD(cmpid,"Messages",MessageID),2))
+		Set MesageDesc=$tr(MesageDesc,"""","'")
+		;需要覆盖websys.TranslationD中取得的同名t数组,否则会导致无法在界面上取出Message修改的值
+		Set t(MessageCode)=MesageDesc
+		Do routine.WriteLine(" w ""t['"_MessageCode_"']="_##class(%CSP.Page).QuoteJS(MesageDesc)_";"",!")
+		Do ..GenRoutine()
+	}
+	
+	/*
+	;根据组件Message定义生成数组
+	d ##Class(websys.Component).GetComponentMessages(.t,cmpname)
+	s MsgCode=$o(t(""))
+	while (MsgCode'=""){
+		s MsgDescription=##class(%CSP.Page).EscapeHTML($g(t(MsgCode)))
+		;s MsgDescription=##class(%CSP.Page).QuoteJS($g(t(myArrayIdx)))
+		Do routine.WriteLine(" w ""t['"_MsgCode_"']='"_MsgDescription_"';"",!")
+		Do ..GenRoutine()
+		s MsgCode=$O(t(MsgCode))
+	}
+	*/
+	Do routine.WriteLine(" w ""</SCRIPT>"",!")
+	
+	;如果是edit类型组件，则将清除创建的实体对象
+	if DisplayType="E" {
+		Do routine.WriteLine(" i obj d obj.%Close() s obj=""""")
+	}
+	
+	Set formName="f"_$tr(cmpname,".","_")
+ 	Do routine.WriteLine(" if '$g(tprint),$g(%session.Data(""LOGON.ALLOWLAYOUTMANAGER""))=""Y"" d")
+ 	Do routine.WriteLine(" . w ""<A HREF=""""javascript:websys_layout('"_cmpid_"','"",$g(%session.Data(""LOGON.LAYOUTMANAGER"")),""','"",$g(%request.Data(""CONTEXT"",1)),""');"""" title="""""_cmpname_"""""><img SRC=""""../images/websys/component.gif""""  BORDER=""""0""""></A>"" d ##class(websys.Component).ShowLayoutEditor()")
+ 	Do routine.WriteLine(" w ""</DIV><!-- COMPONENT END "_cmpname_" -->"",!")
+ 	Do routine.WriteLine(" i 'nested,tprint,$g(%request.Data(""TPRINTID"",1))="_cmpid_" w ""<SCRIPT LANGUAGE=javascript>"",!,""websys_printme();"",!,""</SCRIPT>"",!")
+ 	Do routine.WriteLine(" w ""<SCRIPT language=javascript>"",!")
+ 	Do routine.WriteLine(" w ""function TK_Init() {"",!")
+	Do routine.WriteLine(" w "" var tk_notready=0;"",!")
+	
+	if $d(ItemDefault){
+	 	Do routine.WriteLine(" w "" if ((window!=window.top)&&(window.name!='TRAK_main')) {"",!")
+	 	Do routine.WriteLine(" w ""  for (var i=0; i<parent.frames.length; i++) {"",!")
+	 	Do routine.WriteLine(" w ""   if ((parent.frames[i]!=window)&&(parent.frames[i].document.readyState!='complete')) { tk_notready=1; }"",!")
+	 	Do routine.WriteLine(" w ""  }"",!")
+	 	Do routine.WriteLine(" w "" }"",!")
+	 	Do routine.WriteLine(" w "" if (tk_notready) { window.setTimeout(TK_Init,200); }"",!")
+	 	Do routine.WriteLine(" w "" else {"",!")
+	 	
+	 	;如果设定了默认值,需要触发change事件
+	 	s ItemsID="" for ItemsID=$O(ItemDefault(ItemsID)) {
+		 	Q:ItemsID=""
+			s objCompitem=##class(websys.ComponentItems).%OpenId(cmpid_"||"_ItemsID)
+			s ItemName=objCompitem.Name
+		 	Do routine.WriteLine(" w ""  try { document.getElementById('"_ItemName_"').onchange(); } catch(e) {};"",!")
+	 	}
+	 	Do routine.WriteLine(" if $g(TDIRTY)=2 w ""  try { document."_formName_".TDIRTY.value=2; } catch(e) {}"",!")
+	 	Do routine.WriteLine(" w ""  try { InitMe(); } catch(e) {};"",!")
+	 	Do routine.WriteLine(" w "" }"",!")
+ 	}else{
+	 	Do routine.WriteLine(" if $g(TDIRTY)=2 w ""  try { document."_formName_".TDIRTY.value=2; } catch(e) {}"",!")
+	 	Do routine.WriteLine(" w ""  try { InitMe(); } catch(e) {};"",!")
+ 	}
+ 	Do routine.WriteLine(" w ""} TK_Init();"",!")
+ 	Do routine.WriteLine(" n zjitm,zjmsg,zji")
+ 	Do routine.WriteLine(" if (TERROR=""E"") {   w ""alert('"",zdesc,""');"",!   w:$g(msg.Data(""TEVENTLIST"",1))="""" ""websys_firsterrorfocus();"",! } elseif (TERROR=""W"") {   w ""if (confirm('"",zdesc,""')) { var frm=document."_formName_"; frm.TOVERRIDE.value='1'; frm.TEVENT.value='""_$g(msg.Data(""TEVENT"",1))_""';""   i (zjdesc'="""") { f zji=1:1:$ll(zjdesc) {s zjitm=$lg(zjdesc,zji),zjmsg=$zcvt($lg(zjitm,1),""O"",""JS"") w:zjmsg'="""" ""if (confirm('"",$lg(zjitm,1),""')) "" w $lg(zjitm,2)_""; "" }}   i $g(msg.Data(""TEVENTLIST"",1))="""" {w ""if (frm.TOVERRIDE.value=='1') {frm.submit();} }"" }   else { w ""if (frm.TOVERRIDE.value=='1') {var obj=document.getElementById('""_$g(msg.Data(""TEVENTLIST"",1))_""'); if (obj) {obj.href+='&TOVERRIDE=1';obj.click();}} }"" } } elseif (TERROR=""I"") {   w ""alert('"",zdesc,""');"",!   w ""var frm=document."_formName_"; frm.TOVERRIDE.value='1';  frm.TEVENT.value='""_$g(msg.Data(""TEVENT"",1))_""'; ""   i (zjdesc'="""") { f zji=1:1:$ll(zjdesc) {s zjitm=$lg(zjdesc,zji),zjmsg=$zcvt($lg(zjitm,1),""O"",""JS"") w:zjmsg'="""" ""if (confirm('"",$lg(zjitm,1),""')) "" w $lg(zjitm,2)_""; "" }}   i $g(msg.Data(""TEVENTLIST"",1))="""" {w ""if (frm.TOVERRIDE.value=='1') {frm.submit();} "" }   else { w ""if (frm.TOVERRIDE.value=='1') {var obj=document.getElementById('""_$g(msg.Data(""TEVENTLIST"",1))_""'); if (obj) {obj.href+='&TOVERRIDE=1';obj.click();} }"" } } elseif (TERROR=""J"") {   w ""var frm=document."_formName_";frm.TEVENT.value='""_$g(msg.Data(""TEVENT"",1))_""';""   f zji=1:1:$ll(zjdesc) {s zjitm=$lg(zjdesc,zji),zjmsg=$zcvt($lg(zjitm,1),""O"",""JS"") w:zjmsg'="""" ""if (confirm('"",$lg(zjitm,1),""')) {frm.TOVERRIDE.value='1';"" w $lg(zjitm,2)_"";"" w:zjmsg'="""" ""}"" }   i $g(msg.Data(""TEVENTLIST"",1))="""" {w ""if (frm.TOVERRIDE.value=='1') {frm.submit();} "" }   else { w ""if (frm.TOVERRIDE.value=='1') {var obj=document.getElementById('""_$g(msg.Data(""TEVENTLIST"",1))_""'); if (obj) {obj.href+='&TOVERRIDE=1';obj.click();} }"" } }")
+ 	Do routine.WriteLine(" w ""</SCRIPT>"",!")
+ 	;组件信息,应该根据安全组来判断是否显示
+ 	/*
+ 	Set SSGroupRowId=$g(%session.Data("LOGON.GROUPID"))
+ 	Set SSGRPAllowWebLayoutManager="N"
+ 	if SSGroupRowId'="" {
+ 		Set SSGRPAllowWebLayoutManager=$P(^SSU("SSGRP",SSGroupRowId),"^",50)
+ 	}
+ 	if SSGRPAllowWebLayoutManager="Y" {
+ 		Do routine.WriteLine(" w ""<font color=gray size=1>"_cmpname_" </font><font color=gray size=1>&nbsp;            0.016809 (secs) , &nbsp;512 (lines) , &nbsp;75 (globals) </font><br>"",!")
+ 	}
+	*/	
+ 	Do routine.WriteLine(" i $d(^websys.MessageD(%session.SessionId,""Name"","_cmpid_")) d ##class(websys.Message).%DeleteId(%session.SessionId)")
+	Do routine.WriteLine(" q")
+
+	Do objComp.%Close()
+	
+	; save the routine
+	Do ..SaveRoutine()
+	if HaveTableElement=0 {
+		Set List1RoutineName=RoutineName_".L1.MAC"
+		Set routine = ##class(%Routine).%New(List1RoutineName)
+		Do routine.WriteLine(RoutineName_" ;"_List1RoutineName)
+		Do routine.WriteLine(" ; "_objComp.Name_" "_cmpid_" "_$ZD(+$H,4)_" "_$ZT($P($H,",",2)))
+		Do routine.WriteLine(" g start")
+		Do routine.WriteLine("start")
+		Do routine.WriteLine("ShowList(name,hidemenus,hideheadings,disabled,style,shownextinnewwindow,app,context,nested,listrowsx) ;")
+	   	Do routine.WriteLine(" q")
+	   	Do ..SaveRoutine()
+	}else{
+		//如果有列元素,则生成Table的相关处理代码
+		d ..GenList("")
+	}
+
+	d ..GenSave()
+	
+	;生成Js文件
+	d ..GenScripts(genjsname)
+	Q 0
+]]></Implementation>
+</Method>
+
+<Method name="GenRoutine">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	; save the routine
+	if routine.SizeGet()<=9220 Q
+
+	n next
+	s next=$p(RoutineFile,".",1)_"."_($p(RoutineFile,".",2)+1)
+	if (RoutineFile[".S") {
+		s next=$p(RoutineFile,".S",1)_".S"_($p(RoutineFile,".S",2)+1)
+	}
+	s RoutineFile=next_".MAC"
+
+	Do routine.WriteLine(" g start^"_next)
+	
+	Do ..SaveRoutine()
+
+	d ..Init()
+]]></Implementation>
+</Method>
+
+<Method name="SaveRoutine">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	Do routine.Save()
+	Do routine.Compile(..#QUALIFIERS)
+	; close the routine object
+	Do routine.%Close()
+]]></Implementation>
+</Method>
+
+<Method name="GenScripts">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>JsName:%String</FormalSpec>
+<Implementation><![CDATA[
+	;d ##class(web.DHCComponent).GenScripts("a.js")
+	Set Config=##Class(websys.Configuration).%OpenId(1)
+	Set PathToScripts=Config.PathToScripts
+	if PathToScripts="" Q
+	
+	;Set PathToScripts=PathToScripts_"\V7"
+	;解决了UNiX的路径格式转换
+	Set PathToScripts=##class(%File).SubDirectoryName(PathToScripts,"V7")
+	if '##class(%File).DirectoryExists(PathToScripts) {
+		;d ##class(%File).CreateDirectory(PathToScripts)  ///只能创建已有目录的下一级目录
+		d ##class(%File).CreateDirectoryChain(PathToScripts)
+	}
+	
+	/*	如果采用ECP方式,程序执行是在Window上,会去UNIX主机上取小机存储的路径,
+		SubDirectoryName方法会默认在/符号前加上c:
+		而且操作系统路径分隔符是不同的,会因文件路径无效会导致不生成ScriptGen或者在ECP本机生成
+		2011.12.29  zhouzq
+	*/
+	//参考%sysSITE,对操作系统的定义
+	Set splitchar="/"
+	If ($zversion(1)=2) {
+		Set splitchar="\"		
+	} ElseIf ($zversion(1)=3) {
+		Set splitchar="/"
+	}
+
+	Set FileName=PathToScripts_splitchar_JsName
+	Set formName="f"_$tr(cmpname,".","_")
+
+	SET $ZTRAP="*close"
+  	o FileName:"RWSN":3
+  	u FileName
+  	w "// Copyright (c) 2001 DHCC Limited. ALL RIGHTS RESERVED.",!
+	w "// Code generated automatically on "_$ZD(+$H)_","_$ZT($P($H,",",2))_" - manual changes will be overwritten",!
+	w "var evtTimer;",!
+	w "var evtName;",!
+	w "var doneInit=0;",!
+ 	w " var focusat=null;",!
+
+
+
+	//***************************组件元素的处理****************************************
+	 s ItemsID=0  f  s ItemsID=$o(^websys.ComponentItemsD(cmpid,ItemsID)) q:ItemsID=""  d
+	.s objCompitem=##class(websys.ComponentItems).%OpenId(cmpid_"||"_ItemsID)
+	.Q:objCompitem.Hidden'=1
+	.Q:objCompitem.DisplayType'="T"
+	.Q:objCompitem.LookupBrokerMethod=""
+	.s ItemScript(ItemsID)="d"_cmpid_"i"_objCompitem.Name_"^0"
+	
+	s ItemsID= $O(ItemScript(""))
+	while(ItemsID'=""){
+		s LayoutItemID=$P(ItemScript(ItemsID),"^",1)
+		s TabIndex=$P(ItemScript(ItemsID),"^",2)
+		s objCompitem=##class(websys.ComponentItems).%OpenId(cmpid_"||"_ItemsID)
+		s ItemName=objCompitem.Name
+		s displaytype=objCompitem.DisplayType
+		s shortcutkey=$G(tc(ItemName,"ShortcutKey"))
+		i shortcutkey="" s shortcutkey=objCompitem.ShortcutKey
+		
+		if displaytype="B" {
+			w "function "_ItemName_"_click() {",!
+			w "	if (evtTimer) {",!
+			w "		setTimeout('"_ItemName_"_click();',200)",!
+			w "	} else {",!
+			w "		websys_setfocus('"_ItemName_"');",!
+			w "		var frm=document."_formName_";",!
+			w "		websys_isInUpdate=true;",!
+			w "		if ("_formName_"_submit()) {",!
+			w "			var obj=document.getElementById('"_ItemName_"');",!
+			w "			if (obj) {obj.disabled=true;obj.onclick=function() {return false};}",!
+			w "			frm.TEVENT.value='"_LayoutItemID_"';",!
+			w "			frm.submit();",!
+			w "		}",!
+			w "		return false;",!
+			w "	}",!
+			w "}",!
+			w "try {",!
+			w "	var obj=document.getElementById('"_ItemName_"');",!
+			w "	if (obj) obj.onclick="_ItemName_"_click;",!
+			w "} catch(e) { alert(e.number + ' ' + e.description) };",!
+		}
+		/*在HTML已经直接生成了Click处理代码，如果定义了快捷方式，link才生成js function*/
+		if displaytype="A" {
+			w "function "_ItemName_"_click() {",!
+			w "	var obj=document.getElementById('"_ItemName_"');",!
+			w "	if (obj) obj.click();",!
+			w "}",!
+			w "websys_sckeys['"_ShortcutKey_"']="_ItemName_"_click;	",!	
+		}
+
+		if displaytype="TA" {
+			
+			w "function "_ItemName_"_keydownhandler(encmeth,evt) {",!
+			w " var keychar = websys_getKey(evt);",!
+			w " HandleLookupCode('Heading','"_LayoutItemID_"',encmeth,keychar);",!
+			w "}",!
+			
+			w "function "_ItemName_"_lookupsel(str) {",!
+			w " var lu=str.split('^');",!
+			w " if (lu.length==1) return;",!
+			w " ReplaceLookupCode(lu[1],'Heading');",!
+			w "}",!
+		}
+		if displaytype="T" {
+			s LookupClassName=objCompitem.LookupClassName
+			s LookupJavascriptFunction=objCompitem.LookupJavascriptFunction
+			s LookupProperties=objCompitem.LookupProperties
+			s LookupQueryName=objCompitem.LookupQueryName
+			s LookupBrokerMethod=objCompitem.LookupBrokerMethod
+			s DataType=objCompitem.DataType
+			s TabSequence=$G(tc(ItemName,"TabSequence"))
+			//日期元素的处理
+			if (DataType="%Date")!(DataType="%Library.Date") {
+				w "function "_ItemName_"_lookuphandler(e) {",!
+				w "	var type=websys_getType(e);",!
+				w "	var key=websys_getKey(e);",!
+				w "	if ((type=='click')||((type=='keydown')&&(key==117))) {",!
+				w "		var obj=document.getElementById('"_ItemName_"');",!
+				w "		if (!IsValidDate(obj)) return;",!
+				w "		var url='websys.lookupdate.csp?ID="_ItemName_"&TLUDESC='+t['"_ItemName_"']+'&STARTVAL=';",!
+				w "		url += '&DATEVAL=' + escape(obj.value);",!
+				w "		var tmp=url.split('%');",!
+				w "		url=tmp.join('%25');",!
+				w "		websys_lu(url,1,'top=200,left=200,width=370,height=230');",!
+				w "		return websys_cancel();",!
+				w "	}",!
+				w "}",!
+				w "function "_ItemName_"_lookupSelect(dateval) {",!
+				w "	var obj=document.getElementById('"_ItemName_"');",!
+				w "	obj.value=dateval;",!
+				if TabIndex="" s TabIndex=0
+				if TabIndex=0 {
+					w "		websys_nextfocusElement(obj);",!
+				}else{
+					w "		websys_nexttab('"_TabIndex_"',obj.form);",!
+				}
+				w "}",!
+				
+				w "var obj=document.getElementById('"_ItemName_"');",!
+				w "if (obj) obj.onkeydown="_ItemName_"_lookuphandler;",!
+				w "var obj=document.getElementById('l"_LayoutItemID_"');",!
+				w "if (obj) obj.onclick="_ItemName_"_lookuphandler;",!
+				w "function "_ItemName_"_changehandler(e) {",!
+				w "	var eSrc=document.getElementById('"_ItemName_"');",!
+				w "	if (!IsValidDate(eSrc)) {",!
+				w "		eSrc.className='clsInvalid';",!
+				w "		websys_setfocus('"_ItemName_"');",!
+				w "		websys_cancel();",!
+				w "	} else {",!
+				w "		if (eSrc.readOnly) {eSrc.className='clsReadOnly'} else {eSrc.className=''}",!
+				w "		window.setTimeout(""ForceChange('"_ItemName_"');"",1);",!
+				w "	}",!
+				w "}",!
+				w "var obj=document.getElementById('"_ItemName_"');",!
+				w "if (obj) obj.onchange="_ItemName_"_changehandler;",!
+			}elseif (DataType="%Time")!(DataType="%Library.Time") {
+				w "function "_ItemName_"_changehandler(e) {",!
+				w "	var eSrc=document.getElementById('"_ItemName_"');",!
+				w "	if (!IsValidTime(eSrc)) {",!
+				w "		eSrc.className='clsInvalid';",!
+				w "		websys_setfocus('"_ItemName_"');",!
+				w "		websys_cancel();",!
+				w "	} else {",!
+				w "		if (eSrc.readOnly) {eSrc.className='clsReadOnly'} else {eSrc.className=''}",!
+				w "		window.setTimeout(""ForceChange('"_ItemName_"');"",1);",!
+				w "	}",!
+				w "}",!
+				w "var obj=document.getElementById('"_ItemName_"');",!
+				w "if (obj) obj.onchange="_ItemName_"_changehandler;",!
+				
+			}elseif (DataType[("Integer")) {
+				;整数类型处理
+				w "function "_ItemName_"_changehandler(e) {",!
+				w "	var eSrc=document.getElementById('"_ItemName_"');",!
+				w "	var isValid=0;",!
+				w "	if (IsValidNumber(eSrc)) {",!
+				w "		isValid=1;",!
+				w "		if (!IsValidInteger(eSrc)) isValid=0;",!
+				;正整数处理
+				if DataType[("%Library.Integer+") w "		if (!IsPositiveNumber(eSrc)) isValid=0;",!
+				w "	}",!
+				w "	if (!isValid) {",!
+				w "		eSrc.className='clsInvalid';",!
+				w "		websys_setfocus('"_ItemName_"');",!
+				w "		websys_cancel();",!
+				w "	} else {",!
+				w "		if (eSrc.value!='') eSrc.value=parseFloat(eSrc.value);",!
+				w "		if (eSrc.readOnly) {eSrc.className='clsReadOnly'} else {eSrc.className=''}",!
+				w "		window.setTimeout(""ForceChange('"_ItemName_"');"",1);",!
+				w "	}",!
+				w "}",!
+				w "var obj=document.getElementById('"_ItemName_"');",!
+				w "if (obj) obj.onchange="_ItemName_"_changehandler;",!
+			}else{
+				w "function "_ItemName_"_lookuphandler(e) {",!
+				w "	if (evtName=='"_ItemName_"') {",!
+				w "		window.clearTimeout(evtTimer);",!
+				w "		evtTimer='';",!
+				w "		evtName='';",!
+				w "	}",!
+				w "	var type=websys_getType(e);",!
+				w "	var key=websys_getKey(e);",!
+				w "	if ((type=='click')||((type=='keydown')&&(key==117))) {",!
+				w "		var url='websys.lookup.csp';",!
+				;为了支持多浏览器,加入encodeURL
+				;encodeURL为Javascript原生方法,把URI字符串采用UTF-8编码格式转化成escape格式的字符串。
+				;w "		url += '?ID="_LayoutItemID_"&CONTEXT=K"_LookupClassName_":"_LookupQueryName_"&TLUDESC='+t['"_ItemName_"'];",!
+				w "		url += '?ID="_LayoutItemID_"&CONTEXT=K"_LookupClassName_":"_LookupQueryName_"&TLUDESC='+encodeURI(t['"_ItemName_"']);",!
+				
+				if LookupJavascriptFunction'="" {
+					w "		url += ""&TLUJSF="_LookupJavascriptFunction_""";",!
+				}
+				if LookupProperties'="" {
+					f i=1:1:$length(LookupProperties,",") {
+						s LookupPropertyName=$P(LookupProperties,",",i)
+						if $E(LookupPropertyName,1)="'" {
+							w "		url += ""&P"_i_"="" + "_LookupPropertyName_";",!
+						}else{
+							w "		var obj=document.getElementById('"_LookupPropertyName_"');",!
+							w "		if (obj) url += ""&P"_i_"="" + websys_escape(obj.value);",!
+						}
+					}
+				}
+				
+				w "		websys_lu(url,1,'');",!
+				w "		return websys_cancel();",!
+				w "	}",!
+				w "}",!
+				w "	var obj=document.getElementById('"_ItemName_"');",!
+				w "	if (obj) obj.onkeydown="_ItemName_"_lookuphandler;",!
+				w "	var obj=document.getElementById('l"_LayoutItemID_"');",!
+				w "	if (obj) obj.onclick="_ItemName_"_lookuphandler;",!
+				w "function "_ItemName_"_lookupsel(value) {",!
+				w "	try {",!
+				w "		var obj=document.getElementById('"_ItemName_"');",!
+				w "		if (obj) {",!
+				w "  			obj.value=unescape(value);",!
+				w "			if (obj.readOnly) {obj.className='clsReadOnly'} else {obj.className=''}",!
+				if TabIndex="" s TabIndex=0
+				if TabIndex=0 {
+					w "			if (doneInit) websys_nextfocusElement(obj);",!
+				}else{
+					w "			if (doneInit) websys_nexttab('"_TabIndex_"',obj.form);",!
+				}
+				w "		}",!
+				w "	} catch(e) {};",!
+				w "}",!
+				if LookupBrokerMethod'="" {
+					w "function "_ItemName_"_changehandler(encmeth) {",!
+					w "	evtName='"_ItemName_"';",!
+					w "	if (doneInit) { evtTimer=window.setTimeout("""_ItemName_"_changehandlerX('""+encmeth+""');"",200); }",!
+					w "	else { "_ItemName_"_changehandlerX(encmeth); evtTimer=""""; }",!
+					w "}",!
+					w "function "_ItemName_"_changehandlerX(encmeth) {",!
+					w "	if (evtTimer) {",!
+					w "		window.clearTimeout(evtTimer);",!
+					w "		evtName='';",!
+					w "		evtTimer='';",!
+					w "	}",!
+					w "	var obj=document.getElementById('"_ItemName_"');",!
+					w "	if (obj.value!='') {",!
+					s ParaStr=""
+					f i=1:1:$length(LookupProperties,",") {
+						s LookupPropertyName=$P(LookupProperties,",",i)
+						if $E(LookupPropertyName,1)="'" {
+							w "		var p"_i_"="_LookupPropertyName_";",!
+						}else{
+							w "		var tmp=document.getElementById('"_LookupPropertyName_"');",!
+							w "		if (tmp) {var p"_i_"=tmp.value } else {var p"_i_"=''};",!
+						}
+						if ParaStr="" {
+							s ParaStr="p"_i
+						}else{
+							s ParaStr=ParaStr_",p"_i
+						}
+					}
+					
+					if ParaStr="" {
+						w "		if (cspHttpServerMethod(encmeth,'"_ItemName_"_lookupsel','"_LookupJavascriptFunction_"')=='0') {",!
+					}else{
+						w "		if (cspHttpServerMethod(encmeth,'"_ItemName_"_lookupsel','"_LookupJavascriptFunction_"',"_ParaStr_")=='0') {",!
+					}
+					w "			obj.className='clsInvalid';",!
+					w "			websys_setfocus('"_ItemName_"');",!
+					w "			return websys_cancel();",!
+					w "		}",!
+					w "	}",!
+					w "	if (obj.readOnly) {obj.className='clsReadOnly'} else {obj.className=''}",!
+					w "}",!
+				}
+			}	
+		}
+		s ItemsID= $O(ItemScript(ItemsID))
+	}
+	
+	s HaveDateElement=0,HaveTimeElement=0,HaveIntegerElement=0,HaveTextAreaElement=0
+	
+	;校验日期时间数字
+	w "function "_formName_"_submit() {",!
+	w "  var msg='';",!
+	
+	s ItemsID= $O(ItemRequire(""))
+	while(ItemsID'=""){
+		s objCompitem=##class(websys.ComponentItems).%OpenId(cmpid_"||"_ItemsID)
+		s ItemName=objCompitem.Name
+		w "  msg+=RequiredMsgObj(document.forms['"_formName_"'].elements['"_ItemName_"'],false);",!
+		s ItemsID= $O(ItemRequire(ItemsID))
+	}
+	s ItemsID= $O(ItemScript(""))
+	while(ItemsID'=""){
+		s objCompitem=##class(websys.ComponentItems).%OpenId(cmpid_"||"_ItemsID)
+		s ItemName=objCompitem.Name
+		s displaytype=objCompitem.DisplayType
+		s DataType=objCompitem.DataType
+		if displaytype="TA" {
+			s HaveTextAreaElement=1
+		}
+		if (displaytype="T")&&((DataType="%Date")||(DataType="%Library.Date")) {
+			w "  msg+=DateMsg('"_ItemName_"');",!
+			s HaveDateElement=1
+		}
+		if (displaytype="T")&&((DataType="%Time")||(DataType="%Library.Time")) {
+			w "  msg+=TimeMsg('"_ItemName_"');",!
+			s HaveTimeElement=1
+		}
+		if (displaytype="T")&&(DataType[("Integer")) {
+			w "  msg+=NumberMsg('"_ItemName_"');",!
+			s HaveIntegerElement=1
+		}
+		s ItemsID= $O(ItemScript(ItemsID))
+	}
+	w "  if (msg!='') {",!
+    w "    alert(msg);",!
+    w "    websys_setfocus(focusat.name);",!
+    w "    return false;",!
+  	w "  } else {",!
+    w "    return true;",!
+  	w "  }",!
+  	w "}",!
+	
+	w "function InitMe() {",!
+	s VersionNumber=$g(^CF("DTVERSION",1))
+	if VersionNumber="P5" {
+	  	if MintabIndexItemName'="" {
+	  		w "  if (document.getElementById('"_MintabIndexItemName_"')&&(websys_canfocus(document.getElementById('"_MintabIndexItemName_"')))) websys_setfocus('"_MintabIndexItemName_"'); else websys_nexttab(0,document."_formName_");",!
+	  	}else{
+		  	w "  websys_firstfocus();",!
+	  	}
+	}else{
+	  	w " if ((window.frameElement)&&(window.frameElement.tagName==""IFRAME"")) {",!
+	  	w " } else {",!
+	  	if MintabIndexItemName'="" {
+	  		w "  if (document.getElementById('"_MintabIndexItemName_"')&&(websys_canfocus(document.getElementById('"_MintabIndexItemName_"')))) websys_setfocus('"_MintabIndexItemName_"'); else websys_nexttab(0,document."_formName_");",!
+	  	}else{
+		  	w "  websys_firstfocus();",!
+	  	}
+	  	w " }",!
+	}
+	w " doneInit=1;",!
+	w "}",!
+	
+  	w "function RequiredMsg(itemname,islist) {",!
+  	w " var msg='';",!
+  	w " var req=false;",!
+  	w " try {",!
+   	w "  if (!document.getElementById(itemname).disabled) {",!
+  	w "    if (islist) req=document.getElementById(itemname).selectedIndex==-1;",!
+  	w "    else req=document.getElementById(itemname).value=='';",!
+  	w "    if (req) {",!
+  	w "      msg+=""\'"" + t[itemname] + ""\' "" + t['XMISSING'] + ""\n"";",!
+  	w "      if (focusat==null) focusat=document.getElementById(itemname);",!
+	w "    }",!
+	w "  }",!
+	w "  return msg;",!
+	w " } catch(e) {return msg;};",!
+	w "}",!
+	w "function RequiredMsgObj(obj,islist) {",!
+	w " var msg='';",!
+	w " var req=false;",!
+	w " try {",!
+ 	w "  if (!obj.disabled) {",!
+	w "    if (islist) {",!
+	w "      if (typeof obj.tkItemPopulate!='undefined') req=obj.options.length<1;",!
+	w "      else req=obj.selectedIndex==-1;",!
+	w "    } else {",!
+	w "      req=obj.value=='';",!
+	w "    }",!
+	w "    if (req) {",!
+	w "      msg+=""\'"" + t[obj.id] + ""\' "" + t['XMISSING'] + ""\n"";",!
+	w "      if (focusat==null) focusat=obj;",!
+	w "    }",!
+	w "  }",!
+	w "  return msg;",!
+	w " } catch(e) {return msg;};",!
+	w "}",!
+	w "function ForceChange(itemname) {",!
+	w " var elem=document.getElementById(itemname);",!
+	w " if (elem) elem.value=elem.value;",!
+	w "}",!
+	
+	//*****************组件列元素的处理****************************
+	if HaveTableElement=1 {
+		w "var dtseparator='/';var dtformat='DMY';",!
+		w "var tmseparator=':';",!
+		w "var lu_obj=null;",!
+	 	k TableItemFunction
+		s TableItemsID= $O(TableItemScript(""))
+		while(TableItemsID'=""){
+			s objCompitem=##class(websys.ComponentTableItems).%OpenId(cmpid_"||"_TableItemsID)
+			s displaytype=objCompitem.DisplayType
+			s ItemName=objCompitem.Name
+		
+			if displaytype="T" {
+				s LookupClassName=objCompitem.LookupClassName
+				s LookupJavascriptFunction=objCompitem.LookupJavascriptFunction
+				s LookupProperties=objCompitem.LookupProperties
+				s LookupQueryName=objCompitem.LookupQueryName
+				s LookupBrokerMethod=objCompitem.LookupBrokerMethod
+				s DataType=objCompitem.DataType
+				s TabSequence=$G(tc(ItemName,"TabSequence"))
+				if (DataType="%Date")!(DataType="%Library.Date") {
+				
+					;日期型处理
+					s HaveDateElement=1
+					s TableItemType("D",ItemName)=""
+
+					w "function "_ItemName_"_lookuphandler(e) {",!
+					w "	var type=websys_getType(e);",!
+					w "	var key=websys_getKey(e);",!
+					w "	if ((type=='click')||((type=='keydown')&&(key==117))) {",!
+					w "		lu_obj=websys_getSrcElement(e);",!
+					w "		if ((lu_obj)&&(lu_obj.tagName=='IMG')) lu_obj=lu_obj.previousSibling;",!
+					w "		if (!IsValidDate(lu_obj)) return;",!
+					w "		var url='websys.lookupdate.csp?ID="_ItemName_"&TLUDESC='+t['"_ItemName_"']+'&STARTVAL=';",!
+					w "		url += '&DATEVAL=' + escape(lu_obj.value);",!
+					w "		url+='&TBLI='+lu_obj.id;",!
+					w "		var tmp=url.split('%');",!
+					w "		url=tmp.join('%25');",!
+					w "		websys_lu(url,1,'top=200,left=200,width=370,height=230');",!
+					w "		return websys_cancel();",!
+					w "	}",!
+					w "}",!
+								
+					w "function "_ItemName_"_lookupSelect(dateval) {",!
+					w " if (lu_obj) {",!
+					w "	lu_obj.value=dateval;",!
+					w "	websys_nextfocusElement(lu_obj);",!
+					w " }",!
+					w "}",!
+				
+					w "function "_ItemName_"_changehandler(e) {",!
+					w "	var eSrc=websys_getSrcElement(e);",!
+					w "	if (!IsValidDate(eSrc)) {",!
+					w "		eSrc.className='clsInvalid';",!
+					w "		websys_setfocus(eSrc.id);",!
+					w "	} else {",!
+					w "		if (eSrc.readOnly) {eSrc.className='clsReadOnly'} else {eSrc.className=''}",!
+					w "		window.setTimeout(""ForceChange('"_ItemName_"');"",1);",!
+					w "	}",!
+					w "}",!
+				}elseif (DataType="%Time")!(DataType="%Library.Time") {
+					;时间型处理
+					s HaveTimeElement=1
+					s TableItemType("T",ItemName)=""
+				
+					w "function "_ItemName_"_changehandler(e) {",!
+					w "	var eSrc=websys_getSrcElement(e);",!
+					w "	if (!IsValidTime(eSrc)) {",!
+					w "		eSrc.className='clsInvalid';",!
+					w "		websys_setfocus(eSrc.id);",!
+					w "	} else {",!
+					w "		if (eSrc.readOnly) {eSrc.className='clsReadOnly'} else {eSrc.className=''}",!
+					w "		window.setTimeout(""ForceChange('"_ItemName_"');"",1);",!
+					w "	}",!
+					w "}",!
+				}elseif (DataType[("Numeric"))||((DataType[("Float"))) {
+					s HaveIntegerElement=1
+					s TableItemType("T",ItemName)=""
+					w "function "_ItemName_"_changehandler(e) {",!
+					w "	var eSrc=websys_getSrcElement(e);",!
+					w "	var isValid=0;",!
+					w "	if (IsValidNumber(eSrc)) {",!
+					w "		isValid=1;",!
+					w "	}",!
+					w "	if (!isValid) {",!
+					w "		eSrc.className='clsInvalid';",!
+					w "		websys_setfocus(eSrc.id);",!
+					w "	} else {",!
+					w "		if (eSrc.value!='') eSrc.value=parseFloat(eSrc.value);",!
+					w "		if (eSrc.readOnly) {eSrc.className='clsReadOnly'} else {eSrc.className=''}",!
+					w "		window.setTimeout(""ForceChange('"_ItemName_"');"",1);",!
+					w "	}",!
+					w "}",!
+				}elseif (DataType[("Integer")) {
+					s HaveIntegerElement=1
+					s TableItemType("T",ItemName)=""
+					;整数类型处理
+					w "function "_ItemName_"_changehandler(e) {",!
+					w "	var eSrc=websys_getSrcElement(e);",!
+					w "	var isValid=0;",!
+					w "	if (IsValidNumber(eSrc)) {",!
+					w "		isValid=1;",!
+					w "		if (!IsValidInteger(eSrc)) isValid=0;",!
+					;正整数处理
+					if DataType[("%Library.Integer+") w "		if (!IsPositiveNumber(eSrc)) isValid=0;",!
+					w "	}",!
+					w "	if (!isValid) {",!
+					w "		eSrc.className='clsInvalid';",!
+					w "		websys_setfocus(eSrc.id);",!
+					w "	} else {",!
+					w "		if (eSrc.value!='') eSrc.value=parseFloat(eSrc.value);",!
+					w "		if (eSrc.readOnly) {eSrc.className='clsReadOnly'} else {eSrc.className=''}",!
+					w "		window.setTimeout(""ForceChange('"_ItemName_"');"",1);",!
+					w "	}",!
+					w "}",!
+				}else{
+					s TableItemType("L",ItemName)=""
+					w "function "_ItemName_"_lookuphandler(e) {",!
+					w "	if (evtName=='"_ItemName_"') {",!
+					w "		window.clearTimeout(evtTimer);",!
+					w "		evtTimer='';",!
+					w "		evtName='';",!
+					w "	}",!
+					w "	var type=websys_getType(e);",!
+					w "	var key=websys_getKey(e);",!
+					w "	if ((type=='click')||((type=='keydown')&&(key==117))) {",!
+					w "		var url='websys.lookup.csp';",!
+					w "		url += '?ID=d"_cmpid_"i"_ItemName_"&CONTEXT=K"_LookupClassName_":"_LookupQueryName_"&TLUDESC='+t['"_ItemName_"'];",!
+				
+					if LookupJavascriptFunction'="" {
+						w "		url += ""&TLUJSF="_LookupJavascriptFunction_""";",!
+					}
+					w "		lu_obj=websys_getSrcElement(e);lu_obj.completed=false;",!
+					w "		if ((lu_obj)&&(lu_obj.tagName=='IMG')) lu_obj=lu_obj.previousSibling;",!
+					w "		var rowidx=lu_obj.id.replace('"_ItemName_"z','');",!
+					if LookupProperties'="" {
+						f i=1:1:$length(LookupProperties,",") {
+							s LookupPropertyName=$P(LookupProperties,",",i)
+							if $E(LookupPropertyName,1)="'" {
+								w "		url += ""&P"_i_"="" + "_LookupPropertyName_";",!
+							}else{
+								w "		var obj=document.getElementById('"_LookupPropertyName_"');",!
+								w "		if (obj) url += ""&P"_i_"="" + websys_escape(obj.value);",!
+							}
+						}
+					}
+					w "		url+='&TBLI='+lu_obj.id;",!				
+					w "		websys_lu(url,1,'');",!
+					w "		return websys_cancel();",!
+					w "	}",!
+					w "}",!
+				
+					w "function "_ItemName_"_lookupsel(value) {",!
+					w "	try {",!
+					w "		if ((lu_obj)&&(lu_obj.id.indexOf('"_ItemName_"z')==0)) {",!
+	  				w "			lu_obj.value=unescape(value);",!
+					w "			if (lu_obj.readOnly) {lu_obj.className='clsReadOnly'} else {lu_obj.className=''}",!
+					w "			lu_obj.completed=true;websys_nextfocusElement(lu_obj);",!
+					w " 	}",!
+					w "	} catch(e) {};",!
+					w "}",!
+					if LookupBrokerMethod'="" {
+						w "function "_ItemName_"_changehandler(encmeth,e) {",!
+						w "	lu_obj=websys_getSrcElement(e);lu_obj.completed=false;",!
+						w "	evtName='"_ItemName_"';",!
+						w "	if (doneInit) { evtTimer=window.setTimeout("""_ItemName_"_changehandlerX('""+encmeth+""');"",200); }",!
+						w "	else { "_ItemName_"_changehandlerX(encmeth); evtTimer=""""; }",!
+						w "}",!
+					
+						w "function "_ItemName_"_changehandlerX(encmeth) {",!
+						w "	if (evtTimer) {",!
+						w "		window.clearTimeout(evtTimer);",!
+						w "		evtName='';",!
+						w "		evtTimer='';",!
+						w "	}",!
+					
+						w "	if (lu_obj) {",!
+						w "	 if (lu_obj.value!='') {",!
+						w "		var rowidx=lu_obj.id.replace('"_ItemName_"z','');",!
+						s ParaStr=""
+						if LookupProperties'="" {
+							f i=1:1:$length(LookupProperties,",") {
+								s LookupPropertyName=$P(LookupProperties,",",i)
+								if $E(LookupPropertyName,1)="'" {
+									w "		var p"_i_"="_LookupPropertyName_";",!
+								}else{
+									w "		var tmp=document.getElementById('"_LookupPropertyName_"');",!
+									w "		if (tmp) {var p"_i_"=tmp.value } else {var p"_i_"=''};",!
+								}
+								if ParaStr="" {
+									s ParaStr="p"_i
+								}else{
+									s ParaStr=ParaStr_",p"_i
+								}
+							}
+						}
+						if ParaStr="" {
+							w "		if (cspHttpServerMethod(encmeth,'"_ItemName_"_lookupsel','"_LookupJavascriptFunction_"')=='0') {",!
+						}else{
+							w "		if (cspHttpServerMethod(encmeth,'"_ItemName_"_lookupsel','"_LookupJavascriptFunction_"',"_ParaStr_")=='0') {",!
+						}
+						w "			lu_obj.className='clsInvalid';",!
+						w "			websys_setfocus(lu_obj.id);",!
+						w "			return websys_cancel();",!
+						w "		}",!
+		 				w "	 }",!
+						w "	 if (lu_obj.readOnly) {lu_obj.className='clsReadOnly'} else {lu_obj.className=''}",!
+		 				w "	 lu_obj.completed=true;",!
+						w "	}",!
+						w "}",!				
+					}
+				}
+			}
+			s TableItemsID= $O(TableItemScript(TableItemsID))
+		}
+		;列元素图标的click事件绑定
+		set funnamepre=$tr(cmpname,".","_")
+		w "function tkGetRow(elem) {",!
+		w "	while(elem.tagName!='TR') {if (elem.tagName=='TH') break;elem=websys_getParentElement(elem);}",!
+		w "	return elem;}",!
+		w "function "_funnamepre_"_clickhandler(e) {",!
+		w "	var eSrc=websys_getSrcElement(e);",!
+		s elementname=$O(TableItemType("D",""))
+		while elementname'="" {
+		 	w "	if ((eSrc.id)&&(eSrc.id.indexOf('lt"_cmpid_"i"_elementname_"z')==0)) {",!
+		 	w "		"_elementname_"_lookuphandler(e);",!
+	 		w "		return;",!
+	 		w "	}",!
+		 	s elementname=$O(TableItemType("D",elementname))
+	 	}
+		s elementname=$O(TableItemType("L",""))
+		while elementname'="" {
+		 	w "	if ((eSrc.id)&&(eSrc.id.indexOf('lt"_cmpid_"i"_elementname_"z')==0)) {",!
+		 	w "		"_elementname_"_lookuphandler(e);",!
+	 		w "		return;",!
+	 		w "	}",!
+		 	s elementname=$O(TableItemType("L",elementname))
+	 	}
+	 	w "}",!
+ 	
+	 	;列元素的keydown事件绑定
+		w "function "_funnamepre_"_keydownhandler(e) {",!
+		w " var eSrc=websys_getSrcElement(e);",!
+		w " var key=websys_getKey(e);",!
+		s elementname=$O(TableItemType("D",""))
+		while elementname'="" {
+			w " if ((eSrc.id)&&(eSrc.id.indexOf('"_elementname_"z')==0)) {",!
+			w "   if (!eSrc.onchange) eSrc.onchange="_elementname_"_changehandler;",!
+			w "   if (key==117) {"_elementname_"_lookuphandler(e);return websys_cancel();}",!
+			w " }",!
+			s elementname=$O(TableItemType("D",elementname))
+		}
+		s elementname=$O(TableItemType("T",""))
+		while elementname'="" {
+			w " if ((eSrc.id)&&(eSrc.id.indexOf('"_elementname_"z')==0)) {",!
+			w "   if (!eSrc.onchange) eSrc.onchange="_elementname_"_changehandler;",!
+			w " }",!
+			s elementname=$O(TableItemType("T",elementname))
+		}
+		s elementname=$O(TableItemType("L",""))
+		while elementname'="" {
+			w " if ((eSrc.id)&&(eSrc.id.indexOf('"_elementname_"z')==0)) {",!
+			w "   if (key==117) {"_elementname_"_lookuphandler(e);return websys_cancel();}",!
+			w " }",!
+			s elementname=$O(TableItemType("L",elementname))
+		}
+	 	w "}",!
+ 	
+	 	w "if (document.getElementById('t"_funnamepre_"')) {",!
+	 	w " document.getElementById('t"_funnamepre_"').onkeydown="_funnamepre_"_keydownhandler;",!
+	 	w " document.getElementById('t"_funnamepre_"').onclick="_funnamepre_"_clickhandler;",!
+	 	w "}",!
+	}
+ 	
+ 	//*********************************************************************************
+ 	
+	
+	//TextArea的公共方法
+	if (HaveTextAreaElement=1) {
+		w "var tkStartKey='\\';var tkStartAscii=92;",!
+		w "var tkEndKey=' ';var tkEndAscii=32;",!
+		w "function GetLookupCode(fld) {",!
+		w " var code='';",!
+		w " if (fld.tagName=='OBJECT') {code = fld.GetCode(tkStartKey);}",!
+		w " if (fld.tagName=='TEXTAREA') {",!
+		w "  var startIndex = fld.value.lastIndexOf(tkStartKey);",!
+		w "  if (startIndex != -1) {",!
+		w "   if (fld.createTextRange) {",!
+		w "    fld.cursorPt = document.selection.createRange().duplicate();",!
+		w "    do {",!
+		w "     curTxt=fld.cursorPt.text;",!
+		w "     fld.cursorPt.moveStart('character',-1);",!
+		w "    } while ((fld.cursorPt.text.charAt(0)!=tkStartKey)&&(curTxt!=fld.cursorPt.text));",!
+		w "    if (fld.cursorPt.text.charAt(0)==tkStartKey) {code=fld.cursorPt.text;}",!
+		w "   }",!
+		w "  }",!
+		w " }",!
+		w " return code;",!
+		w "}",!
+		
+		w "function ReplaceLookupCode(str,fldName) {",!
+		w " var arrtxt=str.split(' | ');",!
+		w " var fulltxt=arrtxt.join('\n');",!
+		w " var fld=document.getElementById(fldName);",!
+		w " if (fld) {",!
+ 		w " if (fld.tagName=='OBJECT') {fld.Replace(fulltxt);}",!
+ 		w " if (fld.tagName=='TEXTAREA') {",!
+ 		w "  if (fld.createTextRange && fld.cursorPt) {",!
+		w "    fld.cursorPt.text=fulltxt;",!
+		w "    fld.cursorPt=fld.createTextRange();",!
+		w "    fld.cursorPt.move('textedit'); fld.cursorPt.select();",!
+		w "   }",!
+		w "  }",!
+		w "  fld.focus();",!
+		w " }",!
+		w "}",!
+		
+		w "function HandleLookupCode(fldname,fldid,encmeth,keychar) {",!
+ 		w "var fld=document.getElementById(fldname);",!
+ 		w "if (keychar == tkEndAscii) {",!
+  		w "var code = GetLookupCode(fld);",!
+ 		w " if (code.charAt(0)==tkStartKey) {",!
+ 		w "  code=code.substr(1);",!
+ 		w "  cspHttpServerMethod(encmeth,code,fldname);",!
+ 		w " }",!
+		w " }",!
+		w " if (keychar == 117) {",!
+		w "  var code = GetLookupCode(fld);",!
+		w "  if (code.charAt(0)==tkStartKey) {",!
+		w "   code=code.substr(1);",!
+		w "   var url='websys.lookup.csp';",!
+		w "   url+='?ID='+fldid+'&CONTEXT=Kepr.CannedText:LookUpCode&TLUJSF='+fldname+'_lookupsel&TLUDESC='+t[fldname];",!
+		w "   url+='&P1='+code;",!
+		w "   var tmp=url.split('%');",!
+		w "   url=tmp.join('%25');",!
+		w "   websys_lu(url,1,'');",!
+		w "   return websys_cancel();",!
+		w "  }",!
+		w " }",!
+		w "}",!
+	}
+	if (HaveDateElement=1) {
+		w "var dtseparator='/';",!
+		w "var dtformat='DMY';",!
+		w "function DateMsg(itemname) {",!
+		w "  var msg='';",!
+		w "  try {",!
+		w "	if (!IsValidDate(document.getElementById(itemname))) {",!
+		w "		msg+=""\'"" + t[itemname] + ""\' "" + t['XDATE'] + ""\n"";",!
+		w "		if (focusat==null) focusat=document.getElementById(itemname);",!
+		w "	}",!
+		w "	return msg;",!
+		w "  } catch(e) {return msg;};",!
+		w "}",!
+		w "function isLeapYear(y) {",!
+		w " return ((y%4)==0)&&(!(((y%100)==0)&&((y%400)!=0)));",!
+		w "}",!
+		w "function ReWriteDate(d,m,y) {",!
+		w " y=parseInt(y,10);",!
+		w " if (y<15) y+=2000; else if (y<100) y+=1900;",!
+		w " if ((d<10)&&(String(d).length<2)) d='0'+d;",!
+		w " if ((m<10)&&(String(m).length<2)) m='0'+m;",!
+		w " var newdate='';",!
+		w " newdate=d+'/'+m+'/'+y;",!
+		w " return newdate;",!
+		w "}",!
+		w "function IsValidDate(fld) {",!
+		w " var dt=fld.value;",!
+		w " var re = /^(\s)+/ ; dt=dt.replace(re,'');",!
+		w " var re = /(\s)+$/ ; dt=dt.replace(re,'');",!
+		w " var re = /(\s){2,}/g ; dt=dt.replace(re,' ');",!
+		w " if (dt=='') {fld.value=''; return 1;}",!
+		w " re = /[^0-9A-Za-z]/g ; dt=dt.replace(re,'/');",!
+		w " for (var i=0;i<dt.length;i++) {",!
+		w "    var type=dt.substring(i,i+1).toUpperCase();",!
+		w "    if (type=='T'||type=='W'||type=='M'||type=='Y') {",!
+		w "       if (type=='T') {return ConvertTDate(fld);} else {return ConvertWMYDate(fld,i,type);}",!
+		w "       break;",!
+		w "    }",!
+		w " }",!
+		w " if ((dt.indexOf('/')==-1)&&(dt.length>2)) dt=ConvertNoDelimDate(dt);",!
+		w " var dtArr=dt.split('/');",!
+		w " var len=dtArr.length;",!
+		w " if (len>3) return 0;",!
+		w " for (i=0; i<len; i++) {if (dtArr[i]=='') return 0;}",!
+		w " var dy,mo,yr;",!
+		w " for (i=len; i<3; i++) dtArr[i]='';",!
+		w " dy=dtArr[0];mo=dtArr[1];yr=dtArr[2];",!
+		w " if ((String(yr).length!=2)&&(String(yr).length!=4)&&(String(yr).length!=0)) return 0;",!
+		w " if ((String(yr).length==4)&&(yr<1841)) return 0;",!
+		w " var today=new Date();",!
+		w " if (yr=='') {",!
+		w "  yr=today.getYear();",!
+		w "  if (mo=='') mo=today.getMonth()+1;",!
+		w " }",!
+		w " if ((isNaN(dy))||(isNaN(mo))||(isNaN(yr))) return 0;",!
+		w " if ((dy<1)||(dy>31)||(mo<1)||(mo>12)||(yr<0)) return 0;",!
+		w " if (mo==2) {",!
+		w "  if (dy>29) return 0;",!
+		w "  if ((!isLeapYear(yr))&&(dy>28)) return 0;",!
+		w " }",!
+		w " if (((mo==4)||(mo==6)||(mo==9)||(mo==11))&&(dy>30)) return 0;",!
+		w " fld.value=ReWriteDate(dy,mo,yr);",!
+		w " websys_returnEvent();",!
+		w " return 1;",!
+		w "}",!
+		w "function ConvertTDate(fld) {",!
+		w " var today=new Date();",!
+		w " var dt=fld.value;",!
+		w " var re = /(\s)+/g ;",!
+		w " dt=dt.replace(re,'');",!
+		w " if (dt.charAt(0).toUpperCase()=='T') {",!
+		w "  xdays = dt.slice(2);",!
+		w "  if (xdays=='') xdays=0;",!
+		w "  if (isNaN(xdays)) return 0;",!
+		w "  xdays_ms = xdays * 24 * 60 * 60 * 1000;",!
+		w "  if (dt.charAt(1) == '+') today.setTime(today.getTime() + xdays_ms);",!
+		w "  else if (dt.charAt(1) == '-') today.setTime(today.getTime() - xdays_ms);",!
+		w "  else if (dt.length>1) return 0;",!
+		w "  fld.value=ReWriteDate(today.getDate(),today.getMonth()+1,today.getFullYear());",!
+		w "  websys_returnEvent();",!
+		w "  return 1;",!
+		w " }",!
+		w " return 0;",!
+		w "}",!
+		w "function ConvertWMYDate(fld,pos,type) {",!
+		w " var today=new Date();",!
+		w " var dt=fld.value;",!
+		w " var re = /(\s)+/g ;",!
+		w " dt=dt.replace(re,'');",!
+		w " var x = dt.substring(0,pos);xmn=0;xyr=0;",!
+		w " if (x=='') x=1; if (x=='-') x=-1;",!
+		w " if (isNaN(x)) return 0;",!
+		w " if (dt.substring(pos+1,dt.length)!='') return 0;",!
+		w " if (type=='M') {",!
+		w " while (x>11) {xyr++;x=x-12}",!
+		w " xmn=today.getMonth()+eval(x);",!
+		w " if (xmn>=11) {xyr++;today.setMonth(eval(xmn-12));} else {today.setMonth(xmn);}",!
+		w " } else if (type=='Y') {xyr=x;",!
+		w " } else {today.setTime(today.getTime() + (x * 7 * 24 * 60 * 60 * 1000));}",!
+		w " fld.value=ReWriteDate(today.getDate(),today.getMonth()+1,today.getFullYear()+eval(xyr));",!
+		w " websys_returnEvent();",!
+		w " return 1;",!
+		w " }",!
+		w "function ConvertNoDelimDate(dt)  {",!
+		w " var len = dt.length;",!
+		w " if (len%2) return dt;",!
+		w " if (len>8) return dt;",!
+		w " var dy=dt.slice(0,2); var mn=dt.slice(2,4); var yr=dt.slice(4); var dtconv=dy+'/'+mn+'/'+yr; if (yr=='') dtconv=dy+'/'+mn;",!
+		w " return dtconv",!
+		w "}",!
+	}
+	if (HaveTimeElement=1) {
+		w "function TimeMsg(itemname) {",!
+		w "  var msg='';",!
+		w "  try {",!
+		w "	if (!IsValidTime(document.getElementById(itemname))) {",!
+		w "		msg+=""\'"" + t[itemname] + ""\' "" + t['XTIME'] + ""\n"";",!
+		w "		if (focusat==null) focusat=document.getElementById(itemname);",!
+		w "	}",!
+		w "	return msg;",!
+		w "  } catch(e) {return msg;};",!
+		w "}",!
+		w "var tmseparator=':';",!
+		w "function ReWriteTime(h,m,s) {",!
+		w " var newtime='';",!
+		w " if (h<10) h='0'+h;",!
+		w " if (m<10) m='0'+m;",!
+		w " if (s<10) s='0'+s;",!
+		w " newtime=h+':'+m ;",!
+		w " return newtime;",!
+		w "}",!
+		w "function IsValidTime(fld) {",!
+		w " var TIMER=0;",!
+		w " var tm=fld.value;",!
+		w " var re = /^(\s)+/ ; tm=tm.replace(re,'');",!
+		w " var re = /(\s)+$/ ; tm=tm.replace(re,'');",!
+		w " var re = /(\s){2,}/g ; tm=tm.replace(re,' ');",!
+		w " tm=tm.toUpperCase();",!
+		w " var x=tm.indexOf(' AM');",!
+		w " if (x==-1) x=tm.indexOf(' PM');",!
+		w " if (x!=-1) tm=tm.substring(0,x)+tm.substr(x+1);",!
+		w " if (tm=='') {fld.value=''; return 1;}",!
+		w " re = /[^0-9A-Za-z]/g ;",!
+		w " tm=tm.replace(re,':');",!
+		w " if (isNaN(tm.charAt(0))) return ConvNTime(fld);",!
+		w " if ((tm.indexOf(':')==-1)&&(tm.length>2)) tm=ConvertNoDelimTime(tm);",!
+		w " symIdx=tm.indexOf('PM');",!
+		w " if (symIdx==-1) {",!
+		w "  symIdx=tm.indexOf('AM');",!
+		w "  if (symIdx!=-1) {",!
+		w "   if (tm.slice(symIdx)!='AM') return 0;",!
+		w "   else {",!
+		w "    tm=tm.slice(0,symIdx);",!
+		w "    TIMER=1;",!
+		w "  }}",!
+		w " } else {",!
+		w "  if (tm.slice(symIdx)!='PM') return 0;",!
+		w "  else {",!
+		w "   tm=tm.slice(0,symIdx);",!
+		w "   TIMER=2;",!
+		w "  }",!
+		w " }",!
+		w " if (tm=='') return 0;",!
+		w " var tmArr=tm.split(':');",!
+		w " var len=tmArr.length;",!
+		w " if (len>3) return 0;",!
+		w " for (i=0; i<len; i++) {",!
+		w "  if (tmArr[i]=='') return 0;",!
+		w " }",!
+		w " var hr=tmArr[0];",!
+		w " var mn=tmArr[1];",!
+		w " var sc=tmArr[2];",!
+		w " if (len==1) {",!
+		w "  mn=0;",!
+		w "  sc=0;",!
+		w " } else if (len==2) {",!
+		w "  if (mn.length!=2) return 0;",!
+		w "  sc=0;",!
+		w " } else if (len==3) {",!
+		w "  if (mn.length!=2) return 0;",!
+		w "  if (sc.length!=2) return 0;",!
+		w " }",!
+		w " if ((hr>12)&&(TIMER==1)) return 0;",!
+		w " if ((hr==12)&&(TIMER==1)) hr=00;",!
+		w " if ( isNaN(hr)||isNaN(mn)||isNaN(sc) ) return 0;",!
+		w " hr=parseInt(hr,10);",!
+		w " mn=parseInt(mn,10);",!
+		w " sc=parseInt(sc,10);",!
+		w " if ((hr>23)||(hr<0)||(mn>59)||(mn<0)||(sc>59)||(sc<0)) return 0;",!
+		w " if ((hr<12)&&(TIMER==2)) hr+=12;",!
+		w " fld.value=ReWriteTime(hr,mn,sc);",!
+		w " websys_returnEvent();",!
+		w " return 1;",!
+		w "}",!
+		w "function ConvNTime(fld) {",!
+		w " var now=new Date();",!
+		w " var tm=fld.value;",!
+		w " var re = /(\s)+/g ;",!
+		w " tm=tm.replace(re,'');",!
+		w " if (tm.charAt(0).toUpperCase()=='N') {",!
+ 		w "  xmin = tm.slice(2);",!
+		w "  if (xmin=='') xmin=0;",!
+		w "  if (isNaN(xmin)) return 0;",!
+		w "  xmin_ms = xmin * 60 * 1000;",!
+		w "  if (tm.charAt(1) == '+') now.setTime(now.getTime() + xmin_ms);",!
+		w "  else if (tm.charAt(1) == '-') now.setTime(now.getTime() - xmin_ms);",!
+		w "  else if (tm.length>1) return 0;",!
+		w "  fld.value=ReWriteTime(now.getHours(),now.getMinutes(),now.getSeconds());",!
+		w "  websys_returnEvent();",!
+		w "  return 1;",!
+		w " }",!
+		w " return 0;",!
+		w "}",!
+		w "function ConvertNoDelimTime(tm)  {",!
+		w " if (isNaN(tm)) return tm;",!
+		w " var hr=tm.slice(0,2);",!
+		w " var mn=tm.slice(2);",!
+		w " var tmconv=hr+':'+mn;",!
+		w " return tmconv",!
+		w "}",!
+	}
+	if (HaveIntegerElement) {
+		w "var curydecimalsym='.';",!
+		w "var curygroupsym=',';",!
+		w "function IsValidNumber(p)  {",!
+		w " var theNumber=p.value;",!
+		w " if (isNaN(theNumber)) return false;",!
+		w " return true;",!
+		w "}",!
+		w "function IsValidInteger(p)  {",!
+		w " var re=/(\s)+/g; p.value=p.value.replace(re,'');",!
+		w " var theNumber=p.value; if (theNumber.charAt(0)=='+') theNumber=theNumber.slice(1);",!
+		w " var re=/\D/g;",!
+		w " if ((theNumber.charAt(0)=='+')||(theNumber.charAt(0)=='-')) theNumber=theNumber.slice(1);",!
+		w " if ((theNumber!='')&&(re.test(theNumber))) return false;",!
+		w " return true;",!
+		w "}",!
+		w "function IsPositiveNumber(p)  {",!
+		w " var theNumber=p.value;",!
+		w " if ((theNumber!='')&&(theNumber<0)) return false;",!
+		w " return true;",!
+		w "}",!
+		w "function NumberMsg(itemname) {",!
+		w "  var msg='';",!
+		w "  try {",!
+		w "	if (!IsValidInteger(document.getElementById(itemname))) {",!
+		w "		msg+=""\'"" + t[itemname] + ""\' "" + t['XNUMBER'] + ""\n"";",!
+		w "		if (focusat==null) focusat=document.getElementById(itemname);",!
+		w "	}",!
+		w "	return msg;",!
+		w "  } catch(e) {return msg;};",!
+		w "}",!
+	}
+
+close
+	s ^Temp("Upgrade","GenScripts")=$ZE	
+	c FileName
+	q
+]]></Implementation>
+</Method>
+
+<Method name="GenDoubleQuote">
+<Description>
+not use replace by ##class(websys.Conversions).QuotedCacheString zhouzq</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s ret=""
+	s count=$length(str,"""")
+	for i=1:1:count {
+		s str1=$P(str,"""",i)
+		i ret="" s ret=str1
+		e  s ret=ret_""""""_str1
+	}
+	q ret
+]]></Implementation>
+</Method>
+
+<Method name="GenRequestData">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s ret=""
+	if str="" Q ""
+	s str=$tr(str,";","")
+	s count=$length(str,"%request.Get(")
+	for i=1:1:count {
+		s str1=$P(str,"%request.Get(",i)
+		s str1len=$length(str1,")")
+		;s str2=$P(str1,")",1,str1len-1)
+		s str2=$P(str1,")",1)
+		s str3=$P(str1,")",2,str1len)
+		i ret="" s ret=str1
+		e  s ret=ret_"$g(%request.Data("_str2_",1))"_str3
+	}
+	q ret
+]]></Implementation>
+</Method>
+
+<Method name="TransferDelim">
+<Description>
+w ##class(dtwebsys.ComponentXRef).TransferDelim(a,"""","\'")
+因为$tr只能按字符依次替换,所以通过以下方法来完成被替换的字符串小于替换字符串长度的处理</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str,olddelim,newdelim</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s ret=""
+	if str="" Q ""
+	s count=$length(str,olddelim)
+	for i=1:1:count {
+		s str1=$P(str,"""",i)
+		i ret="" s ret=str1
+		e  s ret=ret_newdelim_str1
+	}
+	q ret
+]]></Implementation>
+</Method>
+
+<Method name="GenComponentCaption">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>token:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenForm">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="GenItem">
+<Description>
+tblitmcnt - applies only to table items and is the GetAt(index)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String,isinlist:%Library.String,tblitmcnt:%Library.String=""</FormalSpec>
+</Method>
+
+<Method name="GenItemAnchor">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String,isinlist:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenItemButton">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.ComponentXRef).GenItemButton(itm,itmid)
+]]></Implementation>
+</Method>
+
+<Method name="GenItemCaption">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,isinheader:%Library.Boolean,inlinequit:%Library.String=0</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.ComponentXRef).GenItemCaption(itm, isinheader, inlinequit)
+]]></Implementation>
+</Method>
+
+<Method name="GenItemCustom">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.ComponentXRef).GenItemCustom(itm, itmid)
+]]></Implementation>
+</Method>
+
+<Method name="GenItemDescription">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.ComponentXRef).GenItemDescription(itm)
+]]></Implementation>
+</Method>
+
+<Method name="GenItemIconProfile">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.ComponentXRef).GenItemIconProfile(itm, itmid)
+]]></Implementation>
+</Method>
+
+<Method name="GenItemListBox">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.ComponentXRef).GenItemListBox(itm, itmid)
+]]></Implementation>
+</Method>
+
+<Method name="GenItemNestedStub">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.ComponentXRef).GenItemNestedStub(itm, itmid)
+]]></Implementation>
+</Method>
+
+<Method name="GenItemRTF">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.ComponentXRef).GenItemRTF(itm, itmid)
+]]></Implementation>
+</Method>
+
+<Method name="GenItemTextArea">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.ComponentXRef).GenItemTextArea(itm, itmid)
+]]></Implementation>
+</Method>
+
+<Method name="GenItemTextBox">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.ComponentXRef).GenItemTextBox(itm, itmid)
+]]></Implementation>
+</Method>
+
+<Method name="GenListLookup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>firstrtn:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenList">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>firstrtn:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	Set List1RoutineName=RoutineName_".L1"
+	Set List2RoutineName=RoutineName_".L2"
+	Set List3RoutineName=RoutineName_".L3"
+	Set List4RoutineName=RoutineName_".L4"
+	Set List5RoutineName=RoutineName_".L5"
+	;Routine6估计P8还没有处理,还是先放到Routine5中
+	;Set List6RoutineName=RoutineName_".L6"	
+	Set List6RoutineName=List5RoutineName
+	
+	Set ListRoutineFile=List1RoutineName_".MAC"
+	;Set ListRoutineFile="DHCGCOM1395.L1.MAC"
+	
+	;2013-11-15 取得变行样式的表达式,可以根据执行表达式结果生成HTML效果,而不是在前台用js修改,提高效率, wanghc
+	Set TRowStyleItemID = $Order(^websys.ComponentTableItemsI("Name",cmpid," ZROWSTYLE",""))
+	Set TRowStyleValueGet = $s(TRowStyleItemID'="":$lg(^websys.ComponentTableItemsD(cmpid,TRowStyleItemID),26),1:"")
+	;要求在表达式中对zclassval和zstyleval赋值,方便在后续处理中使用
+	Set zclassval="",zstyleval=""
+	s formatcmpname=$TR(cmpname,".","_")
+	Set routine = ##class(%Routine).%New(ListRoutineFile)
+	Do routine.WriteLine(RoutineName_" ;"_List1RoutineName)
+	Do routine.WriteLine(" ; "_objComp.Name_" "_cmpid_" "_$ZD(+$H,4)_" "_$ZT($P($H,",",2)))
+	Do routine.WriteLine(" g start")
+	Do routine.WriteLine("start")
+	
+	s cols=0
+	s hiddencolstr=",",datecolstr="",timecolstr="",numbercolstr=""
+	Set TableItemsID=0 for {
+		Set TableItemsID=$o(^websys.ComponentTableItemsD(cmpid,TableItemsID))
+		Quit:TableItemsID=""
+		s cols=cols+1
+		Set colhidden=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),9)
+		Set coldatatype=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),5)
+		Set coldisplaytype=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),8)
+		if colhidden=1 {
+			s hiddencolstr=hiddencolstr_cols_","
+		}
+		if (coldatatype="%Date")||(coldatatype="%Library.Date") {
+			s datecolstr=datecolstr_"|"_cols
+		}
+		if (coldatatype="%Time")||(coldatatype="%Library.Time") {
+			s timecolstr=timecolstr_"|"_cols
+		}
+		if (coldatatype="%Float")||(coldatatype="%Library.Float") {
+			s numbercolstr=numbercolstr_"|"_cols
+		}
+		
+		;产生列元素类型="Component"的页面内嵌组件生成代码
+		if (coldisplaytype="CX") {
+			Set NestedComponent=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),35)
+			Set NestedTransExpr=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),36)
+			Do routine.WriteLine("Nested"_cols_"(ncid,expand) ;")
+			Do routine.WriteLine(" n cmp ;")
+			Do routine.WriteLine(" i xcnt#2 &html<<TR class=""<%=""RowOdd""_nested%>"" id=<%=ncid%> style=""DISPLAY:<%=$s(+$g(expand):""display"",1:""none"")%>;"">>")
+			Do routine.WriteLine(" i '(xcnt#2) &html<<TR class=""<%=""RowEven""_nested%>"" id=<%=ncid%> style=""DISPLAY:<%=$s(+$g(expand):""display"",1:""none"")%>;"">>")
+			Do routine.WriteLine(" w ""<TD>&nbsp;</TD><TD colspan="""""",$l(uSet,""|"")-1,"""""">""")
+			if NestedComponent'="" {
+				if NestedTransExpr'="" {
+					Do routine.WriteLine(" i tsrt'=2 "_NestedTransExpr)
+					s NestedTransExpr=$REPLACE(NestedTransExpr,"rs.GetDataByName","TCXVALS")
+					s NestedTransExpr=$REPLACE(NestedTransExpr,"rs.Data","TCXVALS")
+					Do routine.WriteLine(" i tsrt=2 "_NestedTransExpr)
+				}
+				Do routine.WriteLine(" s cmp=##Class(websys.Component).%OpenId("_NestedComponent_") i cmp d cmp.Show(nested+1),cmp.%Close()")
+				
+			}
+			Do routine.WriteLine(" w ""</TD></TR>"" q			")
+		}
+	}
+
+	Do routine.WriteLine("ShowList(name,hidemenus,hideheadings,disabled,style,shownextinnewwindow,app,context,nested,listrowsx) ;")
+	Do routine.WriteLine(" n rs,PageCnt,tprint,tsrt,tsrtitm,tsrtord,tname,UserClassName,WebClassName,context,uSet,prefs,listrows,listprint,listwrap,listfixed,torderbyasc,torderbydesc,hidden,ttpagid,val,vali,maxsort,ensort,execstatus")
+	;定义-结果集总行数-变量 2013-05-18
+	Do routine.WriteLine(" s ttpagid=$i(^websys.Counters(""tpagid"")),execstatus=1,tPagginTotalRowNum=0")
+	Do routine.WriteLine(" d ListInit^"_List2RoutineName)
+	Do routine.WriteLine(" i (tsrt=2)!((tsrt=1)&(+$g(uSort2Col))) d ListValues^"_List3RoutineName)
+	Do routine.WriteLine(" if +$g(uSortCol),'$g(ztsrtitm) {")
+	Do routine.WriteLine("  if (tsrt=2&&(xcnt<(maxsort+1)))||((tsrt'=2)&&(execstatus)&&('$g(uSort2Col)))||((tsrt=1)&&(+$g(uSort2Col))&&(xcnt<(maxsort+1))) {")
+	Do routine.WriteLine("   s %request.Data(""TSRTITM"",1)=tsrtitm,%request.Data(""TSRTORD"",1)=tsrtord")
+	Do routine.WriteLine("  } else {")
+	Do routine.WriteLine("   s tsrt=$g(ztsrt),tsrtitm=$g(ztsrtitm),tsrtord=$g(ztsrtord),uSort2Col=""""")
+	Do routine.WriteLine("   d rs.Close(),setquery^"_List2RoutineName)
+	Do routine.WriteLine("  }")
+	Do routine.WriteLine(" }")
+	Do routine.WriteLine(" s requery=$$PageUrlSort^"_List2RoutineName_"(0)")
+	;只显示可见列
+	Do routine.WriteLine(" w ""<TABLE width=""""100%""""><TR><TD colSpan=2 valign=top><TABLE class=tblList id=""""t"",tname,"""""" Name=""""t"",tname,"""""" CELLSPACING=1 width=""""100%"""""",$s(listfixed:"" STYLE=""""TABLE-LAYOUT:FIXED;"""""",1:""""),"">"",!")
+	Do routine.WriteLine(" s url=""websys.component.customiselayout.csp?ID="_cmpid_"&CONTEXT=""_context_$s(nested:""&TISNESTED=1"",1:"""")")
+	Do routine.WriteLine(" i 'hideheadings d")
+	Do routine.WriteLine(" . if $g(%session.Data(""LOGON.ALLOWCOLUMNMANAGER""))=""Y"" If 1 { Write ""<THEAD ondblclick=""""websys_lu('""_(url)_""',false);""""><TH style='display:none;'></TH>"",! } ")
+	Do routine.WriteLine(" . if $g(%session.Data(""LOGON.ALLOWCOLUMNMANAGER""))'=""Y"" If 1 { Write ""<THEAD><TH style='display:none;'></TH>"",! } ") 
+	Do routine.WriteLine(" . for j=1:1:$l(uSet,""|"") d")
+	Do routine.WriteLine(" . . s itmid=+$p(uSet,""|"",j)")
+	Do routine.WriteLine(" . . i """_hiddencolstr_"""[("",""_itmid_"","") q")
+	Do routine.WriteLine(" . . s width="""",wid=$p($p(uSet,""|"",j),"","",2),ensort=$p($p(uSet,""|"",j),"","",3) i +wid s width=""width=""_+wid_""px""")
+	Do routine.WriteLine(" . . i 'itmid q")
+	Do routine.WriteLine(" . . i itmid>"_cols_" q")
+	Do routine.WriteLine(" . . w ""<TH id="",itmid,"" "",width,$s(listwrap:"" NOWRAP"",1:""""),"">""")
+	Do routine.WriteLine(" . . i j=1,listprint,'tprint,'nested d")
+	Do routine.WriteLine(" . . . s requeryx=$$PageUrlSort^"_List2RoutineName_"(-1)_""&TPRINT=1&TPRINTID="_cmpid_"&TSRT=""_tsrt_""&TSRTITM_"_formatcmpname_"=""_tsrtitm_""&TSRTORD_"_formatcmpname_"=""_tsrtord")
+	;如果定义了可以打印则把增加图标链接
+	Do routine.WriteLine(" . . . w ""<A HREF="""""",requeryx,"""""" target=""""TRAK_hidden""""><IMG SRC=""""../images/websys/print_small.gif"""" border=""""0""""></A>""")
+	Do routine.WriteLine(" . . d @(""C""_itmid_""^"_List2RoutineName_"(ensort)"")")
+	Do routine.WriteLine(" . . f  q:$p(delims,""^"",$p(uSet,""|"",j+1))=""""  q:j>"_cols_"  s j=j+1")
+	Do routine.WriteLine(" . . w ""</TH>"",!")
+	Do routine.WriteLine(" . w ""</THEAD>"",!")
+ 	Do routine.WriteLine(" s glo1="""",glo2="""" s ord1=$s(tsrtord=""D"":-1,1:1),ord2=$s($g(uSort2Ord)=""D"":-1,1:1)")
+ 	Do routine.WriteLine(" i (tsrt=1)&(+$g(uSort2Col)) s tsrt=2")
+ 	Do routine.WriteLine(" if (tsrt=2&&(xcnt<(maxsort+1)))||((tsrt'=2)&&execstatus) {")
+ 	Do routine.WriteLine("  i tsrt'=2,'nested,'tprint,execstatus,'$g(uSort2Col) s xcnt=1,zpaging=PageCnt*listrows f  q:xcnt>zpaging  q:'rs.Next()  s xcnt=xcnt+1")
+ 	Do routine.WriteLine("  i (tsrt=2&('nested))||((tsrt=2)&(nested)&($d(%request.Data(""TSRTITM_"_formatcmpname_""")))) {")
+ 	Do routine.WriteLine("   i 'tprint {")
+ 	Do routine.WriteLine("    f xcnt=1:1:PageCnt*listrows {")
+ 	Do routine.WriteLine("     i glo2="""" s glo1=$o(^TMP("""_RoutineName_""",$j,glo1),ord1)")
+ 	Do routine.WriteLine("     q:glo1="""" ") 
+ 	Do routine.WriteLine("     if +$g(uSort2Col) {")
+  	Do routine.WriteLine("      i glo2="""" s glo2=""^TMP("""""_RoutineName_""""",""_$j_"",""""""_glo1_$s(ord2=-1:"""""",""""z"",1:"""")_"""""")"" ") 
+  	Do routine.WriteLine("      s pre=""^TMP("""""_RoutineName_""""",""_$j_"",""""""_glo1_"""""","" ") 
+  	Do routine.WriteLine("      s glo2=$query(@glo2,ord2)")
+  	Do routine.WriteLine("      i $e(glo2,1,$l(pre))'=pre s glo2="""" ")
+  	Do routine.WriteLine("      i glo2'="""" i $e($query(@glo2,ord2),1,$l(pre))'=pre s glo2="""" ") 
+  	
+  	Do routine.WriteLine("     } else {")
+  	Do routine.WriteLine("      s glo2=$o(^TMP("""_RoutineName_""",$j,glo1,glo2),1)")
+   	Do routine.WriteLine("     i glo2'="""" i $o(^TMP("""_RoutineName_""",$j,glo1,glo2),1)="""" s glo2="""" ")
+  	Do routine.WriteLine("     }")
+
+  	/*P7的处理，P8改成以上的else处理
+  	Do routine.WriteLine("     }")
+  	Do routine.WriteLine("     if +$g(uSort2Col)=0 {")
+  	Do routine.WriteLine("      s glo2=$o(^TMP("""_RoutineName_""",$j,glo1,glo2),1)")
+   	Do routine.WriteLine("     i glo2'="""" i $o(^TMP("""_RoutineName_""",$j,glo1,glo2),1)="""" s glo2="""" ")
+   	Do routine.WriteLine("    }")
+   	*/
+   	Do routine.WriteLine("    }")
+    Do routine.WriteLine("  }")
+   	Do routine.WriteLine("  }")
+   	Do routine.WriteLine(" n TCURRROW,jj,donehidden,ok")
+   	Do routine.WriteLine(" s ok=1,xcnt=1 f  s TCURRROW=xcnt,udf=1  q:xcnt>listrows  d  q:'ok")
+   	Do routine.WriteLine(" . i tsrt'=2,'$g(uSort2Col),execstatus d  q:'ok  q:'udf")
+   	Do routine.WriteLine(" . . i 'rs.Next() s ok=0 q")
+   	Do routine.WriteLine(" . i tsrt=2 d  q:'ok")
+   	Do routine.WriteLine(" . . i glo2="""" s glo1=$o(^TMP("""_RoutineName_""",$j,glo1),ord1)")
+   	Do routine.WriteLine(" . . i glo1="""" s ok=0 q")
+   	Do routine.WriteLine(" . . if +$g(uSort2Col) d")
+   	Do routine.WriteLine(" . . . i glo2="""" s glo2=""^TMP("""""_RoutineName_""""",""_$j_"",""""""_glo1_$s(ord2=-1:"""""",""""z"",1:"""")_"""""")"" ") 
+   	Do routine.WriteLine(" . . . s pre=""^TMP("""""_RoutineName_""""",""_$j_"",""""""_glo1_"""""","" ") 
+   	Do routine.WriteLine(" . . . s glo2=$query(@glo2,ord2)")
+   	Do routine.WriteLine(" . . . i $e(glo2,1,$l(pre))'=pre s glo2="""" ") 
+   	Do routine.WriteLine(" . . . i glo2="""" q")
+   	Do routine.WriteLine(" . . . s vals=@glo2 k TCXVALS s cxglo=$p(glo2,"""_RoutineName_""",1)_"""_RoutineName_"DATA""_$p(glo2,"""_RoutineName_""",2,999) m TCXVALS=@cxglo")
+   	Do routine.WriteLine(" . . . i $e($query(@glo2,ord2),1,$l(pre))'=pre s glo2=""""")
+   	Do routine.WriteLine(" . . if +$g(uSort2Col)=0 d")
+   	Do routine.WriteLine(" . . . s glo2=$o(^TMP("""_RoutineName_""",$j,glo1,glo2),1)")
+   	Do routine.WriteLine(" . . . i glo2="""" q")
+   	Do routine.WriteLine(" . . . s vals=^(glo2) k TCXVALS m TCXVALS=^TMP("""_RoutineName_"DATA"",$j,glo1,glo2)")
+   	Do routine.WriteLine(" . . . i $o(^TMP("""_RoutineName_""",$j,glo1,glo2),1)="""" s glo2="""" ") 
+   	Do routine.WriteLine(" . . s vals=$g(vals)")
+   	Do routine.WriteLine(" . k nc s (id,obj,nc)=""""")
+   	;2013-11-15 通过tableItem内的valueget值来设置style  wanghc
+   	;定义 zclassval,zstyleval 二个变量,定义样式
+   	Do:TRowStyleValueGet'="" routine.WriteLine(" . "_TRowStyleValueGet)
+   	Do routine.WriteLine(" . i xcnt#2 w ""<TR class=""""RowOdd""_$c(32)_$g(zclassval)_nested_"""""""",$s(listwrap:"" NOWRAP"",1:""""),"" style='"",$g(zstyleval),""'"","">""")
+   	Do routine.WriteLine(" . i '(xcnt#2) w ""<TR class=""""RowEven""_$c(32)_$g(zclassval)_nested_"""""""",$s(listwrap:"" NOWRAP"",1:""""),"" style='"",$g(zstyleval),""'"","">""")
+   	Do routine.WriteLine(" . s col=0")
+   	Do routine.WriteLine(" . d Hidden^"_List4RoutineName)
+   	Do routine.WriteLine(" . for jj=1:1:$l(uSet,""|"") d")
+   	Do routine.WriteLine(" . . s selcol=$p(uSet,""|"",jj),skipTD=0 s itmid=+selcol")
+   	Do routine.WriteLine(" . . i """_hiddencolstr_"""[("",""_itmid_"","") q")
+   	Do routine.WriteLine(" . . i itmid,itmid'>"_cols_" d")
+   	Do routine.WriteLine(" . . . s (align,width,style)="""" i hideheadings,xcnt=1 d")
+   	Do routine.WriteLine(" . . . . s wid=$p($p(uSet,""|"",jj),"","",2) i +wid s width=""width=""_+wid_""px""")
+	
+	//控制列数如果大于小于80的处理
+   	Do routine.WriteLine(" . . . i itmid<80 d @(""I""_itmid_""^"_List5RoutineName_"(xcnt)"")")
+   	Do routine.WriteLine(" . . . i itmid'<80 d @(""I""_itmid_""^"_List6RoutineName_"(xcnt)"")")
+   	Do routine.WriteLine(" . . . s skipTD=1 f  q:$p(delims,""^"",$p(uSet,""|"",jj+1))=""""  q:jj>"_cols_"  s jj=jj+1,itmid=+$p(uSet,""|"",jj) i """_hiddencolstr_"""'[("",""_itmid_"","") w $p(delims,""^"",itmid) s width="""" d")
+   	Do routine.WriteLine(" . . . . i itmid<80 w $p(delims,""^"",itmid) s width="""" d @(""I""_itmid_""^"_List5RoutineName_"(xcnt)"")")
+   	Do routine.WriteLine(" . . . . i itmid'<80 w $p(delims,""^"",itmid) s width="""" d @(""I""_itmid_""^"_List6RoutineName_"(xcnt)"")")
+
+	/*p7的处理,p8如上
+   	Do routine.WriteLine(" . . . d @(""I""_itmid_""^"_List5RoutineName_"(xcnt)"")")
+   	Do routine.WriteLine(" . . . s skipTD=1 f  q:$p(delims,""^"",$p(uSet,""|"",jj+1))=""""  q:jj>"_cols_"  s jj=jj+1,itmid=+$p(uSet,""|"",jj) i """_hiddencolstr_"""'[("",""_itmid_"","") w $p(delims,""^"",itmid) s width="""" d @(""I""_itmid_""^"_List5RoutineName_"(xcnt)"")")
+	*/
+	
+   	Do routine.WriteLine(" . . . w ""</TD>"",!") 
+   	Do routine.WriteLine(" . w ""</TR>"",!")
+   	;处理内嵌Component列
+   	Do routine.WriteLine(" . for jj=1:1:nc d @(""Nested""_nc(jj)_""(""_""""""r""_ttpagid_""r""_$e(ncid(jj),2,999)_"""""",""_+$s('$d(nc(jj,""hasChild"")):0,1:$g(listexpand))_"")"")")
+   	Do routine.WriteLine(" . s xcnt=xcnt+1")
+   	Do routine.WriteLine(" w ""</TABLE></TD></TR>"",!")
+   	Do routine.WriteLine(" i tsrt'=2,execstatus s isnextpage=rs.Next()")
+   	Do routine.WriteLine("  i tsrt=2 {")
+   	Do routine.WriteLine("   s isnextpage=0")
+   	Do routine.WriteLine("   i glo1'="""" {")
+   	Do routine.WriteLine("    i glo2="""" s glo1=$o(^TMP("""_RoutineName_""",$j,glo1),ord1)")
+   	Do routine.WriteLine("    i glo1'="""" {")
+   	Do routine.WriteLine("     if +$g(uSort2Col) {")
+   	Do routine.WriteLine("      i glo2="""" s glo2=""^TMP("""""_RoutineName_""""",""_$j_"",""""""_glo1_$s(ord2=-1:""z"",1:"""")_"""""")""") 
+   	Do routine.WriteLine("      s pre=""^TMP("""""_RoutineName_""""",""_$j_"",""") 
+   	Do routine.WriteLine("      s glo2=$query(@glo2,ord2) i $e(glo2,1,$l(pre))'=pre s glo2=""""") 
+   	Do routine.WriteLine("     }")
+   	Do routine.WriteLine("     if +$g(uSort2Col)=0 s glo2=$o(^TMP("""_RoutineName_""",$j,glo1,glo2),1)")
+   	Do routine.WriteLine("    }")
+   	Do routine.WriteLine("   }")
+   	Do routine.WriteLine("   s isnextpage=(glo2'="""")")
+   	Do routine.WriteLine("  }")
+   	Do routine.WriteLine(" } else {")
+   	Do routine.WriteLine(" s (PageCnt,isnextpage)=0")
+   	Do routine.WriteLine(" w ""</TABLE></TD></TR>"",!")
+   	Do routine.WriteLine(" w ""<TR><TD width=""""100%"""" align=center>""")
+   	Do routine.WriteLine(" w ""<STRONG><FONT Color=red id='cMAXROWS'>"",$g(t(""XSORTMAXROWS""),""Rows retrieved for sorting exceeds maximum specified in system configuration. Sort terminated.""),""</FONT></STRONG></TD></TR>"",!")
+   	Do routine.WriteLine(" }")
+   	;生成翻页Bar条,需要拿到当前页后剩余行数(非排序)
+	Do routine.WriteLine(" i tsrt'=2,execstatus  s tPagginTotalRowNum=isnextpage+(listrows*(PageCnt+1)) f  q:'rs.Next()  s tPagginTotalRowNum = tPagginTotalRowNum+1")
+	Do routine.WriteLine(" s val = tPagginTotalRowNum/listrows")
+	;最大页码
+	Do routine.WriteLine(" s tTotalNum = $s('$isvalidnum(val):"""",val[""."":+$p(val,""."")+(val>0),1:val) ;ceil val")
+   	Do routine.WriteLine(" d ListEnd^"_List2RoutineName_"(ttpagid)")
+   	Do routine.WriteLine("   k ^TMP("""_RoutineName_""",$j)")
+   	Do routine.WriteLine("   k ^TMP("""_RoutineName_"DATA"",$j)")
+   	Do routine.WriteLine(" quit")
+   	
+   	d ..SaveRoutine()
+
+	;取得列头的个性化，取得列尾以及生成相应的翻页和排序js处理，初始化Query参数
+	d ..GenListInit()
+	;取得Query数据按照默认排序列放到临时Global中
+	d ..GenListValues()
+	;生成隐藏列的HTML
+	d ..GenListHidden()
+	;生成可见列的HTML
+	d ..GenListCell()
+]]></Implementation>
+</Method>
+
+<Method name="GenListCell">
+<Description>
+add by zhouzq</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set ListRoutineFile=List5RoutineName_".MAC"
+	s cols=0
+	Set routine = ##class(%Routine).%New(ListRoutineFile)
+	Do routine.WriteLine(RoutineName_" ;"_List5RoutineName)
+	Do routine.WriteLine(" ; "_objComp.Name_" "_cmpid_" "_$ZD(+$H,4)_" "_$ZT($P($H,",",2)))
+	Do routine.WriteLine(" g start")
+	Do routine.WriteLine("start")
+	
+	;需要生成Js代码的列元素数组
+	k TableItemScript
+	Set TableItemsID=0 for {
+		Set TableItemsID=$o(^websys.ComponentTableItemsD(cmpid,TableItemsID))
+		Quit:TableItemsID=""
+		s cols=cols+1
+		Set coldatatype=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),5)
+		Set coldiabled=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),6)
+		Set coldisplayonly=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),7)
+		Set coldisplaytype=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),8)
+		Set colhidden=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),9)
+		set colLinkExpression=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),13)
+		Set colLinkWorkFlow=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),58)
+		Set colname=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),19)
+		Set colvalueget=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),26)
+		set colvalueget=$p(colvalueget,";",1)  //wanghc OEOrdItem.ListEMR->AlternateResult ;PharmacyStatusz
+		set colvalueget=$p(colvalueget,"//",1) //还是有bug 如:s var=";"
+		Set coltooltip=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),29)
+		Set colcustomexpression=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),55)
+		Set colShowInNewWindow=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),24)
+		set collinkurl=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),14)
+		set colLookupClassName=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),15)
+		set colLookupJavascriptFunction=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),16)
+		set colLookupProperties=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),17)
+		set colLookupQueryName=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),18)
+		set colLookupBrokerMethod=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),34)
+		//coltabIndex的取的不正确
+		Set coltabIndex=$G(tc(colname,"TabSequence"))
+		Set colcaption=$G(t(colname))
+		;w colname_":"_coldisplayonly_":"_coldisplaytype,!
+		;自己加的代码,方便调试
+		Do routine.WriteLine(" ////"_colname_":"_coldisplayonly_":"_coldisplaytype)
+
+		if $G(tc(colname,"Style"))'="" {
+			Set colstyle=$G(tc(colname,"Style"))
+		} else{
+			Set colstyle=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),25)
+		}
+
+		s style="",style1="""",style2="",style3=""
+		if colstyle'="" {
+			s style="STYLE=""""""_"""_colstyle_"""_"""""""
+			s style1=""" style="""""_colstyle_""""	;wanghc 去了二个引号  语法错
+			s style2=" Style="""""_colstyle_""""""
+			s style3=" style="""""_colstyle_""""""
+		}
+		s coltabIndexHTML=""
+		if coltabIndex'="" {
+			s coltabIndexHTML=" tabIndex="""""_coltabIndex_""""""
+		}
+		Set colsrc=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),10)
+		if colsrc'="" {
+			;如果定义的是Cache Object Script,连接串就要有变化，参见websys.ComponentItem.ImageEx的注释
+			if (($P(colsrc,""""))["#")||(($P(colsrc,""""))["$"){
+				s colsrc=colsrc_" i src'="""" s src=""../images/""_src"
+			}else{
+				if (colsrc'["..") s colsrc="""../images/"_colsrc_""""
+				else  set colsrc=""""_colsrc_""""
+			}
+		}
+		
+		;双引号需要转换为单引号,否则输出M语法出错
+		s coltooltip=$tr(coltooltip,"""","'")
+		
+		if colhidden'=1 {
+			Do routine.WriteLine("I"_cols_"(xcnt) ;")
+
+			//TEXTBOX,LISTBOX,CHECKBOX,TEXTAREA,LINK,BUTTON,COMPONENT,ICONPROFILE,CUSTOM,RTF,CUSTOMTEXTBOX"
+			//T,L,C,TA,A,B,CX,IP,S,R,CT"
+			
+			//LISTBOX
+			if (coldisplaytype="L"){
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" "_style_">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" "_colvalueget_" s val=$g(val)")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,"_cols_"),1)")
+				Do routine.WriteLine(" }")
+				
+				Do routine.WriteLine(" n rs,code,desc,PX,params,value")
+				if coltooltip="" {
+					Do routine.WriteLine(" s tooltip=""""")
+					s title=""""
+				}else{
+					Do routine.WriteLine(" s tooltip="""_coltooltip_""" s tooltip=$ZCVT(tooltip,""O"",""HTML"")")
+					s title="""""_$s($g(tooltip)'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+				}
+				
+				if (coldisplayonly'=1)&&(coldiabled'=1) {
+					s disabledstr="""_$s(disabled:""disabled "",1:"""")_"""
+				}else{
+					s disabledstr="disabled "
+				}
+				Do routine.WriteLine(" s value="",""_val_"",""")
+				Do routine.WriteLine(" w ""<select "_disabledstr_"id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_"""""" multiple size=4"_style3_"""_$s(tooltip'="""":"" title=""""""_tooltip_"""""""",1:"""")_"">"",!")
+				Do routine.WriteLine(" w ""</select>"",!")
+			}elseif(coldisplaytype="R"){
+				;RTF
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" STYLE=""""""_"""_colstyle_"""_"""""">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {s val=rs.Data("""_colname_""")} s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,2),1)")
+				Do routine.WriteLine(" }")
+				if coldisplayonly=1 {
+					Do routine.WriteLine(" w $s(val'="""":val,1:""&nbsp;""),!")
+				}else{
+					if coltooltip="" {
+						Do routine.WriteLine(" s tooltip=""""")
+						s title=""""
+					}else{
+						Do routine.WriteLine(" s tooltip="""_coltooltip_""" s tooltip=$ZCVT(tooltip,""O"",""HTML"")")
+						s title="""""_$s($g(tooltip)'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+					}
+					Do routine.WriteLine(" w ""<OBJECT classid=""""CLSID:B5B5AF17-CE26-4B52-89F6-D7AFA885484C"""" VIEWASTEXT CODEBASE=""""../addins/client/tkRichText.CAB#version=1,0,0,52"""" id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_"""""""_style3_"><PARAM NAME=""""TextRTF"""" VALUE=""""""_$ZCVT(val,""O"",""HTML"")_""""""><PARAM NAME=""""Title"""" VALUE=""""""_tooltip_"""""">""_$s(disabled:""<PARAM NAME=""""ReadOnly"""" VALUE=""""0"""">"",1:"""")_""</OBJECT>"",!")
+					if (coldiabled'=1) {
+						Do routine.WriteLine(" s encmeth=##class(%CSP.Page).Encrypt($lb(""epr.CannedText.LookUpCodeBroker""))")
+						Do routine.WriteLine(" w:'disabled ""<SCRIPT LANGUAGE=javascript FOR="_colname_" EVENT=onkeydown(keycode,shift)>"_colname_"_keydownhandler('""_encmeth_""',keycode);</SCRIPT>"",!")
+					}
+				}
+			}elseif(coldisplaytype="A"){
+				//LINK
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" "_style_">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,"_cols_"),1) s lnkexpr=$lg($lg(vals,"_cols_"),2),src=$lg($lg(vals,"_cols_"),3)")
+				Do routine.WriteLine(" }")
+
+				if colsrc'="" {
+					Do routine.WriteLine(" s src="_colsrc)
+				}else{
+					Do routine.WriteLine(" s src=""""")
+				}
+
+				if coltooltip="" {
+					Do routine.WriteLine(" s tooltip=""""")
+					s title=""""
+				}else{
+					Do routine.WriteLine(" s tooltip="""_coltooltip_""" s tooltip=$ZCVT(tooltip,""O"",""HTML"")")
+					s title="""""_$s($g(tooltip)'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+				}
+				s lnkexprstr=""
+				if colLinkExpression'="" {
+					s lnkexprstr="$s(tsrt=2:$g(lnkexpr),1:"_colLinkExpression_")"
+				}
+				
+				;如果linkurl定义为"NONE",则不产生链接语法
+				if collinkurl'="NONE" {
+					if (colShowInNewWindow'="") {
+						if colLinkWorkFlow="" {
+							s lnkexprstr=$s(lnkexprstr="":"",1:"_"_lnkexprstr)
+							Do routine.WriteLine(" s TWKFL=$g(%request.Data(""TWKFL"",1)),TWKFLI=$g(%request.Data(""TWKFLI"",1)),TWKFLL=$g(%request.Data(""TWKFLL"",1)),TWKFLJ=$g(%request.Data(""TWKFLJ"",1)),tpagid=$i(^websys.Counters(""tpagid""))")
+ 							;Do routine.WriteLine(" if val_src'="""" w ""<A id="""""_colname_"z""_xcnt_"""""" HREF=""""#"""" onClick=""""websys_lu('websys.csp?TEVENT=t"_cmpid_"i"_colname_"&TPAGID=""_tpagid_$s(TWKFL'="""":""&TWKFL=""_TWKFL,1:"""")_$s(TWKFLI'="""":""&TWKFLI=""_TWKFLI,1:"""")_$s(TWKFLL'="""":""&TWKFLL=""_TWKFLL,1:"""")_$s(TWKFLJ'="""":""&TWKFLJ=""_TWKFLJ,1:"""")_""&TRELOADID=""_$g(TRELOADNEW)"_lnkexprstr_"_""',false,'"_colShowInNewWindow_"');return false;"""""_coltabIndexHTML_">""")
+ 							Do routine.WriteLine(" if val_src'="""" w ""<A id="""""_colname_"z""_xcnt_"""""" HREF=""""#"""" onClick=""""websys_lu('websys.csp?TEVENT=t"_cmpid_"i"_colname_"&TPAGID=""_tpagid_""&TRELOADID=""_$g(TRELOADNEW)"_lnkexprstr_"_""',false,'"_colShowInNewWindow_"');return false;"""""_coltabIndexHTML_">""")
+						}else{
+							s lnkexprstr="_""&TWKFL="_colLinkWorkFlow_"&TRELOADID=""_$g(TRELOADNEW)"_$s(lnkexprstr="":"",1:"_"_lnkexprstr)
+							Do routine.WriteLine(" s tpagid=$i(^websys.Counters(""tpagid""))")
+							Do routine.WriteLine(" if val_src'="""" w ""<A id="""""_colname_"z""_xcnt_"""""" HREF=""""#"""" onClick=""""websys_lu('websys.csp?TEVENT=t"_cmpid_"i"_colname_"&TPAGID=""_tpagid_"_lnkexprstr_"_""',false,'"_colShowInNewWindow_"');return false;"""""_coltabIndexHTML_">""")
+						} 
+					}else{
+						if colLinkWorkFlow="" {
+							s lnkexprstr=$s(lnkexprstr="":"",1:"_"_lnkexprstr)
+							Do routine.WriteLine(" s TWKFL=$g(%request.Data(""TWKFL"",1)),TWKFLI=$g(%request.Data(""TWKFLI"",1)),TWKFLL=$g(%request.Data(""TWKFLL"",1)),TWKFLJ=$g(%request.Data(""TWKFLJ"",1)),tpagid=$i(^websys.Counters(""tpagid""))")
+							Do routine.WriteLine(" if val_src'="""" w ""<A id="""""_colname_"z""_xcnt_"""""" HREF=""""websys.csp?TEVENT=t"_cmpid_"i"_colname_"&TPAGID=""_tpagid_$s(TWKFL'="""":""&TWKFL=""_TWKFL,1:"""")_$s(TWKFLI'="""":""&TWKFLI=""_TWKFLI,1:"""")_$s(TWKFLL'="""":""&TWKFLL=""_TWKFLL,1:"""")_$s(TWKFLJ'="""":""&TWKFLJ=""_TWKFLJ,1:"""")_""&TRELOADID=""_$g(TRELOADNEW)"_lnkexprstr_"_"""""""_style3_coltabIndexHTML_">"" ") 
+						}else{
+							s lnkexprstr="_""&TWKFL="_colLinkWorkFlow_"&TRELOADID=""_$g(TRELOADNEW)"_$s(lnkexprstr="":"",1:"_"_lnkexprstr)
+							Do routine.WriteLine(" s tpagid=$i(^websys.Counters(""tpagid""))")
+							Do routine.WriteLine(" if val_src'="""" w ""<A id="""""_colname_"z""_xcnt_"""""" HREF=""""websys.csp?TEVENT=d"_cmpid_"i"_colname_"&TPAGID=""_tpagid"_lnkexprstr_"_"""""""_style3_coltabIndexHTML_">"" ")
+						}
+					}
+				}
+								
+				Do routine.WriteLine(" w $s(src'="""":""<img SRC=""""""_src_"""""" BORDER=""""0"""">"",1:"""")")
+				Do routine.WriteLine(" if val_src'="""" w val,""</A>"" ") 
+			}elseif(coldisplaytype="B"){
+				//BUTTON
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" STYLE=""""""_"""_colstyle_"""_"""""">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,"_cols_"),1) s src=$lg($lg(vals,"_cols_"),3)")
+				Do routine.WriteLine(" }")
+				
+				if colsrc'="" {
+					Do routine.WriteLine(" s src="_colsrc)
+				}else{
+					Do routine.WriteLine(" s src=""""")
+				}
+			
+				
+				if coltooltip="" {
+					Do routine.WriteLine(" s tooltip=""""")
+					s title=""""
+				}else{
+					Do routine.WriteLine(" s tooltip="""_coltooltip_""" s tooltip=$ZCVT(tooltip,""O"",""HTML"")")
+					s title="""""_$s($g(tooltip)'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+				}
+				s title="""_$s(tooltip'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+
+				Do routine.WriteLine(" w ""<a href=""""#"""" id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_"""""""_style3_title_">""_$s(src'="""":""<img SRC=""""""_src_"""""" BORDER=""""0"""">"",1:"""")_"""_colcaption_"</A>"",!")
+			}elseif(coldisplaytype="C"){
+				//CHECKBOX
+				;后面的这个参数好像只是为checkbox为1,不明白有什么作用
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" "_style_">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(1)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,"_cols_"),1)")
+				Do routine.WriteLine(" }")
+				if coltooltip="" {
+					Do routine.WriteLine(" s tooltip=""""")
+					s title=""""
+				}else{
+					Do routine.WriteLine(" s tooltip="""_coltooltip_""" s tooltip=$ZCVT(tooltip,""O"",""HTML"")")
+					s title="""""_$s($g(tooltip)'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+				}
+				if (coldisplayonly'=1)&&(coldiabled'=1) {
+					s disabledstr="""_$s(disabled:""disabled "",1:"""")_"""
+				}else{
+					s disabledstr="disabled "
+				}
+				Do routine.WriteLine(" w ""<input "_disabledstr_"id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_""""""""_$s($g(msg.Name("""_cmpid_""","""_colname_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_colname_"""))_"""""""",1:"""")_""""_$s(val=""1"":"" CHECKED"",val=""on"":"" CHECKED"",val=""Y"":"" CHECKED"",val=""YD"":"" CHECKED DISABLED"",val=""D"":"" DISABLED"",1:"""")_"""_style3_" type=""""checkbox"""">"",!")
+			}elseif(coldisplaytype="CX"){
+				//COMPONENT
+				Do routine.WriteLine(" s nc=nc+1,nc(nc)="_cols_",ncid(nc)=""t"_cmpid_"i"_colname_"z""_xcnt_""""")
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" STYLE=""""""_"""_colstyle_"""_"""""">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,2),1) s cxcond=$lg($lg(vals,2),4)")
+				Do routine.WriteLine(" }")
+				Do routine.WriteLine(" i tsrt'=2 s val=1 ")
+				Do routine.WriteLine(" i tsrt=2 s val=+$g(cxcond)")
+				Do routine.WriteLine(" i val s nc(+$g(nc),""hasChild"")="""" w ""<IMG onclick=""""websys_component(this,'r""_ttpagid_""r""_"""_cmpid_"i"_colname_"z""_xcnt_""');return false;"""" SRC=""""../images/websys/""_$s(+$g(listexpand):""minus"",1:""plus"")_"".gif"""" border=""""0"""">"",!")
+			}elseif(coldisplaytype="S"){
+				//CUSTOM
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" STYLE=""""""_"""_colstyle_"""_"""""">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,2),1)")
+				Do routine.WriteLine(" }")
+				if colcustomexpression'="" {
+					if colstyle'="" {
+						Do routine.WriteLine(" s style="""_colstyle_"""")
+					}
+					Do routine.WriteLine(" "_colcustomexpression)
+				}
+			}elseif coldisplayonly=1 {
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" "_style_">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				;2013-07-18 wanghc 定义 zclassval,zstyleval二个变量,用于TD标签的样式
+				if coldisplaytype="TA" {
+					Do routine.WriteLine(" 	i tsrt'=2 s val="""",zclassval="""",zstyleval="""" i (1) {"_colvalueget_"} s val=$g(val)")
+				}else{
+					Do routine.WriteLine(" 	i tsrt'=2 s val="""",zclassval="""",zstyleval="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+				}
+				Do routine.WriteLine(" 	i tsrt=2 s val="""",zclassval="""",zstyleval="""" s val=$lg($lg(vals,"_cols_"),1)")
+				Do routine.WriteLine(" }")
+				if coltooltip="" {
+					Do routine.WriteLine(" s tooltip=""""")
+					s title=""
+				}else{
+					Do routine.WriteLine(" s tooltip="""_coltooltip_""" s tooltip=$ZCVT(tooltip,""O"",""HTML"")")
+					s title="""_$s($g(tooltip)'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+				}
+				;2013-07-18 wanghc 通过valueget中zclassval,zstyleval二个变量的值,生成TD的样式
+				s zclassval = """_$s(zclassval'="""":""class=""""""_zclassval_"""""""",1:"""")_"""
+				s zstyleval= """_$s(zstyleval'="""":""style=""""""_zstyleval_"""""""",1:"""")_"""
+				Do routine.WriteLine(" w ""<label id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_"""""""_zclassval_zstyleval_title_style2_">""_$s(val'="""":val,1:""&nbsp;"")_""</label>"" ")
+			}elseif(coldisplaytype="T"){
+				;Textbox的style不起作用
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" >""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,"_cols_"),1)")
+				Do routine.WriteLine(" }")
+				if coltooltip="" {
+					Do routine.WriteLine(" s tooltip=""""")
+					s title=""""
+				}else{
+					Do routine.WriteLine(" s tooltip="""_coltooltip_""" s tooltip=$ZCVT(tooltip,""O"",""HTML"")")
+					s title="""_$s($g(tooltip)'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+				}
+				if (coldisplayonly'=1)&&(coldiabled'=1) {
+					s disabledstr="""_$s(disabled:""disabled "",1:"""")_"""
+					s TableItemScript(TableItemsID)=""
+				}else{
+					s disabledstr="disabled "
+				}
+
+				if (coldatatype="%Date")!(coldatatype="%Library.Date") {
+					Do routine.WriteLine(" w ""<input "_disabledstr_"id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_""""""""_$s($g(msg.Name("""_cmpid_""","""_colname_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_colname_"""))_"""""""",1:"""")_"_style1_title_""" value=""""""_val_"""""">""_$s(disabled:"""",1:""<IMG id=""""lt"_cmpid_"i"_colname_"z""_xcnt_"""""" name=""""lt"_cmpid_"i"_colname_"z""_xcnt_"""""" src=""""../images/websys/lookupdate.gif"""">"")_"""",!")
+				}elseif (coldatatype="%Time")!(coldatatype="%Library.Time"){
+					Do routine.WriteLine(" w ""<input "_disabledstr_"id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_""""""""_$s($g(msg.Name("""_cmpid_""","""_colname_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_colname_"""))_"""""""",1:"""")_"_style1_title_""" value=""""""_val_"""""">"",!")
+				}elseif (coldatatype[("%Integer"))!(coldatatype[("%Library.Integer")){
+					Do routine.WriteLine(" w ""<input "_disabledstr_"id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_""""""""_$s($g(msg.Name("""_cmpid_""","""_colname_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_colname_"""))_"""""""",1:"""")_"_style1_title_""" value=""""""_val_"""""">"",!")
+				}elseif (colLookupQueryName'="") &&(colLookupClassName'=""){
+					Do routine.WriteLine(" w ""<input "_disabledstr_"id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_""""""""_$s($g(msg.Name("""_cmpid_""","""_colname_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_colname_"""))_"""""""",1:"""")_"_style1_title_""" value=""""""_val_"""""">""_$s(disabled:"""",1:""<IMG id=""""lt"_cmpid_"i"_colname_"z""_xcnt_"""""" name=""""lt"_cmpid_"i"_colname_"z""_xcnt_"""""" src=""""../images/websys/lookup.gif"""">""_""""),!")
+					/*
+					if LookupBrokerMethod'=""{
+						Do routine.WriteLine(" s encmeth=##class(%CSP.Page).Encrypt($lb("""_LookupClassName_"."_LookupBrokerMethod_"""))")
+						Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_styleHTML_tabIndexHTML_shortcutkey_"""_$s(disabled:"""",1:"" onchange="""""_ItemName_"_changehandler('""_encmeth_""');"""""")_"""_tooltipHTML_" value=""""""_val_"""""">""_$s(disabled:"""",1:""<IMG id="""""_ImageElementId_""""" name="""""_ImageElementId_""""" src=""""../images/websys/lookup.gif"""">"")_"""",!")
+					}else{
+						Do routine.WriteLine(" w ""<input ""_$s(disabled:""disabled "",1:"""")_""id="""""_ItemName_""""" name="""""_ItemName_"""""""_$s($g(msg.Name("""_cmpid_""","""_ItemName_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_ItemName_"""))_"""""""",1:"""")_"""_styleHTML_tabIndexHTML_shortcutkey_tooltipHTML_" value=""""""_val_"""""">""_$s(disabled:"""",1:""<IMG id="""""_ImageElementId_""""" name="""""_ImageElementId_""""" src=""""../images/websys/lookup.gif"""">"")_"""",!")
+					}
+					s ItemScript(ItemsID)="d"_cmpid_"i"_ItemName_"^"_tabIndex
+					*/
+					
+				}else{
+					Do routine.WriteLine(" w ""<input "_disabledstr_"id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_""""""""_$s($g(msg.Name("""_cmpid_""","""_colname_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_colname_"""))_"""""""",1:"""")_"_style1_title_""" value=""""""_val_"""""">"",!")
+				}
+				
+				
+			}elseif(coldisplaytype="CT"){
+				//CUSTOMTEXTBOX
+				;Textbox的style不起作用
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" "_style_">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,"_cols_"),1)")
+				Do routine.WriteLine(" }")
+				if coltooltip="" {
+					Do routine.WriteLine(" s tooltip=""""")
+					s title=""""
+				}else{
+					Do routine.WriteLine(" s tooltip="""_coltooltip_""" s tooltip=$ZCVT(tooltip,""O"",""HTML"")")
+					s title="""_$s($g(tooltip)'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+				}
+				if (coldisplayonly'=1)&&(coldiabled'=1) {
+					s disabledstr="""_$s(disabled:""disabled "",1:"""")_"""
+				}else{
+					s disabledstr="disabled "
+				}
+				
+				
+				Do routine.WriteLine(" w ""<input "_disabledstr_"id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_""""""""_$s($g(msg.Name("""_cmpid_""","""_colname_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_colname_"""))_"""""""",1:"""")_"_style1_title_" value=""""""_val_"""""">"",!")
+			}elseif(coldisplaytype="TA"){
+				//TEXTAREA
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" "_style_">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,"_cols_"),1)")
+				Do routine.WriteLine(" }")
+				if coltooltip="" {
+					Do routine.WriteLine(" s tooltip=""""")
+					s title=""""
+				}else{
+					Do routine.WriteLine(" s tooltip="""_coltooltip_""" s tooltip=$ZCVT(tooltip,""O"",""HTML"")")
+				}
+					s title="""_$s(tooltip'="""":"" title=""""""_tooltip_"""""""",1:"""")_"""
+				
+				if (coldiabled'=1) {
+					s disabledstr="""_$s(disabled:""READONLY class='disabledField' "",1:"""")_"""
+				}else{
+					s disabledstr="disabled "
+				}
+				Do routine.WriteLine(" w ""<textarea "_disabledstr_"id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_"""""""_ style3_title_">""_val_""</textarea>"",!")
+			}elseif(coldisplaytype="IP"){
+				//ICONPROFILE
+				s IconProfileID=$G(tc(colname,"IconProfile"))
+		
+				Do routine.WriteLine(" i '$g(skipTD) w ""<TD "",width,"" STYLE=""""""_"""_colstyle_"""_"""""">""")
+				Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+				Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" } else {")
+				Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+				Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,"_cols_"),1)")
+				Do routine.WriteLine(" }")
+				Do routine.WriteLine(" d ##class(epr.CTIconProfile).Show("""_cmpid_""",""t"_cmpid_"i"_colname_"z""_xcnt_"""","""_IconProfileID_""",val) k ARY")
+			}
+			Do routine.WriteLine(" q")
+		}
+	}
+	
+   	Do ..SaveRoutine()
+]]></Implementation>
+</Method>
+
+<Method name="GenListHidden">
+<Description>
+add by zhouzq</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set ListRoutineFile=List4RoutineName_".MAC"
+
+	s cols=0
+	Set routine = ##class(%Routine).%New(ListRoutineFile)
+	Do routine.WriteLine(RoutineName_" ;"_List4RoutineName)
+	Do routine.WriteLine(" ; "_objComp.Name_" "_cmpid_" "_$ZD(+$H,4)_" "_$ZT($P($H,",",2)))
+	Do routine.WriteLine(" g start")
+	Do routine.WriteLine("start")
+	Do routine.WriteLine("Hidden ;")
+	Do routine.WriteLine(" w ""<TD style='display:none;'>""")
+	Set TableItemsID=0 for {
+		Set TableItemsID=$o(^websys.ComponentTableItemsD(cmpid,TableItemsID))
+		Quit:TableItemsID=""
+		s cols=cols+1
+		Set colhidden=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),9)
+		Set colname=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),19)
+		Set colvalueget=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),26)		
+		set colvalueget=$p(colvalueget,";",1)  //wanghc OEOrdItem.ListEMR->AlternateResult ;PharmacyStatusz
+		set colvalueget=$p(colvalueget,"//",1) //还是有bug 如:s var=";"
+		if ($E(colvalueget,1)=";")!($E(colvalueget,1,2)="//") s colvalueget=""
+		 
+		if colhidden=1 {
+			Do routine.WriteLine(" i TERROR'=""""&($d(msg.Data("""_colname_"z""_xcnt_"""",1))!(0)) {")
+			Do routine.WriteLine(" 	s val=$g(msg.Data("""_colname_"z""_xcnt_"""",1)) s val=$ZCVT($g(val),""O"",""HTML"")")
+			Do routine.WriteLine(" } else {")
+			Do routine.WriteLine(" 	i tsrt'=2 s val="""" i (1) {"_colvalueget_"} s val=$ZCVT($g(val),""O"",""HTML"")")
+			Do routine.WriteLine(" 	i tsrt=2 s val=$lg($lg(vals,"_cols_"),1)")
+			Do routine.WriteLine(" }")
+			Do routine.WriteLine(" w ""<input id="""""_colname_"z""_xcnt_"""""" name="""""_colname_"z""_xcnt_"""""" type=""""hidden""""""_$s($g(msg.Name("""_cmpid_""","""_colname_"""))'="""":"" class=""""""_cls(msg.Name("""_cmpid_""","""_colname_"""))_"""""""",1:"""")_"" value=""""""_val_"""""">"",!")
+		}
+	}
+	Do routine.WriteLine(" w ""</TD>"",!")
+	Do routine.WriteLine(" q")
+	
+   	Do ..SaveRoutine()
+]]></Implementation>
+</Method>
+
+<Method name="GenListEnd">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GenListInit">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set ListRoutineFile=List2RoutineName_".MAC"
+
+	s cols=0
+	s visiblecolstr="",ordertypestr=" s "
+	s Prarstr=" s url=url"
+	Set TableItemsID=0 for {
+		Set TableItemsID=$o(^websys.ComponentTableItemsD(cmpid,TableItemsID))
+		Quit:TableItemsID=""
+		s cols=cols+1
+		Set colhidden=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),9)
+		Set colname=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),19)
+		if colhidden'=1 {
+			s visiblecolstr=visiblecolstr_cols_"|"
+			s Prarstr=Prarstr_"_""&"_colname_"=""_$ZCVT($g(%request.Data("""_colname_""",1)),""O"",""URL"")" //wanghc 加了=与_
+		}
+		
+		s ordertypestr=ordertypestr_"tordertype("_cols_")=""2"","
+	}
+	
+	s ordertypestr=$P(ordertypestr,",",1,$length(ordertypestr,",")-1)
+	
+	s formatcmpname=$TR(cmpname,".","_")
+	Set routine = ##class(%Routine).%New(ListRoutineFile)
+	Do routine.WriteLine(RoutineName_" ;"_List1RoutineName)
+	Do routine.WriteLine(" ; "_objComp.Name_" "_cmpid_" "_$ZD(+$H,4)_" "_$ZT($P($H,",",2)))
+	Do routine.WriteLine(" g start")
+	Do routine.WriteLine("start")
+	
+	d ..GenPageUrl()
+	
+	d ..GenPageUrlSort()
+	
+	d ..GenPageUrlX()
+	
+	d ..GenPageUrlParam()
+	;
+	Do routine.WriteLine("ListInit ;")
+	Do routine.WriteLine(" n xappid,xactivecontext")
+	Do routine.WriteLine(" s tname="""_formatcmpname_"""")
+	;排序图片链接
+	Do routine.WriteLine(" s zisd=""<IMG SRC=""""../images/websys/issortdesc.gif"""" border=""""0"""">""")
+	Do routine.WriteLine(" s zisa=""<IMG SRC=""""../images/websys/issortasc.gif"""" border=""""0"""">""")
+	Do routine.WriteLine(" s zcand=""<IMG SRC=""""../images/websys/cansortdesc.gif"""" border=""""0"""">""")
+	Do routine.WriteLine(" s zcana=""<IMG SRC=""""../images/websys/cansortasc.gif"""" border=""""0"""">""")
+	Do routine.WriteLine(" s PageCnt=$g(%request.Data(""TPAGCNT"",1)),tprint=$g(%request.Data(""TPRINT"",1))")
+	Do routine.WriteLine(" s tsrt=0,(tsrtitm,%request.Data(""TSRTITM"",1))=$g(%request.Data(""TSRTITM_""_tname_"""",1)),(tsrtord,%request.Data(""TSRTORD"",1))=$g(%request.Data(""TSRTORD_""_tname_"""",1)) i tsrtitm'="""" s tsrt=$g(%request.Data(""TSRT"",1))")
+	Do routine.WriteLine(" s WebClassName="""_WebClassName_"""")
+	Do routine.WriteLine(" s UserClassName="""_UserClassName_"""")
+	Do routine.WriteLine(" s context=$g(%request.Data(""CONTEXT"",1)),app=""""")
+	
+	;得到组件table列的设置.app,.xappid,.xactivecontext为当前用户有效的值,查找的优先级为user->group->site,
+	;P8比P7增加参数"区域"$g(%session.Data(""LOGON.REGION"")))
+	;s uSet=##class(websys.Preferences).GetDataExLE("","","","DHCHealth","-100000000000000","COLUMNS","websys.Menu.List",.app,.xappid,.xactivecontext,"","")
+	Do routine.WriteLine(" s uSet=##class(websys.Preferences).GetDataExLE($g(%session.Data(""LOGON.USERID"")),$g(%session.Data(""LOGON.GROUPID"")),$g(%session.Data(""LOGON.HOSPID"")),$g(%session.Data(""LOGON.SITECODE"")),context,""COLUMNS"",name,.app,.xappid,.xactivecontext,$g(%session.Data(""LOGON.TRUSTID"")),$g(%session.Data(""LOGON.REGION"")))")
+	;得到组件table行的设置
+	Do routine.WriteLine(" s prefs=##class(websys.Preferences).GetDataExLE($g(%session.Data(""LOGON.USERID"")),$g(%session.Data(""LOGON.GROUPID"")),$g(%session.Data(""LOGON.HOSPID"")),$g(%session.Data(""LOGON.SITECODE"")),context,""ROWS"",name,.app,.xappid,.xactivecontext,$g(%session.Data(""LOGON.TRUSTID"")),$g(%session.Data(""LOGON.REGION"")))")
+	Do routine.WriteLine(" s listrows=+$lg(prefs,1),listprint=$lg(prefs,2),listwrap='$lg(prefs,3),listfixed=$lg(prefs,4),listexpand=$lg(prefs,5),delims=$lg(prefs,6),uSortCol=$lg(prefs,7),uSortOrd=$lg(prefs,8),uSort2Col=$lg(prefs,9),uSort2Ord=$lg(prefs,10) ")
+
+	;P8新增以下三行
+	Do routine.WriteLine(" i $lg(prefs,3)="""" s listwrap='""""")
+	Do routine.WriteLine(" i listfixed="""" s listfixed=""""")
+	Do routine.WriteLine(" i listexpand="""" s listexpand=""""")
+	
+	Do routine.WriteLine(" i uSortCol,uSortOrd="""" s uSortOrd=""A""")
+	
+	s delims=""
+	s SiteuSet=""
+
+	;列编辑器先根据个种级别通过##class(websys.Preferences).GetDataExLE()查找显示个性化行和列，
+	;即在websys.Preference 中是否有对应的记录
+	;如果没有在 websys.Component的属性TableSequence
+	s SiteuSet=objComp.TableSequence
+	if SiteuSet'="" {
+		for visiblecolsnum=1:1:($length(SiteuSet,"|")-1) {
+			s delims=delims_"^"
+		}
+	}
+
+	Do routine.WriteLine(" i uSet="""",'$l(xactivecontext) s uSet="""_SiteuSet_""",delims="""_delims_"""")
+	Do routine.WriteLine(" s listrowsLE=listrows")
+	;每页行数
+	Do routine.WriteLine(" s:'listrows listrows=$g(%request.Data(""TROWS"",1)) s:'listrows listrows=25")
+	Do routine.WriteLine(" s:listrowsx listrows=listrowsx")
+	
+	Do routine.WriteLine(" s:listprint="""" listprint=""""")
+	;P7用，不知为何P8改成以上的处理？
+	;Do routine.WriteLine(" s:listprint="""" listprint=""0""")
+	
+	Do routine.WriteLine(" s:nested listrows=99999 s:tprint listrows=999")
+	
+	Do routine.WriteLine(ordertypestr)
+	Do routine.WriteLine(" i uSet="""" s app=""SYS"" s uSet="""_visiblecolstr_"""")
+	Do routine.WriteLine(" s ztsrt=$g(tsrt),ztsrtitm=$g(tsrtitm),ztsrtord=$g(tsrtord)")
+	Do routine.WriteLine(" i +$g(uSortCol),'ztsrtitm s tsrtitm=$g(uSortCol),tsrtord=$g(uSortOrd) s tsrt=$g(tordertype(+$g(uSortCol)))")
+	Do routine.WriteLine(" i uSort2Col s:'tsrtitm uSort2Col="""" s:tsrtitm=uSort2Col uSort2Col="""" ")
+	Do routine.WriteLine(" w ""<!-- COMPONENT "_cmpname_" COLUMNS for "",app,"" "",$g(xactivecontext),"" -->""")
+	Do routine.WriteLine(" k %request.Data(""TSRTITM"",1),%request.Data(""TSRTORD"",1)")
+	
+	if QuerySQL="" {
+		Do routine.WriteLine(" i (tsrt=1)&&(tsrtitm'="""") d")
+		Do routine.WriteLine(" . i tsrtord=""D"" s %request.Data(""TSRTITM"",1)=$g(torderbydesc(+tsrtitm)) i 1")
+		Do routine.WriteLine(" . e  s %request.Data(""TSRTITM"",1)=$g(torderbyasc(+tsrtitm))")
+		Do routine.WriteLine(" . s %request.Data(""TSRTORD"",1)=$g(tsrtord)")
+	}
+	
+	Do routine.WriteLine("setquery")
+	;执行Query,分为动态SQL语句和Query两种,组件定义里面QuerySQL和QUeryName只能选一
+	if QuerySQL'="" {
+		s QuerySQL=$TRANSLATE(QuerySQL,$c(10)," ")
+		s QuerySQL=$TRANSLATE(QuerySQL,$c(13)," ")
+		s tmpSql=QuerySQL
+		s parastr="",paramcn=0
+		while (tmpSql[":"){
+			set newSql=$p(tmpSql,":")
+			set location=$l(newSql)+1
+			set index=1
+			set para="",flag=1
+			s paramcn=paramcn+1
+			while flag {
+				set nextloc=$e(tmpSql,location+index)
+				if (nextloc=" ")||(nextloc=")"){
+					set flag=0
+				}else{
+					set para=para_nextloc
+				}
+				set:(location+index)>$l(tmpSql) flag=0
+				Q:flag=0
+				set index=index+1
+			}
+			
+			if parastr="" s parastr=""""_para_""""
+			e  s parastr=parastr_","""_para_""""
+			
+			set newSql=newSql_" ? "_$e(tmpSql,location+index,$l(tmpSql))
+			set tmpSql=newSql
+		}
+		s QuerySQL=tmpSql
+		;因为后面需要用大写"ORDER BY"处理字符串,不能开始就转换,会导致找不%request的参数名
+		s QuerySQL=$ZCONVERT(QuerySQL,"U")
+		/*
+		Set paramcn=$l(QuerySQL,":")-1
+		Set parastr=""
+		for i=2:1:(paramcn+1) {
+			s tempparaname=$P($P(QuerySQL,":",i)," ",1)
+			s tempparaname=$P(tempparaname,")",1)
+			if parastr="" s parastr=""""_tempparaname_""""
+			e  s parastr=parastr_","""_tempparaname_""""
+		}
+		Do routine.WriteLine(" ///"_QuerySQL)
+		
+		s DynmicQuerySQL=$P(QuerySQL,":",1)
+		for i=2:1:(paramcn+1) {
+			s len=$l($P(QuerySQL,":",i)," ")
+			s DynmicQuerySQL=DynmicQuerySQL_" ? "_$P($P(QuerySQL,":",i)," ",2,len)
+		}
+		s QuerySQL=DynmicQuerySQL
+		*/
+		;debug
+		Do routine.WriteLine(" ///"_QuerySQL)
+		;Do routine.WriteLine(" ///"_tsrt_"^"_tsrtitm)	;wanghc 注释 UNDEFINED tsrt
+		
+		;需要将常量字符串进行双引号处理 
+		s QuerySQL=##class(websys.Conversions).QuotedCacheString(QuerySQL)
+		s SelectSQL=$P(QuerySQL,"ORDER BY",1)
+		Do routine.WriteLine(" s rs=##class(%Library.ResultSet).%New(""%Library.DynamicQuery:SQL"")")
+		Do routine.WriteLine(" s paramcnt="_paramcn)
+		
+		Do routine.WriteLine(" i (tsrt=1)&&(tsrtitm'="""") d")
+		Do routine.WriteLine(" . i (tsrtord=""D"") d rs.Prepare("""_SelectSQL_" ORDER BY ""_$g(torderbydesc(+tsrtitm))) i 1")
+		Do routine.WriteLine(" . e  d rs.Prepare("""_SelectSQL_" ORDER BY ""_$g(torderbyasc(+tsrtitm)))")
+		Do routine.WriteLine(" . i 1")
+		Do routine.WriteLine(" e  d rs.Prepare("""_QuerySQL_" "")")
+		
+	
+		//Do routine.WriteLine(" d rs.Prepare("""_QuerySQL_" "")")
+	}else{
+		Do routine.WriteLine(" s rs=##class(%Library.ResultSet).%New(WebClassName_"":"_QueryName_""")")
+		Do routine.WriteLine(" s paramcnt=rs.GetParamCount()")
+	}
+	Do routine.WriteLine(" n x,ival")
+	Do routine.WriteLine(" s x=""s execstatus=$$InvokeMethod^%apiOBJ(""""%ResultSet"""",rs,""""Execute""""""")
+	;根据传递参数名称取%request中同名的值
+	Do routine.WriteLine(" f j=1:1:paramcnt {")
+	if QuerySQL'="" {
+		Do routine.WriteLine(" s paramname=$lg($lb("_parastr_"),j)")
+	}else{
+		Do routine.WriteLine(" s paramname=rs.GetParamName(j)")
+	}
+	Do routine.WriteLine("    s val=$g(%request.Data(paramname,1))")
+	Do routine.WriteLine("    i $l(val,"""""""")>1 s val="""" f ival=1:1:$l($g(%request.Data(paramname,1)),"""""""") s $p(val,"""""""""""",ival)=$p(%request.Data(paramname,1),"""""""",ival)")
+	;如果参数名中包含"Date","Time",则把参数值转换数值
+	Do routine.WriteLine("    i val'="""",val'?1n.n i ##class(%Library.Collation).Upper(paramname)[""DATE"" s val=##class(websys.Conversions).DateHtmlToLogical(val)")
+	Do routine.WriteLine("    i val'="""",val'?1n.n i ##class(%Library.Collation).Upper(paramname)[""TIME"" s val=##class(websys.Conversions).TimeHtmlToLogical(val)")
+	Do routine.WriteLine("    s x=x_"",""""""_val_""""""""")
+	Do routine.WriteLine(" }")
+	Do routine.WriteLine(" s x=x_"")""")
+	Do routine.WriteLine(" x x")
+	Do routine.WriteLine(" q")
+	Do routine.WriteLine("ListEnd(ttpagid) ;")
+	Do routine.WriteLine(" i 'nested,'tprint,PageCnt!isnextpage d")
+	Do routine.WriteLine(" . If 1 { Write ""<TR><TD width=""""50%"""" align=left>"",! } ")
+	;首页
+	Do routine.WriteLine(" . i PageCnt d")
+	Do routine.WriteLine(" . . w ""<img SRC=""""../images/websys/menuprevp.gif"""" BORDER=""""0"""" onclick=""""""_tname_ttpagid_""_FirstPage();"""">""")
+	Do routine.WriteLine(" . . i 1")
+	Do routine.WriteLine(" . e  w ""&nbsp;""")
+	;上一页	
+	Do routine.WriteLine(" . i PageCnt d")
+	Do routine.WriteLine(" . . w ""<img SRC=""""../images/websys/pageprev.gif"""" BORDER=""""0"""" onclick=""""""_tname_ttpagid_""_PrevPage();"""">""")
+	Do routine.WriteLine(" . . i 1")
+	Do routine.WriteLine(" . e  w ""&nbsp;""")
+	;生成前后翻页的图标,结束的>>是什么意思
+	;Do routine.WriteLine(" . If 1 { Write ""&nbsp;<SMALL>""_((PageCnt+1))_""</SMALL>&nbsp;"",! }  ;</TD><TD width=""50%"" align=right>>")
+	Do routine.WriteLine(" . if shownextinnewwindow="""" { Write ""跳到&nbsp;<input type='text' style='display:none'/><input type=text style='width:50px' onkeydown=""""""_tname_ttpagid_""_GoPage();""""  >页""}")
+	;下一页
+	Do routine.WriteLine(" . i isnextpage d")
+	Do routine.WriteLine(" . . w ""<img SRC=""""../images/websys/pagenext.gif"""" BORDER=""""0"""" onclick=""""""_tname_ttpagid_""_NextPage();"""">""")
+	Do routine.WriteLine(" . . i 1")
+	Do routine.WriteLine(" . e  w ""&nbsp;""")
+	;最后页
+	Do routine.WriteLine(" . if isnextpage,shownextinnewwindow="""" d") 
+ 	Do routine.WriteLine(" . . w ""<img SRC=""""../images/websys/menunextp.gif"""" BORDER=""""0"""" onclick=""""""_tname_ttpagid_""_LastPage();""""  >""")
+ 	Do routine.WriteLine(" . e  w ""&nbsp;""") 
+	Do routine.WriteLine(" . If 1 { Write ""&nbsp;第&nbsp;<B>""_((PageCnt+1))_""</B>&nbsp;页,&nbsp共<b>&nbsp; ""_tTotalNum_"" &nbsp;</b>页"",! }")
+	Do routine.WriteLine(" . w ""</TD></TR>"",!")
+	Do routine.WriteLine(" w ""</TABLE>"",!")
+	Do routine.WriteLine(" n ref0,ref1,ref2,ref3")
+	;第一页
+	Do routine.WriteLine(" s ref0="""" i 'nested,PageCnt s ref0=""window.location.href=""""""_$$PageUrl^"_List2RoutineName_"(0)_"""""";""")
+	;前一页的链接
+	Do routine.WriteLine(" s ref1="""" i 'nested,PageCnt s ref1=""window.location.href=""""""_$$PageUrl^"_List2RoutineName_"(PageCnt-1)_"""""";""")
+	;后一页的链接
+	Do routine.WriteLine(" s ref2="""" i 'nested,isnextpage s ref2=""window.location.href=""""""_$$PageUrl^"_List2RoutineName_"(PageCnt+1)_"""""";""")
+	;到最后一页
+	Do routine.WriteLine(" s ref3="""" i 'nested,isnextpage s ref3=""window.location.href=""""""_$$PageUrl^"_List2RoutineName_"(tTotalNum-1)_"""""";""")
+	;在弹出窗口中打开
+	Do routine.WriteLine(" i $g(%request.Data(""TEVENT"",1))="""",$g(%request.Data(""TMENU"",1))="""",$g(%request.Data(""TEPRSTART"",1))="""" d")
+	Do routine.WriteLine(" . i isnextpage,+PageCnt=0,shownextinnewwindow'="""" d  q")
+	Do routine.WriteLine(" . . i +$g(listrowsLE) d ")
+	Do routine.WriteLine(" . . . i listrowsLE=$g(listrows) s ref2=""websys_lu(""""""_$$PageUrlX^"_List2RoutineName_"(1)_"""""",false,'""_shownextinnewwindow_""');"" i 1") 
+	Do routine.WriteLine(" . . . e  s ref2=""websys_lu(""""""_$$PageUrlX^"_List2RoutineName_"(0)_"""""",false,'""_shownextinnewwindow_""');""") 
+	Do routine.WriteLine(" . . i '$g(listrowsLE) d ")
+	Do routine.WriteLine(" . . . i listrows<$g(listrowsx) s ref2=""websys_lu(""""""_$$PageUrlX^"_List2RoutineName_"(0)_"""""",false,'""_shownextinnewwindow_""');"" i 1")
+	Do routine.WriteLine(" . . . e  s ref2=""websys_lu(""""""_$$PageUrlX^"_List2RoutineName_"(1)_""&TROWS=""_$g(listrowsx)_"""""",false,'""_shownextinnewwindow_""');""") 
+	
+	Do routine.WriteLine(" . i PageCnt s ref1=""window.location.href=""""""_$$PageUrlX^"_List2RoutineName_"(PageCnt-1)_"""""";""")
+	Do routine.WriteLine(" . i isnextpage s ref2=""window.location.href=""""""_$$PageUrlX^"_List2RoutineName_"(PageCnt+1)_"""""";""")
+	Do routine.WriteLine(" . i PageCnt s ref0=""window.location.href=""""""_$$PageUrlX^"_List2RoutineName_"(0)_"""""";""")
+	Do routine.WriteLine(" . i isnextpage s ref3=""window.location.href=""""""_$$PageUrlX^"_List2RoutineName_"(tTotalNum-1)_"""""";""")
+	Do routine.WriteLine(" i shownextinnewwindow'="""" d" )
+ 	Do routine.WriteLine(" . s $p(requery,""?"",1)=""websys.default.csp""")	;如果是chart内的组件排序,不调用epr.chart.csp 20130822 wanghc
+
+	;生成javascript的事件处理
+	Do routine.WriteLine(" w ""<SCRIPT language=javascript>"",!")
+	Do routine.WriteLine(" w ""function ""_tname_ttpagid_""_Sort(typ,itm,ord) {"",!")
+ 	Do routine.WriteLine(" w ""	var sorturl='""_requery_""' + '&TSRT=' + typ + '&TSRTITM_""_tname_""=' + itm + '&TSRTORD_""_tname_""=' + ord;"",!")
+ 	Do routine.WriteLine(" i shownextinnewwindow'="""" w ""websys_lu(sorturl);"",!") 	;如果是chart内组件排序,打开新界面并排序 20130822 wanghc
+ 	Do routine.WriteLine(" e  w ""window.location.href = sorturl;"",!")
+	Do routine.WriteLine(" w ""}"",!")
+	;前一页
+	Do routine.WriteLine(" w ""function ""_tname_ttpagid_""_PrevPage() {"",!")
+	Do routine.WriteLine(" w ref1,!")
+	Do routine.WriteLine(" w ""}"",!")
+	;下一页
+	Do routine.WriteLine(" w ""function ""_tname_ttpagid_""_NextPage() {"",!")
+	Do routine.WriteLine(" w ref2,!")
+	Do routine.WriteLine(" w ""}"",!")
+	;首页
+	Do routine.WriteLine(" w ""function ""_tname_ttpagid_""_FirstPage() {"",!")
+	Do routine.WriteLine(" w ref0,!")
+	Do routine.WriteLine(" w ""}"",!")
+	;尾页
+	Do routine.WriteLine(" w ""function ""_tname_ttpagid_""_LastPage() {"",!")
+	Do routine.WriteLine(" w ref3,!")
+	Do routine.WriteLine(" w ""}"",!")
+	;跳到
+	Do routine.WriteLine(" w ""function ""_tname_ttpagid_""_GoPage() {"",!")
+ 	Do routine.WriteLine(" w ""	var keycode;"",!")
+ 	Do routine.WriteLine(" w ""	try {keycode=websys_getKey(e);} catch(e) {keycode=websys_getKey();}"",!")
+ 	Do routine.WriteLine(" w ""	if (keycode==13) { "",!")
+ 	Do routine.WriteLine(" w ""		if (!websys_getSrcElement()) return websys_cancel();"",!")
+ 	Do routine.WriteLine(" w ""		var goPageCnt = websys_getSrcElement().value;"",!")
+ 	Do routine.WriteLine(" w ""		if (goPageCnt=='') return websys_cancel();"",!")
+ 	Do routine.WriteLine(" w ""		if (goPageCnt=='""_(1+PageCnt)_""') return websys_cancel();"",!")
+ 	Do routine.WriteLine(" w ""		if (1>goPageCnt) return websys_cancel();"",!")
+	Do routine.WriteLine(" w ""		var str = '""_$$PageUrlX^"_List2RoutineName_"(0)_""';"",!")
+ 	Do routine.WriteLine(" w ""		var tmparr = str.split('&');"",!")
+ 	Do routine.WriteLine(" w ""		for (var i =0; i<tmparr.length; i++){"",!")
+ 	Do routine.WriteLine(" w ""			if(tmparr[i].indexOf('TPAGCNT=')>-1){"",!")
+ 	Do routine.WriteLine(" w ""				tmparr.splice(i,1);"",!")
+ 	Do routine.WriteLine(" w ""			}"",!")
+ 	Do routine.WriteLine(" w ""		}"",!")
+ 	Do routine.WriteLine(" w ""		var url = tmparr.join('&');"",!")
+ 	Do routine.WriteLine(" w "" 		url += '&TPAGCNT='+(websys_getSrcElement().value-1)"",!")
+ 	Do routine.WriteLine(" w ""		window.location.href=url;"",!")
+ 	Do routine.WriteLine(" w ""		return websys_cancel();"",!")
+ 	Do routine.WriteLine(" w ""	}"",!")
+ 	Do routine.WriteLine(" w ""}"",!")
+	Do routine.WriteLine(" w ""function Page() {"",!")
+	Do routine.WriteLine(" w ""var keycode;"",!")
+	Do routine.WriteLine(" w ""try {keycode=websys_getKey(e);} catch(e) {keycode=websys_getKey();}"",!")
+	Do routine.WriteLine(" w ""if (keycode==33) { ""_tname_ttpagid_""_PrevPage();}"",!")
+	Do routine.WriteLine(" w ""else if (keycode==34) { ""_tname_ttpagid_""_NextPage();}"",!")
+	Do routine.WriteLine(" w ""else {websys_sckey(e);}"",!")
+	Do routine.WriteLine(" w ""}"",!")
+	Do routine.WriteLine(" w ""document.onkeydown=Page;"",!")
+	Do routine.WriteLine(" w ""</SCRIPT>"",!")
+	Do routine.WriteLine(" d rs.Close()")
+	Do routine.WriteLine(" q")
+
+	;生成按所有列排序的方法，方法中生成页面相应的处理代码
+	Set cols=0
+	Set TableItemsID=0 for {
+		Set TableItemsID=$o(^websys.ComponentTableItemsD(cmpid,TableItemsID))
+		Quit:TableItemsID=""
+		Set cols=cols+1
+		Set colhidden=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),9)
+		Set colname=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),19)
+		Set colcaption=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),2)
+		
+		Do routine.WriteLine("C"_cols_"(ensort) i ensort,'tprint d CSortGEN("_cols_")")
+		if colhidden'=1 {
+			;如果没有自定义列caption则用组件列定义caption
+			if $d(t(colname)){
+				Do routine.WriteLine(" w """_$G(t(colname))_""",! q")
+			}else{
+				Do routine.WriteLine(" w """_colcaption_""",! q")
+			}
+		}else{
+			Do routine.WriteLine(" w """",! q")
+		}
+	}
+
+	Do routine.WriteLine("CSortCMP(itm)")
+	Do routine.WriteLine(" if tsrtitm=itm w ""<A HREF=""""javascript:""_tname_ttpagid_""_Sort(1,'"",itm,""','""_$s(tsrtord=""A"":""D"",1:""A"")_""');"""">"",$s(tsrtord=""A"":zisa,1:zisd),""</A>"",! i 1")
+	Do routine.WriteLine(" e  w ""<A HREF=""""javascript:""_tname_ttpagid_""_Sort(1,'"",itm,""','A');"""">"",zcana,""</A>"",!")
+	Do routine.WriteLine(" q")
+	Do routine.WriteLine("CSortGEN(itm)")
+	Do routine.WriteLine(" if tsrtitm=itm w ""<A HREF=""""javascript:""_tname_ttpagid_""_Sort(2,'"",itm,""','""_$s(tsrtord=""A"":""D"",1:""A"")_""');"""">"",$s(tsrtord=""A"":zisa,1:zisd),""</A>"",! i 1")
+	Do routine.WriteLine(" e  w ""<A HREF=""""javascript:""_tname_ttpagid_""_Sort(2,'"",itm,""','A');"""">"",zcana,""</A>"",!")
+	Do routine.WriteLine(" q")
+		
+   	Do ..SaveRoutine()
+]]></Implementation>
+</Method>
+
+<Method name="GenListValues">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>rtn:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set ListRoutineFile=List3RoutineName_".MAC"
+	
+	Set routine = ##class(%Routine).%New(ListRoutineFile)
+	Do routine.WriteLine(RoutineName_" ;"_List3RoutineName)
+	Do routine.WriteLine(" ; "_objComp.Name_" "_cmpid_" "_$ZD(+$H,4)_" "_$ZT($P($H,",",2)))
+	Do routine.WriteLine(" g start")
+	Do routine.WriteLine("start")
+	Do routine.WriteLine("ListValues  ;")
+	Do routine.WriteLine(" s maxsort=$lg($g(^websys.ConfigurationD(1)),60) s:'maxsort maxsort=500")
+	Do routine.WriteLine(" k ^TMP("""_RoutineName_""",$j)")
+	Do routine.WriteLine(" k ^TMP("""_RoutineName_""",$j)")
+	Do routine.WriteLine(" n xset s xset=""|""_$g(uSet)_"","" ")	
+	Do routine.WriteLine(" s xcnt=1  f  {")
+	Do routine.WriteLine("     q:xcnt>(maxsort+1)")
+	Do routine.WriteLine("     i 'rs.Next() q")
+	;记录结果集行数
+	Do routine.WriteLine(" 	   s tPagginTotalRowNum = tPagginTotalRowNum+1")	
+	Do routine.WriteLine("     s vals=$$ListRowVal(),val=$lg($lg(vals,+tsrtitm),1)")
+	Do routine.WriteLine("     s vali=$zcvt($zstrip(val,""*P"",,"",?""),""U"")")
+	Do routine.WriteLine("     if +$g(uSort2Col) s val2=$lg($lg(vals,+uSort2Col),1),val2i=$zcvt($zstrip(val2,""*P"",,"",?""),""U"")")
+	for k=2:1:($length(datecolstr,"|")) {
+		s datecol=$P(datecolstr,"|",k)
+		Do routine.WriteLine("     i tsrtitm="_datecol_" s vali=##class(websys.Conversions).DateHtmlToLogical($tr(val,""?"",""1""))")
+     	Do routine.WriteLine("     if +$g(uSort2Col),uSort2Col="_datecol_" s val2i=##class(websys.Conversions).DateHtmlToLogical($tr(val2,""?"",""1""))")
+	}
+	for k=2:1:($length(timecolstr,"|")) {
+		s timecol=$P(timecolstr,"|",k)
+		Do routine.WriteLine("     i tsrtitm="_timecol_" s vali=##class(websys.Conversions).TimeHtmlToLogical(val)")
+		Do routine.WriteLine("     if +$g(uSort2Col),uSort2Col="_timecol_" s val2i=##class(websys.Conversions).TimeHtmlToLogical(val2)")
+	}
+	/*
+	for k=2:1:($length(numbercolstr,"|")) {
+		s numbercol=$P(numbercolstr,"|",k)
+		Do routine.WriteLine("     i tsrtitm="_numbercol_" s vali=$j(+val,14,4),sortcol1type=""N""")
+		Do routine.WriteLine("     if +$g(uSort2Col),uSort2Col="_numbercol_" s val2i=$j(+val,14,4),sortcol2type=""N""")
+	}
+	*/
+	
+	for k=2:1:($length(numbercolstr,"|")) {
+		s numbercol=$P(numbercolstr,"|",k)
+		Do routine.WriteLine("     i tsrtitm="_numbercol_" s vali=+val,sortcol1type=""N""")
+		Do routine.WriteLine("     if +$g(uSort2Col),uSort2Col="_numbercol_" s val2i=+val,sortcol2type=""N""")
+	}
+	
+	/*
+	Do routine.WriteLine("     if +$g(uSort2Col) {")
+	Do routine.WriteLine("      s:val2i="""" val2i=1E-14")
+	Do routine.WriteLine("      s vali=$e(vali,1,250),val2i=$e(val2i,1,250)")
+	Do routine.WriteLine("      s ^TMP("""_RoutineName_""",$j,"" ""_vali,"" ""_val2i,xcnt)=vals")
+	Do routine.WriteLine("      m ^TMP("""_RoutineName_"DATA"",$j,"" ""_vali,"" ""_val2i,xcnt)=TCXVALS")
+	Do routine.WriteLine("     } else {")
+	Do routine.WriteLine("      s vali=$e(vali,1,250)")
+	Do routine.WriteLine("      s ^TMP("""_RoutineName_""",$j,"" ""_vali,xcnt)=vals")
+	Do routine.WriteLine("      m ^TMP("""_RoutineName_"DATA"",$j,"" ""_vali,xcnt)=TCXVALS")
+	Do routine.WriteLine("     }")
+	*/
+	;通过增加sortcol1type,sortcol2type来解决字符串排序方式中正负数排序时不正确的问题 周志强 2011.10.23
+	Do routine.WriteLine("     if +$g(uSort2Col) {")
+	Do routine.WriteLine("      s:val2i="""" val2i=1E-14")
+	Do routine.WriteLine("      s vali=$e(vali,1,250),val2i=$e(val2i,1,250)")
+	Do routine.WriteLine("      if $g(sortcol2type)=""N"" {")
+	Do routine.WriteLine("      s ^TMP("""_RoutineName_""",$j,"" ""_vali,val2i,xcnt)=vals")
+	Do routine.WriteLine("      m ^TMP("""_RoutineName_"DATA"",$j,"" ""_vali,val2i,xcnt)=TCXVALS")
+	Do routine.WriteLine("      }else{")					
+	Do routine.WriteLine("      s ^TMP("""_RoutineName_""",$j,"" ""_vali,"" ""_val2i,xcnt)=vals")
+	Do routine.WriteLine("      m ^TMP("""_RoutineName_"DATA"",$j,"" ""_vali,"" ""_val2i,xcnt)=TCXVALS")
+	Do routine.WriteLine("      	}")
+	Do routine.WriteLine("     } else {")
+	Do routine.WriteLine("      s vali=$e(vali,1,250)")
+	Do routine.WriteLine("      if $g(sortcol1type)=""N""{")
+	Do routine.WriteLine("      s ^TMP("""_RoutineName_""",$j,vali,xcnt)=vals")
+	Do routine.WriteLine("      m ^TMP("""_RoutineName_"DATA"",$j,vali,xcnt)=TCXVALS")
+	Do routine.WriteLine("      }else{")
+	Do routine.WriteLine("      s ^TMP("""_RoutineName_""",$j,"" ""_vali,xcnt)=vals")
+	Do routine.WriteLine("      m ^TMP("""_RoutineName_"DATA"",$j,"" ""_vali,xcnt)=TCXVALS")
+	Do routine.WriteLine("      }")
+	Do routine.WriteLine("     }")
+	Do routine.WriteLine("     s xcnt=xcnt+1")
+	Do routine.WriteLine("}")
+	;记录结果集行数
+    Do routine.WriteLine("f  q:'rs.Next()  s tPagginTotalRowNum = tPagginTotalRowNum+1")
+	Do routine.WriteLine(" d rs.Close()")
+	Do routine.WriteLine(" q")
+	Do routine.WriteLine("ListRowVal() ;")
+	Do routine.WriteLine(" n val,lnkexp,imgexp")
+	Do routine.WriteLine(" k TCXVALS")
+	s cols=0
+	s retstr=""
+	Set TableItemsID=0 for {
+		Set TableItemsID=$o(^websys.ComponentTableItemsD(cmpid,TableItemsID))
+		Quit:TableItemsID=""
+		Set colname=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),19)
+		Set colvalueget=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),26)
+		Set coldatatype=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),5)
+		Set colDisplaytype=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),8)
+		set colHidden=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),9)
+		Set colImage=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),10)
+		set colLinkExpression=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),13)
+		Set coldisplaytype=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),8)
+		Set NestedTransExpr=$lg(^websys.ComponentTableItemsD(cmpid,TableItemsID),36)
+
+		;如果定义的是Cache Object Script,连接串就要有变化，参见websys.ComponentItem.ImageEx的注释
+		if (($P(colImage,""""))["#")||(($P(colImage,""""))["$"){
+			s colImage="""_"_colImage_"_"""""""
+		}
+
+		s cols=cols+1
+		
+		s lnkexp="",imgexp=""
+		if colLinkExpression'="" s lnkexp=" s lnkexp="_colLinkExpression
+		if colImage'="" s imgexp=" s imgexp="""_colImage_""""
+		
+		if colHidden'=1 Do routine.WriteLine(" i xset[""|"_cols_","" {")
+		if coldisplaytype="CX",NestedTransExpr'=""  {
+			s NestedTransExpr=$REPLACE(NestedTransExpr,"rs.GetDataByName","TCXVALS")
+			s NestedTransExpr=$REPLACE(NestedTransExpr,"rs.Data","TCXVALS")
+			for nn=1:1:$length(NestedTransExpr,"TCXVALS(") {
+				s cxparacol=$P($P(NestedTransExpr,"TCXVALS(",2),")",1)
+				Do routine.WriteLine(" s TCXVALS("_cxparacol_")=$g(rs.Data("_cxparacol_"))")
+			}
+		}
+
+		Do routine.WriteLine(" s lnkexp="""",imgexp="""" "_lnkexp_imgexp) 
+		Do routine.WriteLine(" s val="""" "_colvalueget)
+		Do routine.WriteLine(" s val("_cols_")=$lb(val,lnkexp,imgexp)")		
+		Do routine.WriteLine(" s $li(val("_cols_"),5)=""""")
+		Do routine.WriteLine(" s val=1 ")
+		Do routine.WriteLine(" s $li(val("_cols_"),4)=val")
+		if colHidden'=1 Do routine.WriteLine(" } else {s val("_cols_")=$lb()}")		
+		i retstr="" s retstr="val("_cols_")"
+		e  s retstr=retstr_",val("_cols_")"
+	}
+	Do routine.WriteLine(" q $lb("_retstr_")")
+	Do routine.WriteLine(" q")
+	
+   	Do ..SaveRoutine()
+]]></Implementation>
+</Method>
+
+<Method name="GenPageUrl">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+<Implementation><![CDATA[
+	Do routine.WriteLine("PageUrl(PageCnt)")
+	Do routine.WriteLine(" n j,url")
+	Do routine.WriteLine(" s url=""websys.csp?TEVENT=""_$g(%request.Data(""TEVENT"",1))")
+	Do routine.WriteLine(" i $g(%request.Data(""TEVENT"",1))="""" {")
+	Do routine.WriteLine("  i $g(%request.Data(""TMENU"",1)) {")
+	Do routine.WriteLine("   s url=url_""&TMENU=""_$g(%request.Data(""TMENU"",1))")
+	Do routine.WriteLine("  } else {")
+	Do routine.WriteLine("   s url=%request.PageName_""?WEBSYS.TCOMPONENT=""_$g(%request.Data(""WEBSYS.TCOMPONENT"",1),"""_cmpname_""")")
+	Do routine.WriteLine("  }")
+	Do routine.WriteLine(" }")
+	Do routine.WriteLine(" ///"_objComp.DisplayType)
+	if objComp.DisplayType="F" {
+		Do routine.WriteLine("///")
+		Do routine.WriteLine(Prarstr)
+	}
+	if QuerySQL="" {
+		//Do routine.WriteLine("///"_%response.CharSet) //2011-11-28
+		;参数转成unicode后重新执行query后无法再转换回来,所以先不转换，GenPageUrlSort同理	
+		;Do routine.WriteLine(" f j=1:1:rs.GetParamCount() s:$g(%request.Data(rs.GetParamName(j),1))'="""" url=url_""&""_rs.GetParamName(j)_""=""_$ZCVT($g(%request.Data(rs.GetParamName(j),1)),""O"",""URL"")")
+		Do routine.WriteLine(" f j=1:1:rs.GetParamCount() s:$g(%request.Data(rs.GetParamName(j),1))'="""" url=url_""&""_rs.GetParamName(j)_""=""_$g(%request.Data(rs.GetParamName(j),1))")
+	}else{
+		;组件查询关联的是sql语句时,URL串也要把入参串入
+		set rtn = $$dynamic^%qaqpreparser(.QuerySQL,.tStatementPreparsed,.tStatementArgs,.tStatementTables,,.tFirstToken)
+		if rtn=0{
+			set sqlparamcount=$ll(tStatementArgs)
+			if sqlparamcount>0 {
+				Do routine.Write(" s url=url")
+				set j=1 for {
+					set paramtype = $lg(tStatementArgs,j*2-1)
+					set paramname = $lg(tStatementArgs,j*2)
+					if paramtype="v" Do routine.Write("_""&"_paramname_"=""_$g(%request.Data("""_paramname_""",1))")
+					set j = j+1
+					q:j>(sqlparamcount/2)
+				}
+				Do routine.WriteLine()
+			}
+		}	
+	}	
+	Do routine.WriteLine(" s:$g(%request.Data(""CONTEXT"",1))'="""" url=url_""&CONTEXT=""_$g(%request.Data(""CONTEXT"",1)) s:$g(%request.Data(""TWKFL"",1))'="""" url=url_""&TWKFL=""_$g(%request.Data(""TWKFL"",1)) s:$g(%request.Data(""TWKFLI"",1))'="""" url=url_""&TWKFLI=""_$g(%request.Data(""TWKFLI"",1)) s url=url_""&TPAGCNT=""_PageCnt")
+	Do routine.WriteLine(" i $g(tsrt)'="""" s url=url_""&TSRT=""_tsrt")
+	Do routine.WriteLine(" i $g(tsrtitm)'="""" s url=url_""&TSRTITM_"_formatcmpname_"=""_tsrtitm")
+	Do routine.WriteLine(" i $g(tsrtord)'="""" s url=url_""&TSRTORD_"_formatcmpname_"=""_tsrtord")
+	Do routine.WriteLine(" s:$d(%request.Data(""PatientBanner"",1)) url=url_""&PatientBanner=""_$g(%request.Data(""PatientBanner"",1)) s:$d(%request.Data(""TEPRSTART"",1)) url=url_""&TEPRSTART=""_$g(%request.Data(""TEPRSTART"",1))")
+	Do routine.WriteLine(" d PageUrlParam")
+	Do routine.WriteLine(" q url")
+]]></Implementation>
+</Method>
+
+<Method name="GenPageUrlSort">
+<Description>
+Get (and create) Xref entry</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+<Implementation><![CDATA[
+	Do routine.WriteLine("PageUrlSort(PageCnt)")
+	Do routine.WriteLine(" n j,url")
+	Do routine.WriteLine(" s url=""websys.csp?TEVENT=""_$g(%request.Data(""TEVENT"",1))_""&WEBSYS.TCOMPONENT=""_$g(%request.Data(""WEBSYS.TCOMPONENT"",1),"""_cmpname_""")")
+	Do routine.WriteLine(" i $g(%request.Data(""TEVENT"",1))="""" {")
+	Do routine.WriteLine("  i $g(%request.Data(""TMENU"",1)) {")
+	Do routine.WriteLine("   s url=url_""&TMENU=""_$g(%request.Data(""TMENU"",1))")
+	Do routine.WriteLine("  } else {")
+ 	Do routine.WriteLine("   s url=%request.PageName_""?WEBSYS.TCOMPONENT=""_$g(%request.Data(""WEBSYS.TCOMPONENT"",1),"""_cmpname_""")")
+ 	Do routine.WriteLine("  }")
+	Do routine.WriteLine(" }")
+	if QuerySQL="" {
+		;参数转成unicode后重新执行query后无法再转换回来,所以先不转换，GenPageUrl同理	
+		;Do routine.WriteLine(" f j=1:1:rs.GetParamCount() s:$g(%request.Data(rs.GetParamName(j),1))'="""" url=url_""&""_rs.GetParamName(j)_""=""_$ZCVT($g(%request.Data(rs.GetParamName(j),1)),""O"",""URL"")")
+		Do routine.WriteLine(" f j=1:1:rs.GetParamCount() s:$g(%request.Data(rs.GetParamName(j),1))'="""" url=url_""&""_rs.GetParamName(j)_""=""_$g(%request.Data(rs.GetParamName(j),1))")
+	}else{
+		set rtn = $$dynamic^%qaqpreparser(.QuerySQL,.tStatementPreparsed,.tStatementArgs,.tStatementTables,,.tFirstToken)
+		if rtn=0{
+			set sqlparamcount=$ll(tStatementArgs)
+			if sqlparamcount>0 {
+				Do routine.Write(" s url=url")
+				set j=1 for {
+					set paramtype = $lg(tStatementArgs,j*2-1)
+					set paramname = $lg(tStatementArgs,j*2)
+					if paramtype="v" Do routine.Write("_""&"_paramname_"=""_$g(%request.Data("""_paramname_""",1))")
+					set j = j+1
+					q:j>(sqlparamcount/2)
+				}
+				Do routine.WriteLine()
+			}
+		}	
+
+	}
+	Do routine.WriteLine(" s:$g(%request.Data(""CONTEXT"",1))'="""" url=url_""&CONTEXT=""_$g(%request.Data(""CONTEXT"",1)) s:$g(%request.Data(""TWKFL"",1))'="""" url=url_""&TWKFL=""_$g(%request.Data(""TWKFL"",1)) s:$g(%request.Data(""TWKFLI"",1))'="""" url=url_""&TWKFLI=""_$g(%request.Data(""TWKFLI"",1)) s url=url_""&TPAGCNT=""_PageCnt")
+	Do routine.WriteLine(" s:$d(%request.Data(""PatientBanner"",1)) url=url_""&PatientBanner=""_$g(%request.Data(""PatientBanner"",1))")
+	Do routine.WriteLine(" i $g(%request.Data(""TROWS"",1))'="""" s url=url_""&TROWS=""_$g(%request.Data(""TROWS"",1))")
+	Do routine.WriteLine(" d PageUrlParam")
+	Do routine.WriteLine(" q url")
+]]></Implementation>
+</Method>
+
+<Method name="GenPageUrlX">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+<Implementation><![CDATA[
+	Do routine.WriteLine("PageUrlX(PageCnt)")	
+	Do routine.WriteLine(" n j,url")
+	Do routine.WriteLine(" s url=""websys.default.csp?WEBSYS.TCOMPONENT="_cmpname_"""")
+	if QuerySQL="" {
+		;Do routine.WriteLine(" f j=1:1:rs.GetParamCount() s url=url_""&""_rs.GetParamName(j)_""=""_$ZCVT($g(%request.Data(rs.GetParamName(j),1)),""O"",""URL"")")
+		;参数转成unicode后重新执行query后无法再转换回来,所以先不转换，GenPageUrl同理	
+		Do routine.WriteLine(" f j=1:1:rs.GetParamCount() s url=url_""&""_rs.GetParamName(j)_""=""_$g(%request.Data(rs.GetParamName(j),1))")
+	}
+	Do routine.WriteLine(" s url=url_""&CONTEXT=""_$g(%request.Data(""CONTEXT"",1))_""&TWKFL=""_$g(%request.Data(""TWKFL"",1))_""&TWKFLI=""_$g(%request.Data(""TWKFLI"",1))_""&TPAGCNT=""_PageCnt")
+	Do routine.WriteLine(" i $g(tsrt)'="""" s url=url_""&TSRT=""_tsrt")
+	Do routine.WriteLine(" i $g(tsrtitm)'="""" s url=url_""&TSRTITM_"_formatcmpname_"=""_tsrtitm")
+	Do routine.WriteLine(" i $g(tsrtord)'="""" s url=url_""&TSRTORD_"_formatcmpname_"=""_tsrtord")
+	Do routine.WriteLine(" i $d(%request.Data(""PatientBanner"",1)) s url=url_""&PatientBanner=""_$g(%request.Data(""PatientBanner"",1))")
+	Do routine.WriteLine(" e  i $g(shownextinnewwindow)'="""" s url=url_""&PatientBanner=1""")
+	Do routine.WriteLine(" i $g(%request.Data(""TROWS"",1))'="""" s url=url_""&TROWS=""_$g(%request.Data(""TROWS"",1))")
+	Do routine.WriteLine(" d PageUrlParam")
+	Do routine.WriteLine(" q url")
+]]></Implementation>
+</Method>
+
+<Method name="GenPageUrlParam">
+<Description>
+called by GenPageUrl,GenPageUrlX,GenPageUrlSort - keep PassThruParams for urls in one place instead of 3 times</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+<Implementation><![CDATA[
+	Do routine.WriteLine("PageUrlParam")
+	Do routine.WriteLine(" i $g(%request.Data(""PatientID"",1))'="""" s url=url_""&PatientID=""_$g(%request.Data(""PatientID"",1))")
+	Do routine.WriteLine(" i $g(%request.Data(""EpisodeID"",1))'="""" s url=url_""&EpisodeID=""_$g(%request.Data(""EpisodeID"",1))")
+	Do routine.WriteLine(" i $g(%request.Data(""mradm"",1))'="""" s url=url_""&mradm=""_$g(%request.Data(""mradm"",1))")
+	Do routine.WriteLine(" i $g(%request.Data(""TCONTEXT"",1))'="""" s url=url_""&TCONTEXT=""_$g(%request.Data(""TCONTEXT"",1))")
+	s PassThruParameters=objComp.PassThruParameters
+	if PassThruParameters'="" {
+		f j=1:1:$Length(PassThruParameters,",") {
+			s paraname=$P(PassThruParameters,",",j)
+			Do routine.WriteLine(" i $g(%request.Data("""_paraname_""",1))'="""" s url=url_""&"_paraname_"=""_$g(%request.Data("""_paraname_""",1))")
+		}
+	}
+	Do routine.WriteLine(" q")
+]]></Implementation>
+</Method>
+
+<Method name="GetUserClassName">
+<Description>
+取得组件对应的实体类名称</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>WebClassName:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	/*
+		Set PackageName=$P(WebClassName,".",1)
+		if (PackageName'="websys")&&(PackageName'="epr") s PackageName="User"
+		Set UserClassName=PackageName_"."_$P(objComp.ClassName,".",2)
+	*/
+
+	Set UserClassName=WebClassName
+	if (WebClassName[("web.")) s UserClassName="User."_$P(WebClassName,".",2)
+	Q UserClassName
+]]></Implementation>
+</Method>
+
+<Method name="GenSave">
+<Description>
+生成Edit组件的后台数据保存M</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	Set RoutineFile=RoutineName_".S1.MAC"
+	d ..Init()
+
+	Set UserClassName=..GetUserClassName(WebClassName)
+	///只有Edit和Custom类型的组件并定义逻辑类,才能生成save方法
+	///此方法供GetSave调用
+	
+	;add by zhouzq For debug 2011.06.03
+	Do routine.WriteLine("saveerr")
+	Do routine.WriteLine(" d ##Class(websys.Lock).LockClear($lb(id,"""_UserClassName_"""),%session.SessionId)")
+	Do routine.WriteLine(" s ^Temp(""Upgrade"",""save^"_RoutineFile_""")=$ZE")
+	Do routine.WriteLine(" q 1")
+	
+	Do routine.WriteLine("save(compref,id)	;")
+	if (WebClassName'="") &&((DisplayType="E")||(DisplayType="C")){
+		;;add by zhouzq For debug 2011.06.03
+		Do routine.WriteLine(" s $ZT=""saveerr^"_RoutineName_".S1""")
+
+		Do routine.WriteLine(" n compid,status,new,j,oktosave,save,value,parref,oldval")
+		Do routine.WriteLine(" s compid="_cmpid_",oktosave=1,save=0")
+		
+		Do routine.WriteLine(" i id'="""",'##Class(websys.Lock).Lock($lb(id,"""_UserClassName_"""),%session.SessionId,%session.Get(""LOGON.USERID""),.status) d  q 0")
+		Do routine.WriteLine(" . d msg.AddItem(""E"",""LOCKED"",status,compid) s oktosave=0")
+		Do routine.WriteLine(" i '##Class("_WebClassName_").websysBeforeSave(compref,.id) q 0")
+		Do routine.WriteLine(" s new=id=""""")
+		
+		
+		Do routine.WriteLine(" s:id'="""" obj=##Class("_UserClassName_").%OpenId(id)")
+		Do routine.WriteLine(" if id="""" d")
+		Do routine.WriteLine(" . s parref=$g(%request.Data(""PARREF"",1))")
+		Do routine.WriteLine(" . i parref="""" s obj=##Class("_UserClassName_").%New()")
+		Do routine.WriteLine(" . i parref'="""" s obj=##Class("_UserClassName_").%New(parref)")
+        
+        s ItemsID=0 
+        while (ItemsID'="") {
+	        
+	        
+	        s ItemsID=$o(^websys.ComponentItemsD(cmpid,ItemsID))
+	        Q:ItemsID=""
+        	s objCompitem=##class(websys.ComponentItems).%OpenId(cmpid_"||"_ItemsID)
+   			;continue:objCompitem.Hidden=1      	
+     		s valueset=objCompitem.ValueSet
+     		continue:valueset=""
+     		;s valueset=$REPLACE(valueset,"##C","##c")
+     		
+        	d ..GenRoutine()
+
+        	s displaytype=objCompitem.DisplayType
+        	s itemname=objCompitem.Name
+        	s itemcaption=objCompitem.Caption
+        	///为什么CheckBox这样处理？
+        	if displaytype="C" {
+	 			Do routine.WriteLine(" d")
+		  		Do routine.WriteLine(" . s (val,oldval)=$g(%request.Data("""_itemname_""",1)) "_valueset)
+	 			Do routine.WriteLine(" . i oldval'="""",val="""" d msg.AddItem(""E"",$g(t("""_itemname_"""),"""_itemcaption_"""),oldval_"" ""_$g(t(""XINVALID""),"" is invalid""),"_cmpid_","""_itemname_""") s oktosave=0")
+        	}else{
+	 			Do routine.WriteLine(" i $d(%request.Data("""_itemname_""",1)) d")
+		  		Do routine.WriteLine(" . s (val,oldval)=$g(%request.Data("""_itemname_""",1)) "_valueset)
+	 			Do routine.WriteLine(" . i oldval'="""",val="""" d msg.AddItem(""E"",$g(t("""_itemname_"""),"""_itemcaption_"""),oldval_"" ""_$g(t(""XINVALID""),"" is invalid""),"_cmpid_","""_itemname_""") s oktosave=0")
+        	}
+        }
+		Do routine.WriteLine(" i 'oktosave,'$g(msg.Count(""E"")),$g(%request.Data(""TOVERRIDE"",1)) s oktosave=1")
+		Do routine.WriteLine(" s ^Temp(""Upgrade"",""save^"_RoutineFile_""",1)=oktosave")
+		Do routine.WriteLine(" i oktosave d")
+		Do routine.WriteLine(" . s save=obj.%Save(0)")
+		Do routine.WriteLine(" . s ^Temp(""Upgrade"",""save^"_RoutineFile_""",2)=$system.Status.GetErrorText(save)")
+		Do routine.WriteLine(" . i $d(msg) d msg.Status(save,"_cmpid_")")
+		Do routine.WriteLine(" s:save id=obj.%Id()")
+		Do routine.WriteLine(" d obj.%Close()  s obj=""""")
+		;Trak原来没有idnew这个变量,新增作为自定义websyssave方法用
+		Do routine.WriteLine(" s idnew=id")
+		Do routine.WriteLine(" d:save ##Class("_WebClassName_").websysAfterSave(compref,id,new)")
+		Do routine.WriteLine(" i 'new d ##Class(websys.Lock).LockClear($lb(id,"""_UserClassName_"""),%session.SessionId)")
+		Do routine.WriteLine(" q save")
+	}else{
+		Do routine.WriteLine(" q 1")
+	}
+   	Do ..SaveRoutine()
+]]></Implementation>
+</Method>
+
+<Method name="GenLookup">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	Set ListRoutineFile=RoutineName_".L1.MAC"
+	Set SaveRoutineName=RoutineName_".L1"
+	
+	Set routine = ##class(%Routine).%New(ListRoutineFile)
+	Do routine.WriteLine(RoutineName_" ;"_SaveRoutineName)
+	Do routine.WriteLine(" ; "_objComp.Name_" "_cmpid_" "_$ZD(+$H,4)_" "_$ZT($P($H,",",2)))
+	Do routine.WriteLine(" g start")
+	Do routine.WriteLine("start")
+	
+	Do routine.WriteLine("ShowListLookup(name,hidemenus,hideheadings)	;")
+	Do routine.WriteLine(" n rs,PageCnt,e,j,classquery,caption,uSet")
+	;得到组件信息
+	Do routine.WriteLine(" n t d ##class(websys.Component).GetComponentMessages(.t,"""_cmpname_""")")
+	;得到翻译
+	Do routine.WriteLine(" d ##class(websys.Translation).LoadLookup(%session.Get(""LOGON.LANGID""),$g(%request.Data(""CONTEXT"",1)))")
+	Do routine.WriteLine(" s classquery=$p($g(%request.Data(""CONTEXT"",1)),""K"",2,999)")
+	Do routine.WriteLine(" s lujs=$g(%request.Data(""TLUJSF"",1))")
+	Do routine.WriteLine(" s PageCnt=$g(%request.Data(""TPAGCNT"",1))")
+	Do routine.WriteLine(" i classquery="""" d  q")
+	Do routine.WriteLine(" . w !,$g(t(""InvalidQuery""),""Class or lookup query not found"")_"":</BR>"" d %response.Flush()")
+	Do routine.WriteLine(" s rs=##class(%Library.ResultSet).%New(classquery)")
+	Do routine.WriteLine(" i 'rs || 'rs.QueryIsValid() d  q")
+	Do routine.WriteLine(" . w !,$g(t(""InvalidQuery""),""Class or lookup query not found"")_"":</BR><B>""_classquery_""</B></BR>"" d %response.Flush()")
+	Do routine.WriteLine(" s x=""i $zobjmethod(rs,""""Execute""""""")
+	Do routine.WriteLine(" f j=1:1:rs.GetParamCount() s x=x_"",""""""_##class(websys.Conversions).QuotedCacheString($g(%request.Data(""P""_j,1)))_""""""""")
+	Do routine.WriteLine(" s x=x_"")""")
+	Do routine.WriteLine(" d ##class(websys.Conversions).expressionExecute(x)")
+	Do routine.WriteLine(" i $d(e),e'="""" d")
+	Do routine.WriteLine(" . s e=##class(%CSP.Page).EscapeHTML(e)")
+	Do routine.WriteLine(" . w ""<BR><BR><STRONG><FONT Color=red>""_e_""</FONT></STRONG>""")
+	Do routine.WriteLine(" w ""<TABLE WIDTH=""""100%"""" style=""""left: 0px; top: 0px"""" border=0 cellspacing=0>""")
+	Do routine.WriteLine(" w ""<TR>""")
+	Do routine.WriteLine(" w ""<TD colSpan=2 valign=top>""")
+	Do routine.WriteLine(" w ""<TABLE id=tblLookup Name=tblLookup  style=""""LEFT: 0px; TOP: 0px"""" border=0 cellspacing=0>""")
+	Do routine.WriteLine(" s uSet=##class(websys.Preferences).GetDataExLE($g(%session.Data(""LOGON.USERID"")),$g(%session.Data(""LOGON.GROUPID"")),$g(%session.Data(""LOGON.HOSPID"")),$g(%session.Data(""LOGON.SITECODE"")),$g(%request.Data(""CONTEXT"",1)),""COLUMNS"",name,.app,.appid,.activecontext,$g(%session.Data(""LOGON.TRUSTID"")),$g(%session.Data(""LOGON.REGION"")))")
+	Do routine.WriteLine(" i '$l(uSet) f j=1:1:rs.GetColumnCount() i $zcvt(rs.GetColumnHeader(j),""U"")'=""HIDDEN"" s:uSet'="""" uSet=uSet_""|"" s uSet=uSet_j")
+	Do routine.WriteLine(" if 'hideheadings {")
+	Do routine.WriteLine(" s url=""websys.component.customiselayout.csp?ID="_cmpid_"&CONTEXT=""_$g(%request.Data(""CONTEXT"",1))")
+	Do routine.WriteLine("	if $g(%session.Data(""LOGON.ALLOWCOLUMNMANAGER""))=""Y"" {")
+	Do routine.WriteLine("		 w ""<THEAD ondblclick=""""websys_lu('""_url_""',false);"""">""")
+	Do routine.WriteLine("	} else {")
+	Do routine.WriteLine("		w ""<THEAD>""")
+	Do routine.WriteLine("	}")
+	Do routine.WriteLine("	 f j=1:1:$l(uSet,""|"") {")
+	Do routine.WriteLine("	 	s colx=+$p(uSet,""|"",j),caption=""""")
+	Do routine.WriteLine("	 	s:colx'>rs.GetColumnCount() caption=rs.GetColumnHeader(colx) s:caption="""" caption=""&nbsp;""")
+	Do routine.WriteLine("	 	if (colx)&&(colx'>rs.GetColumnCount())&&($zcvt(rs.GetColumnHeader(colx),""U"")'=""HIDDEN"") {")
+	Do routine.WriteLine("	 		w ""<TH WIDTH=""""100%"""">""_$g(t(colx),caption)_""</TH>""")
+	Do routine.WriteLine("	 	}")
+	Do routine.WriteLine("	 }")
+	Do routine.WriteLine("	 w ""</THEAD>""")
+	Do routine.WriteLine(" }")
+	Do routine.WriteLine(" s xcnt=1,zpaging=PageCnt*18 f  q:xcnt>zpaging  q:'rs.Next()  s xcnt=xcnt+1")
+	Do routine.WriteLine(" s col1js=""var col1=new Array(""")
+	Do routine.WriteLine(" s colalljs=""var colall=new Array(""")
+	Do routine.WriteLine(" s rowcount=-1")
+	Do routine.WriteLine(" s xcnt=0 f  q:'rs.Next()  d  q:xcnt>18")
+	Do routine.WriteLine(" . s xcnt=xcnt+1")
+	Do routine.WriteLine(" . s txt=rs.GetData(1)")
+	Do routine.WriteLine(" . s rowcount=rowcount+1,fulltext=""""")
+	Do routine.WriteLine(" . s col1js(rowcount)=txt")
+	Do routine.WriteLine(" . s txt=$ZCVT(txt,""O"",""HTML"")")
+	Do routine.WriteLine(" . w ""<TR onclick=""""RowSel("",rowcount,"");"""" onmousedown=""""TR_OMD("",rowcount,"");"""">""")
+	Do routine.WriteLine(" . f k=1:1:$l(uSet,""|"") d")
+	Do routine.WriteLine(" . . s colx=+$p(uSet,""|"",k)")
+	Do routine.WriteLine(" . . q:'colx")
+	Do routine.WriteLine(" . . q:colx>rs.GetColumnCount()")
+	Do routine.WriteLine(" . . q:($zcvt(rs.GetColumnHeader(colx),""U"")=""HIDDEN"")")
+	Do routine.WriteLine(" . . s coltxt=rs.GetData(colx)")
+	Do routine.WriteLine(" . . w ""<TD NOWRAP"" w:colx=1 "" WIDTH=""""100%"""""" w "">"",$ZCVT(rs.GetData(colx),""O"",""HTML""),""</TD>""")
+	Do routine.WriteLine(" . w ""</TR>"",!")
+	Do routine.WriteLine(" . f k=1:1:rs.GetColumnCount() d")
+	Do routine.WriteLine(" . . s coltxt=rs.GetData(k) s:$l(lujs) fulltext=fulltext_coltxt_""^""")
+	Do routine.WriteLine(" . i $l(lujs) s colalljs(rowcount)=fulltext")
+	Do routine.WriteLine(" s colspan=$s($d(k):k,1:1) f xcnt=xcnt:1:18 w ""<TR><TD COLSPAN=""_colspan_"">&nbsp;<TD></TR>""")
+	Do routine.WriteLine(" w ""</TABLE>""")
+	Do routine.WriteLine(" i rowcount=-1 w ""<STRONG>""_$g(t(""NoMatches""),""No matches found"")_""</STRONG>""")
+	Do routine.WriteLine(" w ""</TD></TR>"",!")
+	Do routine.WriteLine(" w ""<TR><TD colspan=2><P>&nbsp;</P><TABLE><TR><TD width=""""20"""">""")
+	Do routine.WriteLine(" i PageCnt d")
+	Do routine.WriteLine(" . w ""<img SRC=""""../images/websys/pageprev.gif"""" BORDER=""""0"""" onclick=""""PrevPage();"""">""")
+	Do routine.WriteLine(" . i 1")
+	Do routine.WriteLine(" e  w ""&nbsp;""")
+	Do routine.WriteLine(" w ""</TD><TD width=""""20"""">""")
+	Do routine.WriteLine(" s isnextpage=rs.Next()")
+	Do routine.WriteLine(" i isnextpage d")
+	Do routine.WriteLine(" . w ""<img SRC=""""../images/websys/pagenext.gif"""" BORDER=""""0"""" onclick=""""NextPage();"""">""")
+	Do routine.WriteLine(" . i 1")
+	Do routine.WriteLine(" e  w ""&nbsp;""")
+	Do routine.WriteLine(" w ""</TD></TR></TABLE></TD></TR>"",!")
+	Do routine.WriteLine(" w ""</TABLE>""")
+	Do routine.WriteLine(" w ""<SCRIPT>"",!")
+	Do routine.WriteLine(" w ""var col1=new Array();""")
+	Do routine.WriteLine(" w ""var colall=new Array();""")
+	Do routine.WriteLine(" f xcnt=0:1:rowcount d")
+	Do routine.WriteLine(" . w ""col1[""_(xcnt)_""]='""_$zcvt(col1js(xcnt),""O"",""JS"")_""';""")
+	Do routine.WriteLine(" . if $d(colalljs(xcnt)) w ""colall[""_(xcnt)_""]='""_$zcvt(colalljs(xcnt),""O"",""JS"")_""';"",!")
+	Do routine.WriteLine(" w !,""var minrows=0;"",!")
+	Do routine.WriteLine(" w ""var maxrows=""_rowcount_"";"",!")
+	Do routine.WriteLine(" w ""var selectedrow=""_$s(rowcount=0:-1,1:""minrows"")_"";"",!")
+	Do routine.WriteLine(" w ""var isSelected=0;"",!")
+	Do routine.WriteLine(" i rowcount>-1 w ""RowHi(minrows);"",!")
+	Do routine.WriteLine(" w ""document.onkeydown=OnKeyDownHandler;"",!")
+	Do routine.WriteLine(" w ""function RowSel(row) {"",!")
+	Do routine.WriteLine(" w ""var par_win=window.opener;"",!")
+	Do routine.WriteLine(" w ""try {par_win.""_$p($g(%request.Data(""ID"",1)),""i"",2,999)_""_lookupsel(unescape(col1[row-minrows]));} catch (err) {}"",!")
+	Do routine.WriteLine(" w:$l(lujs) ""par_win.""_lujs_""(unescape(colall[row-minrows]));""")
+	Do routine.WriteLine(" w ""isSelected=1;"",!")
+	Do routine.WriteLine(" w ""window.close();"",!")
+	Do routine.WriteLine(" w ""}"",!")
+	Do routine.WriteLine(" w ""function PrevPage() {"",!")
+	Do routine.WriteLine(" w ""isSelected=1;"",!")
+	Do routine.WriteLine(" w:PageCnt ""window.location.href=""""""_$$PageUrl(PageCnt-1)_"""""";"",!")
+	Do routine.WriteLine(" w ""}"",!")
+	Do routine.WriteLine(" w ""function NextPage() {"",!")
+	Do routine.WriteLine(" w ""isSelected=1;"",!")
+	Do routine.WriteLine(" w:isnextpage ""window.location.href=""""""_$$PageUrl(PageCnt+1)_"""""";"",!")
+	Do routine.WriteLine(" w ""}"",!")
+	Do routine.WriteLine(" w ""function RegainFocus() {"",!")
+	Do routine.WriteLine(" w "" if (!isSelected) {"",!")
+	Do routine.WriteLine(" w ""  try {"",!")
+	Do routine.WriteLine(" w ""   var par_win=window.opener;"",!")
+	Do routine.WriteLine(" w ""   par_win.websys_setfocus('""_$p($g(%request.Data(""ID"",1)),""i"",2,999)_""');"",!")
+	Do routine.WriteLine(" if $g(%request.Data(""TBLI"",1))'="""" w ""		par_win.websys_setfocus('""_%request.Data(""TBLI"",1)_""');"",!")
+	Do routine.WriteLine(" w ""  } catch(e) {};"",!")
+	Do routine.WriteLine(" w "" }"",!")
+	Do routine.WriteLine(" w ""}"",!")
+	Do routine.WriteLine(" w ""window.onunload=RegainFocus;"",!")
+	Do routine.WriteLine(" w ""</SCRIPT>"",!")
+	Do routine.WriteLine(" d rs.Close()")
+	Do routine.WriteLine(" q")
+	Do routine.WriteLine("PageUrl(PageCnt)	;")
+	Do routine.WriteLine(" n j,url")
+	Do routine.WriteLine(" s url=""websys.lookup.csp""")
+	Do routine.WriteLine(" s url=url_""?ID=""_$g(%request.Data(""ID"",1))_""&CONTEXT=""_$g(%request.Data(""CONTEXT"",1))_""&TLUDESC=""_$g(%request.Data(""TLUDESC"",1))")
+	Do routine.WriteLine(" s:$d(%request.Data(""WEBSYS.TCOMPONENT"",1)) url=url_""&WEBSYS.TCOMPONENT=""_$g(%request.Data(""WEBSYS.TCOMPONENT"",1))")
+	Do routine.WriteLine(" s:$d(%request.Data(""TLUJSF"",1)) url=url_""&TLUJSF=""_$g(%request.Data(""TLUJSF"",1))")
+	Do routine.WriteLine(" s url=url_""&TPAGCNT=""_PageCnt")
+	Do routine.WriteLine(" f j=1:1:16 s:$d(%request.Data(""P""_j,1)) url=url_""&P""_j_""=""_$zcvt($g(%request.Data(""P""_j,1)),""O"",""URL"")")
+	Do routine.WriteLine(" q url")	
+
+   	Do ..SaveRoutine()
+]]></Implementation>
+</Method>
+
+<Method name="GenTemplate">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>template:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GetSave">
+<Description>
+此方法被组件逻辑类的websyssave方法调用,如果移动到websys.ComponentXRf中，注意参数#RTNPREFIX</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String,id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	s $ZT="Err"
+	s myCompId=$e($p(TEVENT,"i",1),2,999)
+	s myAppKey="LAYOUT"
+	s myAppSubKey=myCompId
+	
+	s myApp=""
+	s myUserID=%session.Data("LOGON.USERID")
+	s myGroupID=%session.Data("LOGON.GROUPID")
+	s mySiteCODE=%session.Data("LOGON.SITECODE")
+	s myHospID = %session.Data("LOGON.HOSPID")
+	s myTrustID=%session.Data("LOGON.TRUSTID")
+	;默认值
+	;s myContext="-100000000000000"
+	s myContext=$g(%request.Data("CONTEXT",1))
+	s myLangId=%session.Data("LOGON.LANGID")
+	s myLocID = %session.Data("LOGON.CTLOCID")
+	s myRegion=%session.Data("LOGON.REGION")
+	
+	;是否会去找其他语言呢?
+	;s mydata = ##class(websys.Preferences).GetDataEx(myUserID, myGroupID, mySiteCODE, myContext, .myApp, myAppKey, myAppSubKey, myLocID, myRegion)
+	s data=##class(websys.Preferences).GetDataExLE(myUserID, myGroupID, myHospID, mySiteCODE, myContext, myAppKey, myAppSubKey, .ActiveObject,.ActiveReference,.ActiveContext, myTrustID, myRegion, myLocID)
+	
+	s myApp=ActiveObject_"."_ActiveReference
+	s myContext=ActiveContext
+	if myContext="" s myContext="-100000000000000"
+	
+	s ^Temp("Upgrade","GetSave",1)=myApp
+	Q:myApp="."
+	
+	s myCompXRefId=$o(^websys.ComponentXRefI("Master",myCompId,myContext,myLangId,myApp,0))
+	i myCompXRefId="" q
+	
+	s code="d save^"_..#RTNPREFIX_myCompXRefId_".S1("""_compref_""","""_id_""")"
+	s ^Temp("Upgrade","websys.ComponentXRef.GetSave")=code
+	XECUTE code
+	quit $$$OK
+Err
+	s ^Temp("Upgrade","websys.ComponentXRef.GetSave")=$ZE
+	quit ""
+]]></Implementation>
+</Method>
+
+<Method name="GetXRef">
+<Description>
+Get (and create) Xref entry
+s cmp=##class(websys.Component).%OpenId(50307)
+d ##class(dtwebsys.ComponentXRef).GetXRef(cmp,"W50010", 20, "SITE", "DHCHEALTH",0)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&cmp:%Library.String,ActiveContext:%Library.String,langid:%Library.String,ActiveObject:%Library.String,ActiveReference:%Library.String,isnested:%Library.String]]></FormalSpec>
+<Implementation><![CDATA[
+	;  原版本中 变量 列表：
+	;  1. xref  生成的 @websys.ComponentXRef
+	;n ( ActiveContext, langid, ActiveObject, ActiveReference, isnested)
+	;w ActiveObject, ActiveReference,ActiveContext
+	s myCompId=cmp.%Id()
+	s myname=cmp.Name
+	s myhidemenus=cmp.HideMenus
+	s myhideheadings=cmp.HideHeadings
+	s mydisabled=cmp.Disabled
+	s mystyle=cmp.Style
+	s myshownextinnewwindow=cmp.ShowNextInNewWindow
+	
+	s myapp=""
+	s mycontext=""
+	s mynested=isnested
+	s mylistrowsx=cmp.ListRows
+	
+	s myAppKey="LAYOUT"_ActiveContext
+	s mySubAppKey= cmp.%Id()			;此处是组件RowID
+	s myDateChangeFlag=1
+	if ActiveContext="" {
+		s myContext = -100000000000000
+	}else{
+		s myContext = ActiveContext
+	}
+	s myLangId=%session.Data("LOGON.LANGID")
+	;如果没有设定语言,默认存"-100000000000000"到websys.ComponentXRef
+	if myLangId="" s myLangId="-100000000000000"
+	;s myLangId=20
+	
+	s ^TMPPreferenceGetData=ActiveObject_","_ ActiveReference_","_ myAppKey_","_ mySubAppKey
+	;如果没有保存个性化的布局,则取组件默认布局中
+	s data=##class(websys.Preferences).GetData(ActiveObject, ActiveReference, myAppKey, mySubAppKey)
+	if data="" {
+		s template=cmp.Template
+	}else{
+		s template=$lg(data,1)
+		;zhozuq 菜单栏和列头应该从界面定义取
+		s myhidemenus=$lg(data,2)
+		s myhideheadings=$lg(data,3)
+	}
+
+	s myApp=ActiveObject_"."_ ActiveReference
+	i myApp'="." {
+		s myCompXRefId=$o(^websys.ComponentXRefI("Master",myCompId,myContext,myLangId,myApp,0))
+	}
+
+	;检查时间戳,将 ComponentXRef 的更新日期与时间  对比 Component的更新日期时间
+	;还有一条规则： 如果Preferences表中没有数据 s myDateChangeFlag=0
+	s myChangeDesc=""
+	i (myCompXRefId'=""){
+		s xref=##class(websys.ComponentXRef).%OpenId(myCompXRefId)
+		i ((xref.LastUpdateDate<cmp.LastUpdateDate)||((xref.LastUpdateDate=cmp.LastUpdateDate)&&(xref.LastUpdateTime<cmp.LastUpdateTime))){
+			s myDateChangeFlag=1
+		}else{
+			s myDateChangeFlag=0
+		}
+	}else{
+		s myDateChangeFlag=1
+	}
+	
+	if (template="") s myDateChangeFlag=0
+	;w "<br>"
+	;w xref.LastUpdateDate_","_cmp.LastUpdateDate_","_xref.LastUpdateTime_","_cmp.LastUpdateTime
+	;w "</br>"
+	if ((myCompXRefId="")){
+		s myCompXRef=##class(websys.ComponentXRef).%New()
+		s myCompXRef.App= myApp
+		s myCompXRef.ComponentId=myCompId
+		s myCompXRef.Context=myContext
+		s myCompXRef.LangId=myLangId
+		s myCompXRef.LastUpdateDate=+$h
+		s myCompXRef.LastUpdateTime=+$p($h,",",2)
+		d myCompXRef.%Save()
+		s myCompXRefId=myCompXRef.%Id()
+		d myCompXRef.%Close()
+		s xref=myCompXRef
+	}else{
+		s xref=##class(websys.ComponentXRef).%OpenId(myCompXRefId)
+		s xref.LastUpdateDate=+$h
+		s xref.LastUpdateTime=+$p($h,",",2)
+		d xref.%Save()
+	}
+	
+	;w "东软<br>", !
+	;w "myCompXRefId=  "_myCompXRefId_"; myLangId=  "_myLangId_";  myApp =  "_myApp_"<br>",!
+
+	;通过设置来打开后台生成开关
+	s:myDateChangeFlag=0 myDateChangeFlag=+$g(^Temp("DTHealth","Debug"))
+	i '($$EXIST^%R(..#RTNPREFIX_myCompXRefId_".1.MAC")) s myDateChangeFlag=1
+	;s myDateChangeFlag=1
+	i (myDateChangeFlag){
+		s myChangeDesc="组件被重新生成"
+		; 说明　rtn = M 名称
+		b	;; template
+		s myrtn=..#RTNPREFIX_myCompXRefId
+		d ..Gen(myCompId, template, myrtn, ActiveObject, ActiveReference, ActiveContext)
+	}
+	;自定义执行DTGCOM
+	;w "myCompXRefId=  "_myCompXRefId_"; myLangId=  "_myLangId_";  myApp =  "_myApp_";  myContext =  "_myContext_";  mydisabled =  "_mydisabled_"<br>",!
+	q:(myCompXRefId="")
+	s myMethod="d Show^"_..#RTNPREFIX_myCompXRefId_".1("""_myname_""", """_myhidemenus_""", """_myhideheadings_""", """_mydisabled_""", """_mystyle_""", """_myshownextinnewwindow_""", """_myapp_""", """_myContext_""", """_mynested_""", """_mylistrowsx_""")"
+	
+	;zhouzq 2011.07.28
+	;测试PAAllergy.ListEMR的AuditTrailData元素发现,列值上显示的是翻译
+	;当重生成GCOM后,t数组存在,没有重新生成只是加载则没有t数组,如果组件元素里定义里调用了t的话就不会获取到
+	;是否需要在调用Show之前加载一次t呢?
+	
+	;验证代码是否存在
+
+	s myExt="MAC"
+	i ($$EXIST^%R(..#RTNPREFIX_myCompXRefId_".1."_myExt)){
+		XECUTE myMethod
+	}
+]]></Implementation>
+</Method>
+
+<Method name="Init">
+<Description>
+初始化Routine Header</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	///参考webgen.inc
+	$$$macinit(RoutineName)
+	
+	Set routine = ##class(%Routine).%New(RoutineFile)
+
+	Do routine.WriteLine(RoutineName_" ;"_$P(RoutineFile,".",1,2))
+	;Do routine.WriteLine(RoutineName)
+	Do routine.WriteLine(" ;"_objComp.Name_" "_cmpid_" "_$ZD(+$H,4)_" "_$ZT($P($H,",",2)))
+	Do routine.WriteLine(" g start")
+	;P8版本新增缩写
+	Do routine.WriteLine(" #include %cspInclude")
+	Do routine.WriteLine(" #define tpagid                $i(^websys.Counters(""tpagid""))")
+	Do routine.WriteLine(" #define EscapeHTML(%string) $ZCVT(%string,""O"",""HTML"")")
+	Do routine.WriteLine(" #define EscapeURL(%string) $ZCVT(%string,""O"",""URL"")")
+	Do routine.WriteLine(" #define rget(%key) $g(%request.Data(%key,1))")
+	Do routine.WriteLine(" #define sget(%key) $g(%session.Data(%key))")
+	
+	Do routine.WriteLine("start")
+]]></Implementation>
+</Method>
+
+<Method name="Kill">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+</Method>
+
+<Method name="MakeDirtyAll">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="MakeDirtyComponent">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>componentid:%Library.String</FormalSpec>
+</Method>
+
+<Method name="MakeDirtyLanguage">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>langid:%Library.String</FormalSpec>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^dtwebsys.ComponentXRefD</DataLocation>
+<DefaultData>ComponentXRefDefaultData</DefaultData>
+<IdLocation>^dtwebsys.ComponentXRefD</IdLocation>
+<IndexLocation>^dtwebsys.ComponentXRefI</IndexLocation>
+<StreamLocation>^dtwebsys.ComponentXRefS</StreamLocation>
+<Data name="ComponentXRefDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>
