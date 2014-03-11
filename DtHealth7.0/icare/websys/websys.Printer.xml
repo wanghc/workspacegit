@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Printer">
+<Description>
+Printer Definition</Description>
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>58522,50450</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>151</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Property name="BatchPrint">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Code">
+<Description>
+Code is used to unqiuely identify a printer</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Description><![CDATA[
+Description of the Printer.<br>
+e.g. ZEBRA Bar Code Printer in Outpatients Pharmacy]]></Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Device">
+<Description><![CDATA[
+Printer device.<br>
+This should be the sharename of the printer.<br>
+e.g. \\SERVER01\HPLASERJ.<br>
+Please use the share name as it appears in 'network neighbourhood' not the descriptive name which appears in 'printers'.<br>
+If you will be printing from Cache then |PRN| will be pre-pended automatically and should not be included here.]]></Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PrinterGroup">
+<Type>websys.PrinterGroup</Type>
+</Property>
+
+<Index name="UniqueCodeIndex">
+<Description>
+Uniqueness index for property Code</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Code</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="PrinterDisabled">
+<Description>
+Log 45134 - AI - 16-11-2005 : Printer Disabled checkbox.</Description>
+<Type>%Boolean</Type>
+</Property>
+
+<Method name="CacheTest">
+<Description>
+Generate a test print from Cache.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>dev:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetDeviceFromCode">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>printer:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetIdfromCodeOrDevice">
+<Description><![CDATA[
+Find the object id given either a code or a description.<br>
+To provide control over the code that is generated the following parameters can be used:<br>
+SQLROWID - specify the SQL field name to be returned from the function.<br>
+SQLCODE - specify the SQL field name to be used in the search by code.<br>
+SQLDESCRIPTION - specify the SQL field name to be used in the search by descripiton.<br>
+SQLDEVICE - specify the SQL field name to be used in the search by device.<br>
+<br>
+NOTE that these same parameters are are in the generation of default lookups.<br>]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="WebTest">
+<Description>
+Test the generation of a web print from Cache.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>dev:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysBeforeDelete">
+<Description>
+KK 7/Feb/2003 Log:29627 - Check before deleting Printer</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String="",id:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Parameter name="EXTENTSIZE">
+<Default>11</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Description>
+Device</Description>
+<Final>0</Final>
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Description>
+Code</Description>
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLDEVICE">
+<Description>
+Description</Description>
+<Final>0</Final>
+<Default>Device</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.PrinterD</DataLocation>
+<DefaultData>PrinterDefaultData</DefaultData>
+<IdLocation>^websys.PrinterD</IdLocation>
+<IndexLocation>^websys.PrinterI</IndexLocation>
+<StreamLocation>^websys.PrinterS</StreamLocation>
+<Data name="PrinterClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="PrinterDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Code</Value>
+</Value>
+<Value name="2">
+<Value>Description</Value>
+</Value>
+<Value name="3">
+<Value>Device</Value>
+</Value>
+<Value name="4">
+<Value>BatchPrintFlag</Value>
+</Value>
+<Value name="5">
+<Value>BatchPrint</Value>
+</Value>
+<Value name="6">
+<Value>PrinterDisabled</Value>
+</Value>
+<Value name="7">
+<Value>PrinterGroup</Value>
+</Value>
+</Data>
+<Property name="BatchPrint">
+</Property>
+<Property name="Code">
+</Property>
+<Property name="Description">
+</Property>
+<Property name="Device">
+</Property>
+</Storage>
+</Class>
+</Export>

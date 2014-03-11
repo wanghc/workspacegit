@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.ComponentMessages">
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy/>
+<Super>%Library.Persistent,XML.Abstract</Super>
+<TimeChanged>62251,58511.680894</TimeChanged>
+<TimeCreated>59127,46706</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Property name="Code">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="200"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ParRef">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>Messages</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Method name="CodeGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	q i%Code
+]]></Implementation>
+</Method>
+
+<Method name="DescriptionGet">
+<Description>
+zhaocz 2011-05-26</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Q i%Description
+	
+	; 需要添加翻译
+	s mydesc=""
+	s mylangid=""
+	//组件编辑器会用到因此加保护判断  zhouzq 2011.06.09
+	if $d(%session){
+		s mylangid = %session.Data("LOGON.LANGID")
+	}
+	/// zhaocz 2011-05-30 修正
+	s:'mylangid mylangid=$lg($g(^websys.ConfigurationD(1)),15) 
+	s:'mylangid mylangid=$o(^SS("LAN",0))
+	
+	if (mylangid'=""){
+		s mydesc = ##class(websys.DictionaryTranslated).GetItemByPhrase(mylangid, i%Description)
+	}
+	s:(mydesc="") mydesc=i%Description
+	q mydesc
+]]></Implementation>
+</Method>
+
+<Parameter name="EXTENTSIZE">
+<Default>1446</Default>
+</Parameter>
+
+<Parameter name="xmltoclass">
+<Description>
+Mapping from XML to Class</Description>
+<Final>0</Final>
+<Default>componentmessage</Default>
+</Parameter>
+
+<Parameter name="xmltypeDescription">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Messages")</DataLocation>
+<DefaultData>ComponentMessagesDefaultData</DefaultData>
+<IdLocation>{%%PARENT}("Messages")</IdLocation>
+<IndexLocation>^websys.ComponentMessagesI</IndexLocation>
+<StreamLocation>^websys.ComponentMessagesS</StreamLocation>
+<Data name="ComponentMessagesClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="ComponentMessagesDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Code</Value>
+</Value>
+<Value name="2">
+<Value>Description</Value>
+</Value>
+</Data>
+<Property name="Code">
+</Property>
+<Property name="Description">
+</Property>
+<Property name="ParRef">
+</Property>
+</Storage>
+</Class>
+</Export>

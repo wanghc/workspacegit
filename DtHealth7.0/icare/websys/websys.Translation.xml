@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.Translation">
+<Description>
+Run time translation tables.</Description>
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<TimeChanged>62468,69083</TimeChanged>
+<TimeCreated>61079,43958.103709</TimeCreated>
+
+<Method name="AddContextItem">
+<Description><![CDATA[
+Save context specific settings.<br>
+e.g.<br>
+CaptionStyle<br>
+Style<br>
+Required<br>
+DisplayOny<br>
+界面编辑保存时会调用
+d ##class(websys.Translation).AddContextItem(2,"","_COMPONENT","Help","<H2>Title</H2>",20,"SITE","DHCHEALTH")
+d ##class(websys.Translation).AddContextItem(2,"","find1","ShortcutKey","",20,"User.SSGroup",1)
+d ##class(websys.Translation).AddContextItem(2,"50008","caption","Style","caption","20","SITE","DHCHEALTH")]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compid:%Library.String,context:%Library.String,name:%Library.String,code:%Library.String,value:%Library.String,langid:%Library.String="",ObjectType:%Library.String="",ObjectReference:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s ^Temp("SaveLayout",$I(^Temp("SaveLayout")))="AddContextItem:"_compid_","_context_","_name_","_code_","_value_","_langid_","_ObjectType_","_ObjectReference
+	
+	if (ObjectType="")||(ObjectType="SITE") {
+		k ^websys.TranslationD("CONTEXT"_langid,compid_context,name,code)
+		if value="" Quit
+		if $d(^websys.TranslationD("CONTEXT",compid)) s ^websys.TranslationD("CONTEXT",compid)=""
+		s ^websys.TranslationD("CONTEXT"_langid,compid_context,name,code)=value
+	}else{
+		k ^websys.TranslationD("CONTEXTPLUS",compid_context,ObjectType,ObjectReference,name,code)
+		if value="" Quit
+		s ^websys.TranslationD("CONTEXTPLUS",compid_context,ObjectType,ObjectReference,name,code)=value
+	}
+]]></Implementation>
+</Method>
+
+<Method name="AddItem">
+<Description>
+Add a translated item.
+protected - is used to indicate that the setting should not be overwritten by the dictionary.
+d ##class(websys.Translation).AddItem("COMP",20,2,"submenuof","菜单组2",0)
+zhouzq 2011.11.18</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>type:%Library.String,langid:%Library.String,compid:%Library.String,name:%Library.String,value:%Library.String,protected:%Library.Boolean</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if $d( ^websys.TranslationD(type,langid,compid,name)) {
+		if 'protected {
+			if '$P(^websys.TranslationD(type,langid,compid,name),"^",2) {
+				s ^websys.TranslationD(type,langid,compid,name)=value_"^"_protected
+			}
+		}else{
+			s ^websys.TranslationD(type,langid,compid,name)=value_"^"_protected
+		}
+	}else{
+		s ^websys.TranslationD(type,langid,compid,name)=value_"^"_protected
+	}
+]]></Implementation>
+</Method>
+
+<Method name="Kill">
+<Description>
+Kill all run time translation tables
+2011.06.30 zhouzq  此方法慎用,会删除所有组件的个性化设置</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[	k ^websys.TranslationD
+]]></Implementation>
+</Method>
+
+<Method name="KillData">
+<Description>
+删除组件布局元素的个性化记录  zhouzq 2011.06.29
+d ##class(websys.Translation).KillData(2,"",20,"SITE","DHCHEALTH")
+d ##class(websys.Translation).KillData(2,"",20,"","")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compid:%Library.String,context:%Library.String,langid:%Library.String="",ObjectType:%Library.String="",ObjectReference:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	s ^Temp("DeleteLayout",$I(^zhou("Delete")))="KillData:"_compid_","_context_","_langid_","_ObjectType_","_ObjectReference
+	if ObjectReference="" Quit 1
+	if (ObjectType="")||(ObjectType="SITE") {
+		k ^websys.TranslationD("CONTEXT",compid)
+		k ^websys.TranslationD("CONTEXT"_langid,compid_context)
+	}else{
+		k ^websys.TranslationD("CONTEXTPLUS",compid_context,ObjectType,ObjectReference)
+	}
+	Q 1
+]]></Implementation>
+</Method>
+
+<Method name="Load">
+<Description>
+Load translation  
+d ##class(websys.Translation).Load("COMP",20,2)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>type:%Library.String,langid:%Library.String,id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	i $g(langid)="" Quit
+	s item=$O(^websys.TranslationD(type,langid,id,0))
+	while (item'=""){
+		s t(item)=$P(^websys.TranslationD(type,langid,id,item),"^",1)
+		s item=$O(^websys.TranslationD(type,langid,id,item))
+	}
+]]></Implementation>
+</Method>
+
+<Method name="LoadContext">
+<Description>
+Load Context specific item settings.
+w ##class(websys.Translation).LoadContext(20,427,"","User.SSGroup","1")
+w ##class(websys.Translation).LoadContext(20,2,"","SITE","DHCHEALTH")
+w ##class(websys.Translation).LoadContext(20,50213,"","SYS","DHCHEALTH")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>langid:%Library.String,compid:%Library.String,context:%Library.String,ObjectType:%Library.String="",ObjectReference:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	k tc
+	s contextnew=compid
+	i context'="" s contextnew=compid_context
+	i (ObjectType'="")&&(ObjectType'="SITE")&&(ObjectReference'="") {  //add ObjectReference by wuqk 2011-07-12
+		;按照各种级别保存
+		m tc=^websys.TranslationD("CONTEXTPLUS",contextnew,ObjectType,ObjectReference)
+		if ( (context'="") && '$d(^websys.TranslationD("CONTEXTPLUS",contextnew)) ){	//add 2012-01-11 入参context不这空,但AddContextItem入参context为空
+			m tc=^websys.TranslationD("CONTEXTPLUS",compid,ObjectType,ObjectReference)
+		}
+	}else{
+		;Tooltip属性会按照语言另存相应的Global里
+		m tc=^websys.TranslationD("CONTEXT",contextnew)
+		m tc=^websys.TranslationD("CONTEXT"_langid,contextnew)
+		if ( (context'="") && '$d(^websys.TranslationD("CONTEXT",contextnew)) ){	//add 2012-01-11 入参context不这空,但AddContextItem入参context为空
+			m tc=^websys.TranslationD("CONTEXT",compid)
+			m tc=^websys.TranslationD("CONTEXT"_langid,compid)
+		}
+	}
+	Q 1
+]]></Implementation>
+</Method>
+
+<Method name="DeleteLookup">
+<Description>
+ab 17.09.07 64832</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>langid:%String,query:%String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LoadLookup">
+<Description>
+Load translation</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>langid:%Library.String,query:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[	Q 1
+]]></Implementation>
+</Method>
+
+<Method name="SaveLookup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>langid:%Library.String,query:%Library.String,namevalues:%Library.String,compvalues:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ImportTransAll">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>dir:%String="",writeout:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="ImportTrans">
+<Description>
+ab 19.02.07 61720</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>dir:%String="",langcode:%String="",writeout:%String="",rebuild:%String=1</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Q ""
+]]></Implementation>
+</Method>
+</Class>
+</Export>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.LogAbstract">
+<Description>
+Abstract logging methods</Description>
+<Abstract>1</Abstract>
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>60506,62124</TimeChanged>
+<TimeCreated>58494,47281</TimeCreated>
+
+<Method name="%OnAfterSave">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>insert:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="%OnDelete">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>oid:%Library.ObjectIdentity</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="%OnNew">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[&initvalue:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="%OnOpen">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+</Class>
+</Export>

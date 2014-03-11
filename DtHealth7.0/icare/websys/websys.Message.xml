@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Message">
+<Description>
+Structure:
+Data = %request.Data
+Items,cnt=msginfo
+Names,name=cnt</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy>custom</StorageStrategy>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62246,67091.268194</TimeChanged>
+<TimeCreated>59044,33224</TimeCreated>
+
+<Property name="ComponentDefault">
+<Description>
+对应组件 ID  这个在原版中没有被存储</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>1</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Count">
+<Description>
+Count=$i(Count)
+Count(type)=$i(Count(type))
+总计数器  = 分类计数累加
+E, I, W, J</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>1</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Data">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>1</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="IsDirty">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>1</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Item">
+<Description>
+主要有AddItem来完成数据分配  见AddItem分析</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>1</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Name">
+<Description>
+主要有AddItem来完成数据分配  见AddItem分析</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>1</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="%DeleteData">
+<Description>
+[Previously private]</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String,concurrency:%Library.Integer</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;^websys.MessageD(id)
+	k ^websys.MessageD(id)
+	
+	q $$$OK
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="%LoadData">
+<Description>
+zhaocz 2011-05-28  先尝试增加load 算法
+zhaocz 2011-05-30 经过测试后写的一下程序， 是否需要保护？</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;
+	
+	If $get(id)="" Quit $$$ERROR("ID missing. %Session.SessionId expected.!")
+	;m i%Data=%request.Data
+	
+	d ..%IdSet(id)
+	
+	m i%Count = ^websys.MessageD(id,"Count")
+	m i%Name = ^websys.MessageD(id,"Name")
+	m i%Item = ^websys.MessageD(id,"Item")
+	m i%Data = ^websys.MessageD(id,"Data")
+	;b ;loaddata
+	s:('$d(i%Count)) i%Count=0
+	
+	q $$$OK
+	
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="%OnNew">
+<Description>
+zhaocz 2011-05-30 主要是保存id</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>initvalue:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	If $get(initvalue)="" Quit $$$ERROR("ID missing. %Session.SessionId expected.!"_$zn)
+	
+	d ..%IdSet(initvalue)
+	s i%Count =0
+	
+	q $$$OK
+	
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="%SaveData">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;
+	;^websys.MessageD(id)
+	m ^websys.MessageD(id,"Count")=i%Count
+	m ^websys.MessageD(id,"Name")=i%Name
+	m ^websys.MessageD(id,"Item")=i%Item
+	m ^websys.MessageD(id,"Data")=i%Data
+	
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="AddItem">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>type:%Library.String,code:%Library.String,description:%Library.String,compid:%Library.String="",itmname:%Library.String="",isdirty:%Library.Boolean=1,jsfunction:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:(type="")
+	;i%Count  作为总的消息计数器
+	s i%Count=$i(i%Count)
+	;作为分类 消息计数器
+	s i%Count(type)=$i(i%Count(type))
+	
+	n mydirty
+	
+	s mydirty = $s($g(isdirty)'="":+isdirty,1:1)
+	s i%IsDirty= 1
+	;type, code, description, compid, itmname, jsfunction
+	s i%Item(i%Count)= $lb(type, code, description, compid, itmname, jsfunction)
+	; 测试中发现type=I 和 type= E的被记录在案
+	; &&((type="I")!(type="E"))  zhaocz 2011-05-31 Edit
+	i ((compid'="")){
+		s i%Name(compid)=""
+		i (itmname'=""){
+			s i%Name(compid,itmname)=""_type
+		}
+		
+	}
+]]></Implementation>
+</Method>
+
+<Method name="AddEpisode">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>type:%Library.String,EpisodeID:%Library.String</FormalSpec>
+</Method>
+
+<Method name="EpisodeExists">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>EpisodeID:%Library.String</FormalSpec>
+</Method>
+
+<Method name="Status">
+<Description>
+Decompose status</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>status:%Library.String,compid:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	i $$$ISERR(status){
+		d $System.Status.DecomposeStatus(status, .mystatus)
+		d ..AddItem("E",$g(mystatus), $g(mystatus(1)), compid, "status")
+	}
+]]></Implementation>
+</Method>
+
+<Storage name="custom">
+<Type>%Library.CustomStorage</Type>
+<StreamLocation>^websys.MessageS</StreamLocation>
+</Storage>
+</Class>
+</Export>

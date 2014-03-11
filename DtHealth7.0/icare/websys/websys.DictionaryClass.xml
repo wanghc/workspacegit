@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DictionaryClass">
+<Description>
+Lookup table to provide user friendly names for classes and properties; and the corresponding tables and columns</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>58924,52728</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>159</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>37</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>ClassName</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>ClassName</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="ClassName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DisplayName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Properties">
+<Type>websys.DictionaryClassProperty</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="SQLTableName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="ClassName">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ClassName</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="DisplayName">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>DisplayName</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="SQLTableName">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>SQLTableName</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="FindClose">
+<Description>
+Default implementation of Find Query.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+	Kill ^CacheTemp(repid)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindExecute">
+<Description>
+Find menus by cpation,name OR by submenuof.
+zhaocz 2011-06-03</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,clsname:%String,tblname:%String,displayname:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;ID,ClassName:%Library.String,SQLTableName:%Library.String,DisplayName:%Library.String
+	;clsname As %String, tblname As %String, displayname As %String
+	;bit map
+	; d ##class(%ResultSet).RunQuery("websys.DictionaryClass","Find","User.APCVendor","","")
+	Set repid=$I(^CacheTemp)
+	s ind=1
+	s ret=0
+	
+	d ResetVariablesFind
+	
+	n myclsbit, mytblbit,  mydispbit
+	;if (clsname, tblname, displayname) = "" by ID
+	; else bitmap
+	i clsname="", tblname="", displayname="" {
+		;^websys.DictionaryClassD(62)
+		s myid=0
+		s myid=$o(^websys.DictionaryClassD(myid))
+		while (myid'=""){
+			d SetDataFind
+			s myid=$o(^websys.DictionaryClassD(myid))
+		}
+	}else{
+		;mybit
+		;$zu(28,,6)
+		;^websys.DictionaryClassI("ClassName","USERAPCVENDCAT",62) = "" 
+		s myid=""
+		n mytmpname, myinname, mylen
+		
+		i ($zu(28,clsname,6)'=""){
+			s $bit(myclsbit,1)=0
+			s myinname = $zu(28,clsname,6)
+			if $d(^websys.DictionaryClassI("ClassName",myinname)){
+				s myid = $o(^websys.DictionaryClassI("ClassName",myinname, 0))
+				while (myid'=""){
+					s $bit(myclsbit,myid)=1
+					s myid = $o(^websys.DictionaryClassI("ClassName",myinname, myid))
+				}
+			}
+			
+			s mylen=$l(myinname)
+			s mytmpname = myinname
+			s mytmpname = $o(^websys.DictionaryClassI("ClassName",mytmpname))
+			while ((mytmpname'="")&&($e(mytmpname,1,mylen)=myinname) ){
+				s myid = $o(^websys.DictionaryClassI("ClassName",mytmpname, 0))
+				while (myid'=""){
+					s $bit(myclsbit,myid)=1
+					s myid = $o(^websys.DictionaryClassI("ClassName",mytmpname, myid))
+				}
+				;next
+				s mytmpname = $o(^websys.DictionaryClassI("ClassName",mytmpname))
+			}
+		}
+		;^websys.DictionaryClassI("SQLTableName","APCVENDCAT",62) = "" 
+		i ($zu(28,tblname,6)'=""){
+			s $bit(mytblbit,1)=0
+			s myinname = $zu(28,tblname,6)
+			s myid=0
+			if $d(^websys.DictionaryClassI("SQLTableName",myinname)){
+				s myid = $o(^websys.DictionaryClassI("SQLTableName",myinname, 0))
+				while (myid'=""){
+					s $bit(mytblbit,myid)=1
+					s myid = $o(^websys.DictionaryClassI("SQLTableName",myinname, myid))
+				}
+			}
+			
+			s mylen=$l(myinname)
+			s mytmpname = myinname
+			s mytmpname = $o(^websys.DictionaryClassI("SQLTableName",mytmpname))
+			while ((mytmpname'="")&&($e(mytmpname,1,mylen)=myinname) ){
+				s myid = $o(^websys.DictionaryClassI("SQLTableName",mytmpname, 0))
+				while (myid'=""){
+					s $bit(mytblbit,myid)=1
+					s myid = $o(^websys.DictionaryClassI("SQLTableName",mytmpname, myid))
+				}
+				;next
+				s mytmpname = $o(^websys.DictionaryClassI("SQLTableName",mytmpname))
+			}
+		}
+		;^websys.DictionaryClassI("DisplayName","AAAAA",71) = "" 
+		i ($zu(28,displayname,6)'=""){
+			s $bit(mydispbit,1)=0
+			s myinname = $zu(28,displayname,6)
+			s myid=0
+			
+			if $d(^websys.DictionaryClassI("DisplayName",myinname)){
+				s myid = $o(^websys.DictionaryClassI("DisplayName",myinname, 0))
+				while (myid'=""){
+					s $bit(mydispbit,myid)=1
+					s myid = $o(^websys.DictionaryClassI("DisplayName",myinname, myid))
+				}
+			}
+			
+			s mylen=$l(myinname)
+			s mytmpname = myinname
+			s mytmpname = $o(^websys.DictionaryClassI("DisplayName",mytmpname))
+			while ((mytmpname'="")&&($e(mytmpname,1,mylen)=myinname) ){
+				s myid = $o(^websys.DictionaryClassI("DisplayName",mytmpname, 0))
+				while (myid'=""){
+					s $bit(mydispbit,myid)=1
+					s myid = $o(^websys.DictionaryClassI("DisplayName",mytmpname, myid))
+				}
+				;next
+				s mytmpname = $o(^websys.DictionaryClassI("DisplayName",mytmpname))
+			}
+			
+			
+		}
+		;最后输出数据到记录集合
+		
+		n myoutbit
+		
+		i $d(myclsbit){
+			s myoutbit=myclsbit
+		}
+		if $d(mytblbit){
+			i $d(myoutbit) {
+				; 运算
+				s myoutbit = $zbitand(myoutbit, mytblbit)
+			}else{
+				s myoutbit = mytblbit
+			}
+		}
+		
+		if $d(mydispbit){
+			i $d(myoutbit) {
+				; 运算
+				s myoutbit = $zbitand(myoutbit, mydispbit)
+			}else{
+				s myoutbit = mydispbit
+			}
+		}
+		
+		i $d(myoutbit) {
+			s myid=-1
+			s myid=$bitfind(myoutbit,1,myid+1)
+			while (+myid>0){
+				d SetDataFind
+				s myid=$bitfind(myoutbit,1,myid+1)
+			}
+		}
+		
+	}
+	
+	Set QHandle=$lb(0,repid,0)
+	Quit $$$OK
+OutputRowFind
+	set Data=$lb(myID,myClassName,mySQLTableName,myDisplayName)
+	Set ^CacheTemp(repid,ind)=Data
+	Set ind=ind+1
+	quit
+ResetVariablesFind
+	s (myID,myClassName,mySQLTableName,myDisplayName)=""
+	q
+SetDataFind
+	n myobj
+	s myobj=##class(websys.DictionaryClass).%OpenId(myid)
+	
+	s myID = myid
+	s myClassName =myobj.ClassName 
+	s mySQLTableName = myobj.SQLTableName
+	s myDisplayName = myobj.DisplayName
+	s myobj=""
+	d OutputRowFind
+	q
+]]></Implementation>
+</Method>
+
+<Method name="FindFetch">
+<Description>
+Default implementation of Find Query.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+	Set repid=$LIST(QHandle,2)
+	Set ind=$LIST(QHandle,3)
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind="" {				// if there are no more rows, finish fetching
+		Set AtEnd=1
+		Set Row=""
+	}
+	Else{
+		Set Row=^CacheTemp(repid,ind)
+	}
+	
+	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetDisplayInfoFromClassName">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>clsname:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetDisplayInfoFromSQLName">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>tblname:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetDisplayName">
+<Description>
+zhaocz 2011-06-03</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ClassName:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;w ##class(websys.DictionaryClass).GetDisplayName("User.APCVendor")
+	n (ClassName)
+	s mydispname=""
+	&sql(select DisplayName into :mydispname from websys.DictionaryClass where UPPER(ClassName) = UPPER(:ClassName))
+	
+	q mydispname
+]]></Implementation>
+</Method>
+
+<Method name="GetClassByDisplayName">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>displayname:%Library.String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;w ##class(websys.DictionaryClass).GetClassByDisplayName("aaaaa")
+	n (displayname)
+	s myclsname = ""
+	&sql(select ClassName into :myclsname from websys.DictionaryClass where UPPER(DisplayName) = UPPER(:displayname))
+	q:('SQLCODE) myclsname
+	q ""
+]]></Implementation>
+</Method>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n mycompid
+	
+	s mycompid=$e($p(compref,"i",1),2,999)
+	s id=%request.Get("ID")
+	
+	new blnUDF,blnDSS
+	set blnUDF=##class(websys.UserDefinedFunctions).Evaluate("websys.DictionaryClass","OnBeforeSave")
+	s blnDSS = ##class(websys.DSSActionType).doSomething(id,"C",compref,"OnBeforeSave"")")
+ 	
+	;  需要验证 类名称和表名称是否存在，同时表名称与类的 表名称是否一致
+	n blnEF
+	;s blnExitFlag=0
+	
+	s blnEF = ##class(websys.Conversions).IsValidClassName(%request.Get("ClassName"))
+	i ('blnEF){
+		i (msg) {
+			d msg.AddItem("I",%request.Get("ClassName"),$s($d(t("CLSEXIST")):t("CLSEXIST"),1:"Class does not exist"), mycompid)
+		}
+	}
+	
+	if 'blnUDF quit 0
+	if 'blnDSS quit 0
+	i 'blnEF q 0
+	
+	quit 1
+		
+	;
+	;d msg.AddItem("E","GETSAVE","GCOM Error:"_$ze, mycompid, $p(compref,"i",2))
+]]></Implementation>
+</Method>
+
+<Query name="Find">
+<Type>%Library.Query</Type>
+<FormalSpec>clsname:%Library.String,tblname:%Library.String,displayname:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="ID,ClassName:%Library.String,SQLTableName:%Library.String,DisplayName:%Library.String"/>
+</Query>
+
+<Query name="LookUpByClassName">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>clsname:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ClassName, ID, SQLTableName, DisplayName
+FROM DictionaryClass
+WHERE (ClassName %STARTSWITH :clsname) 
+ORDER BY ClassName</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="ClassName:%Library.String,HIDDEN,SQLTableName:%Library.String,DisplayName:%Library.String"/>
+</Query>
+
+<Query name="LookUpByDisplayName">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>displayname:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ClassName, ID, SQLTableName, DisplayName
+FROM DictionaryClass
+WHERE (DisplayName %STARTSWITH :displayname)
+ORDER BY DisplayName</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="ClassName:%Library.String,HIDDEN,SQLTableName:%Library.String,DisplayName:%Library.String"/>
+</Query>
+
+<Query name="LookUpBySQLTableName">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>tblname:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ClassName, ID, SQLTableName, DisplayName
+FROM DictionaryClass
+WHERE (SQLTableName %STARTSWITH :tblname)
+ORDER BY SQLTableName</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="ClassName:%Library.String,HIDDEN,SQLTableName:%Library.String,DisplayName:%Library.String"/>
+</Query>
+
+<Method name="LookUpDSSEventExecute">
+<Description>
+59799 - if 'SimpleDSS'=1 ONLY return classes that have a valid System VIEW</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,displayname:%Library.String,SimpleDSS:%Library.String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpDSSEventFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpDSSEventExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpDSSEventClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpDSSEventFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Query name="LookUpDSSEvent">
+<Type>%Library.Query</Type>
+<FormalSpec>displayname:%String,SimpleDSS:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="DisplayName:%String,ClassName:%String,HIDDEN:%String,HIDDEN:%String"/>
+</Query>
+
+<Method name="LookUpBrokerDSSEvent">
+<Description>
+Log 54140 YC - Broker for "Class Name" (ClassDisplayName) field on websys.DSSEvent.Edit</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%Library.String,itmjsex:%Library.String="",val:%Library.String</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DictionaryClassD</DataLocation>
+<DefaultData>DictionaryClassDefaultData</DefaultData>
+<IdLocation>^websys.DictionaryClassD</IdLocation>
+<IndexLocation>^websys.DictionaryClassI</IndexLocation>
+<StreamLocation>^websys.DictionaryClassS</StreamLocation>
+<Data name="DictionaryClassClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DictionaryClassDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>ClassName</Value>
+</Value>
+<Value name="2">
+<Value>SQLTableName</Value>
+</Value>
+<Value name="3">
+<Value>DisplayName</Value>
+</Value>
+</Data>
+<Property name="ClassName">
+</Property>
+<Property name="DisplayName">
+</Property>
+<Property name="SQLTableName">
+</Property>
+</Storage>
+</Class>
+</Export>

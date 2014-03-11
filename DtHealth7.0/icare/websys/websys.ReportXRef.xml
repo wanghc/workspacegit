@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.ReportXRef">
+<Description>
+Cross Reference for report criteria</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>58848,51699</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>235</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Default>ActiveDateFrom</Default>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Default>ActiveDateTo</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<UDLText name="T">
+<Content><![CDATA[
+// *** Properties ***
+
+]]></Content>
+</UDLText>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 54141 YC - Add field
+
+]]></Content>
+</UDLText>
+
+<Property name="ApptCancelInitiator">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 54141 YC - Add field
+
+]]></Content>
+</UDLText>
+
+<Property name="ApptStatus">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CareProvider">
+<Type>User.CTCareProv</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Hospital">
+<Type>User.CTHospital</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="IntendedManagement">
+<Type>User.PACEpisodeSubType</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 54141 YC - Add field
+
+]]></Content>
+</UDLText>
+
+<Property name="Interpreter">
+<Type>User.PACInterpreter</Type>
+</Property>
+
+<Property name="ItemCategory">
+<Type>User.ARCItemCat</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LetterType">
+<Type>User.PACLetterType</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Location">
+<Type>User.CTLoc</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Location2">
+<Type>User.CTLoc</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Module1">
+<Type>User.PACModule</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="OrderItem">
+<Type>User.ARCItmMast</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 53055 YC
+
+]]></Content>
+</UDLText>
+
+<Property name="ReasonForRemoval">
+<Description>
+Reason For Removal</Description>
+<Type>User.PACWLReasonNotAvail</Type>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 54141 YC - Add field
+
+]]></Content>
+</UDLText>
+
+<Property name="RefStatus">
+<Type>User.PACReferralStatus</Type>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 54141 YC - Add field
+
+]]></Content>
+</UDLText>
+
+<Property name="RefStatusReason">
+<Type>User.PACRefStatusReason</Type>
+</Property>
+
+<Property name="Report">
+<Type>websys.Report</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ReportReference">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="StatePPP">
+<Type>User.PACStatePPP</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 54141 YC - Add field
+
+]]></Content>
+</UDLText>
+
+<Property name="Transport">
+<Type>User.RBCAppointTransport</Type>
+</Property>
+
+<Property name="Trust">
+<Type>User.PACTrust</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 39853 - AI - 22-11-2005 : Add 2 new fields : Active Date From and Active Date To.
+
+]]></Content>
+</UDLText>
+
+<Property name="ActiveDateFrom">
+<Type>%Date</Type>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 39853 - AI - 22-11-2005 : Add 2 new fields : Active Date From and Active Date To.
+
+]]></Content>
+</UDLText>
+
+<Property name="ActiveDateTo">
+<Type>%Date</Type>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// *** Indexes ***
+
+]]></Content>
+</UDLText>
+
+<Index name="CareProvider">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>CareProvider,Report</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="Hospital">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Hospital,Report</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="LetterType">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>LetterType,Report</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="Location">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Location,Report</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="Location2">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Location2,Report</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="Module1">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Module1,Report</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="OrderItem">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>OrderItem,Report</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="ReportReference">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ReportReference,Report</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="Trust">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Trust,Report</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="CheckForDuplicateEntry">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String,id:%Library.String</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="FindAllClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindAllFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindAllExecute">
+<Description>
+KK 3/Apr/2002 Log 24039 
+Log 39853 - AI - 22-11-2005 : Add ActiveDateFrom and ActiveDateTo throughout.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,Report:%Library.String,Location:%Library.String,Module1:%Library.String,LetterType:%Library.String,ReportRef:%Library.String,ApptCancelInit:%Library.String,ApptStat:%Library.String,Interpreter:%Library.String,RefStat:%Library.String,RefStatReason:%Library.String,Transport:%Library.String,ReasonForRemoval:%Library.String,ActiveDateFrom:%Date,ActiveDateTo:%Date]]></FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindAllFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindAllExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="FindAll">
+<Description><![CDATA[
+KK Log:24038
+Query for websys.reportxref
+KK 28/Oct/2002 Log 28995 added Module,LetterType & ReportRef to filter criteria
+Log 53055 YC - Added ReasonForRemoval
+Log 39853 - AI - 22-11-2005 : Add ActiveDateFrom and ActiveDateTo throughout.]]></Description>
+<Type>%Library.Query</Type>
+<FormalSpec>Report,CTLOCDesc,Module1,LetterType,ReportReference,ApptCancelInitiator,ApptStatus,Interpreter,RefStatus,RefStatusReason,Transport,ReasonForRemoval,ActiveDateFrom:%Date,ActiveDateTo:%Date</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>
+</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID, Report, Location, CareProvider, Hospital, IntendedManagement, OrderItem, Trust, LetterType, Location2, Module1, ReportReference, StatePPP, ApptCancelInitiator, ApptStatus, Interpreter, RefStatus, RefStatusReason, Transport, ReasonForRemoval, ActiveDateFrom, ActiveDateTo"/>
+</Query>
+
+<Query name="FindReportParams">
+<Description>
+KK Log:24038
+Query for report field lookup in websys.reportxref</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID,Code,Description,ReportUrl,Type FROM 
+websys.Report Where ((%UPPER Description [ %UPPER :desc) OR (:desc IS NULL))</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="HIDDEN,Code,Description,HIDDEN,HIDDEN"/>
+</Query>
+
+<Query name="FindReportsForLetterType">
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%Library.String,type:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="HIDDEN,Code,Description"/>
+</Query>
+
+<Method name="FindReportsForLetterTypeClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindAllFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="FindReportsForLetterTypeExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%Library.String,type:%Library.String]]></FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="FindReportsForLetterTypeFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindAllExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GetReport">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Mod:%String="",LType:%String="",RepRef:%String="",Trst:%String="",Hosp:%String="",Loc:%String="",Loc2:%String="",CProv:%String="",StPPP:%String="",IntdMgmt:%String="",OrdSubCat:%String="",OrdItm:%String="",params:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="GetReportByEpisode">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>EpisodeID:%String="",Mod:%String="",LType:%String="",RepRef:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="GetReportByAppointment">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>AppID:%String="",Mod:%String="",LType:%String="",RepRef:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="GetReportByWaitingList">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>WaitingListID:%String="",Mod:%String="",LType:%String="",RepRef:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.ReportXRefD</DataLocation>
+<DefaultData>ReportXRefDefaultData</DefaultData>
+<IdLocation>^websys.ReportXRefD</IdLocation>
+<IndexLocation>^websys.ReportXRefI</IndexLocation>
+<StreamLocation>^websys.ReportXRefS</StreamLocation>
+<Data name="ReportXRefClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="ReportXRefDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Hospital</Value>
+</Value>
+<Value name="2">
+<Value>Report</Value>
+</Value>
+<Value name="3">
+<Value>Trust</Value>
+</Value>
+<Value name="4">
+<Value>CTLoc</Value>
+</Value>
+<Value name="5">
+<Value>CareProvider</Value>
+</Value>
+<Value name="6">
+<Value>IntendedManagement</Value>
+</Value>
+<Value name="7">
+<Value>OrderItem</Value>
+</Value>
+<Value name="8">
+<Value>Location</Value>
+</Value>
+<Value name="9">
+<Value>LetterType</Value>
+</Value>
+<Value name="10">
+<Value>Location2</Value>
+</Value>
+<Value name="11">
+<Value>Module1</Value>
+</Value>
+<Value name="12">
+<Value>ReportReference</Value>
+</Value>
+<Value name="13">
+<Value>StatePPP</Value>
+</Value>
+<Value name="14">
+<Value>ItemCategory</Value>
+</Value>
+<Value name="15">
+<Value>ApptCancelInitiator</Value>
+</Value>
+<Value name="16">
+<Value>ApptStatus</Value>
+</Value>
+<Value name="17">
+<Value>Interpreter</Value>
+</Value>
+<Value name="18">
+<Value>RefStatus</Value>
+</Value>
+<Value name="19">
+<Value>RefStatusReason</Value>
+</Value>
+<Value name="20">
+<Value>Transport</Value>
+</Value>
+<Value name="21">
+<Value>ReasonForRemoval</Value>
+</Value>
+<Value name="22">
+<Value>ActiveDateFrom</Value>
+</Value>
+<Value name="23">
+<Value>ActiveDateTo</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

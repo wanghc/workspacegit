@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSEvent">
+<Description>
+4-Mar-03 17:08 AW: need both a date from and a date to field. and the event should only be triggered if they are within todays date range.. they shouldn't be deleting an event, just giving it a date to 
+
+4-Mar-03 10:35 SKOS: We should be able to specify the time frame that a decision support event reamins active. Previously, we used to simply delete an event when it was no longer required, but with our new requirements to audit DSS, we should no longer be doing this. We require a new field on the websys.DSSEvent.Edit called 'Date To'. When this date is reached, then the event should no longer be called and the event will be considered 'Inactive'. The date that an event becomes active is implicit in the creation of the event, so a date from field is not required.
+</Description>
+<ClassType>persistent</ClassType>
+<IncludeCode>TRAK</IncludeCode>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>61079,43958.070639</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>839</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>10</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Actions">
+<Type>websys.DSSAction</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Class">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ClassTrigger">
+<Description>
+,OnBeforeInsert,OnAfterInsert,OnBeforeUpdate,OnAfterUpdate,OnBeforeDelete,OnAfterDelete</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Code">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Component">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ComponentTrigger">
+<Description>
+,OnBeforeSave,OnAfterSave,OnLoad</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",On Before Save,On After Save,On Load"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",OnBeforeSave,OnAfterSave,OnLoad"/>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EndDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="EventType">
+<Description>
+C=component
+L=class</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Component,Class"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",C,L"/>
+</Property>
+
+<Property name="Items">
+<Type>websys.DSSEventItem</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="StartDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="EventStatus">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EventError">
+<Type>%Library.List</Type>
+</Property>
+
+<Property name="AuditActions">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Index name="ComponentIndex">
+<Properties>Component,ComponentTrigger</Properties>
+</Index>
+
+<Method name="%OnAfterSave">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="%OnBeforeSave">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysBeforeSave">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="xwebsysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="GenAction">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GenActionItem">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetViewFields">
+<Description><![CDATA[
+ab 20.11.06 - used by generate methods to get the correct patient & episode id's]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&ViewObj:websys.DSSViewItem,EventType:%String]]></FormalSpec>
+</Method>
+
+<Method name="GenAddJobQueue">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GenAlert">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&oActionItem:websys.DSSActionItem]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GenClass">
+<Description>
+A test against the class property is a test of present instant. 
+</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&oEventItem:websys.DSSEventItem]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GenComponent">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&oEventItem:websys.DSSEventItem]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GenCondition">
+</Method>
+
+<Method name="GenDateFunc">
+</Method>
+
+<Method name="GenEmail">
+<FormalSpec><![CDATA[&oActionItem:websys.DSSActionItem]]></FormalSpec>
+</Method>
+
+<Method name="GenFax">
+<FormalSpec><![CDATA[&oActionItem:websys.DSSActionItem]]></FormalSpec>
+</Method>
+
+<Method name="GenMedTrakMessage">
+<FormalSpec><![CDATA[&oActionItem:websys.DSSActionItem]]></FormalSpec>
+</Method>
+
+<Method name="GenPager">
+<FormalSpec><![CDATA[&oActionItem:websys.DSSActionItem]]></FormalSpec>
+</Method>
+
+<Method name="GenRule">
+<Description>
+A test against the bit map is to test if an instant EVER occurs present and past.
+</Description>
+<FormalSpec><![CDATA[&oEventItem:websys.DSSEventItem]]></FormalSpec>
+</Method>
+
+<Method name="GenOrder">
+<FormalSpec><![CDATA[&oActionItem:websys.DSSActionItem]]></FormalSpec>
+</Method>
+
+<Method name="GenSetField">
+<FormalSpec><![CDATA[&oActionItem:websys.DSSActionItem]]></FormalSpec>
+</Method>
+
+<Method name="GenTask">
+<FormalSpec>zline:%Library.String</FormalSpec>
+</Method>
+
+<Method name="doBuild">
+</Method>
+
+<Method name="doRebuild">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="doJobRebuild">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Query name="VBFindLE">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlQuery>SELECT ID, Description
+FROM DSSEvent
+WHERE Description %STARTSWITH :desc
+ORDER BY Description</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String"/>
+</Query>
+
+<Query name="qryEvent">
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>SELECT ID, Code, Description
+FROM DSSEvent</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID,Code:%Library.String,Description:%Library.String"/>
+</Query>
+
+<Query name="qryFromClassDetails">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Class:%Library.String,ClassTrigger:%Library.String,TriggerDate:%Library.String</FormalSpec>
+<SqlQuery><![CDATA[SELECT ID
+FROM DSSEvent
+WHERE (Class = :Class) AND (ClassTrigger [ :ClassTrigger)
+AND (NOT (:TriggerDate < StartDate) OR (StartDate is NULL))
+AND (NOT (:TriggerDate > EndDate) OR (EndDate is NULL))]]></SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID"/>
+</Query>
+
+<Query name="qryFromComponentDetails">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Component:%Library.String,ComponentTrigger:%Library.String,TriggerDate:%Library.String</FormalSpec>
+<SqlQuery><![CDATA[SELECT ID
+FROM DSSEvent
+WHERE (Component = :Component) AND (ComponentTrigger = :ComponentTrigger) 
+AND (NOT (:TriggerDate < StartDate) OR (StartDate is NULL))
+AND (NOT (:TriggerDate > EndDate) OR (EndDate is NULL))]]></SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID"/>
+</Query>
+
+<Query name="qryGetRefDocInfo">
+<Description>
+Get Referal Doctor email address</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>ArgRefDocID:%Library.String</FormalSpec>
+<SqlQuery>SELECT REFD_Desc,REFD_Phone,REFD_BusPhone,REFD_Fax,REFD_MobilePhone,REFD_Email,REFD_PreferredContact 
+FROM SQLUser.PAC_RefDoctor
+WHERE REFD_RowId=:ArgRefDocID</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC"/>
+</Query>
+
+<Query name="qryGetUserIDFromCareProvID">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>ArgCareProvID:%Library.String</FormalSpec>
+<SqlQuery>SELECT SSUSR_RowId FROM SQLUser.SS_User WHERE SSUSR_CareProv_DR=:ArgCareProvID</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC"/>
+</Query>
+
+<Query name="qryGetUsersFromGroupID">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>group:%Library.String</FormalSpec>
+<SqlQuery>SELECT SSUSR_RowId FROM SQLUser.SS_User WHERE SSUSR_Group = :group</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DSSEventD</DataLocation>
+<DefaultData>DSSEventDefaultData</DefaultData>
+<IdLocation>^websys.DSSEventD</IdLocation>
+<IndexLocation>^websys.DSSEventI</IndexLocation>
+<StreamLocation>^websys.DSSEventS</StreamLocation>
+<Data name="DSSEventClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DSSEventDefaultData">
+<Value name="1">
+<Value>Code</Value>
+</Value>
+<Value name="2">
+<Value>Description</Value>
+</Value>
+<Value name="3">
+<Value>AfterSave</Value>
+</Value>
+<Value name="4">
+<Value>BeforeSave</Value>
+</Value>
+<Value name="5">
+<Value>ClassName</Value>
+</Value>
+<Value name="6">
+<Value>Component</Value>
+</Value>
+<Value name="7">
+<Value>Load</Value>
+</Value>
+<Value name="8">
+<Value>Timing</Value>
+</Value>
+<Value name="9">
+<Value>Class</Value>
+</Value>
+<Value name="10">
+<Value>ClassTrigger</Value>
+</Value>
+<Value name="11">
+<Value>ComponentTrigger</Value>
+</Value>
+<Value name="12">
+<Value>EventType</Value>
+</Value>
+<Value name="13">
+<Value>ClassDisplayName</Value>
+</Value>
+<Value name="14">
+<Value>EndDate</Value>
+</Value>
+<Value name="15">
+<Value>StartDate</Value>
+</Value>
+<Value name="16">
+<Value>EventError</Value>
+</Value>
+<Value name="17">
+<Value>EventStatus</Value>
+</Value>
+<Value name="18">
+<Value>AuditActions</Value>
+</Value>
+</Data>
+<Property name="Class">
+</Property>
+<Property name="ClassTrigger">
+</Property>
+<Property name="Code">
+</Property>
+<Property name="Component">
+</Property>
+<Property name="ComponentTrigger">
+</Property>
+<Property name="Description">
+</Property>
+<Property name="EndDate">
+</Property>
+<Property name="EventType">
+</Property>
+<Property name="StartDate">
+</Property>
+</Storage>
+</Class>
+</Export>

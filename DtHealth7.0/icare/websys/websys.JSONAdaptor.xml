@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.JSONAdaptor">
+<Description>
+[ Abstract, Not ProcedureBlock, PropertyClass = %XML.PropertyParameters ]</Description>
+<Final>0</Final>
+<Abstract>1</Abstract>
+<ClassType/>
+<IncludeCode>%occInclude</IncludeCode>
+<IncludeGenerator>%occInclude</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>63064,62144.078768</TimeChanged>
+<TimeCreated>63064,42562.602797</TimeCreated>
+
+<Parameter name="BUILD">
+<Default>418</Default>
+</Parameter>
+
+<Method name="JSONBeforeExport">
+<Internal>1</Internal>
+<Abstract>1</Abstract>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[	Quit
+]]></Implementation>
+</Method>
+
+<Method name="JSONAfterExport">
+<Internal>1</Internal>
+<Abstract>1</Abstract>
+<FormalSpec>status:%Status</FormalSpec>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[	Quit
+]]></Implementation>
+</Method>
+
+<Method name="Json">
+<CodeMode>objectgenerator</CodeMode>
+<Implementation><![CDATA[
+     Do %code.WriteLine(" Set str = ""{""")
+     Set j=1
+	 For i = 1:1:%compiledclass.Properties.Count() {
+		Set propobj = %compiledclass.Properties.GetAt(i)
+        Set prop = propobj.Name
+        Set proptype = propobj.Type
+        if prop'="%%OID"{
+	        if proptype["Integer"{
+        		if j=1 Do %code.WriteLine(" Set str=str_"""""""_prop_""""":""_+%this."_prop)
+        		else  Do %code.WriteLine(" Set str=str_"",""_"""""""_prop_""""":""_%this."_prop)        	
+		    }else{
+        		if j=1 Do %code.WriteLine(" Set str=str_"""""""_prop_""""":""""""_%this."_prop_"_""""""""")
+        		else  Do %code.WriteLine(" Set str=str_"",""_"""""""_prop_""""":""""""_%this."_prop_"_""""""""")        	
+		    }
+		    set j=j+1
+        }
+    }
+    Do %code.WriteLine(" Set str = str_""}""")
+    Do %code.WriteLine(" Quit str")
+    Quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+</Export>

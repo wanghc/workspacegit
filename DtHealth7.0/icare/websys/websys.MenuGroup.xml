@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.MenuGroup">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>63176,36124.774861</TimeChanged>
+<TimeCreated>59315,55157</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>63</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Caption</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Caption">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="99"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Items">
+<Type>websys.MenuGroupItem</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="99"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="CaptionName">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Caption,Name</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="UniqueNameIndex">
+<Description>
+Uniqueness index for property Name</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Name</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="FindSysMainClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindSysMainFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindSysMainExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	//SubMenuOf2 On (SubMenuOf, Sequence);
+	//^websys.MenuI
+	set seq=$o(^websys.MenuI("SubMenuOf2",1,0))
+	while (seq'="") {
+		set menuid=$o(^websys.MenuI("SubMenuOf2",1,seq,0))
+		while (menuid'=""){
+			set objMenu=##class(websys.Menu).%OpenId(menuid)
+			if $IsObject(objMenu){
+				set caption=objMenu.Caption_" ["_objMenu.Name_"]"
+				set ^CacheTemp(repid,ind)=$lb(menuid,caption)
+				set ind=ind+1
+			}
+			set menuid=$o(^websys.MenuI("SubMenuOf2",1,seq,menuid))
+		}
+		set seq=$o(^websys.MenuI("SubMenuOf2",1,seq))
+	}
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindSysMainFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindSysMainExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="MenuItemsAdd">
+<Description>
+Rebuild menugroup items from a set of delimited strings.
+by wuqk 2011-06-13</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ids:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	//set ^Temp("Upgrade","MenuItemsAdd",1)=ids
+	//50046|6|4|52180
+	set len=$l(ids,"|")
+	do ..Items.Clear()
+	for index=1:1:len {
+		set menuId=$p(ids,"|",index)
+		continue:menuId=""
+		continue:'##class(websys.Menu).%ExistsId(menuId)
+		//set ^Temp("Upgrade","MenuItemsAdd",menuId)=""
+		set objMenuGroupItem=##class(websys.MenuGroupItem).%New()
+		set objMenuGroupItem.Menu=##class(websys.Menu).%OpenId(menuId)
+		do ..Items.Insert(objMenuGroupItem)
+	}
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="MenuItemsGet">
+<Description>
+return list of menugroupitem's menu id in sequence order
+by wuqk 2011-06-11 * 原环境下返回值比现在少？
+s obj=##class(websys.MenuGroup).%OpenId(1)
+w obj.MenuItemsGet()</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	set itms=..Items
+	for index=1:1:itms.Count() {
+		set itm=itms.GetAt(index)
+		if $IsObject(itm){
+			if $IsObject(itm.Menu) {
+				set menuId=itm.Menu.%Id()
+				set arr(menuId)=""
+			}
+		}
+	}
+	set return="|"
+	set menuId=""
+	do {
+		set menuId=$o(arr(menuId))
+		set:menuId'="" return=return_menuId_"|"
+	} while(menuId'="")
+	//set ^Temp("Upgrade","MenuItemsGet",1)=return
+	quit return
+]]></Implementation>
+</Method>
+
+<Method name="ShowBar">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String</FormalSpec>
+</Method>
+
+<Method name="MenuType">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Query name="FindSysMain">
+<Description>
+by wuqk 2011-06-13</Description>
+<Type>%Library.Query</Type>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Value:%String,Caption:%Library.String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.MenuGroupD</DataLocation>
+<DefaultData>MenuGroupDefaultData</DefaultData>
+<IdLocation>^websys.MenuGroupD</IdLocation>
+<IndexLocation>^websys.MenuGroupI</IndexLocation>
+<StreamLocation>^websys.MenuGroupS</StreamLocation>
+<Data name="MenuGroupClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="MenuGroupDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Caption</Value>
+</Value>
+<Value name="2">
+<Value>Items</Value>
+</Value>
+<Value name="3">
+<Value>Name</Value>
+</Value>
+</Data>
+<Property name="Caption">
+</Property>
+<Property name="Items">
+</Property>
+<Property name="Name">
+</Property>
+</Storage>
+</Class>
+</Export>

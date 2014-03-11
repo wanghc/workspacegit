@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.CAConfigurationService">
+<Description>
+名称:           websys.CAConfigurationService
+描述:           DtHealth CA 服务配置服务类
+编写者：        guozongtao
+编写日期:       2011-08-22</Description>
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%RegisteredObject</Super>
+<TimeChanged>62410,40414</TimeChanged>
+<TimeCreated>62326,29507.527968</TimeCreated>
+
+<Method name="PowerOn">
+<Description>
+Creator：      guozongtao
+CreatDate：    2011-08-22
+Description:   设置CA服务为开启状态
+Table：        ^CF("CA")
+Input：        
+Output：       
+Return：       
+Others：
+Debug:         d ##Class(websys.CAConfigurationService).PowerOn()        </Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[	s ^CF("CA")="Y"
+]]></Implementation>
+</Method>
+
+<Method name="PowerOff">
+<Description>
+Creator：      guozongtao
+CreatDate：    2011-08-22
+Description:   设置CA服务为开启状态
+Table：        ^CF("CA")
+Input：        
+Output：       
+Return：       
+Others：
+Debug:         d ##Class(websys.CAConfigurationService).PowerOff() </Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[	s ^CF("CA")="N"
+]]></Implementation>
+</Method>
+
+<Method name="GetCAServiceStatus">
+<Description>
+Creator：      guozongtao
+CreatDate：    2011-08-23
+Description:   获取CA服务状态,默认CA服务关闭状态
+Table：        ^CF("CA")
+Input：        
+Output：       开启：Y;  关闭：N     
+Return：       
+Others：
+Debug:         w ##Class(websys.CAConfigurationService).GetCAServiceStatus() </Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s rtnstr="N"
+	
+	i ($d(^CF("CA"))=1)
+	{
+		s rtnstr=$g(^CF("CA"))
+	}
+	
+	q rtnstr
+]]></Implementation>
+</Method>
+
+<Method name="CASessionDataInit">
+<Description>
+Creator：      guozongtao
+CreatDate：    2011-08-25
+Description:   CA服务初始化Session                   
+Table：        ^CF("CA")
+Input：        
+Output：       开启：Y;  关闭：N     
+Return：       
+Others：       
+Debug:         w ##Class(websys.CAConfigurationService).CASessionDataInit() </Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	s CAServicvice=##Class(websys.CAConfigurationService).GetCAServiceStatus()  
+
+	if (CAServicvice="Y")
+	{
+		//s service=##Class(dhcserviceclient.CA.ServiceSoap).%New()
+		s service=##Class(CA.DigitalSignatureService).GetCAService()
+		s strServerRan = service.GenRandom()
+		s strServerSignedData =service.SignData(strServerRan)
+		s strServerCert = service.GetServerCert()
+		
+		s %session.Data("ServerRan")=strServerRan
+		s %session.Data("ServerSignedData")=strServerSignedData
+		s %session.Data("ServerCert")=strServerCert
+		
+		s service=""
+	}
+]]></Implementation>
+</Method>
+
+<Method name="VerifyCertAndSignedData">
+<Description>
+
+Creator：      guozongtao
+CreatDate：    2011-08-26
+Description:   完成登录验证。通过该方法，可以实现验证用户证书，验证签名，然后获取用户证书的唯一标识。
+Table：        
+Input：        string bstrCert客户端证书, 隐含元素
+               string InData  服务器端随机数 session, 
+               string signedData 客户端签名,隐含元素
+Output：      如个人用户，返回SF+身份证号码
+              -1为不信任机构，-2为超过有效期，-3为作废证书，-4为已加入黑名单    
+Return：       
+Others：       
+Debug:         w ##Class(websys.CAConfigurationService).VerifyCertAndSignedData() </Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>argbstrCert:%String,argInData:%String,argsignedData:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	
+	s rtnstr=""
+	s service=##Class(CA.DigitalSignatureService).GetCAService()
+	s rtnstr = service.VerifyCertAndSignedData(argbstrCert,argInData,argsignedData)
+	s service=""
+	
+	q:(rtnstr=-1) "不信任机构"
+	q:(rtnstr=-2) "超过有效期"
+	q:(rtnstr=-3) "作废证书"
+	q:(rtnstr=-4) "已加入黑名单"
+	
+	q:(($f(rtnstr, "JJ")>0)||($f(rtnstr, "SF")>0)) ""
+	
+	q "证书错误"
+]]></Implementation>
+</Method>
+
+<Method name="t">
+<Description>
+w ##Class(websys.CAConfigurationService).t() </Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	s rtnstr="rtnstr"
+	if (($f(rtnstr, "SF")>0)||($f(rtnstr, "JJ")>0))
+	{
+		q ""
+	}
+	else
+	{
+		q "证书错误"
+	}
+]]></Implementation>
+</Method>
+</Class>
+</Export>

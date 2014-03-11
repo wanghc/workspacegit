@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSTask">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59009,42048</TimeCreated>
+
+<Property name="CmdExecute">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EventID">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Status">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Appending,Cancelled,Executed"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",A,C,E"/>
+</Property>
+
+<Property name="exeDate">
+<Description>
+Date store in $HOROLOG format</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="exeTime">
+<Description>
+Time store in $HOROLOG format</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="reqDate">
+<Description>
+Date store in $HOROLOG format</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="reqTime">
+<Description>
+Time store in $HOROLOG format</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="CmdExecuteIndex">
+<Description>
+Index for property CmdExecute</Description>
+<Properties>CmdExecute</Properties>
+</Index>
+
+<Index name="StatusIndex">
+<Description>
+Index for property Status</Description>
+<Properties>Status</Properties>
+</Index>
+
+<Index name="exeDateIndex">
+<Description>
+Index for property exeDate</Description>
+<Properties>exeDate</Properties>
+</Index>
+
+<Index name="exeTimeIndex">
+<Description>
+Index for property exeTime</Description>
+<Properties>exeTime</Properties>
+</Index>
+
+<Method name="AddJob">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgEID:%Library.String,ArgStrExecute:%Library.String,ArgTime:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ProcessRunning">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="ProcessJob">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgFrequency:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="qryGetJobs">
+<Description>
+Get Jobs between time T1 and T2 where Job status equal APPENDING</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>ArgDate,ArgTime:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[SELECT ID, CmdExecute, EventID, exeDate, exeTime, reqDate, reqTime, Status
+FROM DSSTask
+WHERE (Status = 'A') AND (exeDate = :ArgDate) AND (exeTime < :ArgTime)
+ORDER BY exeTime]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,CmdExecute:%Library.String,EventID:%Library.String,exeDate:%Library.String,exeTime:%Library.String,reqDate:%Library.String,reqTime:%Library.String,Status:%Library.String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DSSTaskD</DataLocation>
+<DefaultData>DSSTaskDefaultData</DefaultData>
+<IdLocation>^websys.DSSTaskD</IdLocation>
+<IndexLocation>^websys.DSSTaskI</IndexLocation>
+<StreamLocation>^websys.DSSTaskS</StreamLocation>
+<Data name="DSSTaskClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DSSTaskDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>CmdExecute</Value>
+</Value>
+<Value name="2">
+<Value>EventID</Value>
+</Value>
+<Value name="3">
+<Value>TimeOffSet</Value>
+</Value>
+<Value name="4">
+<Value>blnExecuted</Value>
+</Value>
+<Value name="5">
+<Value>exeDate</Value>
+</Value>
+<Value name="6">
+<Value>exeTime</Value>
+</Value>
+<Value name="7">
+<Value>reqDate</Value>
+</Value>
+<Value name="8">
+<Value>reqTime</Value>
+</Value>
+<Value name="9">
+<Value>Status</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

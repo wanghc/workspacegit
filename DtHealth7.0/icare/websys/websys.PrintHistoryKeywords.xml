@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.PrintHistoryKeywords">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>60506,62136</TimeChanged>
+<TimeCreated>59296,37507</TimeCreated>
+
+<Property name="Keyword">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ParRef">
+<Type>websys.PrintHistory</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>ChildKeywords</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Index name="KEYW">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Keyword,ParRef</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="KeywordsDelete">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>parref:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="KeywordsInsert">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>parref:%Library.String,keywords:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("KEYW")</DataLocation>
+<DefaultData>PrintHistoryKeywordsDefaultData</DefaultData>
+<IdLocation>{%%PARENT}("KEYW")</IdLocation>
+<IndexLocation>^websys.PrintHistoryI</IndexLocation>
+<StreamLocation>^websys.PrintHistoryKeywordsS</StreamLocation>
+<Data name="PrintHistoryKeywordsClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="PrintHistoryKeywordsDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Keyword</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

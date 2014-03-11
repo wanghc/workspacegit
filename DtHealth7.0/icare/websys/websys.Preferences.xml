@@ -1,0 +1,1316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Preferences">
+<Description>
+Generic holder for user, group, site preferences.
+Examples include:
+Sequences for table columns
+Component Layout
+Order Profiles
+and many more
+
+In general data can be stored directly: 
+d ##Class(websys.Preferences).SetData("MYAPP","SETTINGS","SSGroup","SuperUser",mydata)
+and retrieved directly: 
+s mydata=##Class(websys.Preferences).GetData("MYAPP","SETTINGS","SSGroup","SuperUser")</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62935,48604.087313</TimeChanged>
+<TimeCreated>61079,43958.091913</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>392</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>288</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="AppKey">
+<Description>
+String detemining a module or major part of application functionality.
+Actual string depends on the context.
+
+For example
+For Columns in a table the AppKey is "COLUMNS" plus the context
+For Layout of a component the AppKey is "LAYOUT" plus the context</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE"/>
+</Property>
+
+<Property name="AppSubKey">
+<Description>
+String detemining sub component of a module or major part of application functionality.
+Actual string depends on the context.
+
+For example
+For Columns in a table the AppSubKey is the Component Name
+For Layout of a component the AppSubKey is the Component Id.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE"/>
+</Property>
+
+<Property name="Data">
+<Description>
+Preference Data.
+The structure of the data is user defined depending on the context of the preference.
+In general data should be structured as nested lists.
+The actual structure should be clearly documeted in the code where the data is stored.
+Storage of data within any particular context should be maintained from single method.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="0"/>
+</Property>
+
+<Property name="ObjectReference">
+<Description>
+This is the ID of the referenced object.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="TRUNCATE"/>
+</Property>
+
+<Property name="ObjectType">
+<Description>
+ObjectType.
+This is used to determine the type of the object reference.
+
+Historically we have used cryptic shorthand:
+U for User.SSUser
+G for User.SSGroup etc.
+
+it would be better to use the object name
+User.SSUser
+User.SSGroup etc.
+
+Where the is no specific correspondence to an object definition,
+e.g. Site then some meaningful text should be used.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="TRUNCATE"/>
+</Property>
+
+<Index name="Index">
+<Description>
+Inverse index by all key items</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ObjectType,ObjectReference,AppKey,AppSubKey</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="AppKey">
+<Description>
+index by APPKEY, APPSUBKEY - used to get a list of preferences for a specific component</Description>
+<Properties>AppSubKey,AppKey</Properties>
+</Index>
+
+<Method name="DeleteLinkedData">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String=""</FormalSpec>
+</Method>
+
+<Method name="FindPreferenceClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindPreferenceFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	n repid
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindPreferenceExecute">
+<Description>
+wanghc
+d ##class(%ResultSet).RunQuery("websys.Preferences","FindPreference","","","","","","","","")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,UserID:%Library.String="",GroupID:%Library.String="",SiteDesc:%Library.String="",ComponentName:%Library.String="",Location:%Library.String="",CTHospital:%Library.String="",PACTrust:%Library.String="",Region:%String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	;UserID
+	;GroupID
+	;SiteDesc
+	;ComponentName
+	;Location
+	;CTHospital
+	;PACTrust
+	;Region
+	n repid
+	n t,PREFTYPEtrans,cmpid,PObjectType,PObjectReference,PAppKey,PAppSubKey,ID
+	n AppKey,Component,WorkflowID,ObjectType,ObjectReference,ComponentID,context,edittype,savedbydesc,savedbyref
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	
+	s G="User.SSGroup",U="User.SSUser",H="User.CTHospital",L="User.CTLoc",T="User.PACTrust",S="SITE",R="REGION",SYS="SYS"
+	s AKL="LAYOUT",AKC="COLUMNS",AKR="ROWS",AKO="ORDER",AKW="WORKPREFS"
+	
+	;取得翻译，Trak原来没有执行此房
+	s langid = %session.Data("LOGON.LANGID")
+	s cmpid=$o(^websys.ComponentI("UniqueNameIndex",$zu(28,"websys.Preferences.Find",6),0))
+	d ##class(websys.Translation).Load("COMP",langid,cmpid)
+	m PREFTYPEtrans=t
+	
+	s QueryAll=1
+	if UserID'="" {
+		s UserID=$O(^SSU("SSUSR",0,"SSUSR_Name",$zu(28,UserID,6),0))
+		if UserID'="" {
+			d OutputByObjectType(U,UserID)
+			s QueryAll=0
+		}else{
+			Quit $$$OK
+		}
+	}
+	
+	if GroupID'="" {
+		d OutputByObjectType(G,GroupID)
+		s QueryAll=0
+	}
+	
+	if Location'="" {
+		d OutputByObjectType(L,Location)
+		s QueryAll=0
+	}
+	
+	if SiteDesc'="" {
+		d OutputByObjectType(S,SiteDesc)
+		s QueryAll=0
+	}
+
+	if CTHospital'="" {
+		d OutputByObjectType(H,CTHospital)
+		s QueryAll=0
+	}	
+	
+	if PACTrust'="" {
+		d OutputByObjectType(T,PACTrust)
+		s QueryAll=0
+	}	
+	if Region'="" {
+		d OutputByObjectType(R,Region)
+		s QueryAll=0
+	}	
+	
+	if QueryAll=1 {
+		s PObjectType="" For  {
+			s PObjectType=$O(^websys.PreferencesI("Index",PObjectType))
+			if PObjectType="" Quit
+			s PObjectReference="" For {
+				s PObjectReference=$O(^websys.PreferencesI("Index",PObjectType, PObjectReference))
+				if PObjectReference="" Quit
+				d OutputByObjectType(PObjectType,PObjectReference)
+			}
+		}
+	}
+	Quit $$$OK
+OutputByObjectType(PObjectType,PObjectReference)
+	s PAppKey=""  For {
+		s PAppKey=$O(^websys.PreferencesI("Index",PObjectType, PObjectReference, PAppKey))
+		if PAppKey="" Quit
+		s PAppSubKey="" For {
+			s PAppSubKey=$O(^websys.PreferencesI("Index",PObjectType, PObjectReference, PAppKey, PAppSubKey))
+			if PAppSubKey="" Quit
+			s ID="" For {
+				s ID=$O(^websys.PreferencesI("Index",PObjectType, PObjectReference, PAppKey, PAppSubKey,ID))
+				if ID="" Quit
+				d OutputRow(ID)
+			}
+		}
+	}
+	Q $$$OK
+OutputRow(ID)
+	s (AppKey,Component,WorkflowID,ObjectType,ObjectReference,ComponentID,context,edittype,savedbydesc,savedbyref)=""
+	s obj=##class(websys.Preferences).%OpenId(ID)	
+	q:'$IsObject(obj)
+	s type=obj.ObjectType
+	s ref=obj.ObjectReference
+	/*
+	q:(type=G)&&(GroupID'="")&&(GroupID'=ref)
+	q:(type=U)&&(UserID'="")&&(UserID'=ref)
+	q:(type=H)&&(CTHospital'="")&&(CTHospital'=ref)
+	q:(type=T)&&(PACTrust'="")&&(PACTrust'=ref)
+	q:(type=L)&&(Location'="")&&(Location'=ref)
+	q:(type=S)&&(SiteDesc'="")&&(SiteDesc'=ref)
+	q:(type=R)&&(Region'="")&&(Region'=ref)
+	;q:(type=SYS)&&("DHCHEALTH"'=ref)
+	*/
+	;组件属性 有数据与字母二种情况
+	s Component=obj.AppSubKey
+	s AppKey=obj.AppKey
+	s ObjectType=obj.ObjectType
+	s ObjectReference=obj.ObjectReference
+	d obj.%Close()
+	;
+	s QuitFlag=0
+	i (AppKey[AKC)||(AppKey[AKR)||(AppKey[AKO) {	
+		s ComponentID=$O(^websys.ComponentI("UniqueNameIndex",$zu(28,Component,6),0))
+		if ComponentID="" s QuitFlag=1
+	}
+	i (AppKey[AKL)||(AppKey[AKW) {
+		s ComponentID=+Component	;AppKey="WORKPREFS"时,AppSubKey=compid_W_WrokflowId
+		s Component=ComponentID
+		s ComponentObj=##class(websys.Component).%OpenId(ComponentID)
+		;q:'$IsObject(ComponentObj)  s QuitFlag=1
+		i '$IsObject(ComponentObj) s QuitFlag=1 Quit	
+		s Component=ComponentObj.Name
+		d ComponentObj.%Close()
+		s ComponentObj=""
+	}
+	Q:QuitFlag
+	if QuitFlag {
+		s Component=""
+		s ComponentID=""
+	}
+	
+	Q:(ComponentName'="")&&(ComponentName'=Component)
+	
+	;保存的类型 		Saved by Type 
+	s savedbydesc=$s(type=G:$g(PREFTYPEtrans("GroupID")),type=U:$g(PREFTYPEtrans("UserID")),type=H:$G(PREFTYPEtrans("CTHospital")),type=T:$G(PREFTYPEtrans("PACTrust")),type=L:$G(PREFTYPEtrans("Location")),type=S:$G(PREFTYPEtrans("SiteDesc")),type=R:$G(PREFTYPEtrans("Region")),1:$G(PREFTYPEtrans("SYS")))
+	;保存的具体人或组或科室等的指针 	Saved by 
+	s savedbyref=ref
+	
+	i type=G &SQL(SELECT SSGRP_Desc INTO:savedbyref FROM SQLUSER.SS_Group WHERE SSGRP_Rowid=:ref )
+	i type=U &SQL(SELECT SSUSR_Name INTO:savedbyref FROM SQLUSER.SS_User WHERE SSUSR_Rowid=:ref )
+	i type=L &SQL(SELECT CTLOC_Desc INTO:savedbyref FROM SQLUSER.CT_Loc WHERE CTLOC_Rowid=:ref )
+	i type=H &SQL(SELECT HOSP_Desc INTO:savedbyref  FROM SQLUSER.CT_Hospital WHERE HOSP_Rowid=:ref )
+	i type=T &SQL(SELECT TRUST_Desc INTO:savedbyref FROM SQLUSER.PAC_Trust WHERE TRUST_Rowid=:ref )
+	s contextStartIndex=$F(AppKey,AKL)+$F(AppKey,AKC)+$F(AppKey,AKR)+$F(AppKey,AKO)+$F(AppKey,AKW)	;查询不到为0
+	s edittype=$e(AppKey,1,contextStartIndex-1)
+
+	s context=$e(AppKey,contextStartIndex,)
+	i ($e(context,1)="W") {
+		s WorkflowID=$e(context,2,)
+		s workFlowObj = ##class(websys.WorkFlow).%OpenId(WorkflowID)	
+		i $IsObject(workFlowObj) s WorkflowID=workFlowObj.Name
+	}
+	;ID,AppKey,Component,WorkflowID,ObjectType,ObjectReference,ComponentID,context,edittype,savedbydesc,savedbyref 
+	s ^CacheTemp(repid,ind)=$lb(ID ,edittype ,Component ,WorkflowID,ObjectType,ObjectReference,ComponentID,context,edittype,savedbydesc,savedbyref)
+	s ind=ind+1
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindPreferenceFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindPreferenceExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	n repid
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}Else{				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetData">
+<Description>
+Directly return preference data
+w ##class(websys.Preferences).GetData(objectType,objectReference,appKey,appSubKey)
+zhaocz 2011-06-21 修正 1. n  2. subscript</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>objectType:%Library.String,objectReference:%Library.String,appKey:%Library.String,appSubKey:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	n myData, myPrefRowID, objPref
+	
+	s myData=""
+	q:((objectType="")) myData
+	q:(objectReference="") myData
+	q:(appKey="") myData
+	q:(appSubKey="") myData
+	
+	s myPrefRowID=$O(^websys.PreferencesI("Index",objectType,objectReference,appKey,appSubKey,0))
+	i (myPrefRowID'=""){
+		s objPref=##class(websys.Preferences).%OpenId(myPrefRowID)
+		s myData = objPref.Data
+		d objPref.%Close()
+		s objPref=""
+	}
+	
+	q myData
+]]></Implementation>
+</Method>
+
+<Method name="GetDataEx">
+<Description>
+Extended GetData.
+This is intended to ensure that disparate preferences are retrieved consistently for the typical hierachy of preefrences:
+User, Group, Site, System
+Each of which may by a preference within a context - such as a workflow, order profile etc.
+
+The return value is the stored data.
+Parameter 'app' is returned to indicate where in the hierarchy the preference was found.
+zhaocz 2011-06-20 修正 1. n
+w ##class(websys.Preferences).GetDataEx(639,89,"DHCHEALTH","W50005",.ActiveObject,"LAYOUT",50087,"","")
+此方法与GetDataExLE的逻辑有些不一样,是先查找是否有满足上下文的级别</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[UserID:%Library.String,GroupID:%Library.String,SiteCODE:%Library.String,context:%Library.String,&app:%Library.String,key:%Library.String,subkey:%Library.String,LocID:%String="",Region:%String=""]]></FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	;s mydata = ##class(dtwebsys.Preferences).GetDataEx(UserID, GroupID, SiteCODE, context, ByRef app, key, subkey, LocID, Region)
+	;UserID
+	;
+	;GroupID
+	;SiteCODE
+	;context   ??? 需要好好考虑一下 为workflow服务 工作流
+	;ByRef app As %Library.String, 
+	;key
+	;subkey
+	;LocID
+	;Region
+	
+	;s myCompXRefId=$o(^websys.ComponentXRefI("Master",myCompId,myContext,myLangId,myApp,0))
+	
+	n myApp, myAppKey, myAppSubKey, myData, myPrefRowID, myObjectType, myObjectReference
+	n objPref
+	
+	s myApp=""
+	s myAppKey=key
+	; zhaocz 2011-07-05 修正 subkey的context
+	s myAppSubKey=subkey_context
+	s myData=""
+	s myPrefRowID=""
+	
+	;;;;;;;;;;;;;;;;;;;;;;;;;先查找有上下文定义的记录;;;;;;;;;;;;;;;;
+
+	;用户级别
+	i (UserID'=""){
+		s myObjectType="User.SSUser"
+		s myObjectReference=UserID
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+			;s myApp=myObjectType_"."_myObjectReference
+			s myApp=myObjectType
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+		}
+	}
+	;登录位置
+	i ((myApp="")&&(LocID'="")){
+		s myObjectType="User.CTLoc"
+		s myObjectReference=LocID
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+			;s myApp=myObjectType_"."_myObjectReference
+			s myApp=myObjectType
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+		}
+	}
+
+	;安全组
+	i ((myApp="")&&(GroupID'="")){
+		s myObjectType="User.SSGroup"
+		s myObjectReference=GroupID
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+			;s myApp=myObjectType_"."_myObjectReference
+			s myApp=myObjectType
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+		}
+	}
+	
+	;站点
+	i ((myApp="")&&(SiteCODE'="")){
+		s myObjectType="SITE"
+		s myObjectReference=SiteCODE
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+			;s myApp=myObjectType_"."_myObjectReference
+			s myApp=myObjectType
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+		}
+	}
+	
+	;区域
+	i ((myApp="")&&(Region'="")){
+		s myObjectType="REGION"
+		s myObjectReference=Region
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+			;s myApp=myObjectType_"."_myObjectReference
+			s myApp=myObjectType
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+		}
+	}
+	
+	;;;;;;;;;;;;;;;;;;;;;;;;;再查找无上下文定义的记录;;;;;;;;;;;;;;;;
+	;用户级别
+	i (UserID'=""){
+		s myObjectType="User.SSUser"
+		s myObjectReference=UserID
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, key, subkey))){
+			;s myApp=myObjectType_"."_myObjectReference
+			s myApp=myObjectType
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, key, subkey, 0))
+		}
+	}
+	;登录位置
+	i ((myApp="")&&(LocID'="")){
+		s myObjectType="User.CTLoc"
+		s myObjectReference=LocID
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, key, subkey))){
+			;s myApp=myObjectType_"."_myObjectReference
+			s myApp=myObjectType
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, key, subkey, 0))
+		}
+	}
+
+	;安全组
+	i ((myApp="")&&(GroupID'="")){
+		s myObjectType="User.SSGroup"
+		s myObjectReference=GroupID
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, key, subkey))){
+			;s myApp=myObjectType_"."_myObjectReference
+			s myApp=myObjectType
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, key, subkey, 0))
+		}
+	}
+	
+	;站点
+	i ((myApp="")&&(SiteCODE'="")){
+		s myObjectType="SITE"
+		s myObjectReference=SiteCODE
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, key, subkey))){
+			;s myApp=myObjectType_"."_myObjectReference
+			s myApp=myObjectType
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, key, subkey, 0))
+		}
+	}
+	
+	;区域
+	i ((myApp="")&&(Region'="")){
+		s myObjectType="REGION"
+		s myObjectReference=Region
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, key, subkey))){
+			;s myApp=myObjectType_"."_myObjectReference
+			s myApp=myObjectType
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, key, subkey, 0))
+		}
+	}
+	
+	i (myApp=""){
+		s myApp="SYS.SYS"   		;"SYS.SYS"  ;%session.Data("LOGON.SITECODE")
+	}
+	w "myPrefRowID"_myPrefRowID,!
+	i (myPrefRowID'=""){
+		s objPref=##class(websys.Preferences).%OpenId(myPrefRowID)
+		s myData = objPref.Data
+		d objPref.%Close()
+		s objPref = ""
+	}
+	s app = myApp
+	
+	q myData
+]]></Implementation>
+</Method>
+
+<Method name="GetDataExLE">
+<Description>
+Extended GetData.
+This is intended to ensure that disparate preferences are retrieved consistently for the typical hierachy of preefrences:
+User, Group, Hospital, Trust, Site, System
+Each of which may by a preference within a context - such as a workflow, order profile etc.
+
+The return value is the stored data.
+Parameter 'app' is returned to indicate where in the hierarchy the preference was found.
+
+Used from the Layout Editor...
+Returns active settings
+2011.05.27增加了LocID参数，Trak原来没有定义 
+w ##class(websys.Preferences).GetDataExLE(1,1,2,"DHCHEALTH","","LAYOUT",50087,.ActiveObject,.ActiveReference,.ActiveContext,"","","")
+w ##class(websys.Preferences).GetDataExLE(639,89,2,"DHCHEALTH","W50005","LAYOUT",50087,.ActiveObject,.ActiveReference,.ActiveContext,"","","")
+w ##class(websys.Preferences).GetDataExLE(208,100,2,"DHCHEALTH","W50010","LAYOUT",50307,.ActiveObject,.ActiveReference,.ActiveContext,"","","")
+w ##class(websys.Preferences).GetDataExLE(1,1,2,"DHCHEALTH","W57","COLUMNS","PAPerson.List",.ActiveObject,.ActiveReference,.ActiveContext,"","","")
+zhaocz 2011-06-20 修正 1. n</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[UserID:%Library.String,GroupID:%Library.String,HospID:%Library.String,SiteCODE:%Library.String,context:%Library.String,key:%Library.String,subkey:%Library.String,&ActiveObject:%String,&ActiveReference:%String,&ActiveContext:%String,TrustID:%Library.String="",Region:%String="",LocID:%String=""]]></FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	
+	n objPref
+	n myApp, myAppKey, myAppSubKey, myData, myPrefRowID, myObjectType, myObjectReference
+	
+	s myApp=""
+	s myAppKey=key
+	; zhaocz 2011-07-05 修正 subkey的context
+	;s myAppSubKey=subkey_context
+	s myAppSubKey=subkey
+	
+	;key:LAYOUT,COLUMNS,ROWS,ORDER,WORKPREFS
+	s myAppKeyContext=key_context
+	s myAppSubKeyContext=subkey
+	
+	s myData=""
+	s myPrefRowID=""
+	s ActiveContext=""
+	
+	;用户级别
+	i (UserID'=""){
+		s myObjectType="User.SSUser"
+		s myObjectReference=UserID
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference,myAppKeyContext, myAppSubKeyContext))){
+			s myApp=myObjectType_"."_myObjectReference
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext, 0))
+			s ActiveContext=context
+		}else {
+			i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+				s myApp=myObjectType_"."_myObjectReference
+				s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+			}
+		}
+	}
+	/*;登录位置
+	s LocID=$g(%session.Data("LOGON.CTLOCID"))
+	i ((myApp="")&&(LocID'="")){
+		s myObjectType="User.CTLoc"
+		s myObjectReference=LocID
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+			s myApp=myObjectType_"."_myObjectReference
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+		}
+	}
+	*/
+	;安全组
+	i ((myApp="")&&(GroupID'="")){
+		s myObjectType="User.SSGroup"
+		s myObjectReference=GroupID
+
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext))){
+			s myApp=myObjectType_"."_myObjectReference
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext, 0))
+			s ActiveContext=context
+		}else{
+			i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+				s myApp=myObjectType_"."_myObjectReference
+				s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+			}
+		}
+	}
+	
+	;站点
+	i ((myApp="")&&(SiteCODE'="")){
+		s myObjectType="SITE"
+		s myObjectReference=SiteCODE
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext))){
+			s myApp=myObjectType_"."_myObjectReference
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext, 0))
+			s ActiveContext=context
+		}else{
+			i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+				s myApp=myObjectType_"."_myObjectReference
+				s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+			}
+		}
+	}
+	
+	;区域
+	i ((myApp="")&&(Region'="")){
+		s myObjectType="REGION"
+		s myObjectReference=Region
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext))){
+			s myApp=myObjectType_"."_myObjectReference
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext, 0))
+			s ActiveContext=context
+		}else{
+			i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+				s myApp=myObjectType_"."_myObjectReference
+				s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+			}
+		}
+	}
+	
+	s ActiveObject=myObjectType
+	; zhaocz 2011-07-12 修正
+	s ActiveReference = myObjectReference
+	;s ActiveContext=""_context
+	
+	i (myApp=""){
+		s myApp="SYS.SYS"   		;"SYS.SYS"  ;%session.Data("LOGON.SITECODE")
+		s ActiveObject="SYS"
+		s ActiveReference="SYS"
+		s myData=""
+	}
+	
+	n Idx
+	
+	i (myPrefRowID'=""){
+		s objPref=##class(websys.Preferences).%OpenId(myPrefRowID)
+		s myData = objPref.Data
+		d objPref.%Close()
+		s objPref=""
+	}
+	
+	q myData
+]]></Implementation>
+</Method>
+
+<Method name="GetDataExPlus">
+<Description>
+Similar to GetDataExLE.
+Added retrieval by Location, removed retrieval by Trust. Context is as is, not split in 2.
+
+This is intended to ensure that disparate preferences are retrieved consistently for the typical hierachy of preefrences:
+User, Location, Group, Site, System
+Each of which may by a preference within a context - such as a workflow, order profile etc.
+
+The return value is the stored data.
+Parameter 'app' is returned to indicate where in the hierarchy the preference was found.
+Parameter 'activecontext' is returned to indicate which context was stored with preference.
+
+Used by all non-system things such as orderfavourites.
+24-Oct-05: added by HospitalID
+w ##class(websys.Preferences).GetDataExLE(1,1,"DHCHEALTH","LAYOUT","","",.app,"LAYOUT",4,.activecontext,"","")
+经测试,此方法会去调用GetDataExLE
+zhouzq 2011.08.09 此方法用来调用医嘱模板</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[UserID:%Library.String,GroupID:%Library.String,SiteCODE:%Library.String,LocID:%Library.String,context:%Library.String,&app:%Library.String,key:%Library.String,subkey:%Library.String,&activecontext:%Library.String="",HospID:%String="",Region:%String=""]]></FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	n objPref
+	n myAppKey, myAppSubKey, myData, myPrefRowID, myObjectType, myObjectReference,myAppKeyContext,myAppSubKeyContext
+	
+	s myAppKey=key
+	s myAppSubKey=subkey
+	
+	;key:LAYOUT,COLUMNS,ROWS,ORDER,WORKPREFS
+	s myAppKeyContext=key_context
+	s myAppSubKeyContext=subkey
+	
+	s myData=""
+	s myPrefRowID=""
+	
+	s activecontext=""
+	s app=""
+	/*
+	;用户级别
+	i (UserID'=""){
+		s myObjectType="User.SSUser"
+		s myObjectReference=UserID
+		s myData=##class(websys.Preferences).GetData(myObjectType,myObjectReference,myAppKeyContext, myAppSubKeyContext)
+		i myData'="" {
+			s myApp=myObjectType_"."_myObjectReference
+			s ActiveContext=context
+		}else{
+			s myData=##class(websys.Preferences).GetData(myObjectType, myObjectReference, myAppKey, myAppSubKeyt)
+			i myData'="" {
+				s myApp=myObjectType_"."_myObjectReference
+			}
+		}
+	}
+	*/
+
+	;用户级别
+	i (UserID'=""){
+		s myObjectType="User.SSUser"
+		s myObjectReference=UserID
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference,myAppKeyContext, myAppSubKeyContext))){
+			s app=myObjectType
+			s activecontext=context
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext, 0))
+		}else {
+			i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+				s app=myObjectType
+				s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+			}
+		}
+	}
+
+	
+	;登录位置
+	i ((app="")&&(LocID'="")){
+		s myObjectType="User.CTLoc"
+		s myObjectReference=LocID
+
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext))){
+			s app=myObjectType
+			s activecontext=context
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext, 0))
+		}else{
+			i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+				s app=myObjectType
+				s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+			}
+		}
+	}
+	
+	;安全组
+	i ((app="")&&(GroupID'="")){
+		s myObjectType="User.SSGroup"
+		s myObjectReference=GroupID
+
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext))){
+			s app=myObjectType
+			s activecontext=context
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext, 0))
+		}else{
+			i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+				s app=myObjectType
+				s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+			}
+		}
+	}
+	
+	;医院
+	i ((app="")&&(HospID'="")){
+		s myObjectType="User.CTHospital"
+		s myObjectReference=HospID
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext))){
+			s app=myObjectType
+			s activecontext=context
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext, 0))
+		}else{
+			i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+				s app=myObjectType
+				s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+			}
+		}
+	}
+	
+	;站点
+	i ((app="")&&(SiteCODE'="")){
+		s myObjectType="SITE"
+		s myObjectReference=SiteCODE
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext))){
+			s app=myObjectType
+			s activecontext=context
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext, 0))
+		}else{
+			i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+				s app=myObjectType
+				s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+			}
+		}
+	}
+	
+
+	;区域
+	i ((app="")&&(Region'="")){
+		s myObjectType="REGION"
+		s myObjectReference=Region
+		i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext))){
+			s app=myObjectType
+			s activecontext=context
+			s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKeyContext, myAppSubKeyContext, 0))
+		}else{
+			i (+$d(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey))){
+				s app=myObjectType
+				s myPrefRowID=$o(^websys.PreferencesI("Index", myObjectType, myObjectReference, myAppKey, myAppSubKey, 0))
+			}
+		}
+	}
+	
+	
+	i (app=""){
+		s app="SYS" 
+	}
+	
+	i (myPrefRowID'=""){
+		s objPref=##class(websys.Preferences).%OpenId(myPrefRowID)
+		s myData = objPref.Data
+		d objPref.%Close()
+		s objPref=""
+	}
+	
+	q myData
+]]></Implementation>
+</Method>
+
+<Method name="KillData">
+<Description>
+Directly delete preference data
+删除组件布局记录      zhouzq 2011.06.29
+d ##class(websys.Preferences).KillData("SITE","DHCHEALTH","LAYOUT",2)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>objectType:%Library.String,objectReference:%Library.String,appKey:%Library.String,appSubKey:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	n id
+	s ^Temp("DeleteLayout",$I(^zhou("Delete")))="KillData:"_objectType_","_objectReference_","_appKey_","_appSubKey
+	if objectReference="" Quit
+	&SQL(Select ID into :id From websys.Preferences 
+	Where ObjectType=:objectType and ObjectReference=:objectReference and
+	AppKey=:appKey and AppSubKey=:appSubKey)
+	if SQLCODE=0 {
+		d ..%DeleteId(id)
+	}
+	/*
+	&SQL(Delete From websys.Preferences 
+	Where ObjectType=:objectType and ObjectReference=:objectReference and
+	AppKey=:appKey and AppSubKey=:appSubKey)
+	*/
+]]></Implementation>
+</Method>
+
+<Method name="LookUpAppSubKeyClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpAppSubKeyFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpAppSubKeyExecute">
+<Description>
+BY wanghc   
+input:是component name
+同时判断了组件是否在Preference表里有对应的记录</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,AppSubKey:%Library.String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	  s repid=$I(^CacheTemp)
+	  s ind=1
+	  s QHandle=$lb(0,repid,0)	 		   
+           
+      S rset = ##class(%ResultSet).%New()
+      d rset.Prepare("SELECT %Id as ID,Name FROM websys.Component WHERE Name %STARTSWITH ?")
+      d rset.Execute(AppSubKey)    
+         
+        While rset.Next(.sc) {
+ 	     If $$$ISERR(sc) Quit 	     
+ 	     s name=rset.Data("Name")
+ 	    
+ 	     i ($d(^websys.PreferencesI("AppKey",name)))||($d(^websys.PreferencesI("AppKey",rset.Data("ID")))=10)
+ 	     {
+	 	   s ^CacheTemp(repid,ind)=$lb(name)
+ 	       s ind=ind+1
+ 	       
+ 	     }
+        }
+       
+       quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpAppSubKeyFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpAppSubKeyExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}Else{				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpCodeTableClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpCodeTableFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpCodeTableExecute">
+<Description>
+by wanghc 
+d ##class(%ResultSet).RunQuery("websys.Preferences","LookUpCodeTable","User.SSGroup","1")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,ObjectType:%Library.String="",ObjectReference:%Library.String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	i ObjectType="" s QHandle=$lb(0,repid,0) quit $$$OK
+	;写表的对应属性
+	s descProperty = $s(ObjectType="User.SSGroup":"SSGRPDesc",
+				ObjectType="User.SSUser":"SSUSRName",
+				ObjectType="User.CTLoc":"CTLOCDesc",
+				ObjectType="User.CTHospital":"HOSPDesc",
+				ObjectType="User.PACTrust":"TRUSTDesc",1:"NOTTABLE"
+				)
+	i descProperty="NOTTABLE" s ^CacheTemp(repid,ind)=$lb("NOTTABLE") s ind=ind+1	quit $$$OK
+	;表中取
+	s dr="" f  s dr=$o(^websys.PreferencesI("Index",ObjectType,dr)) q:dr=""  d
+	.s exe = "obj=##class("_ObjectType_").%OpenId("_dr_")",@exe
+	.s exe="flag=$IsObject(obj)",@exe
+	.q:'@"flag"			;不是对象
+	.s exe="zdesc=obj."_descProperty,@exe
+	.s exe="sc=obj.%Close()" ,@exe
+	.s exe="flag=$ZCVT(zdesc,""U"")'[$ZCVT(ObjectReference,""U"")",@exe
+	.q:@"flag"			;参数值不匹配
+	.s ^CacheTemp(repid,ind)=$lb(@"zdesc")
+	.s ind=ind+1
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpCodeTableFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpCodeTableExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}Else{				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="SetData">
+<Description>
+Directly set preference data</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>objectType:%String,objectReference:%String,appKey:%String,appSubKey:%String,Data:%String,add:%String=0</FormalSpec>
+</Method>
+
+<Method name="websysDeleteAll">
+<Description>
+by wanghc
+zhaocz add edit 慎用</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[
+	;&sql(DELETE FROM websys.Preferences)
+	quit
+]]></Implementation>
+</Method>
+
+<Query name="DeleteAll">
+<Type>%Library.Query</Type>
+<FormalSpec>UserID:%String,GroupID:%String,SiteDesc:%String,Region:%String=""</FormalSpec>
+<SqlQuery>Select ID
+From Preferences
+Where (ObjectType = 'User.SSUser' AND ObjectReference = :UserID)
+ OR (ObjectType = 'User.SSGroup' AND ObjectReference = :GroupID)
+ OR (ObjectType = 'SITE' AND ObjectReference = :SiteDesc)
+ OR (ObjectType = 'REGION' AND ObjectReference = :Region)</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String"/>
+</Query>
+
+<Query name="FindByAppSubKey">
+<Description>
+Used to find layout preferences for a specific component</Description>
+<Type>%SQLQuery</Type>
+<FormalSpec>AppSubKey:%String</FormalSpec>
+<SqlQuery>SELECT ID,AppKey,AppSubKey,Data,ObjectReference,ObjectType FROM Preferences
+ WHERE (AppSubKey = :AppSubKey AND AppKey %STARTSWITH 'LAYOUT')</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+</Query>
+
+<Query name="FindPreference">
+<Type>%Library.Query</Type>
+<FormalSpec>UserID:%String,GroupID:%String,SiteDesc:%String,ComponentName:%String,Location:%String,CTHospital:%String,PACTrust:%String,Region:%String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,AppKey:%String,Component:%String,WorkflowID:%String,ObjectType:%String,ObjectReference:%String,ComponentID:%String,context:%String,edittype:%String,savedbydesc:%String,savedbyref:%String"/>
+</Query>
+
+<Query name="FindPreferenceAll">
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>SELECT ID,AppKey,AppSubKey,ObjectType,ObjectReference
+FROM websys.Preferences
+ORDER BY AppSubKey</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,AppKey:%String,AppSubKey:%String,ObjectType:%String,ObjectReference:%String"/>
+</Query>
+
+<Query name="FindPreferenceAppKey">
+<Description>
+against LAYOUTS AppSubKey stores the component.id
+against COLUMNS AppSubKey stores the component.name</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>UserID:%String,GroupID:%String,SiteDesc:%String,ComponentName:%String,Location:%String,CompID:%String="",CTHospital:%String="",PACTrust:%String="",Region:%String=""</FormalSpec>
+<SqlQuery>SELECT ID,AppKey,AppSubKey,ObjectType,ObjectReference
+FROM websys.Preferences
+WHERE (ObjectType = 'User.SSUser' AND ObjectReference = :UserID)
+ OR (ObjectType = 'User.CTLoc' AND ObjectReference = :Location)
+ OR (ObjectType = 'User.SSGroup' AND ObjectReference = :GroupID)
+ OR (ObjectType = 'User.CTHospital' AND ObjectReference = :CTHospital)
+ OR (ObjectType = 'User.PACTrust' AND ObjectReference = :PACTrust)
+ OR (ObjectType = 'SITE' AND %ALPHAUP ObjectReference = %ALPHAUP :SiteDesc)
+ OR (ObjectType = 'REGION' AND %ALPHAUP ObjectReference = %ALPHAUP :Region)
+ OR (%UPPER AppSubKey = %UPPER :ComponentName) OR (AppSubKey = :CompID)
+ORDER BY AppSubKey</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,AppKey:%String,AppSubKey:%String,ObjectType:%String,ObjectReference:%String"/>
+</Query>
+
+<Query name="FindPrefsByAppKey">
+<Description>
+ab 21.07.06 - find prefs by appkey, not appsubkey</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>UserID:%String,GroupID:%String,LocID:%String,AppKey:%String</FormalSpec>
+<SqlQuery>SELECT ID,AppKey,AppSubKey,ObjectType,ObjectReference
+FROM websys.Preferences
+WHERE  ((%ALPHAUP AppKey = %ALPHAUP :AppKey) OR (:AppKey IS NULL))
+AND ((:UserID IS NULL) OR ((ObjectType = 'User.SSUser') AND (ObjectReference = :UserID)))
+AND ((:LocID IS NULL) OR ((ObjectType = 'User.CTLoc') AND (ObjectReference = :LocID)))
+AND ((:GroupID IS NULL) OR ((ObjectType = 'User.SSGroup') AND (ObjectReference = :GroupID)))
+ORDER BY ObjectType</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID:%String,AppKey:%String,AppSubKey:%String,ObjectType:%String,ObjectReference:%String"/>
+</Query>
+
+<Query name="LookUpAppSubKey">
+<Description>
+input:是component name</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>SubAppKey:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="desc:%Library.String"/>
+</Query>
+
+<Query name="LookUpByObjectType">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>ObjectType:%String</FormalSpec>
+<SqlQuery>SELECT DISTINCT BY (ObjectReference) ObjectReference
+FROM websys.Preferences
+WHERE (ObjectType = :ObjectType)</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ObjectReference:%String"/>
+</Query>
+
+<Query name="LookUpCodeTable">
+<Type>%Library.Query</Type>
+<FormalSpec>ObjectType:%Library.String,ObjectReference:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="desc:%Library.String"/>
+</Query>
+
+<Query name="LookUpSite">
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>SELECT ObjectReference
+FROM websys.Preferences
+WHERE (ObjectType = 'SITE')</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ObjectType:%Library.String"/>
+</Query>
+
+<Query name="LookUpVBGroup">
+<Description>
+Used in Layout Editor XML functions</Description>
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>SELECT SSGRP_DESC, SSGRP_ROWID
+FROM SQLUSER.SS_GROUP
+WHERE SSGRP_ROWID IN
+ (
+ SELECT	ObjectReference
+ FROM	websys.Preferences
+ WHERE	(ObjectType = 'User.SSGroup')
+ )
+ORDER BY SSGRP_DESC</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Description,HIDDEN"/>
+</Query>
+
+<Query name="LookUpVBHospital">
+<Description>
+Used in Layout Editor XML functions</Description>
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>SELECT HOSP_DESC, HOSP_ROWID
+FROM SQLUSER.CT_HOSPITAL
+WHERE HOSP_ROWID IN
+ (
+ SELECT	ObjectReference
+ FROM	websys.Preferences
+ WHERE	(ObjectType = 'User.CTHospital')
+ )
+ORDER BY HOSP_DESC</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Description,HIDDEN"/>
+</Query>
+
+<Query name="LookUpVBSite">
+<Description>
+Used from Layout Editor XML options</Description>
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>SELECT DISTINCT BY (ObjectReference) ObjectReference
+FROM websys.Preferences
+WHERE (ObjectType = 'SITE')</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ObjectReference:%String"/>
+</Query>
+
+<Query name="LookUpVBRegion">
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>SELECT DISTINCT BY (ObjectReference) ObjectReference
+FROM websys.Preferences
+WHERE (ObjectType = 'REGION')</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ObjectReference:%String"/>
+</Query>
+
+<Query name="LookUpVBTrust">
+<Description>
+Used in Layout Editor XML functions</Description>
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>SELECT TRUST_DESC, TRUST_ROWID
+FROM SQLUSER.PAC_TRUST
+WHERE TRUST_ROWID IN
+ (
+ SELECT	ObjectReference
+ FROM	websys.Preferences
+ WHERE	(ObjectType = 'User.PACTrust')
+ )
+ORDER BY TRUST_DESC</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Description,HIDDEN"/>
+</Query>
+
+<Query name="LookUpVBUser">
+<Description>
+Used from Layout Editor XML options</Description>
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>SELECT SSUSR_INITIALS, SSUSR_ROWID, SSUSR_NAME
+FROM SQLUSER.SS_USER
+WHERE SSUSR_ROWID IN
+ (
+ SELECT	ObjectReference
+ FROM	websys.Preferences
+ WHERE	(ObjectType = 'User.SSUser')
+ )
+ORDER BY SSUSR_Initials</SqlQuery>
+<Parameter name="CONTAINID"/>
+<Parameter name="ROWSPEC" value="Code,HIDDEN,Description"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.PreferencesD</DataLocation>
+<DefaultData>PreferencesDefaultData</DefaultData>
+<IdLocation>^websys.PreferencesD</IdLocation>
+<IndexLocation>^websys.PreferencesI</IndexLocation>
+<StreamLocation>^websys.PreferencesS</StreamLocation>
+<Data name="PreferencesClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="PreferencesDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>AppKey</Value>
+</Value>
+<Value name="2">
+<Value>AppSubKey</Value>
+</Value>
+<Value name="3">
+<Value>Data</Value>
+</Value>
+<Value name="4">
+<Value>ObjectReference</Value>
+</Value>
+<Value name="5">
+<Value>ObjectType</Value>
+</Value>
+</Data>
+<Property name="AppKey">
+</Property>
+<Property name="AppSubKey">
+</Property>
+<Property name="Data">
+</Property>
+<Property name="ObjectReference">
+</Property>
+<Property name="ObjectType">
+</Property>
+</Storage>
+</Class>
+</Export>

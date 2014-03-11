@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.PatchHistory">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>61079,43958.091803</TimeCreated>
+
+<Property name="AppliedDate">
+<Description>
+Date the patch was applied</Description>
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="AppliedTime">
+<Description>
+Time the patch was applied</Description>
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="BuildVersion">
+<Description>
+The version of tkLogComponentWeb.dll that created the Patch</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CloseDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CloseTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Descr">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DevNo">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LogNo">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Message">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PatchDate">
+<Description>
+Date the patch was created</Description>
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PatchFileName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PatchTime">
+<Description>
+TIme the patch was created
+</Description>
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="QASentDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="QASentTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Status">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",UnApplied,Applied,Failed"/>
+<Parameter name="MAXLEN" value="1"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",U,A,F"/>
+</Property>
+
+<Property name="PatchVersion">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="PatchDateTime">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>PatchDate,PatchTime</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="PatchFileName">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>PatchFileName</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Parameter name="EXTENTSIZE">
+<Default>4</Default>
+</Parameter>
+
+<Method name="GetPatchVersion">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.PatchHistoryD</DataLocation>
+<DefaultData>PatchHistoryDefaultData</DefaultData>
+<IdLocation>^websys.PatchHistoryD</IdLocation>
+<IndexLocation>^websys.PatchHistoryI</IndexLocation>
+<StreamLocation>^websys.PatchHistoryS</StreamLocation>
+<Data name="PatchHistoryClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="PatchHistoryDefaultData">
+<Value name="1">
+<Value>AppliedDate</Value>
+</Value>
+<Value name="2">
+<Value>AppliedTime</Value>
+</Value>
+<Value name="3">
+<Value>DevNo</Value>
+</Value>
+<Value name="4">
+<Value>LogNo</Value>
+</Value>
+<Value name="5">
+<Value>PatchFileName</Value>
+</Value>
+<Value name="6">
+<Value>PatchDate</Value>
+</Value>
+<Value name="7">
+<Value>PatchTime</Value>
+</Value>
+<Value name="8">
+<Value>Message</Value>
+</Value>
+<Value name="9">
+<Value>Status</Value>
+</Value>
+<Value name="10">
+<Value>BuildVersion</Value>
+</Value>
+<Value name="11">
+<Value>CloseDate</Value>
+</Value>
+<Value name="12">
+<Value>CloseTime</Value>
+</Value>
+<Value name="13">
+<Value>Descr</Value>
+</Value>
+<Value name="14">
+<Value>QASentDate</Value>
+</Value>
+<Value name="15">
+<Value>QASentTime</Value>
+</Value>
+<Value name="16">
+<Value>PatchVersion</Value>
+</Value>
+</Data>
+<Property name="AppliedDate">
+</Property>
+<Property name="AppliedTime">
+</Property>
+<Property name="BuildVersion">
+</Property>
+<Property name="CloseDate">
+</Property>
+<Property name="CloseTime">
+</Property>
+<Property name="Descr">
+</Property>
+<Property name="DevNo">
+</Property>
+<Property name="LogNo">
+</Property>
+<Property name="Message">
+</Property>
+<Property name="PatchDate">
+</Property>
+<Property name="PatchFileName">
+</Property>
+<Property name="PatchTime">
+</Property>
+<Property name="QASentDate">
+</Property>
+<Property name="QASentTime">
+</Property>
+<Property name="Status">
+</Property>
+</Storage>
+</Class>
+</Export>

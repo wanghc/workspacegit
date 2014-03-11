@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSRuleCondition">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59049,60962</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>589</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Property name="BooleanOperator">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ConditionalOperator">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ConditionalValue">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="FieldName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LeftParen">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ParRef">
+<Type>websys.DSSRule</Type>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>Conditions</Inverse>
+<Relationship>1</Relationship>
+<Transient>0</Transient>
+</Property>
+
+<Property name="RightParen">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Parameter name="EXTENTSIZE">
+<Default>5</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Conditions")</DataLocation>
+<DefaultData>DSSRuleConditionDefaultData</DefaultData>
+<IdLocation>{%%PARENT}("Conditions")</IdLocation>
+<IndexLocation>^websys.DSSRuleConditionI</IndexLocation>
+<StreamLocation>^websys.DSSRuleConditionS</StreamLocation>
+<Data name="DSSRuleConditionClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DSSRuleConditionDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>BooleanOperator</Value>
+</Value>
+<Value name="2">
+<Value>ConditionalOperator</Value>
+</Value>
+<Value name="3">
+<Value>ConditionalValue</Value>
+</Value>
+<Value name="4">
+<Value>FieldName</Value>
+</Value>
+<Value name="5">
+<Value>LeftParen</Value>
+</Value>
+<Value name="6">
+<Value>RightParen</Value>
+</Value>
+</Data>
+<Property name="BooleanOperator">
+</Property>
+<Property name="ConditionalOperator">
+</Property>
+<Property name="ConditionalValue">
+</Property>
+<Property name="FieldName">
+</Property>
+<Property name="LeftParen">
+</Property>
+<Property name="ParRef">
+</Property>
+<Property name="RightParen">
+</Property>
+</Storage>
+</Class>
+</Export>

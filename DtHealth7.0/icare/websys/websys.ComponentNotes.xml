@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.ComponentNotes">
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy/>
+<Super>%Library.Persistent,XML.Abstract</Super>
+<TimeChanged>60506,62114</TimeChanged>
+<TimeCreated>59127,46706</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ParRef">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>Notes</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Parameter name="EXTENTSIZE">
+<Default>73</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Notes")</DataLocation>
+<DefaultData>ComponentMessagesDefaultData</DefaultData>
+<IdLocation>{%%PARENT}("Notes")</IdLocation>
+<IndexLocation>^websys.ComponentMessagesI</IndexLocation>
+<StreamLocation>^websys.ComponentNotesS</StreamLocation>
+<Data name="ComponentMessagesDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Description</Value>
+</Value>
+</Data>
+<Data name="ComponentNotesClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Property name="Description">
+</Property>
+<Property name="ParRef">
+</Property>
+</Storage>
+</Class>
+</Export>

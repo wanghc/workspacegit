@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.WorkFlowItemDefinition">
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62598,42761.712191</TimeChanged>
+<TimeCreated>58462,47448</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>121</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>332</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="xmlidentifiedby">
+<Description>
+Used in conjunction with XMLId method to unqiuely identify a record.
+By default ..%Id() is used unless other properties are specified. A comma separated list may be provided and processed by overridding XMLId method</Description>
+<Final>0</Final>
+<Default>%Id()</Default>
+</Parameter>
+
+<Parameter name="xmltoclass">
+<Description>
+Mapping from XML to Class</Description>
+<Final>0</Final>
+<Default>workflowitemdefinition</Default>
+</Parameter>
+
+<Property name="Component">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Url">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="UniqueNameIndex">
+<Description>
+Uniqueness index for property Name</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Name</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="UrlSet">
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	s i%Url = val
+	q 1
+]]></Implementation>
+</Method>
+
+<Method name="XMLId">
+<Description>
+Get the ID from the identified by string.
+By default the generated version of this returns the value passed.
+In general this method will be overridden to provide the required behaviour.
+For example - Component name is passed - this will return ..%Id()</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysBeforeSave">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="getObjByDesc">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>desc:%String</FormalSpec>
+<ReturnType>websys.WorkFlowItemDefinition</ReturnType>
+<Implementation><![CDATA[
+	&sql(SELECT ID INTO:id FROM WorkFlowItemDefinition WHERE Description=:desc )
+	Q:SQLCODE ""
+	q ..%OpenId(id)
+]]></Implementation>
+</Method>
+
+<Query name="LookUpByDescription">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT  Description, ID
+FROM WorkFlowItemDefinition
+WHERE (Description %STARTSWITH :desc)</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Description:%String,HIDDEN:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.WorkFlowItemDefinitionD</DataLocation>
+<DefaultData>WorkFlowItemDefinitionDefaultData</DefaultData>
+<IdLocation>^websys.WorkFlowItemDefinitionD</IdLocation>
+<IndexLocation>^websys.WorkFlowItemDefinitionI</IndexLocation>
+<StreamLocation>^websys.WorkFlowItemDefinitionS</StreamLocation>
+<Data name="WorkFlowItemDefinitionClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="WorkFlowItemDefinitionDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Component</Value>
+</Value>
+<Value name="2">
+<Value>Description</Value>
+</Value>
+<Value name="3">
+<Value>Name</Value>
+</Value>
+<Value name="4">
+<Value>Url</Value>
+</Value>
+</Data>
+<Property name="Component">
+</Property>
+<Property name="Description">
+</Property>
+<Property name="Name">
+</Property>
+<Property name="Url">
+</Property>
+</Storage>
+</Class>
+</Export>

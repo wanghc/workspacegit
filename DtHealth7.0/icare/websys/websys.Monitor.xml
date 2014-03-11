@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Monitor">
+<Description><![CDATA[
+Page Performance Monitor.<br>Capture, Store and Display performance statistics]]></Description>
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62278,41210.201079</TimeChanged>
+<TimeCreated>58771,51658</TimeCreated>
+
+<Parameter name="EXTENTSIZE">
+<Default>1000000</Default>
+</Parameter>
+
+<Property name="MonitorDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>+$h</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="MonitorTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>$p($h,",",2)</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="pFrozen">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>0</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>1</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>1</Transient>
+</Property>
+
+<Property name="pGlobals">
+<Type>%Library.Numeric</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="pLines">
+<Type>%Library.Numeric</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="pName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="pSortCol">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="pTime">
+<Type>%Library.Numeric</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Index name="DateTime">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>MonitorDate,MonitorTime</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="Name">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>pName</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="%OnNew">
+<Description>
+sort col - applies to lists only</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&initvalue:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Freeze">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="Init">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="Show">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>tagid:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="LookUpByName">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%String,date:%String</FormalSpec>
+<SqlQuery>SELECT DISTINCT pName
+FROM websys.Monitor
+WHERE (((%ALPHAUP pName %STARTSWITH %ALPHAUP :name) OR (:name IS NULL)) AND
+((MonitorDate = :date) OR (:date IS NULL))
+)</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Component:%String"/>
+</Query>
+
+<Query name="FindStats">
+<Type>%Library.Query</Type>
+<FormalSpec>Date:%String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="pName:%String,SumPTime:%String,SumPLines:%String,SumPGlob:%String,MinPTime:%String,MaxPTime:%String,MinPLines:%String,MaxPLines:%String,MinPGlob:%String,MaxPGlob:%String,AvgPTime:%String,AvgPLines:%String,AvgPGlob:%String"/>
+</Query>
+
+<Method name="FindStatsClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindStatsFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="FindStatsExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,Date:%String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="FindStatsFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindStatsExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.MonitorD</DataLocation>
+<DefaultData>MonitorDefaultData</DefaultData>
+<IdLocation>^websys.MonitorD</IdLocation>
+<IndexLocation>^websys.MonitorI</IndexLocation>
+<StreamLocation>^websys.MonitorS</StreamLocation>
+<Data name="MonitorClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="MonitorDefaultData">
+<Value name="1">
+<Value>pGlobals</Value>
+</Value>
+<Value name="2">
+<Value>pLines</Value>
+</Value>
+<Value name="3">
+<Value>pName</Value>
+</Value>
+<Value name="4">
+<Value>pTime</Value>
+</Value>
+<Value name="5"/>
+<Value name="6">
+<Value>MonitorDate</Value>
+</Value>
+<Value name="7">
+<Value>MonitorTime</Value>
+</Value>
+<Value name="8">
+<Value>pSortCol</Value>
+</Value>
+</Data>
+<Property name="MonitorDate">
+</Property>
+<Property name="MonitorTime">
+</Property>
+<Property name="pGlobals">
+</Property>
+<Property name="pLines">
+</Property>
+<Property name="pName">
+</Property>
+<Property name="pSortCol">
+</Property>
+<Property name="pTime">
+</Property>
+</Storage>
+</Class>
+</Export>

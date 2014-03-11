@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSView">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59025,47812</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>125</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>46</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Code">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Items">
+<Type>websys.DSSViewItem</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="StartingClassName">
+<Description>
+The name of the class which is used to determine the starting table for the view.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SystemView">
+<Description>
+System View</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Yes,No"/>
+<Parameter name="MAXLEN" value="3"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",Y,N"/>
+</Property>
+
+<Index name="CodeIndex">
+<Description>
+Index for property Code</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Code</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="DescriptionIndex">
+<Description>
+Index for property Description</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Description</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="Build">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="BuildAll">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FileName">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>1</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ViewName">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>expression</CodeMode>
+<FormalSpec/>
+<Private>1</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysSave">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="DSSViewListClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>DSSViewListFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="DSSViewListExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,code:%Library.String,Desc:%Library.String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="DSSViewListFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>DSSViewListExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GetPatientRef">
+<Description>
+returns the DR for the PatientID link</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ClassName:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Query name="DSSViewList">
+<Type>%Library.Query</Type>
+<FormalSpec>code:%Library.String,Desc:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description,Code,StartingClassName,SystemView"/>
+</Query>
+
+<Query name="LookUpViewbyClassName">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>View:%Library.String,ClassName:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT Description, ID, Code
+FROM DSSView
+WHERE (StartingClassName = :ClassName) AND ((Code %STARTSWITH :View) OR (Description %STARTSWITH :View)) AND (SystemView='N')</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Description:%Library.String,HIDDEN,Code:%Library.String"/>
+</Query>
+
+<Query name="VBFindLE">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, Description
+FROM DSSView
+WHERE Description %STARTSWITH :desc
+ORDER BY Description</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DSSViewD</DataLocation>
+<DefaultData>DSSViewDefaultData</DefaultData>
+<IdLocation>^websys.DSSViewD</IdLocation>
+<IndexLocation>^websys.DSSViewI</IndexLocation>
+<StreamLocation>^websys.DSSViewS</StreamLocation>
+<Data name="DSSViewClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DSSViewDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Code</Value>
+</Value>
+<Value name="2">
+<Value>Description</Value>
+</Value>
+<Value name="3">
+<Value>Items</Value>
+</Value>
+<Value name="4">
+<Value>StartingClassName</Value>
+</Value>
+<Value name="5">
+<Value>System</Value>
+</Value>
+<Value name="6">
+<Value>SystemView</Value>
+</Value>
+</Data>
+<Property name="Code">
+</Property>
+<Property name="Description">
+</Property>
+<Property name="StartingClassName">
+</Property>
+<Property name="SystemView">
+</Property>
+</Storage>
+</Class>
+</Export>

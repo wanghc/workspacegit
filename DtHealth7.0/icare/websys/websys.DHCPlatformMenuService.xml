@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DHCPlatformMenuService">
+<Super>%RegisteredObject</Super>
+<TimeChanged>62836,57581.696739</TimeChanged>
+<TimeCreated>62836,57526.986546</TimeCreated>
+</Class>
+</Export>

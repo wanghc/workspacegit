@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Generator">
+<Description><![CDATA[
+Generator
+        "I'm the Generator, firing whenever you quit, Yeah whatever it is, you go out and it's on... " Foo Fighters
+        
+ ************************************************************************************************
+ ** SB: Created: 15/04/03 ; Log: 33495, 33500
+ **     This program generates generic upload routines for basic codetables. The follow are functions that can be run:
+ **     + create      - Input: SQL Table name ; Output: GIMPXXxxxx.MAC file 
+ **     + invalid     - Input: (optional) Table prefix ; Output: list of all tables that can NOT be auto uploaded 
+ **                            N.B. if input is left blank, will return all invalid codetables
+ **     + valid       - Input: (optional) Table prefix, (optional) param [1,2,3] ; Output: list of all tables that CAN be auto uploaded
+ **                            N.B. param: 1 = create list ; 2 = import list ; 3 = append list ; blank = basic list 
+ **
+ **     Set-up:
+ **     + initialise  - define the upload files deliminator and file extension
+ **                   - define whether to attempt to insert fields into the Des Ref table if a record doesn't exist.
+ **     + reject      - define all rejection messages here. [FIELD_NAME] & [TABLE_NAME] are placeholders for actual field & table names
+ **
+ ** TP: Updated: 07/05/03 Start W650 version
+	** SB: Updated: 14/07/03 (35766) Created Generator class and converted ^oddDEF stuff to cache 5
+	** SB: Updated: 01/09/03 (38368) Added new rejection to check Maxlength of code and description.
+** SB: Updated: 17/09/07 (64675) Keyword indexing now done via base table triggers, removed generation of keyword indexing code
+** SB: Updated: 20/09/07 (64675) Fixed problem with DB multiline fields... this could be expanded in the future to accept multiline input
+ ************************************************************************************************]]></Description>
+<ClassType/>
+<IncludeCode>TRAK</IncludeCode>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%RegisteredObject</Super>
+<TimeChanged>61079,43958.076045</TimeChanged>
+<TimeCreated>61079,43958.076045</TimeCreated>
+
+<Method name="setglobalvalues">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="initialise">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="create">
+<Description>
+This is the Main create program for generating all generic upload routines for codetables </Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>sqlTableName</FormalSpec>
+</Method>
+
+<Method name="GetClassName">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>name</FormalSpec>
+</Method>
+
+<Method name="reject">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Code,sFile,num,rfld,rtable,lineNum,sqlmsg</FormalSpec>
+</Method>
+
+<Method name="replace">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str,a,b</FormalSpec>
+</Method>
+
+<Method name="websysSaveUploadRej">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Code,sMsg,sFile</FormalSpec>
+</Method>
+
+<Method name="file">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>file,sub</FormalSpec>
+</Method>
+
+<Method name="buildSQLColIndex">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>class</FormalSpec>
+</Method>
+
+<Method name="buildPLIST">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>class,del,rec</FormalSpec>
+</Method>
+
+<Method name="isValidDate">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>date</FormalSpec>
+</Method>
+
+<Method name="isValidTime">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>time</FormalSpec>
+</Method>
+
+<Method name="invalid">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>cttypes</FormalSpec>
+</Method>
+
+<Method name="valid">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>cttypes,param</FormalSpec>
+</Method>
+
+<Method name="maxlen">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>codelen,desclen</FormalSpec>
+</Method>
+
+<Method name="getallcttypes">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="WriteSchema">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>tablename,dir="schema\"</FormalSpec>
+</Method>
+
+<Method name="GetSchema">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>tablename,dir,param,delim=","</FormalSpec>
+</Method>
+</Class>
+</Export>

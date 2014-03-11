@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Lock">
+<Description>
+Record locking mechanism</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62934,67937.387735</TimeChanged>
+<TimeCreated>59238,56502</TimeCreated>
+
+<Property name="ClassName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="EXACT"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Computer">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ComputerName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Id">
+<Description>
+Referenced Id of persistant class ClassName</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="EXACT"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LockDate">
+<Description>
+Date Stamp</Description>
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>+$H</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LockTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>$p($H,",",2)</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LoginLocation">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SessionId">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="EXACT"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UserDR">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="Lock">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ClassName,Id,SessionId</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="SessionId">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>SessionId</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="GetLockedUser">
+<Description>
+by guozt 2012-06-06</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>oid:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n obj,Id,ClassName,LockSessionId,LockId
+	
+	s Id=$lg(oid,1),LockClassName=$lg(oid,2)
+	set LockSessionId=$O(^websys.LockI("Lock",LockClassName,Id,0))
+	Quit:LockSessionId="" ""
+	
+	//if LockSessionId=%session.SessionId Quit ""
+	set LockId=$O(^websys.LockI("Lock",LockClassName,Id,LockSessionId,0))
+	Quit:LockId="" ""
+	
+	//王芳 | ZXYJHYK-中西医结合一科 | IP:127.0.0.1  | 23/03/2012 11:23
+
+	Set objLock=##class(websys.Lock).%OpenId(LockId)
+	
+	Set UserName=$p($g(^SSU("SSUSR",objLock.UserDR)),"^",2)
+	
+	Set CtLocDesc=$p($g(^CTLOC(objLock.LoginLocation)),"^",2)
+	
+	Set LockDateTime=$zd(objLock.LockDate,3)_" "_$zt(objLock.LockTime)
+	
+	Set ReturnVaule=UserName_" | "_CtLocDesc_" | "_objLock.Computer_" "_objLock.ComputerName_" | "_LockDateTime
+	quit ReturnVaule
+	
+	/*set obj=##class(websys.Lock).%Open(oid)
+	quit obj.UserDR*/
+]]></Implementation>
+</Method>
+
+<Method name="Lock">
+<Description><![CDATA[
+Inputs: <br>
+oid - persistent class oid.<br>
+Outputs: <br>
+msg.Information message if lock fails<br>
+Return value:<br>
+1 - lock successful<br>
+0 - lock fails<br>
+by wuqk 2011-05-26
+d ##class(websys.Lock).Lock($Lb(52250,"websys.Menu"),"123456",1,.msg,102)]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[oid:%Library.String,sessionid:%Library.String,userid:%Library.String,&returnmsg:%Library.String,loginlocation:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	//new (%session,%request,oid,sessionid,userid,returnmsg,loginlocation)
+	s $ZT="Err"
+	set returnmsg=""
+	set return=0
+	s LockClassName=$lg(oid,2)
+	s objId=$lg(oid,1)
+	if loginlocation="" s loginlocation=%session.Data("LOGON.CTLOCID")
+	
+	s ^Temp("Upgrade","websys.Lock.Lock",1)=LockClassName_","_objId_","_$d(^websys.LockI("Lock",LockClassName,objId))
+	
+	if $d(^websys.LockI("Lock",LockClassName,objId)){
+		;s ^Temp("Upgrade","websys.Lock.Lock",2)=oid_","_sessionid_","_userid_","_loginlocation
+		s LockSessionId=$O(^websys.LockI("Lock",LockClassName,objId,0))
+		if sessionid=LockSessionId {
+			s return=1
+		}else{
+			s return=0
+			set LockId=$O(^websys.LockI("Lock",LockClassName,objId,LockSessionId,0))
+			set lockobj=##class(websys.Lock).%OpenId(LockId)
+			
+			set UserName=""
+			set UserId=lockobj.UserDR
+			set userobj=##class(User.SSUser).%OpenId(UserId)
+			if $IsObject(userobj) {
+				set UserName=userobj.SSUSRName
+				d userobj.%Close()
+			}
+			set Computer=lockobj.Computer
+			set ComputerName=lockobj.ComputerName
+			
+			set LocDesc=""
+			set LogonLocId=lockobj.LoginLocation
+			set locobj=##class(User.CTLoc).%OpenId(LogonLocId)
+			if $IsObject(locobj) {
+				set LocDesc=locobj.CTLOCDesc
+				d locobj.%Close()
+			}
+
+			set lockdate=$ZD(lockobj.LockDate,3)_" "_$ZT(lockobj.LockTime)
+			d ##Class(websys.Component).GetComponentMessages(.t,"websys.SYSTEM")
+			set returnmsg=$g(t("XLOCKED"))_"("_UserName_" | "_LocDesc_" | "_Computer_" "_ComputerName_" | "_lockdate_")"
+		}
+		Q return
+	}
+	set lobj=##class(websys.Lock).%New()
+	set lobj.ClassName=$lg(oid,2)
+	;zhouzq 2011.06.04
+	;$zu(67,15,$j)和##class(%SYS.ProcessQuery).%OpenId($JOB).ClientNodeName只能解析出和server相连的终端的地址信息
+	;csp是通过webserver中转,所以取出的是webserver的信息,所以只能取%session信息
+	set lobj.Computer=%session.Data("REMOTE_ADDR")
+	set lobj.ComputerName=%session.Data("COMPUTER_NAME")
+	set lobj.Id=$lg(oid,1)
+	set lobj.LoginLocation=loginlocation
+	set lobj.SessionId=sessionid
+	set lobj.UserDR=userid
+	set sc=lobj.%Save()
+	if $system.Status.IsError(sc){
+		;s ^Temp("Upgrade","websys.Lock.Lock",2)=$system.Status.GetErrorText(sc)
+		set returnmsg=$system.Status.GetErrorText(sc)
+	}
+	else{
+		set return=1
+	}
+	set lobj=""
+	quit return
+Err
+	s ^Temp("Upgrade","websys.Lock.Lock")=ZE
+	Q 1
+]]></Implementation>
+</Method>
+
+<Method name="LockClear">
+<Description>
+by wuqk 2011-05-26</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>oid:%Library.String,sessionid:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	//new (oid,sessionid)
+	set Id=$lg(oid,1)
+	set ClassName=$lg(oid,2)
+	quit:(Id="")||(ClassName="")||(sessionid="")
+	set lockId=$o(^websys.LockI("Lock",ClassName,Id,sessionid,0))
+	if lockId'="" do ##class(websys.Lock).%DeleteId(lockId)
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="LockClearComputer">
+<Description>
+Clears the locks from the current computer.
+Original called for the logon screen just to make sure the computer hasn't locked any patients.
+by wuqk 2011-05-26</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>comp:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	&sql(DELETE FROM websys.Lock where Computer=:comp)
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="LockClearSession">
+<Description>
+Delete all locks for a session.
+e.g. when a session timeout occurs.
+by wuqk 2011-05-26</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>session:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	&sql(DELETE FROM websys.Lock where SessionId=:session)
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="LockClearSystem">
+<Description>
+Clear All Locks for the system
+by wuqk 2011-05-26</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Kill ^websys.LockI
+	Kill ^websys.LockD
+	quit
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.LockD</DataLocation>
+<DefaultData>LockDefaultData</DefaultData>
+<IdLocation>^websys.LockD</IdLocation>
+<IndexLocation>^websys.LockI</IndexLocation>
+<StreamLocation>^websys.LockS</StreamLocation>
+<Data name="LockClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="LockDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>ClassName</Value>
+</Value>
+<Value name="2">
+<Value>Computer</Value>
+</Value>
+<Value name="3">
+<Value>Oid</Value>
+</Value>
+<Value name="4">
+<Value>SessionId</Value>
+</Value>
+<Value name="5">
+<Value>UserDR</Value>
+</Value>
+<Value name="6">
+<Value>Id</Value>
+</Value>
+<Value name="7">
+<Value>LoginLocation</Value>
+</Value>
+<Value name="8">
+<Value>LockDate</Value>
+</Value>
+<Value name="9">
+<Value>LockTime</Value>
+</Value>
+<Value name="10">
+<Value>ComputerName</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

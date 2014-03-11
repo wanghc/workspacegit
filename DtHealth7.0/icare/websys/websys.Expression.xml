@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Expression">
+<Description>
+Cache Expression</Description>
+<Final>0</Final>
+<ClassType>datatype</ClassType>
+<ClientDataType>VARCHAR</ClientDataType>
+<IncludeGenerator>%occInclude,%occUtility</IncludeGenerator>
+<OdbcType>VARCHAR</OdbcType>
+<ProcedureBlock>0</ProcedureBlock>
+<SqlCategory>STRING</SqlCategory>
+<TimeChanged>62238,47776.46614</TimeChanged>
+<TimeCreated>58462,47404</TimeCreated>
+
+<Method name="Evaluate">
+<Description>
+zhaocz 2011-05-23 改写</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>eval:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if %compiledmethod.parent.Name'="websys.Expression" {
+		s zMethodName=%compiledmethod.parent.Name_"ytrap"
+
+		do %code.WriteLine(" s $zt="""_zMethodName_"""")
+		do %code.WriteLine(" k e")
+		do %code.WriteLine(" q:eval="""" """"")
+		do %code.WriteLine(" q @eval")
+		do %code.WriteLine(zMethodName)
+		do %code.WriteLine(" s e=$ze")
+		do %code.WriteLine(" i $d(msg) d:msg msg.AddItem(""E"",""XEVALUATE"",$g(eval)_"" ""_$g(e)) ")
+		do %code.WriteLine(" q """"")
+	}
+	q $$$OK
+	/*
+	s %code=0
+	///$$$I()
+	$$$GENERATE(" s $zt=""expressionytrap""")
+	$$$GENERATE(" k e")
+	$$$GENERATE(" q:eval="""" """"")
+	$$$GENERATE(" q @eval")
+	$$$GENERATE("expressionytrap")
+	$$$GENERATE(" s e=$ze")
+	$$$GENERATE(" i $d(msg) d:msg msg.AddItem(""E"",""XEVALUATE"",$g(eval)_"" ""_$g(e)) ")
+	$$$GENERATE(" q """"")
+	q $$$OK
+	*/
+]]></Implementation>
+</Method>
+
+<Method name="Execute">
+<Description>
+zhaocz 2011-05-23 改写</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>exp:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if %compiledmethod.parent.Name'="websys.Expression" {
+		s zMethodName=%compiledmethod.parent.Name_"ztrap"
+
+		do %code.WriteLine(" s $zt="""_zMethodName_"""")
+		do %code.WriteLine(" k e")
+		do %code.WriteLine(" i exp'="""" x exp")
+		do %code.WriteLine(" q """"")
+		do %code.WriteLine(zMethodName)
+		do %code.WriteLine(" s e=$ze")
+		do %code.WriteLine(" i $d(msg) d:msg msg.AddItem(""E"",""XEVALUATE"",$g(eval)_"" ""_$g(e)) ")
+		do %code.WriteLine(" q """"")
+	}
+	q $$$OK
+	/*
+	s %code=0
+	$$$GENERATE(" s $zt=""expressionztrap""")
+	$$$GENERATE(" k e")
+	$$$GENERATE(" i exp'="""" x exp")
+	$$$GENERATE(" q """"")
+	$$$GENERATE("expressionztrap")
+	$$$GENERATE(" s e=$ze")
+	$$$GENERATE(" i $d(msg) d:msg msg.AddItem(""E"",""XEVALUATE"",$g(eval)_"" ""_$g(e)) ")
+	$$$GENERATE(" q """"")
+	
+	q $$$OK
+	*/
+]]></Implementation>
+</Method>
+</Class>
+</Export>

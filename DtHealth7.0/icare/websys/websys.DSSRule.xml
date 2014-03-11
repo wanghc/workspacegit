@@ -1,0 +1,1002 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSRule">
+<ClassType>persistent</ClassType>
+<IncludeCode>TRAK</IncludeCode>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>61079,43958.071408</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>771</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Property name="TriggerClass">
+<Type>%String</Type>
+</Property>
+
+<Property name="TriggerSQL">
+<Type>%String</Type>
+</Property>
+
+<Property name="Triggerpath">
+<Type>%String</Type>
+</Property>
+
+<Parameter name="BucketSize">
+<Final>1</Final>
+<Default>16000</Default>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>26</Default>
+</Parameter>
+
+<Parameter name="MinLen">
+<Final>1</Final>
+<Default>3</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Code">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Conditions">
+<Type>websys.DSSRuleCondition</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+</Property>
+
+<Property name="FldId">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+</Property>
+
+<Property name="FieldId">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="8192"/>
+</Property>
+
+<Property name="FldValue">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+</Property>
+
+<Property name="FldValueType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LstRange">
+<Description>
+Comma separated list of ranges
+E.g 0-10,11-20,21-30,31-40</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+</Property>
+
+<Property name="RulType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"B"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Base,Derived,Transient"/>
+<Parameter name="VALUELIST" value=",B,D,T"/>
+</Property>
+
+<Property name="TblIndexName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+</Property>
+
+<Property name="TblName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+</Property>
+
+<Property name="ValLength">
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>0</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ValMatch">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"E"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Exact,StartWith,Contain"/>
+<Parameter name="VALUELIST" value=",E,S,C"/>
+</Property>
+
+<Property name="ValType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"V"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Date,Range,Time,Value,Word"/>
+<Parameter name="VALUELIST" value=",D,R,T,V,W"/>
+</Property>
+
+<Property name="LastRun">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="8192"/>
+</Property>
+
+<Property name="Running">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="8192"/>
+</Property>
+
+<Index name="CodeIndex">
+<Description>
+Index for property Code</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Code</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="FldIdIndex">
+<Description>
+Index for property FldId</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>FldId</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="FldValueIndex">
+<Description>
+Index for property FldValue</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>FldValue</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="TblIndexNameIndex">
+<Description>
+Index for property TblIndexName</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>TblIndexName</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="TblNameIndex">
+<Description>
+Index for property TblName</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>TblName</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="%OnAfterSave">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="%OnBeforeSave">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="%OnDelete">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>oid:%Library.ObjectIdentity</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="BuildBitMap">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="BuildIndex">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="DateRule">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[blnRestriction:%Library.String,rul:%Library.String,&oRule:websys.DSSRule,ArgClassName:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ExactDateValue">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[ArgId:%Library.String,ArgHOROLOG:%Library.String,ArgBit:%Library.String,&oRule:websys.DSSRule,ArgClassName:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetBitFromId">
+<Description>
+Get the bit from the id.
+For non numeric rowids we need to derive a bit position</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgClassName:%Library.String,ArgRowId:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetBucketSize">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.Integer</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetClassPropertyFromSQLExp">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&sqlexpression:%Library.String,&classname:%Library.String,&fldname:%Library.String,&path:%Library.String,&TriggerClass:%Library.String,&TriggerSQL:%Library.String,&Triggerpath:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetFriendlyName">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String,selectclause:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetIdFromBit">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgClassName:%Library.String,ArgBit:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpSQLFieldNameClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpSQLFieldNameFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpSQLFieldNameExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,classname:%String,selectclause:%String,SimpleDSS:%String="",LookUpFieldName:%String="",DSSRuleEdit:%String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpSQLFieldNameFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpSQLFieldNameExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpViewRuleClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpViewRuleFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpViewRuleExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,classname:%String,friendlyname:%String,NoViews:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpViewRuleFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpViewRuleExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetSQLRowId">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>tablename:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GetSQLTableName">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>tablename:%Library.String,ReturnFullName:%String=0</FormalSpec>
+</Method>
+
+<Method name="Process">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgClassName:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="RangeMatch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[blnRestriction:%Library.String,rul:%Library.String,&oRule:websys.DSSRule,ArgClassName:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="Rebuild">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="RebuildAllIndex">
+<Description><![CDATA[
+Rebuild IndexTable populate the table with correct SQL select clause based on the starting of every rule in DSSRule
+Without proper and correct select clause the Bit Maps can't be guarranty to be correct
+e.g of SQL select clause
+MRDIA_MRADM_ParRef->MRADM_ADM_DR->PAADM_RowID,MRDIA_ICDCode_DR->MRCID_Desc,MRDIA_MRADM_ParRef->MRADM_ADM_DR->PAADM_RowID,MRDIA_ICDCode_DR->MRCID_Desc,MRDIA_MRADM_ParRef->MRADM_ADM_DR->PAADM_PAPMI_DR->PAPMI_PAPER_DR->PAPER_RowId,MRDIA_ICDCode_DR->MRCID_Desc
+for 3 Rules ID-VALUE pairs based on the starting class User.MRDiagnos
+1. MRDIA_MRADM_ParRef->MRADM_ADM_DR->PAADM_RowID,MRDIA_ICDCode_DR->MRCID_Desc,
+
+2. MRDIA_MRADM_ParRef->MRADM_ADM_DR->PAADM_RowID,MRDIA_ICDCode_DR->MRCID_Desc,
+
+3. MRDIA_MRADM_ParRef->MRADM_ADM_DR->PAADM_PAPMI_DR->PAPMI_PAPER_DR->PAPER_RowId,MRDIA_ICDCode_DR->MRCID_Desc]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="RebuildClass">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="RebuildIndex">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgTblName:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ValueMatch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[blnRestriction:%Library.String,rul:%Library.String,&oRule:websys.DSSRule,ArgClassName:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ValuebyRuleClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ValuebyRuleFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ValuebyRuleExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,RuleID:%Library.String,Label:%Library.String,Value:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ValuebyRuleFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ValuebyRuleExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="WordMatch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[blnRestriction:%Library.String,rul:%Library.String,&oRule:websys.DSSRule,ArgClassName:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="doExactValue">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgRId:%Library.String,ArgXId:%Library.String,ArgLabel:%Library.String,ArgVal:%Library.String,ArgBit:%Library.Integer</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="doExactWord">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgRId:%Library.String,ArgXId:%Library.String,ArgLabel:%Library.String,ArgVal:%Library.String,ArgBit:%Library.Integer</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="doRange">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgRId:%Library.String,ArgXId:%Library.String,ArgLabel:%Library.String,ArgVal:%Library.String,ArgBit:%Library.Integer</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="doStartValue">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgRId:%Library.String,ArgXId:%Library.String,ArgLabel:%Library.String,ArgVal:%Library.String,ArgBit:%Library.Integer,ArgLen:%Library.Integer</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="doContainValue">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ArgRId:%Library.String,ArgXId:%Library.String,ArgLabel:%Library.String,ArgVal:%Library.String,ArgBit:%Library.Integer,ArgLen:%Library.Integer</FormalSpec>
+</Method>
+
+<Method name="doContainWord">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ArgRId:%Library.String,ArgXId:%Library.String,ArgLabel:%Library.String,ArgVal:%Library.String,ArgBit:%Library.Integer,ArgLen:%Library.Integer</FormalSpec>
+</Method>
+
+<Method name="doStartWord">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgRId:%Library.String,ArgXId:%Library.String,ArgLabel:%Library.String,ArgVal:%Library.String,ArgBit:%Library.Integer,ArgLen:%Library.Integer</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="setBit">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgRId:%Library.String,ArgLabel:%Library.String,ArgValue:%Library.String,ArgXId:%Library.Numeric,ArgBit:%Library.Integer</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysAfterSave">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="websysDelete">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+</Method>
+
+<Method name="RulesListExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,Code:%Library.String,Description:%Library.String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="RulesListFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>RulesListExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="RulesListClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>RulesListFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Query name="LookUpRulesbyClass">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Classname:%Library.String,Rule:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT Description,ID,Code,ValMatch,TblName,TblIndexName,FldValueType
+FROM DSSRule
+WHERE (TblName = :Classname OR :Classname IS NULL)  AND (Description %STARTSWITH :Rule OR Code %STARTSWITH :Rule)
+ORDER BY Description</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Description:%Library.String,HIDDEN,Code:%Library.String,HIDDEN,HIDDEN,HIDDEN,HIDDEN"/>
+</Query>
+
+<Query name="LookUpRulesbyClassIndex">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Classname:%Library.String,Rule:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT Description,ID,Code,ValMatch,TblName,TblIndexName,FldValueType
+FROM DSSRule
+WHERE TblIndexName = :Classname  AND (Description %STARTSWITH :Rule OR Code %STARTSWITH :Rule)
+ORDER BY Description</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Description:%Library.String,HIDDEN,Code:%Library.String,HIDDEN,HIDDEN,HIDDEN,HIDDEN"/>
+</Query>
+
+<Query name="LookUpSQLFieldName">
+<Description>
+Given a classname, returns  a list of sqlfieldname belongs to the class</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>classname:%String,sqlfieldname:%String,SimpleDSS:%String,LookUpFieldName:%String,DSSRuleEdit:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="FriendlyName,FieldName,Class:%String,HIDDEN:%String,HIDDEN:%String"/>
+</Query>
+
+<Query name="LookUpTableNamebyRule">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>tblDescr:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT DISTINCT TblName
+FROM DSSRule
+WHERE TblName %STARTSWITH :tblDescr</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="TblName:%Library.String"/>
+</Query>
+
+<Query name="LookUpViewRule">
+<Type>%Library.Query</Type>
+<FormalSpec>classname:%Library.String,friendlyname:%Library.String,NoViews:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Label,Description,HIDDEN, FriendlyName,HIDDEN:%String"/>
+</Query>
+
+<Query name="RulesByClass">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID,Code, FldId, FldValue, RulType, TblIndexName, TblName, ValLength, ValMatch, ValType,LstRange,TriggerClass,Triggerpath
+FROM DSSRule
+WHERE (TblName = :classname)</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Code,FldId:%Library.String,FldValue:%Library.String,RulType:%Library.String,TblIndexName:%Library.String,TblName:%Library.String,ValLength:%Library.Integer,ValMatch:%Library.String,ValType:%Library.String,LstRange:%Library.String,TriggerClass,Triggerpath"/>
+</Query>
+
+<Query name="RulesByTrigger">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<SqlQuery>SELECT ID,Code, FldId, FldValue, RulType, TblIndexName, TblName, ValLength, ValMatch, ValType,LstRange,TriggerClass,Triggerpath
+FROM DSSRule
+WHERE (TriggerClass = :classname)</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Code,FldId:%Library.String,FldValue:%Library.String,RulType:%Library.String,TblIndexName:%Library.String,TblName:%Library.String,ValLength:%Library.Integer,ValMatch:%Library.String,ValType:%Library.String,LstRange:%Library.String,TriggerClass,Triggerpath"/>
+</Query>
+
+<Query name="RulesByClassIndex">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID,Code, Description, FldId, FldValue, RulType, TblIndexName, TblName, ValLength, ValMatch, ValType,LstRange
+FROM DSSRule
+WHERE (TblIndexName = :classname)</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Code,Description,FldId:%Library.String,FldValue:%Library.String,RulType:%Library.String,TblIndexName:%Library.String,TblName:%Library.String,ValLength:%Library.Integer,ValMatch:%Library.String,ValType:%Library.String,LstRange:%Library.String"/>
+</Query>
+
+<Query name="VBFindLE">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, Description
+FROM DSSRule
+WHERE Description %STARTSWITH :desc
+ORDER BY Description</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String"/>
+</Query>
+
+<Query name="ValuebyRule">
+<Type>%Library.Query</Type>
+<FormalSpec>RuleID:%Library.String,Label:%Library.String,Value:%Library.String=""</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Value:%Library.String"/>
+</Query>
+
+<Query name="qryDistinctClasses">
+<Description>
+Select unique starting class from all rules</Description>
+<Type>%Library.SQLQuery</Type>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT DISTINCT(TblName)
+FROM websys.DSSRule</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="TblName:%Library.String"/>
+</Query>
+
+<Query name="qryGetViewItem">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[SELECT ParRef->Code,SQLAs,SQLExpression,ParRef->Description 
+FROM websys.DSSViewItem
+WHERE (ParRef->StartingClassName =:classname)
+AND ((ParRef->SystemView = 'N') OR (ParRef->SystemView is null) OR (ParRef->SystemView= ''))
+AND (SQLAs !='rowid')
+AND (SQLAs !='patientid')
+AND (SQLAs !='eposideid')]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Code,SQLAs,SQLExpression:%Library.String,Description"/>
+</Query>
+
+<Query name="RulesList">
+<Type>%Query</Type>
+<FormalSpec>Code,Description</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Code:%Library.String,Description:%Library.String,TblName, Status:%String"/>
+</Query>
+
+<Query name="qryRule">
+<Type>%Library.SQLQuery</Type>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, Code, Description
+FROM DSSRule</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Code:%Library.String,Description:%Library.String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DSSRuleD</DataLocation>
+<DefaultData>DSSRuleDefaultData</DefaultData>
+<IdLocation>^websys.DSSRuleD</IdLocation>
+<IndexLocation>^websys.DSSRuleI</IndexLocation>
+<StreamLocation>^websys.DSSRuleS</StreamLocation>
+<Data name="DSSRuleClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DSSRuleDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>FldId</Value>
+</Value>
+<Value name="2">
+<Value>FldValue</Value>
+</Value>
+<Value name="3">
+<Value>RulType</Value>
+</Value>
+<Value name="4">
+<Value>TblIndexName</Value>
+</Value>
+<Value name="5">
+<Value>TblName</Value>
+</Value>
+<Value name="6">
+<Value>ValLength</Value>
+</Value>
+<Value name="7">
+<Value>ValMatch</Value>
+</Value>
+<Value name="8">
+<Value>ValType</Value>
+</Value>
+<Value name="9">
+<Value>Code</Value>
+</Value>
+<Value name="10">
+<Value>Description</Value>
+</Value>
+<Value name="11">
+<Value>LowerBound</Value>
+</Value>
+<Value name="12">
+<Value>UpperBound</Value>
+</Value>
+<Value name="13">
+<Value>LstRange</Value>
+</Value>
+<Value name="14">
+<Value>fldCName</Value>
+</Value>
+<Value name="15">
+<Value>fldCValue</Value>
+</Value>
+<Value name="16">
+<Value>FldValueType</Value>
+</Value>
+<Value name="17">
+<Value>TriggerClass</Value>
+</Value>
+<Value name="18">
+<Value>TriggerSQL</Value>
+</Value>
+<Value name="19">
+<Value>Triggerpath</Value>
+</Value>
+<Value name="20">
+<Value>LastRun</Value>
+</Value>
+<Value name="21">
+<Value>Running</Value>
+</Value>
+<Value name="22">
+<Value>FieldId</Value>
+</Value>
+</Data>
+<Property name="Code">
+</Property>
+<Property name="Description">
+</Property>
+<Property name="FldId">
+</Property>
+<Property name="FldValue">
+</Property>
+<Property name="FldValueType">
+</Property>
+<Property name="LstRange">
+</Property>
+<Property name="RulType">
+</Property>
+<Property name="TblIndexName">
+</Property>
+<Property name="TblName">
+</Property>
+<Property name="ValLength">
+</Property>
+<Property name="ValMatch">
+</Property>
+<Property name="ValType">
+</Property>
+</Storage>
+</Class>
+</Export>

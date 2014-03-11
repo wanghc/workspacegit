@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Abstract">
+<Description>
+Abstract class used to provide common functionality to classes in the websys package.</Description>
+<Final>0</Final>
+<Abstract>1</Abstract>
+<ClassType/>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>63176,36142.599456</TimeChanged>
+<TimeCreated>59128,38436</TimeCreated>
+
+<Parameter name="BUILD">
+<Default>418</Default>
+</Parameter>
+
+<Parameter name="MAJORVERSION">
+<Final>0</Final>
+<Default>6</Default>
+</Parameter>
+
+<Parameter name="MINORVERSION">
+<Final>0</Final>
+<Default>42</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Description><![CDATA[
+Used to control sql fields to be used in generated queries.<br>
+Applies to LookupExecute,Fetch,Close.<br>
+Applies to GetIdFromCodeOrDescription.<br>]]></Description>
+<Final>0</Final>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+</Parameter>
+
+<Parameter name="SQLFILTER">
+<Description>
+This value of this parameter is appended to the end of the SQL WHERE clause used in both standard lookups and standard broker validation.
+This is typically used for filtering records to allow only active records to be used.</Description>
+<Final>0</Final>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Final>0</Final>
+</Parameter>
+
+<Method name="GetAuditDisplayInfo">
+<Description>
+Inputs:
+array(columnnumber)=value as a reference to a table
+
+Output:
+
+array(columnnumber)=description from refrenced table</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[&aryColInfo:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetCodeDescriptionFromId">
+<Description>
+This returns description,id,code (this is to be consitent with lookups)
+by wuqk 2011-05-26</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	
+	if '%class.Abstract {		
+		set tableName=..GetTableName(%class)
+		quit:tableName="" $$$OK
+		//do %code.WriteLine(" //"_%parameter("SQLCODE"))
+		//do %code.WriteLine(" set ret=$LB(""desc"",1,""code"")")
+		//into :code,:rowid,:description 
+		set codeField=%parameter("SQLCODE")
+		set idField=%parameter("SQLROWID")
+		set descField=%parameter("SQLDESCRIPTION")
+		set sqlFilter=%parameter("SQLFILTER")
+		set sqlstr=""
+		do %code.WriteLine(" set ret=$LB()")
+		set strInto=""
+		if codeField'="" set sqlstr=sqlstr_codeField,strInto=":Zcode"   //_" into :Zcode"
+		if idField'="" set sqlstr=sqlstr_","_idField,strInto=strInto_",:Zrowid"   //_"" // into :Zrowid,"
+		if descField'="" set sqlstr=sqlstr_","_descField,strInto=strInto_",:Zdescription" //_" INTO :Zdescription" // into :Zdescription"
+		;zhouzq 2011.10.27 如果没有定义字段则退出代码生成
+		quit:sqlstr="" $$$OK
+		set sqlstr="select "_sqlstr_" into "_strInto_" from "_tableName
+		set sqlstr=sqlstr_" where "_idField_"=:id"
+		if sqlFilter'="" set sqlstr=sqlstr_" and ("_sqlFilter_")"
+		
+		do %code.WriteLine(" &sql("_sqlstr_")")
+		
+		do %code.WriteLine(" if SQLCODE=0 {set ret=$LB(Zdescription,Zrowid,Zcode)}")
+		//do %code.WriteLine(" else {set ret=$LB()}")
+		do %code.WriteLine(" quit ret")
+	}
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetCompiledVersion">
+<Description>
+Get Version of the class.
+Compoiled version is based on MAJORVERSION, MINORVERSION, BUILD and includes a dat and time stamp.
+by wuqk 2011-05-26</Description>
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	do %code.WriteLine(" quit """_%parameter("MAJORVERSION")_"."_%parameter("MINORVERSION")_"."_%parameter("BUILD")_" at "_$zdt(%class.TimeChanged,3,3)_"""")
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetIdFromCodeOrDescription">
+<Description><![CDATA[
+Find the object id given either a code or a description.<br>
+To provide control over the code that is generated the following parameters can be used:<br>
+SQLROWID - specify the SQL field name to be returned from the function.<br>
+SQLCODE - specify the SQL field name to be used in the search by code.<br>
+SQLDESCRIPTION - specify the SQL field name to be used in the search by descripiton.<br>
+<br>
+NOTE that these same parameters are are in the generation of default lookups.<br>
+by wuqk 2011-05-26
+zhaocz 2011-05-26 ]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;d %code.WriteLine(" w """_%class.Name_"""")
+	
+	q:(%class.Abstract) $$$OK
+	
+	s mytabname=..GetTableName(%class)
+	if mytabname="" {
+		d %code.WriteLine(" QUIT """"")
+		Quit $$$OK
+	}
+	s mysqlcode=""_%parameter("SQLCODE")
+	s mysqldesc=""_%parameter("SQLDESCRIPTION")
+	s mysqlrowid=""_%parameter("SQLROWID")
+	s mysqlfilter = ""_%parameter("SQLFILTER")
+	;zhouzq 2011.10.27 如果没有定义字段则退出代码生成
+	Quit:mysqlrowid="" $$$OK
+	d %code.WriteLine(" n id")
+	d %code.WriteLine(" s id = """"")
+	
+	if (mytabname'=""){
+		s mysql="select "_mysqlrowid_" into :id from "_mytabname
+		s mysqlpara=""			;||
+		if ((mysqlcode'="")) {
+			s mysqlpara = " "_mysqlcode_" = :val "
+		}
+		if (mysqldesc'=""){
+			if (mysqlpara="") {
+				s mysqlpara = mysqldesc_" =:val "
+			}else{
+				s mysqlpara = mysqlpara_" or "_ mysqldesc_" =:val "
+			}
+		}
+		;
+		if (mysqlpara'="") {
+			s mysql= mysql _" where ("_mysqlpara_") "
+			if (mysqlfilter'=""){
+				s mysql= mysql _" and ("_mysqlfilter_") "
+			}
+		}
+		
+		;w !,mysql
+		d %code.WriteLine(" &sql("_mysql_")")
+		d %code.WriteLine(" i 'SQLCODE q id")
+	}
+	d %code.WriteLine(" q """"")
+	
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpBroker">
+<Description>
+Called by the web broker.
+The main purpose is to convert from code to description dynamically.
+itmjs - javascript function e.g. Location_lookupsel
+itmjsex - extended javascript function
+zhaocz add 2011-06-13</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:(%class.Abstract) $$$OK
+	d %code.WriteLine(" n id,desc,code,retval")
+	d %code.WriteLine(" s (id,desc,code,retval)=""""")
+	
+	s mysqlcode=""_%parameter("SQLCODE")
+	s mysqldesc=""_%parameter("SQLDESCRIPTION")
+	s mysqlrowid=""_%parameter("SQLROWID")
+	s mysqlfilter = ""_%parameter("SQLFILTER")
+	s mytabname=..GetTableName(%class)
+	quit:mytabname="" $$$OK
+	;zhouzq 2011.10.27 如果没有定义RowId列则退出代码生成
+	quit:mysqlrowid="" $$$OK
+	s mysql="SELECT "_mysqlrowid_","_mysqldesc_", "_mysqlcode_" INTO :id,:desc,:code FROM "_mytabname_" WHERE "_mysqldesc_" = :val"
+	if (mysqlfilter'=""){
+		s mysql=mysql_" AND "_mysqlfilter
+	}
+	
+	d %code.WriteLine(" &sql("_mysql_")")
+	d %code.WriteLine(" i 'SQLCODE d  q 1")
+	d %code.WriteLine(" . s retval=itmjs_""('""_$ZCVT(desc,""O"",""JS"")_""');"" ")
+	d %code.WriteLine(" . i itmjsex'="""" s retval=retval_itmjsex_""('""_$ZCVT(desc,""O"",""JS"")_""^""_id_""^""_$ZCVT(code,""O"",""JS"")_""');""")
+	d %code.WriteLine(" . If 1 { Write (retval),! } ")
+	
+	quit:mysqlcode="" $$$OK
+	s mysql="SELECT "_mysqlrowid_","_mysqldesc_", "_mysqlcode_" INTO :id,:desc,:code FROM "_mytabname_" WHERE "_mysqlcode_" = :val"
+	if (mysqlfilter'=""){
+		s mysql=mysql_" AND "_mysqlfilter
+	}
+	d %code.WriteLine(" &sql("_mysql_")")
+	d %code.WriteLine(" i 'SQLCODE d  q 1")
+	d %code.WriteLine(" . s retval=itmjs_""('""_$ZCVT(desc,""O"",""JS"")_""');"" ")
+	d %code.WriteLine(" . i itmjsex'="""" s retval=retval_itmjsex_""('""_$ZCVT(desc,""O"",""JS"")_""^""_id_""^""_$ZCVT(code,""O"",""JS"")_""');""")
+	d %code.WriteLine(" . If 1 { Write (retval),! } ")
+
+	
+	d %code.WriteLine(" q 0")
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpClose">
+<Description>
+Default implementation of LookUp Query.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	do %code.Write(" Set repid=$LIST(QHandle,2)")
+ 	do %code.Write(" Kill ^CacheTemp(repid)")
+ 	do %code.Write(" Quit $$$OK")
+ 	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpExecute">
+<Description>
+Default implementation of LookUp Query.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%String]]></FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	do %code.Write(" s repid=$I(^CacheTemp)")
+	do %code.Write(" s ind=1")
+	do %code.Write(" s QHandle=$lb(0,repid,0)")
+	do %code.WriteLine(" set ^Temp(""Upgrade"",""LookUpExecute"","""_%class.Name_""",""desc"")=desc")
+	
+	if '%class.Abstract {
+		set tableName=..GetTableName(%class)
+		goto:tableName="" endLookUpExecute
+		set codeField=%parameter("SQLCODE")
+		set idField=%parameter("SQLROWID")
+		set descField=%parameter("SQLDESCRIPTION")
+		set sqlFilter=%parameter("SQLFILTER")
+		set sqlstr=""
+		set fieldStr=""
+		set intostr=""
+		set:codeField'="" fieldStr=codeField_" as Zcode",intostr=":Zcode"
+		set:idField'="" fieldStr=fieldStr_","_idField_" as Zrowid",intostr=intostr_",:Zrowid"
+		set:descField'="" fieldStr=fieldStr_","_descField_" as Zdescription",intostr=intostr_",:Zdescription"
+		;zhouzq 2011.10.27 如果没有定义字段则退出代码生成
+		if fieldStr="" {
+			do endLookUpExecute
+			Quit $$$OK
+		}
+		set conditionstr=descField_" %STARTSWITH :desc"
+		set orderstr=" order by Zdescription"
+		set sqlstr="declare CurLookUp cursor for select "_fieldStr_" into "_intostr_" from "_tableName
+		set sqlstr=sqlstr_" where ("_conditionstr_")"
+		if sqlFilter'="" set sqlstr=sqlstr_" and ("_sqlFilter_")"
+		set sqlstr=sqlstr_orderstr
+		//do %code.WriteLine(" //"_sqlstr)
+		do %code.WriteLine(" &sql("_sqlstr_")")
+		do %code.WriteLine(" &sql(open  CurLookUp)")
+		do %code.WriteLine(" &sql(fetch  CurLookUp)")
+		do %code.WriteLine(" while (SQLCODE=0){")
+		do %code.WriteLine(" 	set data=$LB(Zdescription,Zrowid,Zcode)")
+		do %code.WriteLine(" 	set ^CacheTemp(repid,ind)=data")
+		do %code.WriteLine(" 	set ind=ind+1")
+		do %code.WriteLine(" 	&sql(fetch  CurLookUp)")
+		do %code.WriteLine(" }")
+		do %code.WriteLine(" &sql(close  CurLookUp)")
+		
+		
+		
+		/*
+		do %code.Write(" set sqlstr=""select "_%parameter("SQLCODE")_" as Zcode,"_%parameter("SQLROWID")_" as Zrowid,"_%parameter("SQLDESCRIPTION")_" as Zdescription ")
+		do %code.WriteLine("from "_tableName_" where "_%parameter("SQLDESCRIPTION")_" %STARTSWITH '""_desc_""' order by "_%parameter("SQLDESCRIPTION")_"""")
+		
+		do %code.WriteLine(" set rset=##class(%ResultSet).%New(""%DynamicQuery:SQL"")")
+		do %code.WriteLine(" set sc = rset.Prepare(sqlstr)")
+		do %code.WriteLine(" set sc=rset.Execute()")  
+		do %code.WriteLine(" set (Zdescription,Zrowid,Zcode)=""""")  
+		do %code.WriteLine(" while rset.%Next(){")
+		do %code.WriteLine(" 	set Zcode=rset.Data(""Zcode"")")
+		do %code.WriteLine(" 	set Zrowid=rset.Data(""Zrowid"")")
+		do %code.WriteLine(" 	set Zdescription=rset.Data(""Zdescription"")")
+		do %code.WriteLine(" 	set data=$LB(Zdescription,Zrowid,Zcode)")
+    	do %code.WriteLine(" 	set ^CacheTemp(repid,ind)=data")
+    	do %code.WriteLine(" 	set ind=ind+1")
+		do %code.WriteLine(" }")*/
+	}
+endLookUpExecute		
+ 	do %code.Write(" Quit $$$OK")
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpFetch">
+<Description>
+Default implementation of LookUp Query.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	do %code.WriteLine(" Set AtEnd=$LIST(QHandle,1)")
+ 	do %code.WriteLine(" Set repid=$LIST(QHandle,2)")
+ 	do %code.WriteLine(" Set ind=$LIST(QHandle,3)")
+ 	do %code.WriteLine(" Set ind=$o(^CacheTemp(repid,ind))")
+ 	do %code.WriteLine(" If ind="""" {Set AtEnd=1 Set Row=""""}")
+ 	do %code.WriteLine(" Else {Set Row=^CacheTemp(repid,ind)}")
+ 	do %code.WriteLine(" s QHandle=$lb(AtEnd,repid,ind)")
+	do %code.WriteLine(" Quit $$$OK")
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetIdFromDateCodeOrDesc">
+<Description>
+Just like GetIdFromCodeOrDescription except now it accepts a parameter for date to be used for active date check
+the following parameters is also used:
+SQLDATEFROM - specify the SQL field name to be used in the search by datefrom.
+SQLDATETO - specify the SQL field name to be used in the search by dateto.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>val:%Library.String,date:%Library.Date=""</FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="LookUpDateBroker">
+<Description>
+Just like LookUpBroker except it now accepts a date to be compared with SQLDATEFROM and SQLDATETO fields
+by wuqk 2011-06-18
+调用LookUpDate，未重新写查询</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String="",date:%Library.String=""</FormalSpec>
+<PlaceAfter>GetIdFromDateCodeOrDesc</PlaceAfter>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[
+	
+	q:(%class.Abstract) $$$OK
+	
+	do %code.WriteLine(" set rs=##Class(%ResultSet).%New("""_%class.Name_".LookUpDate"")")
+	do %code.WriteLine(" s:date="""" date=+$h")
+	do %code.WriteLine(" quit:'$IsObject(rs) 0")
+	do %code.WriteLine(" do rs.Execute(val,date)")
+	do %code.WriteLine(" set cols=rs.GetColumnCount()")
+	do %code.WriteLine(" set rows=0")
+	do %code.WriteLine(" set retval=""""")
+	do %code.WriteLine(" while rs.Next() {")
+	do %code.WriteLine(" 	set rows=rows+1")
+	do %code.WriteLine(" 	quit:rows>1")
+	do %code.WriteLine(" 	set firstVal=rs.GetData(1)")
+	do %code.WriteLine(" 	for colIndex=1:1:cols {")
+	do %code.WriteLine(" 		set retval=retval_rs.GetData(colIndex)_""^""")
+	do %code.WriteLine(" 	}")
+	do %code.WriteLine(" }")
+ 	do %code.WriteLine(" d rs.%Close() k rs")
+ 	do %code.WriteLine(" quit:rows'=1 0")
+ 	do %code.WriteLine(" set:itmjs'="""" fn=itmjs_""('""_firstVal_""');""")
+ 	do %code.WriteLine(" set:itmjsex'="""" fn=fn_itmjsex_""('""_retval_""');""")
+	do %code.WriteLine(" &javascript<#(fn)#>")
+ 	do %code.WriteLine(" quit $$$OK")
+ 	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpDateExecute">
+<Description>
+Default implementation of LookUpDate Query.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%String,date:%Date=""]]></FormalSpec>
+<PlaceAfter>GetIdFromDateCodeOrDesc</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	
+	do %code.Write(" s repid=$I(^CacheTemp)")
+	do %code.Write(" s ind=1")
+	do %code.Write(" s QHandle=$lb(0,repid,0)")
+	do %code.Write(" s:$g(date)="""" date=+$h")
+	
+	do %code.WriteLine(" set ^Temp(""Upgrade"",""LookUpDateExecute"","""_%class.Name_""",""desc"")=desc")
+	do %code.WriteLine(" set ^Temp(""Upgrade"",""LookUpDateExecute"","""_%class.Name_""",""date"")=date")
+	
+	if '%class.Abstract {
+		set tableName=..GetTableName(%class)
+		goto:tableName="" endLookUpDateExecute
+		set codeField=%parameter("SQLCODE")
+		set idField=%parameter("SQLROWID")
+		set descField=%parameter("SQLDESCRIPTION")
+		set sqlFilter=%parameter("SQLFILTER")
+		set dateFrom=$g(%parameter("SQLDATEFROM"))
+		set dateTo=$g(%parameter("SQLDATETO"))
+		
+		set sqlstr=""
+		set fieldStr=""
+		set intostr=""
+		set:codeField'="" fieldStr=codeField_" as Zcode",intostr=":Zcode"
+		set:idField'="" fieldStr=fieldStr_","_idField_" as Zrowid",intostr=intostr_",:Zrowid"
+		set:descField'="" fieldStr=fieldStr_","_descField_" as Zdescription",intostr=intostr_",:Zdescription"
+		set:dateFrom'="" fieldStr=fieldStr_","_dateFrom_" as ZdateFrom",intostr=intostr_",:ZdateFrom"
+		set:dateTo'="" fieldStr=fieldStr_","_dateTo_" as ZdateTo",intostr=intostr_",:ZdateTo"
+		;zhouzq 2011.10.27 如果没有定义字段则退出代码生成
+		quit:fieldStr="" $$$OK
+		set conditionstr=descField_" %STARTSWITH :desc"
+		set orderstr=" order by Zdescription" //_descField
+		set sqlstr="declare LookUpDate cursor for select "_fieldStr_" into "_intostr_" from "_tableName
+		set sqlstr=sqlstr_" where ("_conditionstr_")"
+		if sqlFilter'="" set sqlstr=sqlstr_" and ("_sqlFilter_")"
+		set sqlstr=sqlstr_orderstr
+		//do %code.WriteLine(" //"_sqlstr)
+		do %code.WriteLine(" &sql("_sqlstr_")")
+		do %code.WriteLine(" &sql(open  LookUpDate)")
+		do %code.WriteLine(" &sql(fetch  LookUpDate)")
+		do %code.WriteLine(" while (SQLCODE=0){")
+		do %code.WriteLine(" 	if $g(ZdateFrom)'="""" continue:ZdateFrom>date")
+		do %code.WriteLine(" 	if $g(ZdateTo)'="""" continue:ZdateTo>date")
+		do %code.WriteLine(" 	set data=$LB(Zdescription,Zrowid,Zcode)")
+		do %code.WriteLine(" 	set ^CacheTemp(repid,ind)=data")
+		do %code.WriteLine(" 	set ind=ind+1")
+		do %code.WriteLine(" 	&sql(fetch  LookUpDate)")
+		do %code.WriteLine(" }")
+		do %code.WriteLine(" &sql(close  LookUpDate)")
+		
+		
+		/*
+		do %code.Write(" set sqlstr=""select "_%parameter("SQLCODE")_" as Zcode,"_%parameter("SQLROWID")_" as Zrowid,"_%parameter("SQLDESCRIPTION")_" as Zdescription")
+		if %parameter("SQLDATEFROM")'="" do %code.Write(","_%parameter("SQLDATEFROM")_" as Zdatefrom")
+		if %parameter("SQLDATETO")'="" do %code.Write(","_%parameter("SQLDATETO")_" as Zdateto")
+		
+		do %code.WriteLine(" from "_tableName_" where "_%parameter("SQLDESCRIPTION")_" %STARTSWITH '""_desc_""' order by "_%parameter("SQLDESCRIPTION")_"""")
+		
+		do %code.WriteLine(" set rset=##class(%ResultSet).%New(""%DynamicQuery:SQL"")")
+		do %code.WriteLine(" set sc = rset.Prepare(sqlstr)")
+		do %code.WriteLine(" set sc=rset.Execute()")  
+		do %code.WriteLine(" set (Zdescription,Zrowid,Zcode)=""""")  
+		do %code.WriteLine(" while rset.%Next(){")
+		do %code.WriteLine(" 	set Zcode=rset.Data(""Zcode"")")
+		do %code.WriteLine(" 	set Zrowid=rset.Data(""Zrowid"")")
+		do %code.WriteLine(" 	set Zdescription=rset.Data(""Zdescription"")")
+		do %code.WriteLine(" 	set Zdatefrom=$g(rset.Data(""Zdatefrom""))")
+		do %code.WriteLine(" 	set Zdateto=$g(rset.Data(""Zdateto""))")
+		do %code.WriteLine(" 	set:Zdatefrom'="""" Zdatefrom=$zdh(+Zdatefrom,3) continue:Zdatefrom>date")
+		do %code.WriteLine(" 	set:Zdateto'="""" Zdateto=$zdh(+Zdateto,3) continue:Zdateto>date")
+		do %code.WriteLine(" 	set data=$LB(Zdescription,Zrowid,Zcode)")
+    	do %code.WriteLine(" 	set ^CacheTemp(repid,ind)=data")
+    	do %code.WriteLine(" 	set ind=ind+1")
+		do %code.WriteLine(" }")
+		*/
+	}
+endLookUpDateExecute		
+ 	do %code.Write(" Quit $$$OK")
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpDateFetch">
+<Description>
+Default implementation of LookUpDate Query.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpDateExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	do %code.Write(" Set AtEnd=$LIST(QHandle,1)")
+ 	do %code.Write(" Set repid=$LIST(QHandle,2)")
+ 	do %code.Write(" Set ind=$LIST(QHandle,3)")
+ 	do %code.Write(" Set ind=$o(^CacheTemp(repid,ind))")
+ 	do %code.Write(" If ind="""" {Set AtEnd=1 Set Row=""""}")
+ 	do %code.Write(" Else {Set Row=^CacheTemp(repid,ind)}")
+ 	do %code.Write(" s QHandle=$lb(AtEnd,repid,ind)")
+	do %code.Write(" Quit $$$OK")
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpDateClose">
+<Description>
+Default implementation of LookUpDate Query.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpDateFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	do %code.Write(" Set repid=$LIST(QHandle,2)")
+ 	do %code.Write(" Kill ^CacheTemp(repid)")
+ 	do %code.Write(" Quit $$$OK")
+ 	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OnPreHyperEvent">
+<Description>
+for now make it final and non generated !
+this is required for CACHE5 brokers</Description>
+<Final>1</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.
+by wuqk 2011-05-26</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	/**/
+ 	do %code.WriteLine(" i ##class(websys.UserDefinedFunctions).Evaluate("""_%class.Name_""",""OnAfterSave"")")
+ 	do %code.WriteLine(" do ##class(websys.DSSActionType).doSomething(id,""C"",compref,""OnAfterSave"")")
+ 	
+ 	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>
+by wuqk 2011-05-26]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	/**/
+	do %code.WriteLine(" new blnUDF,blnDSS")
+	do %code.WriteLine(" set (blnUDF,blnDSS)=""""")
+	do %code.WriteLine(" set blnUDF=##class(websys.UserDefinedFunctions).Evaluate("""_%class.Name_""",""OnBeforeSave"")")
+	do %code.WriteLine(" set blnDSS=##class(websys.DSSActionType).doSomething(id,""C"",compref,""OnBeforeSave"")")
+ 	
+	do %code.WriteLine(" if 'blnUDF quit 0")
+	do %code.WriteLine(" if 'blnDSS quit 0")
+	do %code.WriteLine(" quit 1")
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysDelete">
+<Description>
+Delete an instance - this is provided as a wrapper for %DeleteId functionality.
+by wuqk 2011-05-25</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if '%class.Abstract {
+		set className=%class.Name
+		if %class.ClassType="persistent" {
+			set cdf=%class
+		}
+		else{
+			set $p(className,".",1)="User"
+			set cdf=##class(%Dictionary.ClassDefinition).%OpenId(className)
+		}
+		if (cdf){
+			/*Lock 和 UDF待增加
+			//i id'="",'##class(websys.Lock).Lock($lb(id,"icare.country"),%session.SessionId,%session.Get("LOGON.USERID"),.status) d  q 0
+ 			//. d msg.AddItem("E","LOCKED",status)
+ 			//d ##class(icare.country).%DeleteId(id)
+ 			//i ##class(websys.UserDefinedFunctions).Evaluate("country","OnDelete")
+ 			*/
+			do %code.WriteLine(" do ##class("_className_").%DeleteId(id)")
+			do %code.WriteLine(" do ##class(websys.Lock).LockClear($lb(id,"""_className_"""),%session.SessionId)")
+		}
+	}
+		
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysSave">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.
+add by wuqk 2011-05-25
+modify by zhouzq 2011.06.03 如果移动到websys.ComponentXRf中，注意参数#RTNPREFIX]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	do %code.WriteLine(" //"_%class.Name)
+	do %code.WriteLine(" d ##class(dtwebsys.ComponentXRef).GetSave(compref,id)")
+
+	do %code.WriteLine(" Quit")
+
+	Quit $$$OK
+	
+	/*
+	do %code.WriteLine(" //"_%class.Name)
+	do %code.WriteLine(" set ^Temp(""Upgrade"",""websysSave"","""_%class.Name_""")=compref")
+	do %code.WriteLine(" m ^Temp(""Upgrade"",""websysSave"","""_%class.Name_""",""request"")=%request.Data")
+	if '%class.Abstract {
+		set className=%class.Name
+		if %class.ClassType="persistent" {
+			set cc=%compiledclass
+		}
+		else{
+			set $p(className,".",1)="User"
+			set cc=##class(%Dictionary.CompiledClass).%OpenId(className)
+		}
+		
+		//An instance of the %Dictionary.CompiledClass class. It contains the compiled definition of the class being compiled
+		if (cc){
+			do %code.WriteLine(" if id="""" {set Zobj=##class("_className_").%New() }")
+			do %code.WriteLine(" else {set Zobj=##class("_className_").%OpenId(id) }")
+			//do $SYSTEM.OBJ.Dump(cc)
+			
+			for i = 1:1:cc.Properties.Count() {
+				set prop=cc.Properties.GetAt(i)
+				//do $SYSTEM.OBJ.Dump(prop)
+        		set propName=cc.Properties.GetAt(i).Name
+        		set propType=cc.Properties.GetAt(i).Type
+        		set propRlp=cc.Properties.GetAt(i).Relationship
+        		set propColl=cc.Properties.GetAt(i).Collection
+        		set propCardinality=cc.Properties.GetAt(i).Cardinality
+        		continue:propName="%%OID"
+        		continue:propName="%Concurrency"
+        		//do %code.WriteLine(" //"_propName_" -"_propType_" -"_propColl_" -"_propRlp_" -"_propCardinality)
+        		do %code.Write(" set val=$g(%request.Data("""_propName_""",1))")
+        		//do $SYSTEM.OBJ.Dump(prop)
+ 				
+ 				if propRlp{          //Relationship
+ 					//do %code.WriteLine(" //Relationship")
+	 				set Cardinality=cc.Properties.GetAt(i).Cardinality
+	 				if (Cardinality="parent"){
+		 				set propTypeClassName=propType    //处理同包下省略包名的情况
+						if propTypeClassName'["." {
+							set tmpClassName=%class.Name
+							set $p(tmpClassName,".",$l(tmpClassName,"."))=propTypeClassName
+							set propTypeClassName=tmpClassName
+						}
+		 				do %code.Write(" set parent=##class("_ propTypeClassName_").%OpenId(+val)")
+		 				do %code.Write(" set:$IsObject(parent) Zobj." _ propName _ "=parent")
+		 			}
+	 			}
+	 			elseif (propColl'=""){     //list array
+	 				//do %code.WriteLine(" //Collection")
+		 		}
+	 			elseif (propType["%"){     //%Library
+	 				//do %code.WriteLine(" //%Library")
+	 				if propType["Date" {do %code.Write(" set:val'="""" val=+$zdh(val,4)")}
+		    		elseif propType["Time" {do %code.Write(" set:val'="""" val=+$zth(val)")}
+		    		elseif (propType["Boolean"){do %code.Write(" set val=##class(websys.Conversions).BooleanHtmlToLogical(val)")}
+		    		elseif ((propType["Double")||(propType["Float")||(propType["Integer")||(propType["Numeric")) {
+					     do %code.Write(" set val=+val")
+		    		}
+		    		do %code.Write(" set Zobj." _ propName _ "=val")
+		 		}
+	 			else{                      //Custom class
+	 				//do %code.WriteLine(" //Else")
+	 				set propTypeClassName=propType      //处理同包下省略包名的情况
+					if propTypeClassName'["." {
+						set tmpClassName=%class.Name
+						set $p(tmpClassName,".",$l(tmpClassName,"."))=propTypeClassName
+						set propTypeClassName=tmpClassName
+					}
+		 			do %code.Write(" set "_propName_"=##class("_ propTypeClassName_").%OpenId(+val)")
+		 			do %code.Write(" set:$IsObject("_propName_") Zobj." _ propName _ "="_propName)
+		 		}
+ 				do %code.WriteLine("")
+        		
+			}
+			do %code.WriteLine(" set sc=Zobj.%Save()")
+    		do %code.WriteLine(" if $system.Status.IsError(sc) {d $system.OBJ.DisplayError(sc)}")
+    		do %code.WriteLine(" //else{set id=obj.%Id()}")
+    		do %code.WriteLine(" set ^Temp(""Upgrade"",""websysSave"","""_%class.Name_""",""id"")=Zobj.%Id()")
+	   		do %code.WriteLine(" do Zobj.%Close()")
+		}
+	}
+	quit $$$OK
+	*/
+]]></Implementation>
+</Method>
+
+<Query name="LookUp">
+<Description>
+Basic query returning description from a partial description, ordered by description.
+Compiled will attempt to derive the 'description' property from available properties unless it is explicity
+set in the SQLDESCRIPTION parameter.
+SQLROWID may be used to specify the field name to be used as rowid.
+by wuqk 2011-05-26</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Description:%String,HIDDEN:%String,Code:%String"/>
+</Query>
+
+<Query name="LookUpDate">
+<Description>
+Just like LookUp except it now accepts a date to be compared with SQLDATEFROM and SQLDATETO fields
+by wuqk 2011-05-26</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%String,date:%Date</FormalSpec>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Description:%String,HIDDEN:%String,Code:%String"/>
+</Query>
+
+<Method name="GetTableName">
+<Description>
+add by wuqk 2011-05-26</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>cdf:%Dictionary.ClassDefinition</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set className=cdf.Name
+	set tableName=""
+	
+	/*
+		zhouzq 2011.10.27 ,有些web继承类定义为实体类,实际上是不应该的,对应这种情况
+		实际是取web类对应User包下类的表名
+	*/
+	if (cdf.ClassType="persistent") && ($p(className,".",1)'="web") {
+		set tableName=cdf.SqlTableName
+		set:tableName="" tableName=className
+	}
+	else{
+		set $p(className,".",1)="User"
+		quit:'##class(%Dictionary.ClassDefinition).%ExistsId(className) tableName
+		set ocdf=##class(%Dictionary.ClassDefinition).%OpenId(className)
+		if (ocdf){
+			set tableName="SQLUser."_ocdf.SqlTableName
+		}
+	}
+	quit tableName
+]]></Implementation>
+</Method>
+</Class>
+</Export>

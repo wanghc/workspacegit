@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.CDAMap">
+<Description>
+Mapping from CDA Section Name to Class Name</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>60506,62108</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>10</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>CDASectionName</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ClassName</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="CDASectionName">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ClassName">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PreferredCoding">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="CDASectionNameIndex">
+<Properties>CDASectionName</Properties>
+</Index>
+
+<Index name="UniqueIndex">
+<Properties>CDASectionName,ClassName</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.CDAMapD</DataLocation>
+<DefaultData>CDAMapDefaultData</DefaultData>
+<IdLocation>^websys.CDAMapD</IdLocation>
+<IndexLocation>^websys.CDAMapI</IndexLocation>
+<StreamLocation>^websys.CDAMapS</StreamLocation>
+<Data name="CDAMapDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>CDASectionName</Value>
+</Value>
+<Value name="3">
+<Value>ClassName</Value>
+</Value>
+<Value name="4">
+<Value>PreferredCoding</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

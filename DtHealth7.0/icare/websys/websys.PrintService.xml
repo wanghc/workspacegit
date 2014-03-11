@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.PrintService">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59002,35602</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>209</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>9</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Description><![CDATA[
+Used to control sql fields to be used in generated queries.<br>
+Applies to LookupExecute,Fetch,Close.<br>
+Applies to GetIdFromCodeOrDescription.<br>]]></Description>
+<Final>0</Final>
+<Default>ServerName</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>ServerName</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Active">
+<Description>
+Set true when the service is started
+and Registers with the database.</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CacheProcessesAllowed">
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CacheProcessesInUse">
+<Description>
+Current number of Cache Processes</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CurrentConfig">
+<Description>
+Receives a string from the Print Service when it is started, 
+that can be used for diagnostics. It will detail the Printers 
+that the service can access and the Path to the Crystal reports directory.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="1000"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GlobalCrystalLicenses">
+<Description>
+Is a copy of websys.Configuration.CrystalRptLicences.
+This property property created to save processing time.
+See it's use in RequestNewProcess</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="GroupLimited">
+<Description>
+Set True if the Service participates in the Total License 
+limit for the organisation. e.g. The number of print processes
+that can run at any one time = 25
+There may be 3 machines each with a limit of 10 per machine.
+If they participate in the group limit of 25, this will take precedence 
+over the sum of individual limits = 30</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ProcessesAllowed">
+<Description>
+Max number of allowed (licensed) concurrent print processes 
+for this server.
+-1 for unlimited</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ProcessesInUse">
+<Description>
+The curernt number of processes in use for this server.</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ServerName">
+<Description>
+Host Name of the server running the print service</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UpdateDate">
+<Description>
+DateTime of last contact with service. Sett notes in Udate Time</Description>
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="UpdateTime">
+<Description><![CDATA[
+DateTime of Last contact with service.
+Use the dateTime combination to determine if a Service is Active.
+A service should be making contact with in seconds.
+If the time since the last contact runs to 1 minute and the number of
+processes in use = 0 assume that the service has been stopped/paused.
+If the time since the last update > 10 minutes and the number 
+of processes in use > 0 then THERE IS A PROBLEM.]]></Description>
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WordProcessesAllowed">
+<Description>
+Limits the number of Word processes that can run on an individual TPS</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WordProcessesInUse">
+<Description>
+Current Word Processes running</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PrinterGroup">
+<Description>
+List of Printer Groups that this Service uses</Description>
+<Type>%Library.String</Type>
+</Property>
+
+<Property name="MinCrystalProcesses">
+<Description>
+Minimum Processes to kepp for High Priority Crystal Reports</Description>
+<Type>%Library.Integer</Type>
+</Property>
+
+<Property name="MinCacheProcesses">
+<Description>
+Minimum Processes to kepp for High Priority Cache Reports</Description>
+<Type>%Library.Integer</Type>
+</Property>
+
+<Method name="CloseObjects">
+<Description>
+same as $System.OBJ.CLoseObjects()</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>expression</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="CreateNewService">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="IsActive">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="Register">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>Config:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="RequestNewProcess">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ServerName:%Library.String,JobType:%Library.String,ReportID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="TotalInUse">
+<Description>
+Calculates the number of concurrent Print Processes running at this moment over the whole Organisation.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GroupOnly:%Library.Boolean,SelfID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Integer</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="UnRegister">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="FindAllPrinters">
+<Description>
+Used by the TPS to test the configuration</Description>
+<Type>%Library.SQLQuery</Type>
+<SqlProc>0</SqlProc>
+<SqlQuery>Select ID,Code,Description,Device from websys.Printer</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID,Code,Description,Device"/>
+</Query>
+
+<Query name="FindAllServices">
+<Type>%Library.SQLQuery</Type>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, Active, CurrentConfig, GroupLimited, ProcessesAllowed, ProcessesInUse, ServerName, UpdateDate, UpdateTime, WordProcessesAllowed, WordProcessesInUse, CacheProcessesAllowed, CacheProcessesInUse, MinCrystalProcesses, MinCacheProcesses
+FROM PrintService</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Active:%Library.Boolean,CurrentConfig:%Library.String,GroupLimited:%Library.Boolean,ProcessesAllowed:%Library.Integer,ProcessesInUse:%Library.Integer,ServerName:%Library.String,UpdateDate:%Library.Date,UpdateTime:%Library.Time,WordProcessesAllowed:%Library.Integer,WordProcessesInUse:%Library.Integer,CacheProcessesAllowed:%Library.Integer,CacheProcessesInUse:%Library.Integer,MinCrystalProcesses:%Library.Integer,MinCacheProcesses:%Library.Integer"/>
+</Query>
+
+<Query name="FindReportDSNS">
+<Description>
+Some reports specify and overriding DSN. This query returns all distinct values.</Description>
+<Type>%Library.SQLQuery</Type>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT DISTINCT DSN	
+from websys.Report 
+where (DSN IS NOT NULL)</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="DSN"/>
+</Query>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.PrintServiceD</DataLocation>
+<DefaultData>PrintServiceDefaultData</DefaultData>
+<IdLocation>^websys.PrintServiceD</IdLocation>
+<IndexLocation>^websys.PrintServiceI</IndexLocation>
+<StreamLocation>^websys.PrintServiceS</StreamLocation>
+<Data name="PrintServiceClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="PrintServiceDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>ProcessesAllowed</Value>
+</Value>
+<Value name="2">
+<Value>ProcessesInUse</Value>
+</Value>
+<Value name="3">
+<Value>ServerName</Value>
+</Value>
+<Value name="4">
+<Value>Active</Value>
+</Value>
+<Value name="5">
+<Value>CurrentConfig</Value>
+</Value>
+<Value name="6">
+<Value>GroupLimited</Value>
+</Value>
+<Value name="7">
+<Value>UpdateDate</Value>
+</Value>
+<Value name="8">
+<Value>UpdateTime</Value>
+</Value>
+<Value name="9">
+<Value>CacheProcessesAllowed</Value>
+</Value>
+<Value name="10">
+<Value>CacheProcessesInUse</Value>
+</Value>
+<Value name="11">
+<Value>WordProcessAllowed</Value>
+</Value>
+<Value name="12">
+<Value>WordProcessesInUse</Value>
+</Value>
+<Value name="13">
+<Value>WordProcessedAllowed</Value>
+</Value>
+<Value name="14">
+<Value>WordProcessesAllowed</Value>
+</Value>
+<Value name="15">
+<Value>GlobalCrystalLicences</Value>
+</Value>
+<Value name="16">
+<Value>GlobalCrystalLicenses</Value>
+</Value>
+<Value name="17">
+<Value>PrinterGroup</Value>
+</Value>
+<Value name="18">
+<Value>MinCacheProcesses</Value>
+</Value>
+<Value name="19">
+<Value>MinCrystalProcesses</Value>
+</Value>
+</Data>
+<Property name="Active">
+</Property>
+<Property name="CacheProcessesAllowed">
+</Property>
+<Property name="CacheProcessesInUse">
+</Property>
+<Property name="CurrentConfig">
+</Property>
+<Property name="GlobalCrystalLicenses">
+</Property>
+<Property name="GroupLimited">
+</Property>
+<Property name="ProcessesAllowed">
+</Property>
+<Property name="ProcessesInUse">
+</Property>
+<Property name="ServerName">
+</Property>
+<Property name="UpdateDate">
+</Property>
+<Property name="UpdateTime">
+</Property>
+<Property name="WordProcessesAllowed">
+</Property>
+<Property name="WordProcessesInUse">
+</Property>
+</Storage>
+</Class>
+</Export>

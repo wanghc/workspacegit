@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSActionType">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>61079,43958.069837</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>204</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Method name="doSomething">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgID:%Library.String,ArgEType:%Library.String,ArgProperty:%Library.String,ArgTiming:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="LookUpByType">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>type,val,classname</FormalSpec>
+<SqlQuery><![CDATA[SELECT Description, Code, StoredValue
+FROM websys.StandardTypeItem
+WHERE (ParRef=:type )
+AND ((Description %STARTSWITH :val) OR (:val IS NULL))
+AND (
+((:classname <> 'User.OEOrdItem') AND ('E,I,W' [ StoredValue)) OR 
+((:classname = 'User.OEOrdItem') AND (StoredValue = 'N'))
+OR (:classname IS NULL))]]></SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Description,Code,HIDDEN"/>
+</Query>
+
+<Method name="LookUpBrokerByType">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%Library.String,itmjsex:%Library.String="",type:%Library.String="",val:%Library.String="",classname:%String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DSSActionTypeD</DataLocation>
+<IdLocation>^websys.DSSActionTypeD</IdLocation>
+<IndexLocation>^websys.DSSActionTypeI</IndexLocation>
+<StreamLocation>^websys.DSSActionTypeS</StreamLocation>
+<Data name="DSSActionTypeClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+</Storage>
+</Class>
+</Export>

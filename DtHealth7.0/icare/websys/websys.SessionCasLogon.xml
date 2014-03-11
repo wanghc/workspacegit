@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.SessionCasLogon">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Persistent,websys.Abstract</Super>
+<TimeChanged>63176,56577.329088</TimeChanged>
+<TimeCreated>63006,53384.34239</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>90</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="LicenseKey">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SiteCode">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LicensedTrakCareUsers">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ActiveTrakCareUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Property name="ExpiryDate">
+<Type>%Date</Type>
+</Property>
+
+<Property name="CASLoginlURL">
+<Description>
+CAS 登录地址 	http://172.21.21.150:8080/cas/login</Description>
+<Type>%Library.String</Type>
+</Property>
+
+<Property name="CASValidateURL">
+<Description>
+CAS 验证地址 	http://172.21.21.150:8080/cas/proxyValidate</Description>
+<Type>%Library.String</Type>
+</Property>
+
+<Property name="HISLogonURL">
+<Description>
+his登录地址, 有负载用负载地址, http://192.168.4.11/dthealth/web/csp/logon.csp?caslogin=1</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ServiceParam">
+<Description>
+登录CAS的参数   default: service</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="TicketParam">
+<Description>
+Ticket参数名    default: ticket</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="CasFlag">
+<Description>
+Y - N ,用Y表示有效cas</Description>
+<Type>%String</Type>
+</Property>
+
+<Method name="InitialiseSession">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	set LogonAttempts=$g(%session.Data("LogonAttempts"))
+	set PreviousUser=$g(%session.Data("PreviousUser")) 
+	set CAContainerName = $g(%session.Data("ContainerName"))
+	kill %session.Data
+	set %session.Data("LogonAttempts")=LogonAttempts
+	set %session.Data("PreviousUser")=PreviousUser
+	//Initialise all the core session data
+	set %session.Data("LOGON.CTLOCID")=""
+	set %session.Data("LOGON.SITECODE")=""
+	set %session.Data("LOGON.USERID")=""
+	set %session.Data("LOGON.USERCODE")=""
+	set %session.Data("LOGON.USERNAME")=""
+	set %session.Data("LOGON.GROUPID")=""
+	set %session.Data("LOGON.GROUPDESC")=""
+	set %session.Data("LOGON.LANGID")=""
+	set %session.Data("LOGON.GROUPMENUS")=""
+	set %session.Data("LOGON.LAYOUTMANAGER")=""
+	set %session.Data("LOGON.ALLOWLAYOUTMANAGER")=""
+	set %session.Data("LOGON.ALLOWCOLUMNMANAGER")=""
+	set %session.Data("LOGON.PPMCAPTURE")=""
+	set %session.Data("LOGON.PPMDISPLAY")=""
+	set %session.Data("LOGON.ROUND")=""
+	set %session.Data("LOGON.ROUNDDESC")=""
+	set %session.Data("LOGON.HOSPID")=""
+	set %session.Data("LOGON.HOSPDESC")=""
+	set %session.Data("LOGON.TRUSTID")=""
+	set %session.Data("LOGON.TRUSTDESC")=""
+	set %session.Data("LOGON.SSUSERLOGINID")=""
+	set %session.Data("TITLE")=""
+	set %session.Data("LOGON.TIMEOUT")="900"
+	; Do this because CSP only sends CGI with POST requests, but we need to log eveything in ComponentAudit
+	set %session.Data("REMOTE_ADDR")=%request.GetCgiEnv("REMOTE_ADDR")
+	
+	;查找计算机名称导致登陆界面慢,暂时用IP替换  zhouzq
+	;set %session.Data("COMPUTER_NAME")=##Class(websys.Conversions).GetComputerName(%session.Data("REMOTE_ADDR"))
+	set %session.Data("COMPUTER_NAME")=%request.GetCgiEnv("REMOTE_ADDR")
+	
+	; Used to detemine if we are connecting to the code table server
+	set %session.Data("SERVER_NAME")=%request.GetCgiEnv("SERVER_NAME")
+	
+	;P8 新增Session
+	s %session.Data("LOGON.REGION")=""
+	s %session.Data("LICENSE.TC")=""
+	s %session.Data("SYS.LANGID")=""
+	s %session.Data("SYS.TIMEOUT")=""
+	
+	;2011-12-16 AD帐户 OOS
+	s %session.Data("LOGON.ADUSERNAME")=""
+	s %session.Data("LOGON.ADPASSWORD")=""
+	
+	;2013/05/17 CA
+	set %session.Data("ContainerName")  = CAContainerName
+	;DHCC V7 新增 In 协和 
+	;病区 ID 和描述
+	;s %session.Data("LOGON.WARDID")=""
+	;s %session.Data("LOGON.WARDDESC")=""
+]]></Implementation>
+</Method>
+
+<Method name="CasValid">
+<Description>
+通过cas的登录页面与验证页面 拿到UserName 并写入%request</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	set casLoginlURL="",casValidateURL="",UserName="",serviceParam="",ticketParam=""
+	&sql(select ID into :casid from websys.SessionCasLogon where CasFlag='Y')
+	If casid'=""{
+		set casConfig = ##class(websys.SessionCasLogon).%OpenId(casid,0)
+		if $IsObject(casConfig){
+			set casLoginlURL=casConfig.CASLoginlURL
+			set casValidateURL=casConfig.CASValidateURL
+			set appURL = casConfig.HISLogonURL
+			set serviceParam = casConfig.ServiceParam
+			if serviceParam="" set serviceParam="service"
+			set ticketParam = casConfig.TicketParam
+			if ticketParam="" set ticketParam = "ticket"
+			do casConfig.%Close()
+			set casConfig=""
+		}
+		If casValidateURL="" Set STATUS = "CasUrlNull"
+		Quit:casValidateURL="" ""
+		do ##class(%Net.URLParser).Parse(casValidateURL,.t)
+		Set casValidateServer = $g(t("host"))					;$p($p(casValidateURL,":",2),"//",2)
+		Set casValidatePort = $g(t("port"),80)					;+$p(casValidateURL,":",3)
+		Set casValidateLocation = $g(t("path")) 				;"/"_$p(casValidateURL,"/",4,$l(casValidateURL,"/"))
+		Set redirect = $g(%request.Data("directpage",1))		;登录成功后跳转的界面
+		If casValidateServer="" Set STATUS="CasUrlHostNull"
+		Quit:casValidateServer="" ""
+		if redirect'="" {
+			k t
+			set redirect = ##class(%CSP.Page).UnescapeURL(redirect)
+			do ##class(%Net.URLParser).Parse(redirect,.t)
+			Set redirectPath = t("path")
+			set len = $l(redirectPath,"/")
+			if len>1{
+				Set redirectPath = $p(redirectPath,"/",len)				;取得要跳转的页面csp名
+			}
+			if redirectPath="dhc.logon.csp" Set redirectPath=""
+			if redirectPath="logon.csp" Set redirectPath=""
+			Set redirect=redirectPath_"?"_t("query")
+		}
+		set UserName = $g(%session.Data("CASUSERNAME"))
+		set reqTicket = $g(%request.Data(ticketParam,1))
+		//如果session中存在登录科室，这可以直接赋值,
+		if (UserName'=""),$g(%session.Data("LOGON.CTLOCDESC"))'="" {
+			set %request.Data("DEPARTMENT",1)=$g(%session.Data("LOGON.CTLOCDESC"))
+			set %request.Data("SSUSERGROUPDESC",1)=$g(%session.Data("LOGON.GROUPDESC"))
+		}
+		if (UserName="") & (reqTicket="") {
+			set %response.Redirect = casLoginlURL_"?"_serviceParam_"="_##class(%CSP.Page).EscapeURL(appURL)
+		}elseif (UserName'="")	{
+			Set %request.Data("USERNAME",1) = UserName
+			if redirect'="" Set %response.ServerSideRedirect=redirect //quit 0		
+		}elseif (reqTicket'=""){
+			Set httprequest=##class(%Net.HttpRequest).%New()		
+			Set httprequest.Server=casValidateServer
+			Set httprequest.Port=casValidatePort
+			do httprequest.SetParam(ticketParam,reqTicket)
+			Set appURL = $p(appURL,"&"_ticketParam,1)
+			do httprequest.SetParam(serviceParam,appURL)
+			Set flg=httprequest.Post(casValidateLocation)
+			If $system.Status.IsError(flg) Do $system.OBJ.DisplayError(flg)
+			Set Data=httprequest.HttpResponse.Data
+			Set strData=""
+			While 'Data.AtEnd {
+				Set item = Data.Read(1000)
+				Set strData=strData_item ;Data.Read(1000)
+			}
+			Set UserName = $p($p(strData,"<cas:user>",2),"</cas:user>") ;##class(web.DHCXmlService).GetValueByQName(strData,"cas:authenticationSuccess->cas:user")
+			if (UserName'=""){			
+				Set %request.Data("USERNAME",1) = UserName			
+			}else{
+				Set %session.Data("CASUSERNAME")=""
+				Set failureMsg = $p($p(strData,"<cas:authenticationFailure>",2),"<cas:authenticationFailure>") ; ##class(web.DHCXmlService).GetValueByQName(strData,"cas:authenticationFailure")
+				Set STATUS=failureMsg			
+			}
+		}
+	}
+	Quit UserName
+]]></Implementation>
+</Method>
+
+<Method name="Logon">
+<Description>
+CAS单点登录的方法,在session未中断的情况下,第一次进入选择科室界面,第二次直接进入系统</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	s $zt="CASLogonErr"
+	;判断lisence
+	s lic=1
+	i ((+$g(^TMPSession("Session",+$h,"COUNT"))>2)&&('$d(^TMPSession("Session",+$h,%session.SessionId)))){
+		s lic=0
+	}
+	s mystatus=1,STATUS=""
+	s LICENSE="Dt License to ",welcometitle="欢迎"
+	s readonly="",listflag=1
+	s ValidUser=0
+	s overrideauth=0,logonround=0
+	s tdate=+$h, ttime=+$p($h,",",2) 	
+	d ..InitialiseSession()
+	s config=##Class(websys.Configuration).%OpenId(1,0)
+	i config {
+	 	s %session.Data("LOGON.SITECODE")=config.SiteCode
+	 	s %session.Data("LOGON.LAYOUTMANAGER")=config.LayoutManager
+	 	s (%session.Data("LOGON.TIMEOUT"),%session.AppTimeout)=$s(+config.TimeOut:config.TimeOut*60,1:900) ; convert from mins to secs
+	 	s %session.Data("LOGON.PPMDISPLAY")=config.PerformanceStatisticsDisplay
+	 	s %session.Data("LOGON.PPMCAPTURE")=config.PerformanceStatisticsCapture
+		s %session.Data("LOGON.LANGID")=config.LanguageApp
+	 	s %session.Data("TITLE")=$p($g(^CF("SM",1)),"^",5)
+		s %session.Data("LICSITE")=$p($g(^CF("SM",1)),"^",43)
+	 	s NoOfAttempts=$p($g(^CF("SM",1)),"^",46)
+	 	s overrideauth=config.OverrideAuthentication
+		if config.LanguageApp="" s %session.Data("LOGON.LANGID")=$o(^SS("LAN",0))
+	 	d config.%Close()
+	}
+	Do ..CasValid()	
+	Set LogonAttempts=+$g(%session.Data("LogonAttempts"))
+	Set PreviousUser=$g(%session.Data("PreviousUser")) 
+	If $g(%request.Data("RELOGON",1))'="" s STATUS="SESSION_EXPIRED"
+	
+	Set username = $g(%request.Data("USERNAME",1))	
+	Set department = $g(%request.Data("DEPARTMENT",1))
+	Set group = $g(%request.Data("SSUSERGROUPDESC",1))	
+	Set password="*****" 
+	
+	Set readonly="READONLY"
+	Do ##Class(websys.Message).%DeleteId(%session.SessionId)
+	Set Computer = %session.Data("REMOTE_ADDR") 	;$zu(67,15,$j)
+	Do ##Class(ext.websys.Lock).LockClearComputer(Computer)
+	Set (locIsDisabled,forcePasswordChange,blankDefaultLoc)=0	;TN: added for refresh purposes
+	If $g(username)'="",$g(password)'="" {
+		set %request.Data("caslogin",1)=1
+		set userid=$o(^SSU("SSUSR",0,"SSUSR_Initials",$$ALPHAUP^SSUTIL4(username),""))
+		If userid>0 s ValidUser=1
+		If userid<0 {
+			s STATUS="INACTIVE_LOGON"
+		}
+		;同一个用户 多次登陆(3次)而 密码不对的情况下，  要记录 同时把账户封掉
+		i userid'<0,'ValidUser {
+			;if user has changed since last logon attempt, then counter should be reset
+			i PreviousUser'=username s LogonAttempts=0
+			s LogonAttempts=LogonAttempts+1
+			s STATUS="VALID_USR_PWD",password=""
+			i userid="" s userid=##Class(web.SSUser).GetIdFromCodeOrDescription(username)
+			d ##Class(dtweb.SSInvalidUserLogin).Insert(userid,%session.Data("COMPUTER_NAME"))
+			i NoOfAttempts > 0 {
+				i (LogonAttempts>NoOfAttempts) {
+					i userid {
+						&sql(UPDATE SQLUser.SS_User SET SSUSR_MarkInactiveDate=:tdate,SSUSR_MarkInactiveTime=:ttime, SSUSR_Active='N'  WHERE SSUSR_ROWID=:userid)
+					}
+					s STATUS="INVALID_LOGON1"
+				}
+			}
+			s %session.Data("LogonAttempts")=LogonAttempts
+			s %session.Data("PreviousUser")=username
+		}
+		i ValidUser {
+			s listflag=##Class(dtweb.SSUserOtherLogonLoc).CheckUserOtherLocation(username) ;可以改成判断是不是只有一个科室
+			//GR 30/7/02 log26776 need to allocate correct group settings if the group is changed at login time
+			Set %request.Data("PASSWORD",1)=$g(password)
+			If $g(group)'="" s grpid=##Class(web.SSGroup).GetIdFromCodeOrDescription(group)			
+			Do ##Class(dtweb.SSUser).SetUserSessionData(userid,$g(grpid))
+			Set %session.Data("CASUSERNAME")=UserName		;用效的cas 用户写到session中
+			//overwrite system config for application timeout
+			Do ##Class(dtepr.GroupSettings).SetGroupSessionTimeout($g(%session.Data("LOGON.GROUPID")))
+			&sql(SELECT SSUSR_ChangeLocation,SSUSR_DefaultDept_DR->CTLOC_Desc,SSUSR_Group->SSGRP_Desc
+			     INTO :changeloc,:defaultloc,:defaultssgroup
+			     FROM SQLUser.SS_User
+			     WHERE SSUSR_ROWID=:userid
+			)
+			i SQLCODE s changeloc="",defaultloc="",defaultssgroup=""			
+			;只有一个登录科室直接登录
+			if 'listflag {
+				set department=defaultloc,%request.Data("DEPARTMENT",1)=defaultloc
+			}
+			set locid = ##Class(dtweb.SSUserOtherLogonLoc).CheckLoginLocation(department,"1")
+			;如果传入的登陆科室有误或者为空,则找用户默认的登陆科室
+			if (+locid'>0){			
+				if department'="" S STATUS="INVALID_DEPT" s %request.Data("DEPARTMENT",1)=""
+				if defaultloc="" s blankDefaultLoc=1
+				if defaultloc'="" s department=defaultloc,%request.Data("DEPARTMENT",1)=defaultloc
+				if defaultssgroup'="" s ssgroupdesc=defaultssgroup,%request.Data("SSUSERGROUPDESC",1)=defaultssgroup
+				if changeloc'="Y" s locIsDisabled=1
+			}					
+			if +locid>0 {
+	  			s wardid=$O(^PAWARD(0,"WARD_LocationDR",locid,""))
+	  			if wardid'="" {
+	  				s ctcpt=$p(^SSU("SSUSR",userid),"^",14)
+	  				i $g(ctcpt)'="" {
+		  				s typid=$p(^CTPCP(ctcpt,1),"^",4)
+	  					i $g(typid)'="" s typdes=$p(^CT("CPT",typid),"^",4)
+	  					i ($g(typdes)="NURSE") s %session.Data("LOGON.WARDID")=wardid
+	  				}
+				}
+				s %session.Data("LOGON.CTLOCID")=locid
+				s %session.Data("LOGON.CTLOCDESC")=department
+				s hospid=$p($g(^CTLOC(+locid)),"^",22),%session.Data("LOGON.HOSPID")=hospid
+				s hospdesc=$p($g(^CT("HOSP",+hospid)),"^",2),%session.Data("LOGON.HOSPDESC")=hospdesc
+				s trustid=##Class(web.CTHospital).getTrustId(hospid),%session.Data("LOGON.TRUSTID")=trustid
+				s trustdesc=$p($g(^PAC("TRUST",+trustid)),"^",2),%session.Data("LOGON.TRUSTDESC")=trustdesc
+				//jump to emr screen/floor plan
+				If ##Class(epr.GroupSettings).GetStartPage($g(%session.Data("LOGON.GROUPID")))'="" s %response.ServerSideRedirect="epr.frames.csp"
+				If %response.ServerSideRedirect="" s %response.ServerSideRedirect="websys.frames.csp"
+				If redirect'="" s %response.ServerSideRedirect=redirect
+				// if this is a successful re-logon then do 重新登录 需要刷新界面
+				If $g(%request.Data("RELOGON",1))'="" s %response.ServerSideRedirect="logonrefresh.csp"
+			}
+			// does user need to change password?
+			set forcePasswordChange=##Class(web.SSUser).IsRequiredToChangePassword(userid,$g(%session.Data("LOGON.GROUPID")))
+			if forcePasswordChange s %response.ServerSideRedirect="",STATUS="PWD_EXPIRED"
+			if locid'="",'forcePasswordChange s %session.Data("LOGON.SSUSERLOGINID")=##Class(dtweb.SSUserLogin).Insert(userid)
+			;
+			; Kill Session Data for Logon Attempts
+			s %session.Data("LogonAttempts")=""
+		}
+	 }else{
+		s STATUS="UserName Null"
+	}
+	 ;fetch translations at end to make sure %session("LOGON.LANGID") has been set correctly
+	 d ##Class(websys.Component).GetComponentMessages(.t,"websys.SYSTEM,SSUserLogon")
+	 set %session.Data("XMONTHSSHORT")=$g(t("XMONTHSSHORT"),"Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec")
+	 i STATUS'="" d
+	 . i STATUS'="INVALID_LOGON1" s STATUS=$g(t(STATUS))
+	 . i STATUS="INVALID_LOGON1" s STATUS=$g(t("INVALID_LOGON1"))_LogonAttempts_$g(t("INVALID_LOGON2"))
+	 s welcometitle=$g(t("WELCOME_TITLE"),"欢迎 ")
+	 s medtrakver="DtHealth Version V7.0"
+	 s copyright=$g(t("COPYRIGHT"),"All Material Copyright ")
+	 s copyrighttitle="2001-2009 TrakHealth Pty. Limited. ALL RIGHTS RESERVED."
+	 s traktooltip1=$g(t("TRAK_CAPTION"),"TrakHealth: Keep everything in your hospital on Trak")
+	 s traktooltip2="DtHealth from DHCC"
+	i %response.ServerSideRedirect'="" quit 0
+	q mystatus
+CASLogonErr
+	s ^Temp("Upgrade","CASSessionLogon.Err",$j)=$ze
+	s STATUS = $ze
+	s $ze=""
+	quit 1
+]]></Implementation>
+</Method>
+
+<Method name="LoginAfter">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ContainerName</FormalSpec>
+<Implementation><![CDATA[
+	s %session.Data("ContainerName") = ContainerName
+	q ""
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.SessionCasLogonD</DataLocation>
+<DefaultData>SessionCasLogonDefaultData</DefaultData>
+<IdLocation>^websys.SessionCasLogonD</IdLocation>
+<IndexLocation>^websys.SessionCasLogonI</IndexLocation>
+<StreamLocation>^websys.SessionCasLogonS</StreamLocation>
+<Data name="SessionCasLogonDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>LicenseKey</Value>
+</Value>
+<Value name="3">
+<Value>SiteCode</Value>
+</Value>
+<Value name="4">
+<Value>LicensedTrakCareUsers</Value>
+</Value>
+<Value name="5">
+<Value>ExpiryDate</Value>
+</Value>
+<Value name="6">
+<Value>CASLoginlURL</Value>
+</Value>
+<Value name="7">
+<Value>CASValidateURL</Value>
+</Value>
+<Value name="8">
+<Value>HISLogonURL</Value>
+</Value>
+<Value name="9">
+<Value>ServiceParam</Value>
+</Value>
+<Value name="10">
+<Value>TicketParam</Value>
+</Value>
+<Value name="11">
+<Value>CasFlag</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

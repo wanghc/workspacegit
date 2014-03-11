@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Document">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Persistent,%CSP.Page</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59798,58407.057343</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Property name="docData">
+<Type>%GlobalBinaryStream</Type>
+</Property>
+
+<Property name="docType">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="add">
+<Description>
+adds contents of file into cache database </Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>sFileName:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="ExtToMimeType">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ext:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="OnPreHTTP">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="OnPage">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="SaveAs">
+<FormalSpec>sFileName:%String</FormalSpec>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DocumentD</DataLocation>
+<DefaultData>DocumentDefaultData</DefaultData>
+<IdLocation>^websys.DocumentD</IdLocation>
+<IndexLocation>^websys.DocumentI</IndexLocation>
+<StreamLocation>^websys.DocumentS</StreamLocation>
+<Data name="DocumentDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>docData</Value>
+</Value>
+<Value name="3">
+<Value>docType</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

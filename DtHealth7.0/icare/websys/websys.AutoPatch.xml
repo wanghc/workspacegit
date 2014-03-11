@@ -1,0 +1,1184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.AutoPatch">
+<Description>
+Pending Actions are posted to the websys.PatchPendingActions "queue", because they need to operate on the MEDDATA namespace. 
+Scripts_gen updates, and Data Conversions are two know examples.
+Reason for existence:
+In some cases the MEDDATA namespace is simply not available. 
+In Dual source environements the following is typical:
+1) During Full build/Patching, WEBSOURCE will refer to a MEDDATA which is not live.
+2) the FB/Patch process will perform scripts_gen and conversions against the current MEDDATA.
+3)When WEBSOURCE is later switched into live, it will point to the LIVE MEDDATA namespace.
+4)Prior to the Live syatem become available to users, the outstanding Pending Actions will be executed.
+
+Relation between websys.PatchPendingActions and ss_ConversionStatus (^CONV).
+websys.PatchPendingActions runs in the WEBSOURCE namespace.
+ss_ConversionStatus runs in the MEDDATA namspace.
+1) Actions required to be executed against MEDDATA namespaces are entered into the queue.
+2) before an action is started on a MEDDATA namsppace, issue request 
+s ret = $$start^SSCONV(ActionID)
+if ret = 1 {
+do Action
+d stop^SSCONV(ActionID)     ;flags the action as complted in this namespace.
+} 
+if ret = {
+;Action has already been performed on MEDDAT namespace.
+}</Description>
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>61079,41934.214223</TimeChanged>
+<TimeCreated>61079,41934.195089</TimeCreated>
+
+<Parameter name="BUILD">
+<Default>2</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Method name="AddToFullBuilds">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>MedtrakVsn:%Library.String,VersionStamp:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;Add a websys.PatchFullBuilds record
+ n id,AppliedDate,AppliedTime,CreateDate,CreateTime
+ ;
+ ;Convert yymmdd to Cache format 
+ s CreateDate = $p(VersionStamp,"_",1)
+ s CreateDate = $zDateH(CreateDate,8)
+ ;Convert hhmmss format to Cache Time format
+ s CreateTime = $p(VersionStamp,"_",2)
+ s CreateTime = $zTimeH($e(CreateTime,1,2)_":"_$e(CreateTime,3,4)_":00")
+ ;
+ s AppliedDate = $P($h,",",1)
+ s AppliedTime = $P($h,",",2)
+
+ s id=$i(^websys.PatchFullBuildsD)
+ s ^websys.PatchFullBuildsD(id)=$lb(AppliedDate,AppliedTime,CreateDate,CreateTime,MedtrakVsn)
+ ; Index (by Create date and time)
+ s ^websys.PatchFullBuildsI("CreateDateTime",CreateDate,CreateTime,id)=""
+ ;
+ ;Search for Patches in websys.PatchHistory that come after the Create Date time of this build
+ ;and reset their status back to unapplied
+ s id = $$getnextPatchHist(CreateDate, CreateTime)
+ if id '= "" {
+ do {
+ s Fields = $g(^websys.PatchHistoryD(id))
+ s $List(Fields,9) = "U"
+ s PatchDate = $List(Fields,6)
+ s PatchTime = $List(Fields,7)
+ s ^websys.PatchHistoryD(id) = Fields
+ s id = $$getnextPatchHist(PatchDate, PatchTime)
+ } while( id '= "")
+ }
+ q
+ ;
+getnextPatchHist(date,time)	
+ n dt,tm,row
+ s dt=$o(^websys.PatchHistoryI("PatchDateTime",date-1)) q:dt="" ""
+ s tm=$s(dt=date:time,1:"")
+ s tm=$o(^websys.PatchHistoryI("PatchDateTime",dt,tm))
+ i tm = "" {
+ s dt=$o(^websys.PatchHistoryI("PatchDateTime",date)) q:dt="" ""
+ s tm=$o(^websys.PatchHistoryI("PatchDateTime",dt,tm)) q:tm="" ""
+ }
+ s row=$o(^websys.PatchHistoryI("PatchDateTime",dt,tm,""))
+ q row
+ ;
+
+]]></Implementation>
+</Method>
+
+<Method name="AddToPatchHistory">
+<Description>
+Takes a ^ delimited list of Patch File names. This method adds any filesnames that do not already exist.
+The list of file names must not exceed 32K.
+Invalid file names are returned in an error string</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>FileNames:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;Adds the File into the Patch History if it does not exist already.
+ n id,FileName,max,i,PatchDate,PatchTime,kVsn,LogNo,DevNo,ApplyDate,ApplyTime,Status,Message
+ n fullBuild, MedtrakVsn, errors
+ ;use of Ztrap generates an 9990 error in VB
+ s errors = ""
+ if FileNames = "" ZTRAP "3934"
+ set max = $L(FileNames,"^")
+ s FullBuild = ##Class(websys.AutoPatch).GetLastFullBuild()
+ s MedtrakVsn = $P(FullBuild,",",3)
+ For i=1:1:max {
+ s FileName = $P(FileNames,"^",i)
+
+ s id=$o(^websys.PatchHistoryI("PatchFileName",FileName,""))
+ if id = "" {
+ s ApplyDate = ""
+ s ApplyTime = ""
+ s DevNo = ""
+ s Message = ""
+ s Status = "U"		
+ s Vsn = $p(FileName,"_",1)
+ if $zcvt(Vsn,"U") '= $zcvt(MedtrakVsn,"U") {
+ if ($l(errors)< 1024) {
+ ;Don't allow error string to explode
+ s errors = errors_FileName_"=Invalid Version "_Vsn_"^"_MedtrakVsn
+ }
+ }else {
+ s PatchDate = $p(FileName,"_",2)
+ ;Convert yymmdd to Cache format 
+ s PatchDate = $zDateH("20"_PatchDate,8)	;Will work for the next 98 years !!!
+ ;Convert hhmmss format to Cache Time format
+ s PatchTime = $p(FileName,"_",3)
+ s PatchTime = $zTimeH($e(PatchTime,1,2)_":"_$e(PatchTime,3,4)_":"_$e(PatchTime,5,6))
+ s LogNo = $p(FileName,"_",4)
+ ;
+ s id=$i(^websys.PatchHistoryD)
+ s ^websys.PatchHistoryD(id)=$lb(ApplyDate,ApplyTime,DevNo,LogNo,FileName,PatchDate,PatchTime,Message,Status)
+ ; Index 1 (by patch file name)
+ s ^websys.PatchHistoryI("PatchFileName",FileName,id)=""
+ ; Index 2 (by patch date and time)
+ s ^websys.PatchHistoryI("PatchDateTime",PatchDate,PatchTime,id)=""
+ }
+ }
+ }
+ q errors
+]]></Implementation>
+</Method>
+
+<Method name="BackupSource">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>MEDDataBase:%Library.String,WEBDataBase:%Library.String,CachePathToMBackup:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ n cns,x,dr,logfile,tmeBefore,tmeAfter
+ ;
+ s $zt="BPerr"
+ s logfile=CachePathToMBackup_".log"
+ ;
+ s cns=$zu(5),dr(0)="",dr(1)=""
+ i MEDDataBase'="" s dr(0)=MEDDataBase ;x=$zu(5,MEDnamespace),dr(0)=$zu(168)
+ i WEBDataBase'="" s dr(1)=WEBDataBase ;x=$zu(5,WEBnamespace),dr(1)=$zu(168)
+ S x=$zu(5,"%SYS")
+ ;
+ k ^SYS("BACKUP")     
+ m ^SYS("BACKUP")=^SYS("BACKUPCHUI")
+ ;
+ s $zt="BPerr1"
+ K ^SYS("BACKUPCHUI")
+ ;
+ i dr(0)'="" s ^SYS("BACKUPCHUI","DIRECTORIES",dr(0))=""
+ i dr(1)'="" s ^SYS("BACKUPCHUI","DIRECTORIES",dr(1))=""
+ ;     
+ s tmeBefore=$p($h,",",2)
+ d BACKUP^DBACK("","F","Automatic Backup",CachePathToMBackup,"Y",logfile,"NOISY","Y","Y","")     
+ s tmeAfter=$p($h,",",2)
+ ;
+Restore k ^SYS("BACKUPCHUI")
+ m ^SYS("BACKUPCHUI")=^SYS("BACKUP") k ^SYS("BACKUP")     
+ s x=$zu(5,cns)
+ ;
+ i (tmeAfter-tmeBefore)<4 q "Backup prior to patching failed."	
+ q ""
+ ;
+BPerr q $ze
+ ;
+BPerr1 d Restore
+ q $ze
+]]></Implementation>
+</Method>
+
+<Method name="Execute">
+<Description>
+Execute a expression.
+Used (ONLY) by patch utilities.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>exp:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ s $zt="Executeztrap"
+ ;
+ ; Always set the variable 'ret' as the return string from the execution
+ ; This method will quit with the value of ret.
+ ;
+ k e,ret
+ i exp'="""" x exp
+ s ret=$g(ret)
+ q ret
+Executeztrap
+ ; This interface provides an output mechanism
+ w !,$ze
+ q $ze
+]]></Implementation>
+</Method>
+
+<Method name="GetAutoPatchParams">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.List</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;retreives the last Full Build and returns Create Date,Time and Medtrak Version
+ n id,dt,tm,Fields,CreateDate,CreateTime,MedtrakVsn
+
+ ;Get that last Full Build that was applied ... potentially different from the 
+ ;last full build that was created
+ s id = $O(^websys.AutoPatchD(""),-1)
+ if id = "" q $LB()
+ ;
+ s Fields = $g(^websys.AutoPatchD(id))
+ q Fields
+ ;s CreateDate = $List(Fields,3)
+ ;s CreateTime = $List(Fields,4)
+ ;s MedtrakVsn = $List(Fields,5)
+ ;q CreateDate_","_CreateTime_","_MedtrakVsn
+ ;
+
+]]></Implementation>
+</Method>
+
+<Method name="GetCacheBinPath">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;returns the Cache bin path with respect to the Cache Serve.
+ ;It will always be a local path.
+ q $g(^%SYS("bindir"))
+]]></Implementation>
+</Method>
+
+<Method name="GetDatabaseFolders">
+<Description>
+Returns a list of database folders that Cache has recorded in it's ^%SYS("database") global.
+This does not garentee that these folders are actually in available.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.List</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;returns list of database folders as seen by Cache
+ ;The form of the path depends on the operating system hosting Cache( Windows ,Unix)
+ ;This code is lifted/similar to code found in %CD and %NSP
+ ;
+ n list,i,n,paths,path,plist,cns
+ s cns=$zu(5)
+ s paths=$LB("No Database paths found")
+ i '$zu(90,0) q
+ ;compile a list of distinct namespace ... there are many duplicates 
+ ;in $zu(90,2,0,i)
+ f i=1:1:$zu(90,0) s list($zu(90,2,0,i))=""
+ s n="" 
+ f  {
+ s n=$o(list(n)) q:n=""  
+ ;must switch to namespace first other wise path returned is wrong
+ zn n	
+ s path = $zu(12,n)
+ ;The namespace gets tacked on the end of folder .. remove it 
+ s path = $e(path,1,$l(path) - $l(n)- 1)
+ ;There are still duplicate folder paths ... remove them
+ s plist(path) = ""
+ }
+ ;Build a list of unique folder paths
+ s n = ""
+ s i = 0
+ f  {
+ s n=$o(plist(n)) q:n=""
+ s i = i + 1
+ s $list(paths,i) = n
+ }
+ d $zu(5,cns)
+ q paths
+]]></Implementation>
+</Method>
+
+<Method name="GetDatabaseSize">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>NameSpace:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Integer</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;Returns the size of the CACHE.DAT file 
+ n cns
+ s cns=$zu(5)
+ zn NameSpace
+
+ s Path=$ZU(168)
+ zn cns
+ if Path '="" {
+ s Path=Path_"cache.dat"
+ q $ZU(140,1,Path)
+ } else {
+ q 0
+ }
+]]></Implementation>
+</Method>
+
+<Method name="GetFirstPatch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>PatchDate:%Library.String="",PatchTime:%Library.String="",UnAppliedOnly:%Library.Boolean=-1</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;Returns the Next Patch, Emmediately after, the Input Data and Time
+ ;If UnApplied Only flag is set then only UnApplied and Fail Patches are returned.
+ ;Date and Time are in Cache format.
+ ;
+ n id,Fields,Status,FileName,DevNo,RowID
+ ;get's the first patch after the Last full build
+ s id = $$getfirst(PatchDate,PatchTime)
+ while (id '= "") {
+ s FileName = ""
+ if id '= "" {
+ s Fields = $g(^websys.PatchHistoryD(id))
+ s Status = $List(Fields,9)
+ s FileName = $List(Fields,5)
+ s PatchDate = $List(Fields,6)
+ s PatchTime = $List(Fields,7)
+ s DevNo = $List(Fields,3)
+ s RowID = id
+ if (UnAppliedOnly) {
+ if (Status '= "A") {
+ ;This is the first unapplied Patch ... return it
+ q
+ }
+ }else {
+ q
+ }
+ ;gets the next patch after this one
+ s id = ##Class(websys.AutoPatch).getnext(id)
+ }
+ } 
+ ;PatchDate and Time returned to make it easier to make the next call
+ if FileName = "" q ""
+ q FileName_","_PatchDate_","_PatchTime_","_Status_","_DevNo_","_RowID
+
+getfirst(date,time)	;
+ ;get the first Patch after this date and time
+ n dt,tm
+ s dt=$o(^websys.PatchHistoryI("PatchDateTime",date-1)) q:dt="" ""
+ s tm=$s(dt=date:time,1:"")
+ s tm=$o(^websys.PatchHistoryI("PatchDateTime",dt,tm))
+ i tm = "" {
+ s dt=$o(^websys.PatchHistoryI("PatchDateTime",date)) q:dt="" ""
+ s tm=$o(^websys.PatchHistoryI("PatchDateTime",dt,tm)) q:tm="" ""
+ }
+ s row=$o(^websys.PatchHistoryI("PatchDateTime",dt,tm,""))
+ q row
+
+]]></Implementation>
+</Method>
+
+<Method name="GetLastFullBuild">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;retreives the last Full Build and returns Create Date,Time and Medtrak Version
+ n id,dt,tm,Fields,CreateDate,CreateTime,MedtrakVsn
+
+ ;Get that last Full Build that was applied ... potentially different from the 
+ ;last full build that was created
+ s id = $O(^websys.PatchFullBuildsD(""),-1) q:id="" "No id"
+ ;
+ s Fields = $g(^websys.PatchFullBuildsD(id))
+ s CreateDate = $List(Fields,3)
+ s CreateTime = $List(Fields,4)
+ s MedtrakVsn = $List(Fields,5)
+ q CreateDate_","_CreateTime_","_MedtrakVsn
+ ;
+
+]]></Implementation>
+</Method>
+
+<Method name="GetMedDataNS">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>WebsourceNS:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ ; Return corresponding MEDTRAK 'MEDATA' namespace for a given WEBSOURCE namespace
+ ;
+ new xsub,xval,a,b,ss,i,targetNS,found,cn,cns	
+ ;
+ d ##class(websys.AutoPatch).GetValidNamespaceNames(.a,.b,.os)
+ ;
+ s cns=$zu(5)
+ s found=""
+ s xsub="autopatch"_$H,xval=$R(100)
+ ;
+ zn WebsourceNS
+ S ^CF(xsub)=xval
+ ;
+ ;
+ for i=1:1:$l(os,"^") d  ;
+ .s targetNS=$p(os,"^",i)
+ .i $g(^[targetNS]CF(xsub))=xval s found=targetNS,i=99999
+ ;
+ K ^CF(xsub)
+ zn cns
+ q targetNS
+]]></Implementation>
+</Method>
+
+<Method name="GetMedSourceNS">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>WebsourceNS:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ ; Return corresponding MEDTRAK 'MEDSOURCE' namespace for a given WEBSOURCE namespace
+ ;
+ new xsub,xval,a,ms,i,targetNS,found,cn,cns
+ s cns=$zu(5)
+ zn WebsourceNS
+ s found=""
+ s xsub="autopatch"_$H,xval=$R(100)
+ ;
+ S ^SS(xsub)=xval
+ ;
+ d ##class(websys.AutoPatch).GetValidNamespaceNames(.a,.ms)
+ ;
+ for i=1:1:$l(ms,"^") d  ;
+ .s targetNS=$p(ms,"^",i)
+ .i $g(^[targetNS]SS(xsub))=xval s found=targetNS,i=99999
+ ;
+ K ^SS(xsub)
+ zn cns
+ q targetNS
+]]></Implementation>
+</Method>
+
+<Method name="GetNSMounted">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>MedData:%Library.String,MedSource:%Library.String,WebSource:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ s (dirMD,dirMS,dirWS)=0
+ ;
+ s $zt="MS1"
+ zn MedData
+ w $D(^ROUTINE)
+ s dirMD=1
+ ;
+MS1 s $zt="WS1"
+ zn MedSource
+ w $D(^ROUTINE)
+ s dirMS=1
+ ;
+WS1 s $zt="quit1"	
+ zn WebSource
+ w $D(^ROUTINE)
+ s dirWS=1
+ ;
+quit1 q (dirMD_"^"_dirMS_"^"_dirWS)
+]]></Implementation>
+</Method>
+
+<Method name="GetNextPatch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>rowID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;returns the next Patch RowID after the incoming rowID
+ n id,Fields,Status,FileName,DevNo,RowID
+ ;get's the first patch after the Last full build
+ s id = ##Class(websys.AutoPatch).getnext(rowID)
+ s FileName = ""
+ if id '= "" {
+ s Fields = $g(^websys.PatchHistoryD(id))
+ s Status = $List(Fields,9)
+ s FileName = $List(Fields,5)
+ s PatchDate = $List(Fields,6)
+ s PatchTime = $List(Fields,7)
+ s DevNo = $List(Fields,3)
+ s RowID = id
+ } else {
+ q ""
+ }
+ ;PatchDate and Time returned to make it easier to make the next call
+ q FileName_","_PatchDate_","_PatchTime_","_Status_","_DevNo_","_RowID
+
+]]></Implementation>
+</Method>
+
+<Method name="GetPatch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>FileName:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ n id,Fields,Status,PatchDate,PatchTime,DevNo
+ ;
+ s id = $o(^websys.PatchHistoryI("PatchFileName",FileName,""))
+ if id '= "" {
+ s Fields = $g(^websys.PatchHistoryD(id))
+ s Status = $List(Fields,9)
+ s FileName = $List(Fields,5)
+ s PatchDate = $List(Fields,6)
+ s PatchTime = $List(Fields,7)
+ s DevNo = $List(Fields,3)
+ }
+ ;PatchDate and Time returned to make it easier to make the next call
+ q FileName_","_PatchDate_","_PatchTime_","_Status_","_DevNo
+
+]]></Implementation>
+</Method>
+
+<Method name="GetSysDBpath">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;Returns the current folder for the %SYS namespace
+ n CNS,DBpath
+ S CNS=$ZU(5)
+ ZN "%SYS"
+ s DBpath = $ZU(168)
+ ZN CNS
+ q DBpath
+]]></Implementation>
+</Method>
+
+<Method name="GetValidNamespaceNames">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&WebSourceList:%Library.String,&MedSourceList:%Library.String,&OthersList:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ ; Get a list of valid 'websource' and 'medsource' type namespaces.
+ ;
+ ;
+ NEW i,n,x,d,NS,CNS,list
+ ;
+ s CNS=$zu(5)
+ s (a,b,c)=""
+ ;
+ ;
+ f i=1:1:$zu(90,0) s list($zu(90,2,0,i))=""
+ s n="" 
+ ;zw list
+ f  s n=$o(list(n)) q:n=""  d  ;
+ .i '$ZU(90,10,n) q
+ .;[YABBY]zn n
+ .i $zu(5,n) {}
+ .;s nds="^^"_$zu(12,"",1)
+ .;i nds'="^^" D  ;
+ .D APCheck
+ .;zn CNS
+ .i $zu(5,CNS) {}
+ ;
+ s WebSourceList=a
+ S MedSourceList=b
+ s OthersList=c
+ ;
+ ;
+APCheck ;
+ s $zt="APCheckErr"
+ s nds="^^"_$zu(12,"",1)	
+ i $D(^[n]websys.ComponentD) s a=a_n_"^" q
+ i nds'="^^" i $D(^[nds]SS) s b=b_n_"^" q
+ s c=c_n_"^"
+ Q
+ ;
+APCheckErr ;
+ q
+]]></Implementation>
+</Method>
+
+<Method name="ImportMDD">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>Filename:%Library.String,MEDNamespace:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ S $zt="IMDDErrQuit"
+ s cns=$zu(5)
+ zn MEDNamespace
+ ;
+ S IO=Filename
+ i (IO'?.E1".MDD".E)&(IO'?.E1".mdd".E) S %gifmsg="Invalid file name.  Expected *.MDD file name",flag=0 g exit
+ S IOPAR="(""UR"")"
+ S IOSZ=""
+ ;
+ s glo="^mdd"
+ k ^mtemp1("%GIF")
+ s ^mtemp1("%GIF",glo)=0
+ s external=1
+ s endian=0,version=2
+ ;
+ ; Remove old ^mdd file
+ k ^mdd
+ ;
+ s $ze=""
+ Use 0 Write:'external !!,"Loading globals" Set time=$h Do INT^%DIR
+ Kill ^%utility($j)
+ ;
+ New write,dev,gui,mask,confo,confr,glo,fmt,blkcnt,%UI
+ Set fmt=7
+ If IO?2N Use IO Write *-5 Close IO ;magtape
+ Set write=$s(external=0:1,1:0),dev=IO_":"_IOPAR,gui=0,mask="*",confo=0,confr=0
+ Set glo="",gcnt(0)=0,gcnt(1)=0,gcnt(2)=0
+ For  Set glo=$o(^mtemp1("%GIF",glo)) Quit:glo=""  Do
+ . Set gcnt(^mtemp1("%GIF",glo))=gcnt(^mtemp1("%GIF",glo))+1
+ . Quit:(^mtemp1("%GIF",glo)=1)&($d(@glo))  Set ^%utility($j,$e(glo,2,999))=""
+ ;
+ Set time=$h
+ Set flag=$$main^%Wgr(dev,fmt,mask,confo,confr,gui)
+ ;
+exit ;
+ ; check if succesfully imported
+ i '$d(^mdd) s flag=0,%gifmsg="Warning: ^mdd file removed but not succesfully restored."_$c(13,10)_"Please import manually."
+ ;
+ Set $zt="" Use 0 If $g(IO)'="",IO'=$i Close IO Kill IO
+ Kill ^mtemp1("%GIF")
+ Set $zt="" If $ze'="" Set %gifmsg=%gifmsg_$c(10,13)_$ze
+ ;
+ l -%GIQ Close 63
+ ;
+ zn cns
+ ;
+ Quit:'$g(flag) %gifmsg
+ Quit:$g(flag) ""
+ ;
+IMDDErrQuit ;
+ g exit
+]]></Implementation>
+</Method>
+
+<Method name="ImportMEDRoutines">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>Filename:%Library.String,MEDNamespace:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ New IO,IOPAR,BACKUP,WANTCOM,WANTSYN,OVLAY,external,DSMRS,SETLANG,SETOK,OK,%READ,DAT
+ New MWHENCE,EXTS,DESC,ROU
+ ;
+ s $ZT="IMRErrQuit"
+ ;
+ S IO=Filename
+ s cns=$ZU(5)
+ zn MEDNamespace
+ ;
+ s IOPAR="(""RS"")"
+ S BACKUP=0
+ S WANTCOM=1
+ S WANTSYN=0
+ S OVLAY=1
+ S external=1
+ s $ze=""
+ ;
+ s DSMRS=0,SETLANG=0
+ S SETOK=""
+ s OK=1,%R=0
+ ;
+ i (IO'?.E1".RO".E)&(IO'?.E1".ro".E) S $ze="Invalid file name.  Expected *.RO file name" g ENDFIL
+ ;
+ O IO
+ U IO R HEAD,DAT
+ S MWHENCE=$P(HEAD,"^"),EXTS=$P(HEAD,"^",2),DESC=$P($P(HEAD,"^",3,999),"^~Format=",1)
+ ;
+ F ii=0:0 D RNAM^%RI Q:ROU=""  I '$G(MCODE),ROU'="*" D SAVE^%RI,RDIR^%RI
+ ;
+ C IO
+ ;
+ENDFIL S R=0 U 0 W !!,%R_" routine"_$S(%R=1:"",1:"s")_" processed. "
+ ;
+IMRErrQuit ZN cns
+ q $ze
+]]></Implementation>
+</Method>
+
+<Method name="ImportMergeSS">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>Filename:%Library.String,MEDNamespace:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ new cNS
+ s cNS=$zu(5)
+ i $zu(5,MEDNamespace)
+ ;
+ i $zu(5)=MEDNamespace d  q ret  ;
+ .s ret=$$int^SSGIF(Filename) 
+ .i $zu(5,cNS)
+ ;
+ s ret="Unable to switch into namespace: "_MEDNamespace
+ q ret
+ ;
+]]></Implementation>
+</Method>
+
+<Method name="IsDevNamespace">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>WebsourceNS:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ ; Check if Websource Namespace supplied is likely to be a 'Development' database that should not be patched.
+ ;
+ ; (For internal use and protection only.
+ ;
+ if WebsourceNS["dev"!(WebsourceNS["DEV") Q 1  ; Failed based on name
+ if ('$d(^[WebsourceNS]websys.PatchFullBuildsD))!('$d(^[WebsourceNS]websys.PatchHistoryD)) q 1  ; failed based on PAtching history
+ ;
+ q 0	; 'ok'
+]]></Implementation>
+</Method>
+
+<Method name="IsPatchApplied">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>FileName:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ n id,Fields,ApplyDate,ApplyTime,DevNo
+
+ s id=$o(^websys.PatchHistoryI("PatchFileName",FileName,""))
+ if id '="" {
+ set Fields = $g(^websys.PatchHistoryD(id))
+ Set DevNo = $List(Fields,3)
+ if DevNo '= "" q 1
+ q 0
+ }else {
+ q 0
+ }
+
+]]></Implementation>
+</Method>
+
+<Method name="PendingActionAdd">
+<Description>
+Pending Actions are posted to the websys.PatchPendingActions "queue", because they need to operate
+on the MEDDATA namespace. 
+Reason for existence:
+In some cases the MEDDATA namespace is simply not available. 
+In Dual source environements the following is typical:
+1) During Full build/Patching, WEBSOURCE will refer to a MEDDATA which is not live.
+2) the FB/Patch process will perform scripts_gen and conversions against the current MEDDATA.
+3)When WEBSOURCE is later switched into live, it will point to the LIVE MEDDATA namespace.
+4)Prior to the Live syatem become available to users, the outstanding Pending Actions will be executed.
+
+New Pending Actions are registered in websys.PatchPendingActions. This queue ALWAYS resides 
+in the WEBSOURCE namespace.
+
+When PendingActions are completed, they are Registered in websys.PatchCompletedActions.
+This table ALWAYS resides in the MEDDATA namespace.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>EventType:%Library.String,Parameters:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;See notes in description
+ n id,i,param
+ s id=$i(^websys.PatchPendingActionsD)
+ if id '= "" {
+ s ^websys.PatchPendingActionsD(id)=$lb(EventType,Parameters,+$h,$p($h,",",2))
+ }
+ q id
+]]></Implementation>
+</Method>
+
+<Method name="PendingActionStart">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ActionKey:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;Looks for the Action key in websys.PatchCompletedActions
+ ;Returns 0	if No Actions key was found 
+ ;		A Record will be created with the Key
+ ;Returns 1	if the Record is Exists and has been marked as completed
+ ;
+ ;Returns 2	if The record exists but was not completed
+ n idx,fields,dt,tm
+ s idx = $o(^websys.PatchCompletedActionsI("UniqueActionKeyIndex"," "_ActionKey,0))
+ if idx ="" {
+ ;create the records
+ s id=$i(^websys.PatchCompletedActionsD)	
+ s ^websys.PatchCompletedActionsI("UniqueActionKeyIndex"," "_ActionKey,id) = ""
+ s ^websys.PatchCompletedActionsD(id) = $LB(ActionKey,"","","",+$h,+$p($h,",",2)) 
+ q 0  
+
+ } else {
+ s fields = ^websys.PatchCompletedActionsD(idx)
+ ;Fields order     ActionKey,EndDate,EndTime,Error,StartDate.StartTime
+ if $li(fields,2) = "" {q "2"} else {q "1"}
+ }
+
+
+]]></Implementation>
+</Method>
+
+<Method name="PendingActionStop">
+<Description>
+See notes in PendingActionAdd</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ActionKey:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;Adds an EndDate and Time to an Existing Action Key
+ n idx,fields,dt,tm
+ s idx = $o(^websys.PatchCompletedActionsI("UniqueActionKeyIndex"," "_ActionKey,0))
+ if idx ="" {
+ q ActionKey_" not found"	    
+ } else {
+ s fields = ^websys.PatchCompletedActionsD(idx)
+ ;Fields order     ActionKey,EndDate,EndTime,Error,StartDate.StartTime
+ s $li(fields,2) = +$h
+ s $li(fields,3) = $p($h,",",2)
+ s ^websys.PatchCompletedActionsD(idx) = fields
+ q ""
+ }
+]]></Implementation>
+</Method>
+
+<Method name="PendingActionsExecute">
+<Description>
+Run this method whenever a WEBSOURCE namspace switches to point to a new MEDDATA environment.
+Pending Actions depend on information in the MEDDATA.
+
+Pending Actions only get run once per MEDDATA environment. The websys.PatchCompletedActions table 
+is always mapped to a the MEDDATA namespace, hence it records the Pending Actions that have been
+executed against that MEDDATA namespace.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ n id,Fields,EventType,Params,Component,PendID,sRet,i,obj
+ ;Read last sucessful pending action
+ s PendID = $g(^websys.PatchCompletedActionsD("LastPendingID"))
+ s PendID = $o(^websys.PatchPendingActionsD(PendID))
+ while PendID '="" {
+ s sRet = ##class(websys.AutoPatch).PendingActionStart("WPA"_PendID)
+ if sRet = "1" {
+ ;Pending Action has already been run against this MEDDATA namespace
+ ;skip it
+ } else {
+ ;This pending action has never been run against this MEDDATA namespace
+ ;OR it has been run but it never completed.
+ s Fields = $g(^websys.PatchPendingActionsD(PendID))
+ s EventType = $Li(Fields,1)
+ s Params = $Li(Fields,2)
+ if EventType = "REGEN" {
+ if $p(Params,":",1) = "PublishAll" {
+ d ##class(websys.Component).PublishAll()
+ } elseif $p(Params,":",1) = "MakeDirtyAll" {
+ d ##Class(websys.ComponentXRef).MakeDirtyAll()
+ } elseif $p(Params,":",1) = "PublishComponents" {
+ ;Publish the list of components
+ s Params = $p(Params,":",2)
+ f i=1:1:$l(Params,"^") {
+ s Component = $p(Params,"^",i)
+ s obj=##Class(websys.Component).OpenName(Component)
+ i obj {
+ d obj.JSPublish()
+ d obj.%Close()
+ }
+ }
+ }
+ } elseif EventType = "CONV" {
+ ;We have decided that Conversion routines should not become part of the
+ ;Pending Actions scheme, because they can run for a very long time and
+ ;consume resources. ADJ 28/04/2003
+ } elseif EventType = "EXEC" {
+ ;interpret parameters as a cache command. This has never need tested.
+ xecute Params
+ }
+ d ##class(websys.AutoPatch).PendingActionStop("WPA"_PendID)
+ } 
+ ; Update last sucessful pending action in case we fail
+ s ^websys.PatchCompletedActionsD("LastPendingID") = PendID
+ s PendID = $o(^websys.PatchPendingActionsD(PendID))
+ }
+
+
+]]></Implementation>
+</Method>
+
+<Method name="RestoreSourceInit">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>MEDDataBases:%Library.String,WEBDataBases:%Library.String,CachePathToMBackup:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Integer</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;Passes on all arguments to RestoreSource^tkpatch.
+ ;Notes:
+ ;1)	RestoreSource must be Jobbed off because this is the only way 
+ ;	we know to run a Restore operation(as in DBREST) from CacheFactory.
+ ;2)	Cache script does not allow J ##Class(websys.AutoPatch).RestoreSource.
+ ;	So the working code now resides in tkpatch. Unfortunately.
+ ;3)	Code in RestoreSource^tkPatch update %zTRAK with Outcome info.
+ J RestoreSource^tkpatch(MEDDataBases,WEBDataBases,CachePathToMBackup)
+ ;wait for process to finish. See $ZC = Last child process lanched
+ Hang 5
+ while $ZU(67,5,$ZC) '="" {
+ Hang 5
+ }
+ q $G(^%zTRAK("AutoPatchRestore"))
+]]></Implementation>
+</Method>
+
+<Method name="RestoreTKImport">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>CachePathToTKImport:%Library.String,WEBnamespace:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ new cns,x
+ s cns=""
+ i $zu(5)'=WEBnamespace s cns=$zu(5),x=$zu(5,WEBnamespace)
+ ;
+ ; Silent %RIMF restore
+ ;
+ s $zt="errRTKI"
+ ;
+ s DONE=""
+ s IO=CachePathToTKImport
+ s IOPAR="(""UR"")"
+ s IOT="RMS"
+ d HEAD^%RIMF
+ S X2="S OK=1 U 0 W !,ROU"
+ F NR=1:1 D ONEROU^%RIMF Q:DONE
+ C IO
+ U 0
+ Q ""
+ ;
+errRTKI u 0
+ q $ZE
+]]></Implementation>
+</Method>
+
+<Method name="RunTKImport">
+<Description>
+Execute tkImport in silent non-interactive mode.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>CachePathToPatches:%Library.String,CachePathToViews:%Library.String,OVRPathToScripts:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ ; Call tkImport non-interactively
+ ;
+ s xCD=$i
+ s msg=$$int^tkimport(CachePathToPatches,CachePathToViews,OVRPathToScripts,"N")
+ u xCD
+ q msg
+]]></Implementation>
+</Method>
+
+<Method name="SetAutoPatchParams">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>Params:%Library.List</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;
+ s ^websys.AutoPatchD(1) = Params
+ q
+]]></Implementation>
+</Method>
+
+<Method name="UpdatePatchStatus">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>FileName:%Library.String,DevNo:%Library.String="",Status:%Library.String="",Message:%Library.String="",AppliedDate:%Library.String="",AppliedTime:%Library.String="",LogDescr:%Library.String="",CloseDateTime:%Library.String="",QASentDateTime:%Library.String="",BuildVersion:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Integer</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;Updates the status of a Patch
+ n id,Fields,ApplyDate,ApplyTime,dt,version,patchversion,superpatch
+ s version=##class(websys.Configuration).GetCompiledVersion()
+ s superpatch=(version>6.55)
+ s patchversion=""
+ i superpatch s patchversion=##class(websys.Configuration).GetPatchVersion()
+ s id=$o(^websys.PatchHistoryI("PatchFileName",FileName,""))
+ if id '="" {
+ if AppliedDate ="" {
+ ;This is the normal path
+ s ApplyDate = $p($h,",",1)
+ s ApplyTime = $p($h,",",2)
+ }else {
+ ;This path will only be taked when converting 
+ ;from prior version of AutoPatch.
+ ;Date expected in dd/MMM/yyyy format
+ ;Time is HH:MM:SS
+ s ApplyDate = $ZDH(AppliedDate,8)
+ s ApplyTime = $ZTH(AppliedTime)
+ }
+ s Fields = $g(^websys.PatchHistoryD(id))
+ s $List(Fields,1) = ApplyDate
+ s $List(Fields,2) = ApplyTime
+ i 'superpatch s $List(Fields,3) = DevNo
+ s $List(Fields,8) = Message
+ s $List(Fields,9) = Status
+ i 'superpatch s $List(Fields,13) = LogDescr
+ s $List(Fields,10) = BuildVersion
+ ;Date time field comes in as DD-MM-YYYY hh:mm:ss
+ s dt = ""
+ if CloseDateTime '= "" s dt = $zdth($tr(CloseDateTime,"-","/"),4)
+ i 'superpatch s $List(Fields,11) = $P(dt,",",1)
+ i 'superpatch s $List(Fields,12) = $P(dt,",",2)
+ ;
+ s dt = ""
+ if QASentDateTime '= "" s dt = $zdth($tr(QASentDateTime,"-","/"),4)
+ i 'superpatch s $List(Fields,14) = $P(dt,",",1)
+ i 'superpatch s $List(Fields,15) = $P(dt,",",2)
+ ;
+ i superpatch s $List(Fields,16)=patchversion_"."_$List(Fields,4)
+ ;
+ s ^websys.PatchHistoryD(id)= Fields
+ }
+ q id
+]]></Implementation>
+</Method>
+
+<Method name="getnext">
+<Description>
+[Previously private]</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>row:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ ;Desn't need to concider the unapplied status, because after the first one is applied
+ ;all others must be applied.
+ n (row)
+ s dt="",tm=""
+ i row s dt=$li(^websys.PatchHistoryD(row),6),tm=$li(^websys.PatchHistoryD(row),7)
+ s found="",dt1=dt-1
+ f  s dt1=$o(^websys.PatchHistoryI("PatchDateTime",dt1)) q:dt1=""  q:found  d
+ .s tm1=$s(dt1=dt:tm-1,1:"")     
+ .f  s tm1=$o(^websys.PatchHistoryI("PatchDateTime",dt1,tm1)) q:tm1=""  q:found  d
+ ..s row1=""
+ ..i dt1=dt,tm1=tm s row1=row
+ ..f  s row1=$o(^websys.PatchHistoryI("PatchDateTime",dt1,tm1,row1)) q:row1=""  q:found  d
+ ...s found=row1 
+ q found
+
+]]></Implementation>
+</Method>
+</Class>
+</Export>

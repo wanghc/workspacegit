@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSAuditAction">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>60551,45035.607239</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>39</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Internal>0</Internal>
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Internal>0</Internal>
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Internal>0</Internal>
+<Default>ID</Default>
+</Parameter>
+
+<Property name="ActionDate">
+<Type>%Library.Date</Type>
+</Property>
+
+<Property name="ActionTime">
+<Type>%Library.Time</Type>
+</Property>
+
+<Property name="ActionUser">
+<Type>User.SSUser</Type>
+</Property>
+
+<Property name="ActionHospital">
+<Type>User.CTHospital</Type>
+</Property>
+
+<Property name="ActionEpisode">
+<Type>User.PAAdm</Type>
+</Property>
+
+<Property name="ActionPatient">
+<Type>User.PAPerson</Type>
+</Property>
+
+<Property name="ActionEvent">
+<Type>websys.DSSEvent</Type>
+</Property>
+
+<Property name="ActionItem">
+<Type>websys.DSSActionItem</Type>
+</Property>
+
+<Property name="ActionID">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="DateIndex">
+<Properties>ActionDate</Properties>
+</Index>
+
+<Index name="EventIndex">
+<Properties>ActionEvent</Properties>
+</Index>
+
+<Index name="PatIndex">
+<Properties>ActionPatient</Properties>
+</Index>
+
+<Index name="EpIndex">
+<Properties>ActionEpisode</Properties>
+</Index>
+
+<Index name="UserIndex">
+<Properties>ActionUser</Properties>
+</Index>
+
+<Method name="Add">
+<Description>
+ab 16.10.06 32387</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ActionItem:%String="",ID:%String="",PatientID:%String="",EpisodeID:%String="",User:%String="",Hospital:%String=""</FormalSpec>
+</Method>
+
+<Query name="Find">
+<Description>
+ab 16.10.06 32387</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>DateFrom:%Date,DateTo:%Date,User:%String,Event:%String,RegNo:%String,EpisNo:%String,PatientID:%String,EpisodeID:%String</FormalSpec>
+<SqlQuery><![CDATA[SELECT ID, ActionDate, ActionTime, ActionUser->SSUSR_Name, ActionHospital->HOSP_Desc, ActionEvent->Description, ActionPatient, ActionEpisode, ActionItem->PresentationType
+FROM websys.DSSAuditAction
+WHERE (((ActionDate >= :DateFrom) AND (:DateFrom IS NOT NULL)) OR (:DateFrom IS NULL))
+AND (((ActionDate <= :DateTo) AND (:DateTo IS NOT NULL)) OR (:DateTo IS NULL))
+AND ((:User IS NULL) OR ((:User IS NOT NULL) AND (ActionUser->SSUSR_RowId= :User)))
+AND ((:Event IS NULL) OR ((:Event IS NOT NULL) AND (ActionEvent->Description = :Event)))
+AND ((:RegNo IS NULL) OR ((:RegNo IS NOT NULL) AND (%ALPHAUP ActionPatient->PAPER_PAPMI_DR->PAPMI_No = %ALPHAUP :RegNo)))
+AND ((:EpisNo IS NULL) OR ((:EpisNo IS NOT NULL) AND (%ALPHAUP ActionEpisode->PAADM_ADMNo = %ALPHAUP :EpisNo)))
+AND ((:PatientID IS NULL) OR ((:PatientID IS NOT NULL) AND (ActionPatient->PAPER_RowId = :PatientID)))
+AND ((:EpisodeID IS NULL) OR (ActionEpisode IS NULL) OR ((:EpisodeID IS NOT NULL) AND (ActionEpisode->PAADM_RowId = :EpisodeID)))
+ORDER BY ActionDate DESC, ActionTime DESC]]></SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,ActionDate:%Date,ActionTime:%Time,User:%String,Hospital:%String,Event:%String,PatientID:%String,EpisodeID:%String,PresentationType:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DSSAuditActionD</DataLocation>
+<DefaultData>DSSAuditActionDefaultData</DefaultData>
+<IdLocation>^websys.DSSAuditActionD</IdLocation>
+<IndexLocation>^websys.DSSAuditActionI</IndexLocation>
+<StreamLocation>^websys.DSSAuditActionS</StreamLocation>
+<Data name="DSSAuditActionDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ActionDate</Value>
+</Value>
+<Value name="3">
+<Value>ActionID</Value>
+</Value>
+<Value name="4">
+<Value>ActionItem</Value>
+</Value>
+<Value name="5">
+<Value>ActionTime</Value>
+</Value>
+<Value name="6">
+<Value>ActionUser</Value>
+</Value>
+<Value name="7">
+<Value>Episode</Value>
+</Value>
+<Value name="8">
+<Value>Event</Value>
+</Value>
+<Value name="9">
+<Value>Hospital</Value>
+</Value>
+<Value name="10">
+<Value>Patient</Value>
+</Value>
+<Value name="11">
+<Value>ActionHospital</Value>
+</Value>
+<Value name="12">
+<Value>ActionEpisode</Value>
+</Value>
+<Value name="13">
+<Value>ActionEvent</Value>
+</Value>
+<Value name="14">
+<Value>ActionPatient</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

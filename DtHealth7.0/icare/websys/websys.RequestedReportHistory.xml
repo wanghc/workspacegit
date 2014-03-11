@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.RequestedReportHistory">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59438,57542.531</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>288</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Index name="DischargeSummaryIDIndex">
+<Description>
+An index to relate all reports for specific Discharge IDs</Description>
+<Properties>DischargeSummaryID</Properties>
+</Index>
+
+<Index name="AppointmentDRIndex">
+<Description>
+An index to relate reports to specific appointments</Description>
+<Properties>AppointmentDR</Properties>
+</Index>
+
+<Index name="BillDRIndex">
+<Description>
+An index to relate all reports for specific bills</Description>
+<Properties>BillDR</Properties>
+</Index>
+
+<Index name="CreationIndex">
+<Description>
+An index relating creation date and time to the reports</Description>
+<Properties>CreationDate,CreationTime</Properties>
+</Index>
+
+<Index name="CreationUserDRIndex">
+<Description>
+Index of creation user to report</Description>
+<Properties>CreationUserDR,CreationDate,CreationTime</Properties>
+</Index>
+
+<Index name="EpisodeDRIndex">
+<Description>
+Index of episode to report</Description>
+<Properties>EpisodeDR</Properties>
+</Index>
+
+<Index name="FollowedUpReportsIndex">
+<Properties>FollowedUpReport</Properties>
+</Index>
+
+<Index name="FollowupRequiredDateIndex">
+<Properties>DateForFollowup</Properties>
+</Index>
+
+<Index name="LastReprintedIndex">
+<Properties>LastDateReprinted,LastTimeReprinted</Properties>
+</Index>
+
+<Index name="LastUserIndex">
+<Properties>LastUpdateUserDR,LastUpdateDate,LastUpdateTime</Properties>
+</Index>
+
+<Index name="PatientDRIndex">
+<Properties>PatientDR</Properties>
+</Index>
+
+<Index name="ReportDRIndex">
+<Properties>ReportDR</Properties>
+</Index>
+
+<Index name="ReprintLocIndex">
+<Properties>LastReprintLogonLoc,LastDateReprinted,LastTimeReprinted</Properties>
+</Index>
+
+<Index name="ReprintUserIndex">
+<Properties>LastReprintUserDR,LastDateReprinted,LastTimeReprinted</Properties>
+</Index>
+
+<Index name="ResponceDateIndex">
+<Properties>ResponseDate</Properties>
+</Index>
+
+<Index name="UpdateIndex">
+<Properties>LastUpdateDate,LastUpdateTime</Properties>
+</Index>
+
+<Index name="UpdateLocIndex">
+<Properties>LastUpdateLogonLoc,LastUpdateDate,LastUpdateTime</Properties>
+</Index>
+
+<Index name="WaitingListDRIndex">
+<Properties>WaitingListDR</Properties>
+</Index>
+
+<Property name="AppointmentDR">
+<Description>
+Appointment DR</Description>
+<Type>User.RBAppointment</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="BillDR">
+<Description>
+Bill DR</Description>
+<Type>User.ARPatientBill</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="Comment">
+<Description>
+General Comment</Description>
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CreationDate">
+<Description>
+Creation Date</Description>
+<Type>%Library.Date</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="CreationLogonLocation">
+<Description>
+Creation Logon Location</Description>
+<Type>User.CTLoc</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="CreationTime">
+<Description>
+Creation Time</Description>
+<Type>%Library.Time</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="CreationUserDR">
+<Description>
+Creation User DR</Description>
+<Type>User.SSUser</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="DateForFollowup">
+<Description>
+Date For Followup</Description>
+<Type>%Library.Date</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="DischargeSummaryID">
+<Description>
+Discharge Summary DR</Description>
+<Type>%String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DocumentDR">
+<Description>
+Document</Description>
+<Type>websys.Document</Type>
+</Property>
+
+<Property name="EpisodeDR">
+<Description>
+Episode DR</Description>
+<Type>User.PAAdm</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="FollowedUpReport">
+<Description>
+Followed Up Report DR</Description>
+<Type>websys.RequestedReportHistory</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="LastDateReprinted">
+<Description>
+Last Date Reprinted</Description>
+<Type>%Library.Date</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="LastReprintLogonLoc">
+<Description>
+Last Reprint Logon Location</Description>
+<Type>User.CTLoc</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="LastReprintUserDR">
+<Description>
+Last Reprint User DR</Description>
+<Type>User.SSUser</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="LastTimeReprinted">
+<Description>
+Last Time Reprinted</Description>
+<Type>%Library.Time</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="LastUpdateDate">
+<Description>
+Last Update Date</Description>
+<Type>%Library.Date</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="LastUpdateLogonLoc">
+<Description>
+Last Update Logon Location</Description>
+<Type>User.CTLoc</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="LastUpdateTime">
+<Description>
+Last Update Time</Description>
+<Type>%Library.Time</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="LastUpdateUserDR">
+<Description>
+Last Update User DR</Description>
+<Type>User.SSUser</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="NoTimesPrinted">
+<Description>
+Number of Times Reprinted</Description>
+<Type>%Library.Integer</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="PatientDR">
+<Description>
+Patient DR</Description>
+<Type>User.PAPerson</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="ReportDR">
+<Type>websys.Report</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="ResponseDate">
+<Description>
+Response Date</Description>
+<Type>%Library.Date</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="Status">
+<Description>
+Report Status</Description>
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Parameter name="DISPLAYLIST" value=",Printed,Cancelled,Pending"/>
+<Parameter name="MAXLEN" value="2"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",P,C,S"/>
+</Property>
+
+<Property name="WaitingListDR">
+<Description>
+Waiting List DR</Description>
+<Type>User.PAWaitingList</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Method name="GetIDsFromClass">
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[ClassName:%String="",id:%String,&PatientID:%String,&EpisodeID:%String,&AppointmentID:%String,&WaitingListID:%String,&BillID:%String,&DischargeID:%String]]></FormalSpec>
+</Method>
+
+<Method name="InsertRequestedReportHistory">
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ReportID:%String,ClassName:%String,ClassNameID:%String,userID:%String="",LogOnLocID:%String="",FollowedupID:%String=""</FormalSpec>
+</Method>
+
+<Method name="Reprint">
+<Description>
+This function will reprint all copies of the report contained in the Requested Report History.
+Log 53052 - AI - 03-08-2005 : Number of copies (nocopies) now passed in as a parameter.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ReqReportHistoryID:%String="",Printer:%String="",Recipient:%String="",compref:%String="",nocopies:%Integer=1</FormalSpec>
+</Method>
+
+<Method name="Regenerate">
+<Description>
+This function will regenerate the report contained in the 
+Requested Report History</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ReqReportHistoryID:%String="",PrinterDesc:%String="",Recipient:%String="",compref:%String=""</FormalSpec>
+</Method>
+
+<Method name="UpdateRequestedReportHistory">
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%String="",userID:%String="",LogOnLocID:%String="",status:%String="",Printed:%String="",Reprint:%String=""</FormalSpec>
+</Method>
+
+<Method name="RetrievePDF">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String="",path:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="RetrievePDF2">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String="",path:%String</FormalSpec>
+<ReturnType>%Stream</ReturnType>
+</Method>
+
+<Method name="FindHistoryClose">
+<Description>
+Log 54764 - AI - 16-08-2005 : Modify from one single SQL statement to 6 different ones, to use the appropriate indexing.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>FindHistoryExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="FindHistoryExecute">
+<Description>
+Log 54764 - AI - 16-08-2005 : Modify from one single SQL statement to 6 different ones, to use the appropriate indexing.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,PatientID:%String="",EpisodeID:%String="",AppointmentID:%String="",WaitingListID:%String="",BillID:%String="",DischID:%String=""]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="FindHistoryFetch">
+<Description>
+Log 54764 - AI - 16-08-2005 : Modify from one single SQL statement to 6 different ones, to use the appropriate indexing.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&qHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>FindHistoryExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Query name="FindHistory">
+<Description>
+Log 47088 - AI - 21-12-2004 : Separate ReprintLink and LinkImage into two separate columns.</Description>
+<Type>%Query</Type>
+<FormalSpec>PatientID:%String="",EpisodeID:%String="",AppointmentID:%String="",WaitingListID:%String="",BillID:%String="",DischID:%String=""</FormalSpec>
+<Parameter name="ROWSPEC" value="ID:%String,ReportID:%String,ReportName:%String,PatientID:%String,EpisodeID:%String,AppointmentID:%String,WaitingListID:%String,BillID:%String,FollowedUpID:%String,ResponceDate:%Date,Reprints:%String,lastupdateuser:%String,lastupdatelocation:%String,lastupdatedate:%Date,lastupdatetime:%Time,createuser:%String,createlocation:%String,createdate:%Date,createtime:%Time,followupdate:%Date,Comment:%String,lastreprintuser:%String,lastreprintlocation:%String,lastreprintdate:%Date,lastreprinttime:%Time,Status:%String,ReprintLink:%String,LinkImage:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.RequestedReportHistoryD</DataLocation>
+<DefaultData>RequestedReportHistoryDefaultData</DefaultData>
+<IdLocation>^websys.RequestedReportHistoryD</IdLocation>
+<IndexLocation>^websys.RequestedReportHistoryI</IndexLocation>
+<StreamLocation>^websys.RequestedReportHistoryS</StreamLocation>
+<Data name="RequestedReportHistoryDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>AppointmentDR</Value>
+</Value>
+<Value name="3">
+<Value>BillDR</Value>
+</Value>
+<Value name="4">
+<Value>Comment</Value>
+</Value>
+<Value name="5">
+<Value>CreationDate</Value>
+</Value>
+<Value name="6">
+<Value>CreationLogonLocation</Value>
+</Value>
+<Value name="7">
+<Value>CreationTime</Value>
+</Value>
+<Value name="8">
+<Value>CreationUserDR</Value>
+</Value>
+<Value name="9">
+<Value>DateForFollowup</Value>
+</Value>
+<Value name="10">
+<Value>DischargeSummaryID</Value>
+</Value>
+<Value name="11">
+<Value>EpisodeDR</Value>
+</Value>
+<Value name="12">
+<Value>FollowedUpReport</Value>
+</Value>
+<Value name="13">
+<Value>LastDateReprinted</Value>
+</Value>
+<Value name="14">
+<Value>LastReprintLogonLoc</Value>
+</Value>
+<Value name="15">
+<Value>LastReprintUserDR</Value>
+</Value>
+<Value name="16">
+<Value>LastTimeReprinted</Value>
+</Value>
+<Value name="17">
+<Value>LastUpdateDate</Value>
+</Value>
+<Value name="18">
+<Value>LastUpdateLogonLoc</Value>
+</Value>
+<Value name="19">
+<Value>LastUpdateTime</Value>
+</Value>
+<Value name="20">
+<Value>LastUpdateUserDR</Value>
+</Value>
+<Value name="21">
+<Value>NoTimesPrinted</Value>
+</Value>
+<Value name="22">
+<Value>PatientDR</Value>
+</Value>
+<Value name="23">
+<Value>ReportDR</Value>
+</Value>
+<Value name="24">
+<Value>ResponseDate</Value>
+</Value>
+<Value name="25">
+<Value>Status</Value>
+</Value>
+<Value name="26">
+<Value>WaitingListDR</Value>
+</Value>
+<Value name="27">
+<Value>DocumentDr</Value>
+</Value>
+<Value name="28">
+<Value>DocumentDR</Value>
+</Value>
+<Value name="29">
+<Value>JobNumber</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

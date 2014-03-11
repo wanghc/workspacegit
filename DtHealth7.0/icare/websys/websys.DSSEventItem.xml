@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSEventItem">
+<ClassType>persistent</ClassType>
+<CompileAfter>websys.DSSEvent</CompileAfter>
+<IncludeCode>TRAK</IncludeCode>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59009,42040</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>848</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>24</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="xmltypeDescription">
+<Default>CDATA</Default>
+</Parameter>
+
+<Property name="BooleanOperator">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression><![CDATA["&&"]]></InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",AND,OR,NOT"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",&amp;&amp;,||,&amp;&amp;&apos;"/>
+</Property>
+
+<Property name="ClassProperty">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MedTrakFunction">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="8192"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ComponentItem">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ConditionValue">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ConditionalOperator">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// 59802
+
+]]></Content>
+</UDLText>
+
+<Property name="GroupingOperator">
+<Type>%Library.String</Type>
+<Parameter name="DISPLAYLIST" value=",Count Equals,Count Less Than,Count Greater Than,Count Not Equal"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",=,&lt;,&gt;,&apos;="/>
+</Property>
+
+<Property name="GroupingCount">
+<Type>%Library.Integer</Type>
+</Property>
+
+<Property name="Description">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EventItemID">
+<Description>
+Store other event item id which depends on the current condition
+</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EventItemType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ItemFriendlyName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LeftParen">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MeasurementUnit">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ParRef">
+<Type>websys.DSSEvent</Type>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>Items</Inverse>
+<Relationship>1</Relationship>
+<Transient>0</Transient>
+</Property>
+
+<Property name="RightParen">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Rule">
+<Type>websys.DSSRule</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="dspEventItem">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="RuleIndex">
+<Properties>Rule</Properties>
+</Index>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FirstEventItem">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&ParRef:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="%OnAfterSave">
+<Description>
+51918 YC - Method not used, dobuild here will build the DSS condition backwards (second condition first)
+Replaced by websysAfterSave</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetClassFromCompID">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compid:%Library.String,eid:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetFriendlyName">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgCompid:%Library.String,ArgItem:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpBrokerStandardType">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",type:%Library.String="",val:%Library.String="",ArgRuleCodeDesc:%Library.String="",ArgClassName:%Library.String="",ArgClassProperty:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpComponentItemClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpComponentItemFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpComponentItemExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,Component:%Library.String,ComponentItem:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpComponentItemFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpComponentItemExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpFieldValueClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpFieldValueFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpFieldValueExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,ArgClassName:%Library.String,ArgRuleCodeDesc:%Library.String,ArgClassProperty:%Library.String,ArgSearch:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpFieldValueFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpFieldValueExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysDel">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="EventItemFromParRef">
+<Description>
+Get all Event Item IDs from existing Event (Parent Reference)</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>ParRef,ArgID:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[SELECT ID,ItemFriendlyName,ConditionalOperator,ConditionValue,MeasurementUnit
+FROM DSSEventItem
+WHERE ((ParRef = :ParRef) AND (ID <> :ArgID))]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="HIDDEN,ItemFriendlyName,ConditionalOperator,ConditionValue,MeasurementUnit:%Library.String"/>
+</Query>
+
+<Query name="FindViewsByEvent">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>event:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[SELECT DISTINCT (websys.DSSViewItem.ParRef->ID),websys.DSSViewItem.ParRef->Description
+FROM websys.DSSEventItem,websys.DSSViewItem
+WHERE (SQLExpression=ClassProperty) 
+AND (websys.DSSEventItem.ParRef=:event)
+AND (websys.DSSEventItem.ParRef->Class = websys.DSSViewItem.ParRef->StartingClassName)]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String"/>
+</Query>
+
+<Query name="LookUpComponentItem">
+<Type>%Library.Query</Type>
+<FormalSpec>Component:%Library.String,ComponentItem:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Caption,ItemName:%Library.String"/>
+</Query>
+
+<Query name="LookUpFieldValue">
+<Description>
+Given class name, rule code/description and class property
+Return a like of field values</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>ArgClassName:%Library.String,ArgRuleCodeDesc:%Library.String,ArgClassProperty:%Library.String,ArgSearch:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="FieldValue:%Library.String"/>
+</Query>
+
+<Query name="LookUpStandardType">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>type,val:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT Description, Code, StoredValue
+FROM websys.StandardTypeItem
+WHERE ParRef=:type 
+AND Description %STARTSWITH :val</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Description,Code,HIDDEN:%Library.String"/>
+</Query>
+
+<Query name="RulesByEvent">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>event:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[SELECT Rule->ID,Rule->Description
+FROM DSSEventItem
+WHERE (ParRef = :event)
+AND (Rule <> null)]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID:%String,Description:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Items")</DataLocation>
+<DefaultData>DSSEventItemDefaultData</DefaultData>
+<IdLocation>{%%PARENT}("Items")</IdLocation>
+<IndexLocation>^websys.DSSEventItemI</IndexLocation>
+<StreamLocation>^websys.DSSEventItemS</StreamLocation>
+<Data name="DSSEventItemClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DSSEventItemDefaultData">
+<Value name="1">
+<Value>BooleanOperator</Value>
+</Value>
+<Value name="2">
+<Value>ConditionValue</Value>
+</Value>
+<Value name="3">
+<Value>ConditionalOperator</Value>
+</Value>
+<Value name="4">
+<Value>LeftParen</Value>
+</Value>
+<Value name="5">
+<Value>RightParen</Value>
+</Value>
+<Value name="6">
+<Value>Rule</Value>
+</Value>
+<Value name="7">
+<Value>OrderNumber</Value>
+</Value>
+<Value name="8">
+<Value>ComponentItem</Value>
+</Value>
+<Value name="9">
+<Value>TblFieldName</Value>
+</Value>
+<Value name="10">
+<Value>ClassProperty</Value>
+</Value>
+<Value name="11">
+<Value>Description</Value>
+</Value>
+<Value name="12">
+<Value>EventItemType</Value>
+</Value>
+<Value name="13">
+<Value>ItemFriendlyName</Value>
+</Value>
+<Value name="14">
+<Value>MeasurementUnit</Value>
+</Value>
+<Value name="15">
+<Value>EventItemID</Value>
+</Value>
+<Value name="16">
+<Value>dspEventItem</Value>
+</Value>
+<Value name="17">
+<Value>MedTrakFunction</Value>
+</Value>
+<Value name="18">
+<Value>GroupingCount</Value>
+</Value>
+<Value name="19">
+<Value>GroupingOperator</Value>
+</Value>
+</Data>
+<Property name="BooleanOperator">
+</Property>
+<Property name="ClassProperty">
+</Property>
+<Property name="ComponentItem">
+</Property>
+<Property name="ConditionValue">
+</Property>
+<Property name="ConditionalOperator">
+</Property>
+<Property name="Description">
+</Property>
+<Property name="EventItemID">
+</Property>
+<Property name="EventItemType">
+</Property>
+<Property name="ItemFriendlyName">
+</Property>
+<Property name="LeftParen">
+</Property>
+<Property name="MeasurementUnit">
+</Property>
+<Property name="ParRef">
+</Property>
+<Property name="RightParen">
+</Property>
+<Property name="Rule">
+</Property>
+<Property name="dspEventItem">
+</Property>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.error">
+<ClassType/>
+<IncludeCode>%occErrors</IncludeCode>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%CSP.Page,%CSP.Error</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59798,58407.669882</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Method name="OnPage">
+<Description>
+Output the error page as HTML. This makes use of the ##class(%CSP.Utils).DisplayAllObjects()
+call to display as much information as possible about the state of the %request, %response, %server
+objects when the error occurred.</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="HyperEventError">
+<Description><![CDATA[
+If an error occurs while processing a HyperEvent then this method is called.
+This method will write out javascript code that will be executed on the browser.
+Note that the variable 'CSPPage' refers to the 'self' of the page on which the
+Hyperevent was called  as this may be different to the current 'self'.<p>
+You could use this javascript to redirect the browser to another page:
+<EXAMPLE>
+Write "CSPPage.window.location='/csp/samples/menu.csp';",!
+</EXAMPLE>
+Or you could popup an alert box with the error message in it:
+<EXAMPLE>
+Write "alert('An error occurred');",!
+</EXAMPLE>]]></Description>
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="OnPreHTTP">
+<Description><![CDATA[
+Event handler for <B>PreHTTP</B> event: this is invoked before
+the HTTP headers for a CSP page have been sent.  All changes to the
+<class>%CSP.Response</class> class, such as adding cookies, HTTP headers,
+setting the content type etc. must be made from within the OnPreHTTP() method.
+Also changes to the state of the CSP application such as changing
+%session.EndSession or %session.AppTimeout must be made within the OnPreHTTP() method.
+It is prefered that changes to %session.Preserve are also made in the OnPreHTTP() method
+as this is more efficient, although it is supported in any section of the page.
+Return <B>0</B> to prevent <method>OnPage</method> from being called.]]></Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Boolean</ReturnType>
+<ServerOnly>1</ServerOnly>
+</Method>
+</Class>
+</Export>

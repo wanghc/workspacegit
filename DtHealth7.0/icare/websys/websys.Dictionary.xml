@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Dictionary">
+<ClassType>persistent</ClassType>
+<CompileAfter>websys.ComponentXRef</CompileAfter>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62959,33001.750152</TimeChanged>
+<TimeCreated>58859,69244</TimeCreated>
+
+<Property name="Phrase">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="200"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="UniquePhraseIndex">
+<Description>
+Uniqueness index for property Phrase</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Phrase</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="AddItem">
+<Description>
+Add a phrase to the dictionary if it is not already there.
+2011.06.30 zhouzq 增加短语
+w ##class(websys.Dictionary).AddItem("testzhou")</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>caption:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n id,objdic
+	&SQL(Select ID into :id From websys.Dictionary Where Phrase=:caption)
+	if SQLCODE {
+		s objdic=##class(websys.Dictionary).%New()
+		s objdic.Phrase=caption
+		d objdic.%Save()
+		s id=objdic.%Id()
+		d objdic.%Close()
+		s objdic=""
+	}
+	Q id
+]]></Implementation>
+</Method>
+
+<Method name="Build">
+<Description>
+ 2011.06.30 zhzhq 
+ rebuild all translationtable for language,对所有组件个性化设置重建标题翻译</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>langid:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if langid="" {
+		f  {
+			s langid=$O(^SS("LAN",langid))
+			if langid="" Quit
+			d ..BuildComponents(langid)
+			d ..BuildMenus(langid)
+		}
+	}else{
+		d ..BuildComponents(langid)
+		d ..BuildMenus(langid)
+	}
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="BuildComponent">
+<Description>
+2011.06.30 zhzhq
+根据组件元素及Message的Caption从短语表中取对应的翻译短语,更新到组件的个性化布局元素标题定义
+d ##class(websys.Dictionary).BuildComponent(52284,20)</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>cmpid:%Library.String,langid:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n i,count,itemname,caption,phraseid,Phrase,objcmp,objitem	
+	;删除后websys.ComponentItem.CaptionGet才能通过元素Caption重新取到翻译表里内容 2011.11.28 find in XHYY
+	k t  
+	s objcmp=##class(websys.Component).%OpenId(cmpid)
+	s count=objcmp.Items.Count()
+	for i=1:1:count {
+		s objitem=objcmp.Items.GetAt(i)
+		if 'objitem.Hidden {
+			s itemname=objitem.Name
+			continue:itemname=""
+			s caption=objitem.Caption
+			s phraseid=..AddItem(caption)
+			&SQL(Select Phrase into :Phrase From websys.DictionaryTranslated Where Item=:phraseid and LanguageDR=:langid )
+			i SQLCODE s Phrase=caption
+			d ..BuildItem("COMP",langid,cmpid,itemname,Phrase)
+		}
+	}
+	
+	s count=objcmp.TableItems.Count()
+	for i=1:1:count {
+		s objitem=objcmp.TableItems.GetAt(i)
+		if 'objitem.Hidden {
+			s itemname=objitem.Name
+			continue:itemname=""
+			s caption=objitem.Caption
+			s phraseid=..AddItem(caption)
+			&SQL(Select Phrase into :Phrase From websys.DictionaryTranslated Where Item=:phraseid and LanguageDR=:langid )
+			i SQLCODE s Phrase=caption
+			d ..BuildItem("COMP",langid,cmpid,itemname,Phrase)
+		}
+	}
+	
+	s count=objcmp.Messages.Count()
+	for i=1:1:count {
+		s objitem=objcmp.Messages.GetAt(i)
+		s itemname=objitem.Code
+		continue:itemname=""
+		s caption=objitem.Description
+		s phraseid=..AddItem(caption)
+		&SQL(Select Phrase into :Phrase From websys.DictionaryTranslated Where Item=:phraseid and LanguageDR=:langid )
+		i SQLCODE s Phrase=caption
+		d ..BuildItem("COMP",langid,cmpid,itemname,Phrase)
+	}
+	d objcmp.%Close()
+	s objcmp=""
+	d ##class(websys.ComponentXRef).MakeDirtyComponent(cmpid)	
+	
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="BuildComponents">
+<Description>
+d ##class(websys.Dictionary).BuildComponents(20)</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>langid:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n cmpid
+	s cmpid="" f  {
+		s cmpid=$O(^websys.ComponentD(cmpid))
+		if cmpid="" Quit
+		d ..BuildComponent(cmpid,langid)
+	}
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="BuildItem">
+<Description>
+2011.06.30 zhzhq
+d ##class(websys.Dictionary).BuildItem("COMP",20,2,"Update","11")</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>type:%Library.String,langid:%Library.String,objectid:%Library.String,name:%Library.String,caption:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	d ##class(websys.Translation).AddItem(type,langid,objectid,name,caption,0)
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+//根据Menu的Caption从短语表中取对应的翻译短语,更新到菜单的个性化定义global中 zhouzq 2012.12.27
+
+]]></Content>
+</UDLText>
+
+<UDLText name="T">
+<Content><![CDATA[
+//d ##class(websys.Dictionary).BuildMenu(7,1)
+
+]]></Content>
+</UDLText>
+
+<Method name="BuildMenu">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>mnuid:%Library.String,langid:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n SubMenuOfid,itemname,caption,phraseid,Phrase,objmenu	
+	;删除后websys.ComponentItem.CaptionGet才能通过元素Caption重新取到翻译表里内容 2011.11.28 find in XHYY
+	k t
+	s objmenu=##class(websys.Menu).%OpenId(mnuid)
+	if $IsObject(objmenu) {
+		s caption=objmenu.Caption
+		s itemname=objmenu.Name
+		
+		if caption="" Quit $$$OK
+		;w itemname,!
+		s phraseid=..AddItem(caption)
+		&SQL(Select Phrase into :Phrase From websys.DictionaryTranslated Where Item=:phraseid and LanguageDR=:langid )
+		i SQLCODE s Phrase=caption
+		d ..BuildItem("MENU",langid,mnuid,itemname,Phrase)
+		s SubMenuOfid=objmenu.SubMenuOfGetObjectId()
+		//同时建立与上级菜单的关联翻译,在加载菜单时是通过头菜单加载下级菜单的翻译,参见websys.Menu.%OnBeforeSave
+		if SubMenuOfid'="" {
+			d ..BuildItem("MENU",langid,SubMenuOfid,itemname,Phrase)
+		}
+		d objmenu.%Close()
+		s objmenu=""
+
+	}
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="BuildMenus">
+<Description>
+重新生成所有菜单的翻译
+d ##class(websys.Dictionary).BuildMenus(1)</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>langid:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n menuid
+	s menuid="" f  {
+		s menuid=$O(^websys.MenuD(menuid))
+		if menuid="" Quit
+		
+		d ..BuildMenu(menuid,langid)
+	}
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Kill">
+<Description>
+Delete dictionary and translations</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ResetComponent">
+<Description>
+2011.06.30 zhzhq
+先删除组件的个性化布局元素标题定义，从短语表中取组件未隐藏对应的翻译短语重新建立
+d ##class(websys.Dictionary).ResetComponent(2,20)</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>cmpid:%Library.String,langid:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	k ^websys.TranslationD("COMP",langid,cmpid)
+	d ..BuildComponent(cmpid,langid)
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="XXXBuild">
+<Description>
+Build the dictionary with a list of tranlatable items
+E.g. Captions</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Parameter name="EXTENTSIZE">
+<Default>6893</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DictionaryD</DataLocation>
+<DefaultData>DictionaryDefaultData</DefaultData>
+<IdLocation>^websys.DictionaryD</IdLocation>
+<IndexLocation>^websys.DictionaryI</IndexLocation>
+<StreamLocation>^websys.DictionaryS</StreamLocation>
+<Data name="DictionaryClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DictionaryDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Phrase</Value>
+</Value>
+</Data>
+<Property name="Phrase">
+</Property>
+</Storage>
+</Class>
+</Export>

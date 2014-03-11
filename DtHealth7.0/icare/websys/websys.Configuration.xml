@@ -1,0 +1,1603 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Configuration">
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>63245,60649.738105</TimeChanged>
+<TimeCreated>61079,43958.068615</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>390</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Default>DateTodayCharacter</Default>
+</Parameter>
+
+<Property name="CrystalPreviewMode">
+<Description>
+Crystal Preview Mode for V10</Description>
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Parameter name="EXTENTSIZE">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="MAJORVERSION">
+<Description><![CDATA[
+Used by Patching to determine the Version <<MAJORVERSION>>.<<SUBVERSION>> e.g. 6.9
+Used by TPS and other VB apps to determine whether to run newer code or not <<MAJORVERSION>>.<<MINORVERSION>> e.g. 6.57]]></Description>
+<Final>0</Final>
+<Default>6</Default>
+</Parameter>
+
+<Parameter name="SUBVERSION">
+<Description><![CDATA[
+Used by Patching to determine the Version <<MAJORVERSION>>.<<SUBVERSION>> e.g. 6.9
+Must be incremented for w650 when a new release is cut]]></Description>
+<Default>8</Default>
+</Parameter>
+
+<Parameter name="MINORVERSION">
+<Description><![CDATA[
+Used by TPS and other VB apps to determine whether to run newer code or not <<MAJORVERSION>>.<<MINORVERSION>> e.g. 6.57
+Must be incremented for w650 when a new release is cut]]></Description>
+<Final>0</Final>
+<Default>56</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="pExtJSName">
+<Default>ExtJSName</Default>
+</Parameter>
+
+<Parameter name="pExtAppPath">
+<Default>../scriptsext/</Default>
+</Parameter>
+
+<Property name="ChartFXURL">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CrystalRptLicenses">
+<Description>
+Total number of Crystal Reports licenses for the Organisation. 
+See also PrintService Class</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CrystalViewerType">
+<Description>
+Crystal Viewer Type</Description>
+<Type>%String</Type>
+<SqlFieldName>CrystalViewerType</SqlFieldName>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CrystalPrintLocalVersion">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DSN">
+<Description>
+This property has been for a long time but as far as we can tell
+is not being used any more.
+It is about to be reused as the Default Crystal DSN, that the TPS
+will use as the ODBC DSN for a Report</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DataNamespace">
+<Description>
+Data NameSpace</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DateCenturyWindow">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DateFormat">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DateMaxAdditionDays">
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="DateMonthCharacter">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DateSeparator">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DateTodayCharacter">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DateWeekCharacter">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DateYearCharacter">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DecimalPlaces">
+<Description>
+Number of decimal places used by currency conversions</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="DecimalSymbol">
+<Description>
+Decimal symbol</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EnableCodeTableUpdates">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>1</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="EnableMsgNotif">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="EnablePrintOptions">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="EnableTRAKOptions">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="InstallationCode">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LabDataNamespace">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LanguageApp">
+<Description>
+Stores rowid from SSLanguage table.
+Uses this language when first logging on, then user's language overrides.</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LayoutManager">
+<Description>
+Connection string to the TRak Web Edit Layout manager for this connection.
+For example:
+cn_iptcp:127.0.0.1[1972]:W641
+Which identifies:
+the server IP address. 127.0.0.1 in this example.
+the server port. 1972 in this example.
+the namespace. W641 in this example.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OverrideAuthentication">
+<Description>
+Override MEDTRAK authentication. Should only be enabled where authentication is provided externally to MEDTRAK - e.g. IIS + NT, LDAP</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PathToApp">
+<Description>
+The path from top level on web server to application
+e.g. if app is located under http://www.trak.com.au/appname
+then '/appname' is the 'PathToApp'
+Used when web reports are printed from Cache and by the test print facilty.
+Used in conjunction with WebServer</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PathToCDLs">
+<Description>
+Path used to import CDLS, views, and to export views from the ViewBuilder</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PathToDSFiles">
+<Description>
+Path of the folder that will store all Discharge Summary PDFs and text files. </Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PathToScripts">
+<Description>
+The path on the server for generated scripts to be written to.
+Used only in publishing generated scripts.</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PathToReports">
+<Description>
+The path to reports folder.
+Used by the TPS when printing a report.</Description>
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PathToTemporaryFiles">
+<Description>
+Used by Mail and Fax services as common place to put attatchments.
+Must be a UNC path
+Also used by AutoPatch fro remote patching ...</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PathToTemporaryFilesUnix">
+<Description>
+For unix boxes only this is the local path of the PathtoTemporary
+files. Normal users can leave this field blank.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PathToVBFileServerRoot">
+<Description>
+UNC path to Patches folder. There should only one folder in use for patching.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PathToVBPatches">
+<Description>
+UNC path to Patches folder. There should only one folder in use for patching.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PathToWebPatches">
+<Description>
+UNC path to Patches folder. There should only one folder in use for patching.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PathsToWebServers">
+<Description>
+A ; delimitted list of Web Server paths. There may be any number of 
+Web Application Servers attached to the same medtrak database.
+All Paths should be UNC paths.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PerformanceStatisticsCapture">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PerformanceStatisticsDisplay">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PrintServiceEnabled">
+<Description>
+Enables/Disables Crystal reports license monitoring. When enabled 
+Crystal reports go into the PrintHistory queue with a status of 
+Waiting and are later processed by the Trak Print Service.
+
+When it is disabled, Print Requests for Crystal reports are handled
+directly by webesys.Printrpt.asp ... see websys.Report.PrintReport()</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="RebuildJS">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>1</Transient>
+</Property>
+
+<Property name="SMTPServer">
+<Description>
+DNS Name or IP address of SMTP (Simple Mail Transport Protocol) server.
+SMTP server must be accessible via TCP from the Cache server.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SiteCode">
+<Description>
+A code to identify the site</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SortMaxRows">
+<Description>
+The maximum number of rows to be returned and sorted before aborting sort.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TimeAMSymbol">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TimeFormat">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TimeNowCharacter">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TimeOut">
+<Description>
+Application TimeOut in minutes</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TimePMSymbol">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TimeSeparator">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="URLToCrystalReports">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UseEPRMenuScroll">
+<Description>
+true to use system scroll buttons on epr menu headers. 
+false if want to use site left/right menus.</Description>
+<Type>%Boolean</Type>
+</Property>
+
+<Property name="VBFolderNameActiveX">
+<Description>
+UNC path to Patches folder. There should only one folder in use for patching.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="VBFolderNameActiveXWinSys">
+<Description>
+UNC path to Patches folder. There should only one folder in use for patching.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="VBFolderNameExecutables">
+<Description>
+UNC path to Patches folder. There should only one folder in use for patching.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WebServer">
+<Description>
+Address (IP Address or Name of web server).
+Used when web prints are generated from cache and by the test print facility.
+Used in conjunction with PathToApp.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WebServerPassword">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WebServerUsername">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="XMLUnixPath">
+<Description>
+cjb 22/08/2005 54693</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="XMLWindowsPath">
+<Description>
+cjb 22/08/2005 54693</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Region">
+<Description>
+ab 1.06.07 63290 - region is a higher level than site (eg. Australia)</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DefaultEmailFrom">
+<Description>
+dah 15.02.2008 66325 - add default email from for CS</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CASLoginlURL">
+<Description>
+cas loginURL  - add by zhouzq 2013.12.2</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CASValidateURL">
+<Description>
+cas ValidateURL  - add by zhouzq 2013.12.2</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="%OnAfterSave">
+<Description>
+After saveing configuration publish all generated javascript to ensure correct date, time and numeric validation is in place.</Description>
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetCurrencySettings">
+<Description>
+returns the NoofDecimalPlaces and DecimalSymbol
+called in ARReceipts.Edit component
+w ##class(websys.Configuration).GetCurrencySettings()
+by zhouzq 2011.06.11</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n id	
+	s DecPlaces=""
+	s DecSymbol=""
+	s id=$O(^websys.ConfigurationD(0))
+	if id'="" {
+		s obj=##class(websys.Configuration).%OpenId(id)
+		i $IsObject(obj) {
+			s DecPlaces=obj.DecimalPlaces
+			s DecSymbol=obj.DecimalSymbol
+			s %request("DecPlaces",1)=DecPlaces
+			s %request("DecSymbol",2)=DecSymbol
+			d obj.%Close()
+			s obj=""
+		}
+	}
+	Q DecPlaces_"^"_DecSymbol
+]]></Implementation>
+</Method>
+
+<Method name="GetDefaultLanguage">
+<Description>
+Get the default language from system wide defaults
+w ##class(websys.Configuration).GetDefaultLanguage()
+by zhouzq 2011.06.11  Layout Manager 打开时会用到</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n id
+	
+	s val=""
+	s id=$O(^websys.ConfigurationD(0))
+	if id'="" {
+
+		s obj=##class(websys.Configuration).%OpenId(id)
+		i $IsObject(obj) {
+			s val=obj.LanguageApp
+			d obj.%Close()
+			s obj=""
+		}
+	}
+	Q val
+]]></Implementation>
+</Method>
+
+<Method name="GetLayoutManager">
+<Description>
+w ##class(websys.Configuration).GetLayoutManager()
+by zhouzq 2011.06.11  不知到Trak原来写入%request有什么作用</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n id	
+	s val=""
+	s id=$O(^websys.ConfigurationD(0))
+	if id'="" {
+
+		s obj=##class(websys.Configuration).%OpenId(id)
+		i $IsObject(obj) {
+			s val=obj.LayoutManager
+			s %request.Data("LayoutManager",1)=obj.LayoutManager
+			d obj.%Close()
+			s obj=""
+		}
+	}
+	Q val
+]]></Implementation>
+</Method>
+
+<Method name="Head">
+<Description>
+Display shandard header lines.
+This will automatically include the standard javascript and style sheets.
+2009-07-07  zhaocz 改写
+2010-10-26  怎样知道 是一次请求  主要是 记住 应用的上个操作</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>page:%String=%request.PageName</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;原版本方法
+	;d ##class(websys.Configuration).Head(page)
+	
+	;还有一个工作流的JS函数没有写
+	
+	;zhaocz 2011-06-20 add n
+	;n (page, %session, %request, %response, TRELOADNEW,t, TRELOADID,msg)
+	n mylangid, myIdx, mySessionID, myUnqIdx, myRequestPageName, myCode, event
+	n myExtJSName, mydesc, myArrayIdx
+	
+	s mylangid=$g(%session.Data("LOGON.LANGID"))
+	i mylangid=""{
+		s:'mylangid mylangid=$lg($g(^websys.ConfigurationD(1)),15) 
+		s:'mylangid mylangid=$o(^SS("LAN",0))
+	}
+	s myIdx=0
+
+	s mySessionID=%session.SessionId
+	s myUnqIdx=$g(TRELOADNEW)
+	//TRELOADNEW
+	if myUnqIdx'="" {
+		s myRequestPageName=$G(^TMP("reload",mySessionID,myUnqIdx,"RequestPageName"))
+	}else{
+		;s myUnqIdx=$i(^websys.Unique)
+		d ##Class(websys.Conversions).CommonReload()
+		s myUnqIdx=$g(TRELOADNEW)
+		s myRequestPageName=page
+	}
+	
+	
+	s myCode($i(myCode))=" "
+	;s myCode($i(myCode))= " "_"<link rel=""stylesheet"" type=""text/css"" href=""../scriptsext/ext/resources/css/ext-all.css"" />"
+	;s myCode($i(myCode))= " "_"<script type=""text/javascript"" src=""../scriptsext/ext/adapter/ext/ext-base.js""></script>"
+	;s myCode($i(myCode))= " "_"<script type=""text/javascript"" src=""../scriptsext/ext/ext-all.js""></script>"
+	;s myCode($i(myCode))= " "_"<script type=""text/javascript"" src=""../scriptsext/ext/src/locale/ext-lang-zh_CN.js""></script>"
+	s myCode($i(myCode))=" "_$$$cspStrictBrokerInsertJS
+	s myCode($i(myCode))=" "_$$$cspStrictBrokerInsertHttpJS
+	s myCode($i(myCode))=" "_"<SCRIPT SRC=""../scripts/websys.js""></SCRIPT>"
+	;;s myCode($i(myCode))=" "_"<SCRIPT SRC=""../scriptsext/ext.websys.js""></SCRIPT>"
+	;;s myCode($i(myCode))= " "_"<LINK REL=""stylesheet"" TYPE=""text/css"" HREF=""../scripts/websys.css""></LINK>"
+	;;s myCode($i(myCode))= " "_"<LINK REL=""stylesheet"" TYPE=""text/css"" HREF=""../CSS/ext/websys.css""></LINK>"
+	
+	s myCode($i(myCode))=" "_"<SCRIPT SRC=""../scripts/framework/ext.websys.js""></SCRIPT>"
+	s myCode($i(myCode))= " "_"<LINK REL=""stylesheet"" TYPE=""text/css"" HREF=""../skin/default/css/websys.css""></LINK>"
+	
+	
+	;指定一个ExtJSName=""
+	s myExtJSName=$g(%request.Data(..#pExtJSName,1))
+	i myExtJSName'=""{
+		s myCode($i(myCode))= " "_"<script language='javascript' src='"_(..#pExtAppPath)_myExtJSName_"'></script>"
+	}
+	
+	;新增 reload 函数
+	s myCode($i(myCode))= " "
+	s myCode($i(myCode))= " "_$$$cspStrictJavaScriptStart
+	s myCode($i(myCode))= " "_"var TRELOADPAGE='"_myRequestPageName_"';"
+	s myCode($i(myCode))= " "_"var TRELOADID='"_myUnqIdx_"';"
+	s myCode($i(myCode))= " "_"function treload(csppage) {"
+	s myCode($i(myCode))= " "_"  window.location.href= """_myRequestPageName_"?TRELOADID="_myUnqIdx_"&TRELOAD=1"";"
+	s myCode($i(myCode))= " "_"}"
+	s myCode($i(myCode))= " "_"var TRELOADPATLIST='';"
+
+	s myCode($i(myCode))= " "_$$$cspJavaScriptEnd
+	
+	s myCode($i(myCode))= " "
+	s myCode($i(myCode))= " "_$$$cspStrictJavaScriptStart
+	;;; 注意需要在Message中获取变量
+	s myCode($i(myCode))="var t=new Array();"
+	i (+$d(%session.Data("LOGON.LANGID"))){
+		d ##Class(websys.Component).GetComponentMessages(.t,"websys.SYSTEM")
+		s myArrayIdx=$o(t(""))
+		while (myArrayIdx'=""){
+			s mydesc=##class(%CSP.Page).EscapeHTML( $g(t(myArrayIdx)))
+			;s mydesc=##class(%CSP.Page).QuoteJS($g(t(myArrayIdx)))
+			i (myArrayIdx'=""){
+				s myCode($i(myCode))="t['"_myArrayIdx_"']='"_mydesc_"';"
+			}
+			s myArrayIdx=$o(t(myArrayIdx))
+		}
+	}
+	
+	s myCode($i(myCode))="var session=new Array();"
+	s myCode($i(myCode))="session['LOGON.TIMEOUT']='"_$g(%session.Data("LOGON.TIMEOUT"))_"';"
+	s myCode($i(myCode))="session['LOGON.SITECODE']='"_$g(%session.Data("LOGON.SITECODE"))_"';"
+	s myCode($i(myCode))="session['LOGON.REGION']='"_$g(%session.Data("LOGON.REGION"))_"';"
+	s myCode($i(myCode))="session['LOGON.USERID']='"_$g(%session.Data("LOGON.USERID"))_"';"
+	s myCode($i(myCode))="session['LOGON.USERCODE']='"_$g(%session.Data("LOGON.USERCODE"))_"';"
+	s myCode($i(myCode))="session['LOGON.USERNAME']='"_$g(%session.Data("LOGON.USERNAME"))_"';"
+	s myCode($i(myCode))="session['LOGON.GROUPID']='"_$g(%session.Data("LOGON.GROUPID"))_"';"
+	s myCode($i(myCode))="session['LOGON.GROUPDESC']='"_$g(%session.Data("LOGON.GROUPDESC"))_"';"
+	s myCode($i(myCode))="session['LOGON.LANGID']='"_$g(%session.Data("LOGON.LANGID"))_"';"
+	s myCode($i(myCode))="session['LOGON.CTLOCID']='"_$g(%session.Data("LOGON.CTLOCID"))_"';"
+	s myCode($i(myCode))="session['XMONTHSSHORT']='"_$g(%session.Data("XMONTHSSHORT"))_"';"
+	s myCode($i(myCode))="session['CONTEXT']='"_$g(%request.Data("CONTEXT",1))_"';"			;;;%session.Data("CONTEXT",1)
+	s myCode($i(myCode))="session['LOGON.WARDID']='"_$g(%session.Data("LOGON.WARDID"))_"';"
+	s myCode($i(myCode))="session['LOGON.HOSPID']='"_$g(%session.Data("LOGON.HOSPID"))_"';"
+	s myCode($i(myCode))="session['ContainerName']='"_$g(%session.Data("ContainerName"))_"';"
+
+	s myStatusTip = "用户名称:  "_ $g(%session.Data("LOGON.USERNAME"))_"  组:  "_$g(%session.Data("LOGON.GROUPDESC"))
+	s myStatusTip = myStatusTip_"  科室: "_$g(%session.Data("LOGON.CTLOCDESC"))
+	
+	s myCode($i(myCode))="window.status='"_myStatusTip_"';"
+	s event=##class(%CSP.Page).Encrypt($lb("websys.Configuration.CSPServerConnect"))
+	
+	s myCode($i(myCode))="function tkMakeServerCall(tkclass,tkmethod) {"
+	s myCode($i(myCode))="	if ((tkclass=='')||(tkmethod=='')) return '';"
+	s myCode($i(myCode))="	var args=new Array('"_event_"',tkclass,tkmethod);"
+	s myCode($i(myCode))="	for (var i=2; i<tkMakeServerCall.arguments.length; i++) {"
+	s myCode($i(myCode))="	args[i+1]=tkMakeServerCall.arguments[i];"
+	s myCode($i(myCode))="	}"
+	s myCode($i(myCode))="	var retval=cspHttpServerMethod.apply(this,args);"
+	s myCode($i(myCode))="	return retval;"
+	s myCode($i(myCode))="}"
+	
+	
+	s myCode($i(myCode))= " "_$$$cspJavaScriptEnd
+	
+	f myIdx=1:1:myCode {
+		w myCode(myIdx),!
+	}
+]]></Implementation>
+</Method>
+
+<Method name="CSPServerConnect">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>tkclass,tkmethod,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	//w ##class(websys.Configuration).CSPServerConnect("web.Test","TestPara","1","2","3","4")
+	q:((tkclass="")!(tkmethod="")) ""
+	s myIsVal=##class(websys.Conversions).IsValidClassName(tkclass)
+	
+	q:('myIsVal) ""
+	s myIsVal=##class(websys.Conversions).IsValidMethodName(tkclass,tkmethod)
+	q:('myIsVal) ""
+	s myCID=tkclass_"||"_tkmethod
+	;s myobj=##class(%Dictionary.MethodDefinition).%OpenId(myCID)
+	;%Dictionary.MethodDefinition对应Studio打开的定义,处于编辑状态下会加锁,导致无法访问
+	;%Dictionary.CompiledMethod是对应obj文件的定义,
+	s myobj=##class(%Dictionary.CompiledMethod).%OpenId(myCID)
+	q:('$IsObject(myobj)) ""
+	
+	s mycminlist=myobj.FormalSpec
+	d myobj.%Close()
+	Set code="s ret=##class("_tkclass_")."_tkmethod_"("
+	s myColLen=$l(mycminlist, ",")
+	s:(mycminlist="") myColLen=0
+	;s ^Temp("Upgrade","CSPServerConnect")=code
+	f myIdx=1:1:myColLen {
+		s myColStr=$p(mycminlist,",",myIdx)
+		s myParaName=$p(myColStr,":",1)
+		If myIdx>1 Set code=code_","
+		i myParaName'=""{
+			s checkstr="s para=$g(p"_myIdx_")"
+			XECUTE checkstr
+			Set para=$replace(para,$c(34),$c(34)_$c(34))	;wanghc 2013-11-13 一个双引号"改成两个双引号""
+			Set code=code_""""_para_""""
+		}
+	}
+	s code=code_")"
+	;s ^Temp("Upgrade","websys.C.cspServerConnect")=code
+	XECUTE code
+	Q ret
+]]></Implementation>
+</Method>
+
+<Method name="GetPatchVersion">
+<Description>
+Return the version of the instance based on MAJORVERSION and SUBVERSION </Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="VersionString">
+<Description>
+ab 4.04.07 63062 - get version dynamically (still have to change manually on default.htm</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q "7.0"
+]]></Implementation>
+</Method>
+
+<Method name="GetDefaultEncoding">
+<Description>
+w ##class(websys.Configuration).GetDefaultEncoding()
+by zhouzq 2011.06.11 不知道怎么取，暂时写死了</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Q "Western European"
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%CacheStorage</Type>
+<DataLocation>^websys.ConfigurationD</DataLocation>
+<DefaultData>ConfigurationDefaultData</DefaultData>
+<IdLocation>^websys.ConfigurationD</IdLocation>
+<IndexLocation>^websys.ConfigurationI</IndexLocation>
+<StreamLocation>^websys.ConfigurationS</StreamLocation>
+<Data name="ConfigurationDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>PathToScripts</Value>
+</Value>
+<Value name="2">
+<Value>PathToApp</Value>
+</Value>
+<Value name="3">
+<Value>DateCenturyWindow</Value>
+</Value>
+<Value name="4">
+<Value>DateSeparator</Value>
+</Value>
+<Value name="5">
+<Value>DateTodayCharacter</Value>
+</Value>
+<Value name="6">
+<Value>TimeAMSymbol</Value>
+</Value>
+<Value name="7">
+<Value>TimeNowCharacter</Value>
+</Value>
+<Value name="8">
+<Value>TimePMSymbol</Value>
+</Value>
+<Value name="9">
+<Value>TimeSeparator</Value>
+</Value>
+<Value name="10">
+<Value>DateFormat</Value>
+</Value>
+<Value name="11">
+<Value>TimeFormat</Value>
+</Value>
+<Value name="12">
+<Value>DataNamespace</Value>
+</Value>
+<Value name="13">
+<Value>expression</Value>
+</Value>
+<Value name="14">
+<Value>SiteCode</Value>
+</Value>
+<Value name="15">
+<Value>LanguageApp</Value>
+</Value>
+<Value name="16">
+<Value>LayoutManager</Value>
+</Value>
+<Value name="17">
+<Value>SMTPServer</Value>
+</Value>
+<Value name="18">
+<Value>EnableTRAKOptions</Value>
+</Value>
+<Value name="19">
+<Value>WebServer</Value>
+</Value>
+<Value name="20">
+<Value>TimeOut</Value>
+</Value>
+<Value name="21">
+<Value>LabDataNamespace</Value>
+</Value>
+<Value name="22">
+<Value>WebServerUsername</Value>
+</Value>
+<Value name="23">
+<Value>WebServerPassword</Value>
+</Value>
+<Value name="24">
+<Value>DSN</Value>
+</Value>
+<Value name="25">
+<Value>DateMonthCharacter</Value>
+</Value>
+<Value name="26">
+<Value>DateWeekCharacter</Value>
+</Value>
+<Value name="27">
+<Value>DateYearCharacter</Value>
+</Value>
+<Value name="28">
+<Value>EnableCodeTableUpdates</Value>
+</Value>
+<Value name="29">
+<Value>PerformanceStatisticsCapture</Value>
+</Value>
+<Value name="30">
+<Value>PerformanceStatisticsDisplay</Value>
+</Value>
+<Value name="31">
+<Value>CrystalRptLicenses</Value>
+</Value>
+<Value name="32">
+<Value>PrintServiceEnabled</Value>
+</Value>
+<Value name="33">
+<Value>PathToTemporaryFiles</Value>
+</Value>
+<Value name="34">
+<Value>DateMaxAdditionDays</Value>
+</Value>
+<Value name="35">
+<Value>EnableMsgNotif</Value>
+</Value>
+<Value name="36">
+<Value>PathToUnixOverride</Value>
+</Value>
+<Value name="37">
+<Value>PathsToWebServers</Value>
+</Value>
+<Value name="38">
+<Value>PathToTemporaryFilesUnix</Value>
+</Value>
+<Value name="39">
+<Value>PathToPatches</Value>
+</Value>
+<Value name="40">
+<Value>PathToWebPatches</Value>
+</Value>
+<Value name="41">
+<Value>OverrideAuthentication</Value>
+</Value>
+<Value name="42">
+<Value>PathToCDLs</Value>
+</Value>
+<Value name="43">
+<Value>PathToVBFiles</Value>
+</Value>
+<Value name="44">
+<Value>PathToVBActiveX</Value>
+</Value>
+<Value name="45">
+<Value>PathToVBActiveXWinSys</Value>
+</Value>
+<Value name="46">
+<Value>PathToVBExecutables</Value>
+</Value>
+<Value name="47">
+<Value>PathToVBPatches</Value>
+</Value>
+<Value name="48">
+<Value>PathtoVBAppServerRoot</Value>
+</Value>
+<Value name="49">
+<Value>VBActiveXFolderName</Value>
+</Value>
+<Value name="50">
+<Value>VBExecutablesFolderName</Value>
+</Value>
+<Value name="51">
+<Value>PathToVBAppServerRoot</Value>
+</Value>
+<Value name="52">
+<Value>VBActiveXWinSysFolderName</Value>
+</Value>
+<Value name="53">
+<Value>VBFolderNameActiveX</Value>
+</Value>
+<Value name="54">
+<Value>VBFolderNameActiveXWinSys</Value>
+</Value>
+<Value name="55">
+<Value>PathToVBFileServerRoot</Value>
+</Value>
+<Value name="56">
+<Value>VBFolderNameExecutables</Value>
+</Value>
+<Value name="57">
+<Value>deleted</Value>
+</Value>
+<Value name="58">
+<Value>InstallationCode</Value>
+</Value>
+<Value name="59">
+<Value>EnablePrintOptions</Value>
+</Value>
+<Value name="60">
+<Value>SortMaxRows</Value>
+</Value>
+<Value name="61">
+<Value>DecimalPlaces</Value>
+</Value>
+<Value name="62">
+<Value>DecimalSymbol</Value>
+</Value>
+<Value name="63"/>
+<Value name="64">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="65">
+<Value>URLToCrystalReports</Value>
+</Value>
+<Value name="66">
+<Value>CrystalViewerType</Value>
+</Value>
+<Value name="67">
+<Value>CrystalPreviewMode</Value>
+</Value>
+<Value name="68">
+<Value>ChartFXURL</Value>
+</Value>
+<Value name="69">
+<Value>PathToReports</Value>
+</Value>
+<Value name="70">
+<Value>PathToDSFiles</Value>
+</Value>
+<Value name="71">
+<Value>UseEPRMenuScroll</Value>
+</Value>
+<Value name="72">
+<Value>XMLUnixPath</Value>
+</Value>
+<Value name="73">
+<Value>XMLWindowsPath</Value>
+</Value>
+<Value name="74">
+<Value>CrystalPrintLocalVersion</Value>
+</Value>
+<Value name="75">
+<Value>Region</Value>
+</Value>
+<Value name="76">
+<Value>DefaultEmailFrom</Value>
+</Value>
+<Value name="77">
+<Value>CASLoginlURL</Value>
+</Value>
+<Value name="78">
+<Value>CASValidateURL</Value>
+</Value>
+</Data>
+<Property name="CrystalRptLicenses">
+</Property>
+<Property name="DSN">
+</Property>
+<Property name="DataNamespace">
+</Property>
+<Property name="DateCenturyWindow">
+</Property>
+<Property name="DateFormat">
+</Property>
+<Property name="DateMaxAdditionDays">
+</Property>
+<Property name="DateMonthCharacter">
+</Property>
+<Property name="DateSeparator">
+</Property>
+<Property name="DateTodayCharacter">
+</Property>
+<Property name="DateWeekCharacter">
+</Property>
+<Property name="DateYearCharacter">
+</Property>
+<Property name="DecimalPlaces">
+</Property>
+<Property name="DecimalSymbol">
+</Property>
+<Property name="EnableCodeTableUpdates">
+</Property>
+<Property name="EnableMsgNotif">
+</Property>
+<Property name="EnablePrintOptions">
+</Property>
+<Property name="EnableTRAKOptions">
+</Property>
+<Property name="InstallationCode">
+</Property>
+<Property name="LabDataNamespace">
+</Property>
+<Property name="LanguageApp">
+</Property>
+<Property name="LayoutManager">
+</Property>
+<Property name="OverrideAuthentication">
+</Property>
+<Property name="PathToApp">
+</Property>
+<Property name="PathToCDLs">
+</Property>
+<Property name="PathToScripts">
+</Property>
+<Property name="PathToTemporaryFiles">
+</Property>
+<Property name="PathToTemporaryFilesUnix">
+</Property>
+<Property name="PathToVBFileServerRoot">
+</Property>
+<Property name="PathToVBPatches">
+</Property>
+<Property name="PathToWebPatches">
+</Property>
+<Property name="PathsToWebServers">
+</Property>
+<Property name="PerformanceStatisticsCapture">
+</Property>
+<Property name="PerformanceStatisticsDisplay">
+</Property>
+<Property name="PrintServiceEnabled">
+</Property>
+<Property name="SMTPServer">
+</Property>
+<Property name="SiteCode">
+</Property>
+<Property name="SortMaxRows">
+</Property>
+<Property name="TimeAMSymbol">
+</Property>
+<Property name="TimeFormat">
+</Property>
+<Property name="TimeNowCharacter">
+</Property>
+<Property name="TimeOut">
+</Property>
+<Property name="TimePMSymbol">
+</Property>
+<Property name="TimeSeparator">
+</Property>
+<Property name="VBFolderNameActiveX">
+</Property>
+<Property name="VBFolderNameActiveXWinSys">
+</Property>
+<Property name="VBFolderNameExecutables">
+</Property>
+<Property name="WebServer">
+</Property>
+<Property name="WebServerPassword">
+</Property>
+<Property name="WebServerUsername">
+</Property>
+</Storage>
+</Class>
+</Export>

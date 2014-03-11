@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.String">
+<Description>
+Use in place of %String for long text fields to avoid truncation !!</Description>
+<ClassType>datatype</ClassType>
+<ClientDataType>VARCHAR</ClientDataType>
+<OdbcType>VARCHAR</OdbcType>
+<ProcedureBlock>0</ProcedureBlock>
+<SqlCategory>STRING</SqlCategory>
+<Super>%Library.String</Super>
+<TimeChanged>60506,62133</TimeChanged>
+<TimeCreated>58462,47433</TimeCreated>
+
+<Parameter name="MAXLEN">
+<Description>
+sdfsdfsdfsf
+The maximum number of characters the string can contain.</Description>
+<Default>99999</Default>
+</Parameter>
+
+<Parameter name="TRUNCATE">
+<Description>
+Determines whther to tuncate string to MAXLEN characters. </Description>
+<Final>0</Final>
+</Parameter>
+</Class>
+</Export>

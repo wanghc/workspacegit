@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.SysPreferences">
+<Description>
+This persistent class is managed exclusively through websys.Preferences.</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>58701,39824</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>217</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>496</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Final>0</Final>
+<Default>ID</Default>
+</Parameter>
+
+<Property name="AppKey">
+<Description><![CDATA[
+String detemining a module or major part of application functionality.<br>
+Actual string depends on the context.<br>
+<br>
+For example<br>
+For Columns in a table the AppKey is "COLUMN"<br>
+For Layout of a component the AppKey is "LAYOUT"<br>]]></Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE"/>
+</Property>
+
+<Property name="AppSubKey">
+<Description><![CDATA[
+String detemining sub component of a module or major part of application functionality.<br>
+Actual string depends on the context.<br>
+<br>
+For example<br>
+For Columns in a table the AppSubKey is the Component Name plus the context<br>
+For Layout of a component the AppSubKey is the Component Name plus the context.<br>]]></Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE"/>
+</Property>
+
+<Property name="Data">
+<Description><![CDATA[
+Preference Data.<br>
+The structure of the data is user defined depending on the context of the preference.<br>
+In general data should be structured as nested lists.<br>
+The actual structure should be clearly documeted in the code where the data is stored.<br>
+Storage of data within any particular context should be maintained from single method.<br>]]></Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="0"/>
+</Property>
+
+<Property name="ObjectReference">
+<Description><![CDATA[
+This is the ID of the referenced object.<br>]]></Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="TRUNCATE"/>
+</Property>
+
+<Property name="ObjectType">
+<Description><![CDATA[
+ObjectType.<br>
+This is used to determine the type of the object reference.<br>
+<br>
+Historically we have used cryptic shorthand:<br>
+<br>
+U for User.SSUser<br>
+G for User.SSGroup<br>
+
+it would be better to use the object name<br>
+<br>
+User.SSUser<br>
+User.SSGroup etc.<br>
+<br>
+Where the is no specific correspondence to an object definition,<br>
+e.g. Site then some meaningful text should be used.<br>]]></Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="TRUNCATE"/>
+</Property>
+
+<Index name="Index">
+<Description>
+Inverse index by all key items</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ObjectType,ObjectReference,AppKey,AppSubKey</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="AppKey">
+<Description>
+index by APPKEY, APPSUBKEY - used to get a list of preferences for a specific component</Description>
+<Properties>AppSubKey,AppKey</Properties>
+</Index>
+
+<Query name="FindByAppSubKey">
+<Description>
+Used to find layout preferences for a specific component</Description>
+<Type>%SQLQuery</Type>
+<FormalSpec>AppSubKey:%String</FormalSpec>
+<SqlQuery>SELECT ID,AppKey,AppSubKey,Data,ObjectReference,ObjectType FROM SysPreferences
+ WHERE (AppSubKey = :AppSubKey AND AppKey %STARTSWITH 'LAYOUT')</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.SysPreferencesD</DataLocation>
+<DefaultData>SysPreferencesDefaultData</DefaultData>
+<IdLocation>^websys.SysPreferencesD</IdLocation>
+<IndexLocation>^websys.SysPreferencesI</IndexLocation>
+<StreamLocation>^websys.SysPreferencesS</StreamLocation>
+<Data name="SysPreferencesClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="SysPreferencesDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>AppKey</Value>
+</Value>
+<Value name="2">
+<Value>AppSubKey</Value>
+</Value>
+<Value name="3">
+<Value>Data</Value>
+</Value>
+<Value name="4">
+<Value>ObjectReference</Value>
+</Value>
+<Value name="5">
+<Value>ObjectType</Value>
+</Value>
+</Data>
+<Property name="AppKey">
+</Property>
+<Property name="AppSubKey">
+</Property>
+<Property name="Data">
+</Property>
+<Property name="ObjectReference">
+</Property>
+<Property name="ObjectType">
+</Property>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.PatchFullBuilds">
+<Description>
+To Show the History of Full Builds</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>60506,62126</TimeChanged>
+<TimeCreated>59798,58407.265316</TimeCreated>
+
+<Property name="AppliedDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="AppliedTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CreateDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CreateTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="MedtrakVersion">
+<Description>
+As in W642, or w642A</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="CreateDateTime">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>CreateDate,CreateTime</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="LastFullBuildDate">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.Date</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Parameter name="EXTENTSIZE">
+<Default>1</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.PatchFullBuildsD</DataLocation>
+<DefaultData>PatchFullBuildsDefaultData</DefaultData>
+<IdLocation>^websys.PatchFullBuildsD</IdLocation>
+<IndexLocation>^websys.PatchFullBuildsI</IndexLocation>
+<StreamLocation>^websys.PatchFullBuildsS</StreamLocation>
+<Data name="PatchFullBuildsClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="PatchFullBuildsDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>AppliedDate</Value>
+</Value>
+<Value name="2">
+<Value>AppliedTime</Value>
+</Value>
+<Value name="3">
+<Value>CreateDate</Value>
+</Value>
+<Value name="4">
+<Value>CreateTime</Value>
+</Value>
+<Value name="5">
+<Value>MedtrakVersion</Value>
+</Value>
+</Data>
+<Property name="AppliedDate">
+</Property>
+<Property name="AppliedTime">
+</Property>
+<Property name="CreateDate">
+</Property>
+<Property name="CreateTime">
+</Property>
+<Property name="MedtrakVersion">
+</Property>
+</Storage>
+</Class>
+</Export>

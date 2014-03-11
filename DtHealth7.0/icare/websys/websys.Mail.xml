@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Mail">
+<Description>
+wrapper for mail</Description>
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>60599,63408.002766</TimeChanged>
+<TimeCreated>59798,58407.140502</TimeCreated>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Method name="AddItem">
+<Description><![CDATA[
+Single line method of sending simple mail plus attachments.<br>
+From<br>
+To - multiple addressees may be separated with ;<br>
+CC - multiple CC's may be separated with;<br>
+Subject - required !<br>
+Message - single string or array.<br>
+Attachments - zero or more files names may be separated with ;.<br> Filename is relative to the cache server processing the mail request.
+<br>
+Mail server information is taken from the configuration.]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[From:%Library.String,To:%Library.String,CC:%Library.String,Subject:%Library.String,&Message:%Library.String,Attachment:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="JobItem">
+<Description>
+Invokes AddItem as a background job.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[From:%Library.String,To:%Library.String,CC:%Library.String,Subject:%Library.String,&Message:%Library.String,Attachment:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="JobAddItem">
+<Description>
+Invokes AddItem as a background job.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[From:%Library.String,To:%Library.String,CC:%Library.String,Subject:%Library.String,&Message:%Library.String,Attachment:%Library.String]]></FormalSpec>
+</Method>
+
+<Method name="websysSave">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+</Class>
+</Export>

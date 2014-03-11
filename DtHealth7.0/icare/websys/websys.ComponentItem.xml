@@ -1,0 +1,2025 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.ComponentItem">
+<Description><![CDATA[
+Component Item. An items which is included in a text box.<br>
+Can be an Item or a TableItem.
+Typically Find,Edit,Custom type components consist of a numner of Items, and List type components consist of TableItems]]></Description>
+<Abstract>1</Abstract>
+<ClassType/>
+<CompileAfter>websys.Component</CompileAfter>
+<IncludeCode>webutils</IncludeCode>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject,XML.Abstract</Super>
+<TimeChanged>62582,46636.936942</TimeChanged>
+<TimeCreated>59218,41668</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="xmlidentifiedby">
+<Description>
+Used in conjunction with XMLId method to unqiuely identify a record.
+By default ..%Id() is used unless other properties are specified. A comma separated list may be provided and processed by overridding XMLId method</Description>
+<Final>0</Final>
+</Parameter>
+
+<Parameter name="xmltoclass">
+<Description>
+Mapping from XML to Class</Description>
+<Final>0</Final>
+<Default>componentitem</Default>
+</Parameter>
+
+<Parameter name="xmltypeCaptionStyle">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeItemIdGetExpression">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeLinkExpression">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeLookupProperties">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeNestedTransExpr">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeParRef">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeQuerySQLName">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeQuerySQLParsed">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeShowInNewWindow">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeStyle">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeValueGet">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeValueSet">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeIconProfile">
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeLinkConditionalExp">
+<Default>CDATA</Default>
+</Parameter>
+
+<Property name="AttachedFile">
+<Description>
+Input type is file.</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Caption">
+<Description>
+Default caption - can be translated to foreign language through translation facilities.</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CaptionStyle">
+<Description>
+CSS style applied to caption.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ClassMethod">
+<Description><![CDATA[
+A class method that is invoked on the server when the form is submitted, or a link is followed.<br>
+The class method is invoked before any other processing.<br>
+The format is a comma separared field with an optional number of parameters which must match the number and sequence ofparameters expected by the class method.<br>
+The method must be defined as a class method in the method characteristic of the object architect.<br>
+ClassName,Method,param1,param2,...<br>]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ClassMethodIfDirty">
+<Description>
+Only run the class method if something has changes on the component form.
+Applies to edit components and update buttons mainly.</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CustomExpression">
+<Description>
+Applies to custom component items.
+Custom items are required to provide their own rendering via a method call</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DataType">
+<Description><![CDATA[
+Data type of the item.<br>
+Use to apply correct conversions from Logical to Html and vice versa.]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"%String"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DefaultValueAlways">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="DefaultValueExpression">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Disabled">
+<Description>
+Item is disabled.
+Applies to text,textarea,checkbox and listbox.
+Typically used when entire component is disable e.g. when record is locked.</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="DisplayOnly">
+<Description>
+The value item of the item is displayed as text rather then a data entry field (e.g. textbox).
+Applies to TEXTBOX,TEXTAREA,LISTBOX,CHECKBOX type fields.</Description>
+<Type>%Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>0</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="DisplayType">
+<Description><![CDATA[
+The type of Html field used to display the item on the page. For example text would typically be display in a text box, true/false value in CHECKBOX and long text in TEXTAREA.<br>
+A BUTTON will submit an HTML form.<br>
+A LINK will generate a clickable link to another page orpart of a page.<br>]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"T"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",TEXTBOX,LISTBOX,CHECKBOX,TEXTAREA,LINK,BUTTON,COMPONENT,ICONPROFILE,CUSTOM,RTF,CUSTOMTEXTBOX"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",T,L,C,TA,A,B,CX,IP,S,R,CT"/>
+</Property>
+
+<Property name="HelpUrl">
+<Description><![CDATA[
+Url to context specific help.<br>
+The URL may be:<br>
+an absolute link e.g. http://myserver/Help/patientrego.html#patientname<br>
+a relative link e.g. ../Help/patientrego.html#patientname<br>
+In this case of relative links, the link is relative to the CSP folder.<br>
+Help documentation may be in any 'browsable' document format.<br>
+In the case of Html documentation a bookmark may be specified to jump to a specific section e.g #patientname.<br>]]></Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Hidden">
+<Description>
+Used to include data in an HTML form which is HIDDEN from the user, but required by the server side procssing.</Description>
+<Type>%Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>0</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="IconProfile">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Image">
+<Description><![CDATA[
+An image to be displayed next to the item.<br>
+Applies only to BUTTON, LINK items.<br>
+The image path should be relative to the CSP page.<br>
+e.g. ../images/update.gif<br>]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ItemIdGetExpression">
+<Description>
+Cache expression to get the value of the id for an item. Used only when the property is an object reference.
+?? NOT USED ??</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LinkComponent">
+<Description>
+The next component used in conjunction with websysDefault.ASP.
+If this property is set then LinkUrl is assumes to be websysDefault.asp</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LinkExpression">
+<Description>
+Cache Expression used to add add name value pairs to the LinkUrl</Description>
+<Type>websys.Expression</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LinkUrl">
+<Description>
+A url to link to. Typically this is another CSP page, but can be any valid server link.</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LinkWorkFlow">
+<Description>
+A workflow to link to. This is %String as it can be user defined.</Description>
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LinkWorkFlowDescription">
+<Type>%String</Type>
+<Transient>1</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ListCellStyle">
+<Description>
+Style applied to cell in a list - for example to set background colour</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LookupBrokerMethod">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LookupClassName">
+<Description><![CDATA[
+Applies to TEXTBOX and LISTBOX display types.<br>
+Specifies the class for the lookup.<br>
+For TEXTBOX the lookup Properties are used to provide a browser side lookup capability.<br>
+Properties are a comma separated list of form items.<br>
+For LISTBOX the the lookup properties are used to populate the list box.<br>
+Properties are a comma separated list of server side variables.<br>]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LookupJavascriptFunction">
+<Description><![CDATA[
+Javascript function to be invoked on the browser when the user selects an item from the the lookup.<br>
+For Example:<br>
+If this is set to:<br>
+MyPropertySelect<br>
+then a javascript function  must be defined as follows:<br>
+function MyPropertySelect(txt) {<br>
+}<br>
+All columns from the lookup are passed to the function in the txt paramters as a delimited string.<br>
+Applies to TEXTBOX fields only]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LookupProperties">
+<Description><![CDATA[
+Applies to TEXTBOX and LISTBOX display types.<br>
+For TEXTBOX this is a comma separated list of properties on the FORM.<br>
+For LISTBOX this is a comma separated list of propties on the server.<br>
+The list of properties must match the parameters and sequence required by the query.<br>]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LookupQueryName">
+<Description><![CDATA[
+Applies to TEXTBOX and LISTBOX display types.<br>
+In conjunction with LookupClassName Specifies the object architect query for the lookup.]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LookupUserDefined">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LookupUserDefinedValues">
+<Description>
+comma separated list if user defined values.
+may be used in conjunction with LookupUserDefinedDisplays</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LookupCustomComponent">
+<Description>
+component to add to lookup to give extra searching in lookup</Description>
+<Type>websys.Component</Type>
+</Property>
+
+<Property name="Name">
+<Description>
+The name used to identify the item.</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"Item"_$I(^websys.Unique)</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="NestedComponent">
+<Description>
+Component nested from a list to implement a 'tree-like' structure.</Description>
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="NestedCondExpr">
+<Description><![CDATA[
+The expression used to determine wether to include the '+' and the assocaited DIV on a nested component
+For example.
+To skip the branch for male patient:<br>
+s val=$s(sex="M":0,1:1)<br>
+if val=0 the item will be skipped.<br>
+if val=1 the item will be included.<br>
+By default the '+' wil be included]]></Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="NestedTransExpr">
+<Description>
+Cache script transition expression.
+Use to link nested components.
+e.g.s %request.Data("PatientID",1)=rs.GetDataByName("ID")</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OrderByAsc">
+<Description>
+Order By Clause for ascending sequence lists.
+Used in dynamic queries directly appended as ORDER BY xyz.
+Used in object queries as a flag.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OrderByDesc">
+<Description>
+Order By Clause for descending sequence lists.
+Used in dynamic queries directly appended as ORDER BY xyz.
+Used in object queries as a flag.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Password">
+<Description><![CDATA[
+Applies to TEXTBOX.<br>
+If true, textbox is displayed as HTML INOUT type=password<br>]]></Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PasswordKeepVal">
+<Description>
+Keep entered password value (default behaviour for passwords is o clear the value)</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ReferencedObject">
+<Description>
+An object reference which is used to derive default ValueGet,ValueSet expressions.
+Examples are:
+rs.GetDataByName("Desc")
+obj.PAPMISexDR.SEXDesc</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Required">
+<Description>
+The field will be generated in HTML with HTMLCLASS 'clsRequired'. This style of this can be controlled though the style sheets.
+For datainput fields javascript will be generated to ensure that the user must enter fields marked as required.
+Applies only to data entry fields (TEXTBOX,LISTBOX,TEXTAREA,CHECKBOX).</Description>
+<Type>%Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>0</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="SQLColumn">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SQLComment">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SQLExtendedReference">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SQLTable">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SQLToVBCodeTable">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ShortcutKey">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ShowInNewWindow">
+<Description><![CDATA[
+Parameters to control how the new window is display. If none are specified then next page will be displayed in the same window.<br>
+Applies to LINK,display only TEXTBOX (with link properties).<br>
+Typical values used to position the new window are:<br>
+top=50,left=50,width=460,height=480<br>
+<br>
+Values provided by default (and therefore cannot be changed) are:<br>
+toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE"/>
+</Property>
+
+<Property name="Style">
+<Description>
+CSS style applied to to item</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TabSequence">
+<Description>
+Sequence followed when TAB key is used to navigate the screen.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Tooltip">
+<Description>
+Tooltip displayed on mouseover events. Typically applied to data entry fields, links and buttons.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ValueDefault">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ValueGet">
+<Description><![CDATA[
+Cache expression to get the value of a property.<BR>
+Typically for a List type component the expression will a data item from the list results set.<BR>
+The query for the result set is dependant on the component definition (ClassName,QueryName, QuerySQL).<br>
+The open result set instance is made available in the variable 'rs'.<br>
+s val=rs.GetDataByName("PAPERAge")<br>
+(get the data item from rhe result set called PAPERAge)
+<br>
+Typically for an Edit type component the expression will a data item from an object.<BR>
+The open object instance is made available in the variable 'obj'.<br>
+The object is dependant on the componebt definition (ClassName).
+e.g. <br>
+s val=$s(obj:obj.PAPERAge,1:"")<br>
+(if obj is a valid object hen display age, esle display empty string).<br>]]></Description>
+<Type>websys.Expression</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ValueSet">
+<Description><![CDATA[
+Cache expression to set the value of a property. May use the ItemId value in the expression if the item is an object reference.<br>
+Used in the generated websysSave as the exporession to set the value of an object.<br>
+Typically may include data conversions.
+e.g. <br>
+s obj.PAPERGovernCardNo=$g(val)<br>
+s:$l($g(val)) val=##Class(web.CTRelation).GetIdFromCodeOrDescription($g(val)) d obj.PAPERNokCTRLTDRSetObjectId($g(val))]]></Description>
+<Type>websys.Expression</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="pComponent">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>1</Transient>
+</Property>
+
+<Property name="pId">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>1</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>1</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="pValue">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>1</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CustomLookupClassName">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CustomLookupQueryName">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CustomLookupBrokerMethod">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CustomLookupProperties">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LinkConditionalExp">
+<Description>
+An Expression that sets a variable val to 0 to remove the HTML link and just display the value</Description>
+<Type>websys.Expression</Type>
+</Property>
+
+<Method name="%OnAfterSave">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>insert:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n h1,h2,objpar,cmpid
+	s h1=+$H
+	s h2=$P($H,",",2)
+	s cmpid=$P(..%Id(),"||",1)
+	s objpar=##class(websys.Component).%OpenId(cmpid)
+	s objpar.LastUpdateDate=h1
+	s objpar.LastUpdateTime=h2
+	d objpar.%Save()
+	d objpar.%Close()
+	s objpar=""
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Property name="ReadOnly">
+<Description>
+The value item of the item is a READONLY field on the screen, not displayed as label text.
+Differs from DisplayOnly so that data can be submitted back to server</Description>
+<Type>%Boolean</Type>
+<InitialExpression>0</InitialExpression>
+</Property>
+
+<Method name="AddDefaults">
+<Description>
+Apply default settings to a property optinally based on the form type
+zhouzq 2011.06.07,应该是在添加元素并设的默认属性</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ComponentType:%Library.String="E",collection:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if ComponentType="E" {
+		d ..AddDefaultsEdit(collection)
+	}
+	if ComponentType="F" {
+		d ..AddDefaultsFind(collection)
+	}
+	if ComponentType="L" {
+		d ..AddDefaultsList(collection)
+	}
+]]></Implementation>
+</Method>
+
+<Method name="AddDefaultsEdit">
+<Description>
+Apply default typical for an editable item</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>collection:%Library.String</FormalSpec>
+<Private>1</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if (..DataType="%Library.Date")||(..DataType="%Date") {
+		s ..ValueGet="s val=##Class(websys.Conversions).DateLogicalToHtml($s(obj:obj."_..Name_",1:""ERROR!""))"	
+		s ..ValueSet="s obj."_..Name_"=##Class(websys.Conversions).DateHtmlToLogical($g(val))"
+	}elseif (..DataType="%Library.TIme")||(..DataType="%Time") {
+		s ..ValueGet="s val=##Class(websys.Conversions).TimeLogicalToHtml($s(obj:obj."_..Name_",1:""ERROR!""))"	
+		s ..ValueSet="s obj."_..Name_"=##Class(websys.Conversions).TimeHtmlToLogical($g(val))"
+	}elseif (..DataType="%Library.Boolean")||(..DataType="%Boolean") {
+		s ..ValueGet="s val=##Class(websys.Conversions).BooleanLogicalToHtml($s(obj:obj."_..Name_",1:""ERROR!""))"	
+		s ..ValueSet="s obj."_..Name_"=##Class(websys.Conversions).BooleanHtmlToLogical($g(val))"
+	}else{
+	 	if (..DataType="%Integer")||(..DataType="%Library.Integer") {
+		 	s ..Style="TEXT-ALIGN:right;"
+	 	}			 	
+	 	if (..DataType="%Float")||(..DataType="%Library.Float") {
+		 	s ..Style="TEXT-ALIGN:right;"
+	 	}			 	
+	 	if (..DataType="%Numeric")||(..DataType="%Library.Numeric") {
+		 	s ..Style="TEXT-ALIGN:right;"
+	 	}			 	
+		
+		s ..ValueGet="s val=$s(obj:obj."_..Name_",1:""ERROR!"")"
+		s ..ValueSet="s obj."_..Name_"=$g(val)"
+	}
+	
+				 	
+	if (..DataType="%Boolean")||(..DataType="%Library.Boolean") {
+	 	s ..DisplayType="C"
+	}else{
+	 	s ..DisplayType="T"
+	}
+]]></Implementation>
+</Method>
+
+<Method name="AddDefaultsFind">
+<Description>
+Apply default typical for find search criteria</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>collection:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	s ..Style="TEXT-ALIGN:right;"
+]]></Implementation>
+</Method>
+
+<Method name="AddDefaultsList">
+<Description>
+Apply defaults typical for an items in a list</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>collection:%Library.String</FormalSpec>
+<Private>1</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if (..DataType="%Library.Date")||(..DataType="%Date") {
+		s ..ValueGet="s val=##Class(websys.Conversions).DateLogicalToHtml(rs.Data("""_..Name_"""))"
+	}elseif (..DataType="%Library.TIme")||(..DataType="%Time") {
+		s ..ValueGet="s val=##Class(websys.Conversions).TimeLogicalToHtml(rs.Data("""_..Name_"""))"
+	}elseif (..DataType="%Library.Boolean")||(..DataType="%Boolean") {
+		s ..ValueGet="s val=##Class(websys.Conversions).BooleanLogicalToHtml(rs.Data("""_..Name_"""))"
+	}else{
+	 	if (..DataType="%Integer")||(..DataType="%Library.Integer") {
+		 	s ..Style="TEXT-ALIGN:right;"
+	 	}			 	
+	 	if (..DataType="%Float")||(..DataType="%Library.Float") {
+		 	s ..Style="TEXT-ALIGN:right;"
+	 	}			 	
+	 	if (..DataType="%Numeric")||(..DataType="%Library.Numeric") {
+		 	s ..Style="TEXT-ALIGN:right;"
+	 	}			 	
+		s ..ValueGet="s val=rs.Data("""_..Name_""")"
+		
+	}
+	
+ 	if (..DataType="%Boolean")||(..DataType="%Library.Boolean") {
+	 	s ..DisplayType="C"
+ 	}else{
+	 	s ..DisplayType="T"
+ 	}
+	s ..DisplayOnly=1
+]]></Implementation>
+</Method>
+
+<Method name="CaptionGet">
+<Description>
+Return the caption, or the translation if it's defined.</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s caption=""
+	if $d(t(..Name)) Q t(..Name)
+	if $d(%session)&&$d(%session.Data("LOGON.LANGID"))&&(%session.Data("LOGON.LANGID")'=""){
+		s caption=$P($G(^websys.TranslationD("COMP",%session.Data("LOGON.LANGID"),..ParRef.%Id(),..Name)),"^",1)
+	}
+	if caption="" s caption=i%Caption
+	q caption
+]]></Implementation>
+</Method>
+
+<Method name="CaptionStyleGet">
+<Description>
+Return the caption style, or the context specific one if it's defined.</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	/*
+	s captionstyle=$G(^websys.TranslationD("CONTEXT",..ParRef.%Id(),..Name),"CaptionStyle")
+	if captionstyle="" s captionstyle=i%CaptionStyle
+	q captionstyle
+	*/
+	;已经验证style没有走Translation里的个性化定义
+	if $d(tc(..Name,"CaptionStyle")) Q tc(..Name,"CaptionStyle")
+	q i%CaptionStyle
+]]></Implementation>
+</Method>
+
+<Method name="DefaultValueAlwaysGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.Binary</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"DefaultValueAlways")) Q tc(..Name,"DefaultValueAlways")
+	q i%DefaultValueAlways
+]]></Implementation>
+</Method>
+
+<Method name="DefaultValueExpressionGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"DefaultValueExpression")) Q tc(..Name,"DefaultValueExpression")
+	Q i%DefaultValueExpression
+]]></Implementation>
+</Method>
+
+<Method name="DescriptionGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q i%Description
+]]></Implementation>
+</Method>
+
+<Method name="DisplayOnlyGet">
+<Description>
+Return DisplayOnly, or the context specific one if it's defined.</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"DisplayOnly")) Q tc(..Name,"DisplayOnly")
+	q i%DisplayOnly
+]]></Implementation>
+</Method>
+
+<Method name="GetSerial">
+<Description>
+Public wrapper for private method
+????????</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>force:%Library.Integer=0</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q "GetSerial"
+]]></Implementation>
+</Method>
+
+<Method name="HelpUrlGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q i%HelpUrl
+]]></Implementation>
+</Method>
+
+<Method name="IconProfileGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"IconProfile")) Q tc(..Name,"IconProfile")
+	Q i%IconProfile
+]]></Implementation>
+</Method>
+
+<Method name="ImageEx">
+<Description><![CDATA[
+Extended image.<br>
+Treat image property as an expression to be evaluated.<br>
+Formats include:<br>
+Literal : webemr/rb.gif<br>
+Function : $s(rs.GetDataByName("Type")="S":"webemr/super.gif",1:"webemr/other.gif")<br>
+ClassMethod : ##Class(web.SomeClass).GetImage(rs.GetDataByName("Type"))<br>	
+??????????
+zhaocz add 2011-06-22
+zhaocz 2011-06-23 修正表达式]]></Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:(..Image="") ""
+	n myImage
+	s myImage=..Image
+	i '(..Image["""") s myImage=""""_..Image_""""
+	q ##class(websys.Conversions).expressionEvaluate(myImage)
+]]></Implementation>
+</Method>
+
+<Method name="InvokeMethod">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s $ZT="InvkeERROR"
+	
+	; zhaocz 2011-06-20 add n
+	n method, methodname, classname, IsVal, len, para,t
+	
+	s method=..ClassMethod
+	i method="" Q 
+	s classname=$P(method,",",1)
+	s methodname=$P(method,",",2)
+
+	s IsVal=##class(websys.Conversions).IsValidClassName(classname)
+	q:('IsVal) ""
+	
+	s IsVal=##class(websys.Conversions).IsValidMethodName(classname,methodname)
+	q:('IsVal) ""
+	
+	;zhouzq 2011.07.29 元素方法执行会用翻译数组
+	d ..ParRef.LoadTrans()
+	
+	s len=$l(method,",")
+	s para=$p(method,",",3,len)
+	if para'="" {
+		s code="d $ZOBJCLASSMETHOD("""_classname_""","""_methodname_""","_para_")"
+	}else{
+		s code="d $ZOBJCLASSMETHOD("""_classname_""","""_methodname_""")"
+	}
+	s ^Temp("Upgrade","InvokeMethod")=code
+	XECUTE code
+	
+	//websys.csp页面里会根据TRELOADID值决定是否刷新当前页面,并提示Message错误,
+	if (msg){
+		if (+$g(msg.Count)>0){
+			s TRELOADID=%request.Get("TRELOADID")
+		}
+	}
+	quit $$$OK
+InvkeERROR
+	s ^Temp("Upgrade","websys.ComponentItem.InvokeMethod")=$ZE
+	; zhaocz 2011-06-20 如果有错误，直接提示用户
+	if (msg){
+		;;;; 添加一个错误  2011-06-06 zhaocz add
+		n mycompid
+		s mycompid=$e($p($g(%request.Data("TEVENT",1)),"i",1),2,999)
+		d msg.AddItem("E","XINVALID", $ze,mycompid)
+		if (+(msg.Count)>0){
+			; zhaocz 2011-05-28 add requestname 
+			; 需要增加页面设置？  zhaocz
+			s TRELOADID=%request.Get("TRELOADID")
+		}
+	}
+	
+	quit ""
+]]></Implementation>
+</Method>
+
+<Method name="LinkUrlSet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	s i%LinkUrl=val
+]]></Implementation>
+</Method>
+
+<Method name="ListCellStyleEx">
+<Description>
+zhaocz 2011-06-22 add
+zhaocz 2011-06-23 修正表达式</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:(..ListCellStyle="") ""
+	
+	n myListStyle
+	s myListStyle = ..ListCellStyle
+	s:'(myListStyle["""") myListStyle=""""_myListStyle_""""
+	q ##class(websys.Conversions).expressionEvaluate(myListStyle)
+]]></Implementation>
+</Method>
+
+<Method name="XXXLookup">
+<FormalSpec>PageCnt:%String</FormalSpec>
+</Method>
+
+<Method name="LookupListBroker">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String="",list:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookupBrokerList">
+<Description>
+general broker for LookupList query.
+accepts same parameters as LookupList and returns the same data
+differs from LookupListBroker which is used by LookupUserDefined items</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",list:%Library.String="",val:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="LookupListClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookupListFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n repid
+	Set repid=$LIST(QHandle,2) 
+ 	Kill ^CacheTemp(repid) Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookupListExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,list:%Library.String,val:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n repid
+ 	s repid=$I(^CacheTemp) 
+	s ind=1 s QHandle=$lb(0,repid,0) 
+	f i=1:1:$l(list,"^") d
+	.s val1=$p(list,"^",i)
+	.q:val1=""
+	.d:val1[val outputRow
+	Quit $$$OK
+outputRow	
+	s ^CacheTemp(repid,ind)=$lb(val1)
+	s ind=ind+1
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookupListFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookupListExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n repid
+	Set AtEnd=$LIST(QHandle,1)
+	Set repid=$LIST(QHandle,2)
+	Set ind=$LIST(QHandle,3)
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind="" {
+		Set AtEnd=1 Set Row=""}
+	Else {
+		Set Row=^CacheTemp(repid,ind)
+	}
+	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookupUserDefinedValuesGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q i%LookupUserDefinedValues
+]]></Implementation>
+</Method>
+
+<Method name="RequiredGet">
+<Description>
+Return required, or the context specific one if it's defined.</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"Required")) Q tc(..Name,"Required")
+	q i%Required
+]]></Implementation>
+</Method>
+
+<Method name="ReadOnlyGet">
+<Description>
+Return readonly, or the context specific one if it's defined.</Description>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"ReadOnly")) Q tc(..Name,"ReadOnly")
+	q i%ReadOnly
+]]></Implementation>
+</Method>
+
+<Method name="ShortcutKeyGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"ShortcutKey")) Q tc(..Name,"ShortcutKey")
+	q i%ShortcutKey
+]]></Implementation>
+</Method>
+
+<Method name="Show">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%String,cmp:websys.Component,disabled:%Library.Boolean</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="ShowAnchor">
+<Description>
+还不确定</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q "<A id="""_id_"""  name="""_id_"""  HREF=""websys.csp?TFORM=FRED&TEVENT=&TNAVMARK=&TPAGID="_%request.Data("TPAGID")_""" tabIndex=""0"" style="""_i%Style_""">"_i%Caption_"</A>"
+]]></Implementation>
+</Method>
+
+<Method name="ShowButton">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q "<A HREF=""#"" id="""_id_"""  name="""_id_"""  style="""_i%Style_""" title="""_i%Tooltip_""" tabIndex=""0"">"_i%Caption_"</A>"
+]]></Implementation>
+</Method>
+
+<Method name="ShowCaption">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>inheader:%String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	i ..Required=1 s cls="clsRequired"
+	Q "<LABEL id=c"_..Name_"  Style="""_..CaptionStyle_""" CLASS="""_cls_""">"_..Caption_"</LABEL>"
+]]></Implementation>
+</Method>
+
+<Method name="ShowLayout">
+<Description>
+Generate HTML for layout manager
+zhouzq 2011.06.10</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;TEXTBOX,LISTBOX,CHECKBOX,TEXTAREA,LINK,BUTTON,COMPONENT,ICONPROFILE,CUSTOM,RTF,CUSTOMTEXTBOX"
+	;T,      L,      C,       TA,      A,   B,     CX,       IP,         S,     R,  CT")
+	s displaytype=i%DisplayType
+	s cls="COMPONENTITEM"
+	i ..Required=1 s cls="COMPONENTITEMR"
+	i ..DisplayOnly=1 s cls="COMPONENTITEMD"
+	i ..ReadOnly=1 s cls="COMPONENTITEMRD"
+	
+	;需要装换,否则界面编辑属性查看会有问题
+	s DefaultValueExpression=##class(websys.Conversions).HtmlFriendly(..DefaultValueExpression,0)
+	if displaytype="L" {
+		s html="<SELECT disabled CLASS="_cls_" id="""_id_""" size=2 name="""_id_""" accesskey="""_..ShortcutKey_""" tdefaultvalue="""_DefaultValueExpression_""" tdefaultalways="""_..DefaultValueAlways_""" tabIndex="""_..TabSequence_""" style="""_..Style_""" title="""_..Tooltip_"""> <OPTION>"_..Caption_"</OPTION><OPTION>2</OPTION><OPTION>3</OPTION></SELECT>"
+		;Q ..ShowListbox()
+	}elseif displaytype="T" {
+		s html="<INPUT disabled CLASS="_cls_" id="""_id_""" name="""_id_""" value="""_..Caption_""" accesskey="""_..ShortcutKey_""" tdefaultvalue="""_DefaultValueExpression_""" tdefaultalways="""_..DefaultValueAlways_""" tabIndex="""_..TabSequence_""" style="""_..Style_""" tlud=""0"" tvaluelist="""" title="""_..Tooltip_""">"
+		;Q ..ShowTextbox()
+	}elseif displaytype="TA" {
+		s html="<TEXTAREA disabled  CLASS="_cls_" id="""_id_""" name="""_id_""" tdefaultvalue="""_DefaultValueExpression_""" tdefaultalways="""_..DefaultValueAlways_""" tabIndex="""_..TabSequence_""" style="""_..Style_""" tvaluelist="""" title="""_..Tooltip_""">"_..Name_"</TEXTAREA>"
+		;Q ..ShowTextArea()
+	}elseif displaytype="B" {
+		s Caption=$s(..Caption'="":..Caption,1:"["_..Name_"]") 
+		s html="<input TYPE=button CLASS="_cls_" HREF=""#"" id="""_id_""" name="""_id_"""  value="""_Caption_""" accesskey="""_..ShortcutKey_""" lwfl=""1"" linkworkflow="""_..LinkWorkFlow_""" tabIndex="""_..TabSequence_""" style="""_..Style_""" title="""_..Tooltip_""">"
+		;Q ..ShowButton()
+	}elseif displaytype="A" {
+		s html="<input TYPE=button CLASS="_cls_" HREF=""#"" id="""_id_""" name="""_id_""" value="""_..Caption_""" accesskey="""_..ShortcutKey_""" tdefaultvalue="""_DefaultValueExpression_""" tdefaultalways="""_..DefaultValueAlways_""" lwfl=""1"" linkworkflow="""_..LinkWorkFlow_""" tabIndex="""_..TabSequence_""" style="""_..Style_""" title="""_..Tooltip_""">"
+		;Q ..ShowAnchor()
+	}ELSEIF (displaytype="C"){
+		s html="<INPUT disabled CLASS="_cls_" id="""_id_""" type=checkbox value="""_..Caption_""" name="""_id_""" accesskey="""_..ShortcutKey_""" tdefaultvalue="""_DefaultValueExpression_""" tdefaultalways="""_..DefaultValueAlways_""" tabIndex="""_..TabSequence_""" style="""_..Style_""" title="""_..Tooltip_""">"
+	}ELSEIF (displaytype="IP"){
+		if ..Caption="" s caption=..Name
+		s IconProfile=$lg(##class(epr.CTIconProfile).GetCodeDescriptionFromId(..IconProfile),1)
+		s html="<INPUT disabled CLASS=COMPONENTITEMIP id="""_id_""" name="""_id_""" value="""_caption_"""  tabIndex="""_..TabSequence_""" ticonprofile="""_IconProfile_""">"
+	}ELSEIF (displaytype="S"){
+		s html="<input TYPE=button CLASS="_cls_" HREF=""#"" id="""_id_""" name="""_id_""" value="""_..Caption_"""  style="""_..Style_""">"
+	}ELSEIF (displaytype="CT"){
+		s html="<INPUT disabled CLASS="_cls_" id="""_id_""" name="""_id_""" value="""_..Caption_""" accesskey="""_..ShortcutKey_""" tdefaultvalue="""_DefaultValueExpression_""" tdefaultalways="""_..DefaultValueAlways_""" tabIndex="""_..TabSequence_""" style="""_..Style_""" clu=""1"" clucls="""_..CustomLookupClassName_""" cluqry="""_..CustomLookupQueryName_""" cluprp="""_..CustomLookupProperties_""" clubrk="""_..CustomLookupBrokerMethod_""" tvaluelist="""" title="""_..Tooltip_""">"
+	}else{
+		s html="<INPUT disabled CLASS="_cls_" id="""_id_""" name="""_id_""" value="""_..Caption_""" accesskey="""_..ShortcutKey_""" tdefaultvalue="""_DefaultValueExpression_""" tdefaultalways="""_..DefaultValueAlways_""" tabIndex="""_..TabSequence_""" style="""_..Style_""" tlud=""0"" tvaluelist="""" title="""_..Tooltip_""">"
+	}
+	Q html
+]]></Implementation>
+</Method>
+
+<Method name="ShowLayoutCaption">
+<Description>
+Genrate HTML for layout manager
+by zhouzq  2011.06.10 inheader不是是何含义</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String,inheader:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s cls="COMPONENTITEM"
+	i ..Required=1 s cls="COMPONENTITEMR"
+	
+	Q "<input TYPE=button CLASS="_cls_" HREF=""#"" id="""_id_""" name="""_id_""" value="""_..Caption_""" style="""_..CaptionStyle_""">"
+]]></Implementation>
+</Method>
+
+<Method name="ShowLayoutDescription">
+<Description>
+by zhouzq  2011.06.10</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q "<span CLASS=COMPONENTITEMDESC id="""_id_""" name="""_id_""" ></span>"
+]]></Implementation>
+</Method>
+
+<Method name="ShowListbox">
+<Description>
+by zhouzq  2011.06.10
+s obj=##class(websys.ComponentItems).%OpenId("538||1248931") 
+w obj.ShowListbox()</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q "<SELECT id= name= multiple size=5 style="""_..Style_""" tabIndex=""0""></SELECT>"
+]]></Implementation>
+</Method>
+
+<Method name="ShowNestedComponentBody">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>isnested:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ShowNestedComponentStub">
+<Description>
+Show a nested component - e.g. tree structure in a list</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s html="<IMG onclick=""websys_component(this,'r');return false;"" SRC=""../images/websys/plus.gif"" border=""0"">"
+	Q html
+]]></Implementation>
+</Method>
+
+<Method name="ShowTextArea">
+<Description>
+by zhouzq  2011.06.10</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q "<TEXTAREA CLASS=COMPONENTITEM id= name= style="""_..Style_""" tabIndex=""0""></TEXTAREA>"
+]]></Implementation>
+</Method>
+
+<Method name="ShowTextbox">
+<Description>
+by zhouzq  2011.06.10</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q "<input id= name= value="""" style="""_..Style_""" tabIndex=""0""><IMGid=l src=""../images/websys/lookup.gif"" >"
+]]></Implementation>
+</Method>
+
+<Method name="StyleGet">
+<Description>
+Return the caption style, or the context specific one if it's defined.</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"Style")) Q tc(..Name,"Style")
+	q i%Style
+]]></Implementation>
+</Method>
+
+<Method name="LinkWorkFlowGet">
+<Description>
+Return the workflow, or the context specific one if it's defined.
+只对button或者link元素有效</Description>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"LinkWorkFlow")) Q tc(..Name,"LinkWorkFlow")
+	q i%LinkWorkFlow
+]]></Implementation>
+</Method>
+
+<Method name="CustomLookupClassNameGet">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%CustomLookupClassName
+]]></Implementation>
+</Method>
+
+<Method name="CustomLookupQueryNameGet">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%CustomLookupQueryName
+]]></Implementation>
+</Method>
+
+<Method name="CustomLookupPropertiesGet">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%CustomLookupProperties
+]]></Implementation>
+</Method>
+
+<Method name="CustomLookupBrokerMethodGet">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%CustomLookupBrokerMethod
+]]></Implementation>
+</Method>
+
+<Method name="LinkWorkFlowDescriptionGet">
+<Description>
+Return the workflow Description</Description>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	s LinkWorkFlowId=..LinkWorkFlow
+	if LinkWorkFlowId'="" {
+		s workflowobj=##class(websys.WorkFlow).%OpenId(LinkWorkFlowId)
+		if $IsObject(workflowobj) {
+			s Name=workflowobj.Name
+			d workflowobj.%Close()
+			s workflowobj=""
+			Quit Name
+		}
+	}
+	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="LinkWorkFlowDescriptionSet">
+<FormalSpec>val:%String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	;Q $$$OK
+	if val="" {
+		s ..LinkWorkFlow=""
+	}else {
+		s ..LinkWorkFlow=$O(^websys.WorkFlowI("UniqueNameIndex"," "_$ZCVT(val,"U"),0))
+	}
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="TabSequenceGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"TabSequence")) Q tc(..Name,"TabSequence")
+	Quit i%TabSequence
+]]></Implementation>
+</Method>
+
+<Method name="TooltipEx">
+<Description>
+As for ImageEx()
+/ zhaocz 2011-06-22 add
+zhaocz 2011-06-23 修正表达式</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:(..Tooltip="") ""
+	n mytooltip
+	s mytooltip=..Tooltip
+	s:'(mytooltip["""") mytooltip=""""_mytooltip_""""
+	s mytooltip = ##class(websys.Conversions).expressionEvaluate(mytooltip)
+	q:(mytooltip'="") mytooltip
+	q ..Tooltip
+]]></Implementation>
+</Method>
+
+<Method name="TooltipGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if $d(tc(..Name,"Tooltip")) Q tc(..Name,"Tooltip")
+	q i%Tooltip
+]]></Implementation>
+</Method>
+
+<Method name="Underline">
+<Description>
+Substitute underline character if there is a shortcut key.</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>text:%Library.String,char:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q text_"(<u>"_char_"</u>)"
+]]></Implementation>
+</Method>
+
+<Method name="XXXpPageUrl">
+<FormalSpec>PageCnt:%Integer</FormalSpec>
+<Private>1</Private>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Q ""
+]]></Implementation>
+</Method>
+
+<Query name="LookupList">
+<Description>
+Query to wrap a comma separated list. This is to simplify the logic in lookups.</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>list:%Library.String,val:%Library.String=""</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="val1"/>
+</Query>
+</Class>
+</Export>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSIndexTable">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>60582,45211.892704</TimeChanged>
+<TimeCreated>59009,42040</TimeCreated>
+
+<Parameter name="BUILD">
+<Final>0</Final>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="ClassName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SQLExpression">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TriggerSQLExpression">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="ClassNameIndex">
+<Description>
+Index for property ClassName</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ClassName</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="UniqueClassNameIndex">
+<Description>
+Uniqueness index for property ClassName</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ClassName</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="getData">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgClassName:%Library.String,ArgArrayName:%Library.String,ArgRowId:%Library.String,ArgSQLTABLE:%Library.String,ArgSQLROWID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="qryLookUp">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ClassName, SQLExpression
+FROM DSSIndexTable
+WHERE (ClassName = :classname)
+ORDER BY ClassName DESC</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ClassName:%Library.String,SQLExpression:%Library.String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DSSIndexTableD</DataLocation>
+<DefaultData>DSSIndexTableDefaultData</DefaultData>
+<IdLocation>^websys.DSSIndexTableD</IdLocation>
+<IndexLocation>^websys.DSSIndexTableI</IndexLocation>
+<StreamLocation>^websys.DSSIndexTableS</StreamLocation>
+<Data name="DSSIndexTableClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DSSIndexTableDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>ClassName</Value>
+</Value>
+<Value name="2">
+<Value>SQLExpression</Value>
+</Value>
+<Value name="3">
+<Value>TriggerSQLExpression</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

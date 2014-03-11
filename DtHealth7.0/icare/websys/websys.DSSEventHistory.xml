@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSEventHistory">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59798,58406.854501</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>19</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="EpisodeDR">
+<Type>User.PAAdm</Type>
+</Property>
+
+<Property name="EventDate">
+<Type>%Date</Type>
+</Property>
+
+<Property name="ActionItemDR">
+<Type>websys.DSSActionItem</Type>
+</Property>
+
+<Property name="EventTime">
+<Type>%Time</Type>
+</Property>
+
+<Property name="UserDR">
+<Type>User.SSUser</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DSSEventHistoryD</DataLocation>
+<DefaultData>DSSEventHistoryDefaultData</DefaultData>
+<IdLocation>^websys.DSSEventHistoryD</IdLocation>
+<IndexLocation>^websys.DSSEventHistoryI</IndexLocation>
+<StreamLocation>^websys.DSSEventHistoryS</StreamLocation>
+<Data name="DSSEventHistoryDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ActionItemDR</Value>
+</Value>
+<Value name="3">
+<Value>EpisodeDR</Value>
+</Value>
+<Value name="4">
+<Value>EventDate</Value>
+</Value>
+<Value name="5">
+<Value>EventTime</Value>
+</Value>
+<Value name="6">
+<Value>UserDR</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

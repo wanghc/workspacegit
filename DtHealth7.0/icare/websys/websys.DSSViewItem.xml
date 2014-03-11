@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSViewItem">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62247,41320.750914</TimeChanged>
+<TimeCreated>59025,47812</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>101</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Property name="ParRef">
+<Type>websys.DSSView</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>Items</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="SQLAs">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SQLExpression">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="LookUpClose">
+<Description>
+Default implementation of LookUp Query.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Binary</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+	Kill ^CacheTemp(repid)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpExecute">
+<Description>
+Default implementation of LookUp Query.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;in  Code ,Description
+	;out  Description:%String,HIDDEN:%String,Code:%String
+	;zhaocz 2011-06-03 根据测试  desc  是 DSSView 表的rowid
+	New repid, index
+	Set repid=$I(^CacheTemp)
+	;
+	;d ##class(%ResultSet).RunQuery("websys.DSSViewItem","LookUp","")
+	Set QHandle=$lb(0,repid,0)
+	s index=1
+	
+	Quit:(desc="") $$$OK
+	
+	d ResetVariablesLookup
+	
+	s myobj=##class(websys.DSSView).%OpenId(desc)
+	if ($IsObject(myobj)){
+		s mylen = myobj.Items.Count()
+		for myIdx=1:1:mylen {
+			s myitemobj=myobj.Items.GetAt(myIdx)
+			
+			s myDescription = myitemobj.SQLExpression_ " AS "_myitemobj.SQLAs
+			s myHIDDEN = myitemobj.SQLExpression_ " AS "_myitemobj.SQLAs
+			s myCode = ""
+			s myitemobj=""
+			d OutputLookup
+		}
+		s obj=""
+	}
+	Quit $$$OK
+ResetVariablesLookup
+	s (myDescription, myHIDDEN, myCode)=""
+	quit
+OutputLookup
+	s Data=$lb(myDescription, myHIDDEN, myCode)
+	Set ^CacheTemp(repid,index)=Data
+	Set index=index+1
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="LookUpFetch">
+<Description>
+Default implementation of LookUp Query.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+	Set repid=$LIST(QHandle,2)
+	Set ind=$LIST(QHandle,3)
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind="" {				
+		Set AtEnd=1
+		Set Row=""
+	}
+	Else      {				
+		Set Row=^CacheTemp(repid,ind)
+	}
+	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Parameter name="EXTENTSIZE">
+<Default>534</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Items")</DataLocation>
+<DefaultData>DSSViewItemDefaultData</DefaultData>
+<IdLocation>{%%PARENT}("Items")</IdLocation>
+<IndexLocation>^websys.DSSViewItemI</IndexLocation>
+<StreamLocation>^websys.DSSViewItemS</StreamLocation>
+<Data name="DSSViewItemClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DSSViewItemDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>ParRef</Value>
+</Value>
+<Value name="2">
+<Value>SQLAs</Value>
+</Value>
+<Value name="3">
+<Value>SQLExpression</Value>
+</Value>
+</Data>
+<Property name="ParRef">
+</Property>
+<Property name="SQLAs">
+</Property>
+<Property name="SQLExpression">
+</Property>
+</Storage>
+</Class>
+</Export>

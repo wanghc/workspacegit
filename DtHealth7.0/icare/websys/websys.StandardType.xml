@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.StandardType">
+<Description>
+Standard Type</Description>
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy>SQLStorage</StorageStrategy>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62257,33752.040564</TimeChanged>
+<TimeCreated>61079,43958.103372</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>312</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>126</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Final>0</Final>
+<Default>RowID</Default>
+</Parameter>
+
+<Parameter name="xmlidentifiedby">
+<Description>
+Used in conjunction with XMLId method to unqiuely identify a record.
+By default ..%Id() is used unless other properties are specified. A comma separated list may be provided and processed by overridding XMLId method</Description>
+<Final>0</Final>
+<Default>%Id()</Default>
+</Parameter>
+
+<Parameter name="xmltoclass">
+<Description>
+Mapping from XML to Class</Description>
+<Final>0</Final>
+<Default>standardtype</Default>
+</Parameter>
+
+<Parameter name="xmltypeChildStandardTypeItem">
+<Final>0</Final>
+<Default>standardtypeitems</Default>
+</Parameter>
+
+<Property name="ChildStandardTypeItem">
+<Type>StandardTypeItem</Type>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Code">
+<Description>
+Code</Description>
+<Type>%String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<SqlColumnNumber>2</SqlColumnNumber>
+<SqlFieldName>Code</SqlFieldName>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="RowIDBasedIDKeyIndex">
+<Extent>0</Extent>
+<IdKey>1</IdKey>
+<PrimaryKey>1</PrimaryKey>
+<Properties>Code</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="AddItem">
+<Description>
+Quick way to add an item.
+2011-06-15 zhaocz add</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String,StoredValue:%Library.String,code:%Library.String,description:%Library.String,ExtraValue:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	&sql(insert into websys.StandardTypeItem (ParRef, StoredValue, Code, Description, ExtraValue) values (:id, :StoredValue, :code, :description, :ExtraValue))
+]]></Implementation>
+</Method>
+
+<Method name="XMLId">
+<Description>
+Get the ID from the identified by string.
+By default the generated version of this returns the value passed.
+In general this method will be overridden to provide the required behaviour.
+For example - Component name is passed - this will return ..%Id()</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="VBFind">
+<Description>
+Find called from VB Patching OCX</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Code</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT Code
+FROM Standardtype
+WHERE Code %STARTSWITH :Code
+ORDER BY Code</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Code:%String"/>
+</Query>
+
+<Query name="VBFindLE">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlQuery>SELECT	Code, Code as zCODE
+FROM	StandardType
+WHERE	(Code %STARTSWITH :desc)
+ORDER	BY Code</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String"/>
+</Query>
+
+<Storage name="SQLStorage">
+<Type>%CacheSQLStorage</Type>
+<SqlRowIdName>RowID</SqlRowIdName>
+<StreamLocation>^websys.StandardTypeS</StreamLocation>
+<Property name="Code">
+</Property>
+<SQLMap name="DataMaster">
+<Type>data</Type>
+<Global>^websys.StandardTypeD</Global>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<Expression>"STD"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Code}</Expression>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}</Expression>
+<Field>Code</Field>
+</RowIdSpec>
+<Data name="Code">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Query">
+<Description>
+author: wanghc
+date: 2011-09-23
+desc: 写query的时候不用去写四个方法了,用类代码生成来实现编译时生成Excute,fetch,Close</Description>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Query</Super>
+<TimeChanged>62587,33603.406751</TimeChanged>
+<TimeCreated>62574,32204.014722</TimeCreated>
+
+<Method name="Close">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>Execute</PlaceAfter>
+<ProcedureBlock>1</ProcedureBlock>
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+		$$$GENERATE(" Set repid=$LIST(qHandle,2)")
+ 		$$$GENERATE(" Kill ^CacheTemp(repid)")
+ 		$$$GENERATE(" QUIT $$$OK")
+		QUIT $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Execute">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<ProcedureBlock>1</ProcedureBlock>
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+		s %code=0
+		#; don't generate any code if it not for a query
+		i %mode="method" QUIT $$$OK
+		#; %mode is "propertymethod" for a valid query. We don't have any way currently to detect a misuse of a query class
+		if '$$$comMemberDefined(%class,$$$cCLASSquery,%property) QUIT $$$OK
+		#; Reset the formal list to the query declaration:
+		#; write inputArgs
+		$$$comSubMemberKeyGetLvar(formal,%class,$$$cCLASSquery,%property,$$$cQUERYmethod,%method,$$$cMETHformalspecparsed)
+		$$$comMemberKeyGetLvar(qformal,%class,$$$cCLASSquery,%property,$$$cQUERYformalspecparsed)
+		$$$comSubMemberKeySet(%class,$$$cCLASSquery,%property,$$$cQUERYmethod,%method,$$$cMETHformalspecparsed,formal_qformal)
+		s sc=$$SetOneQueryMeth^%occQuery(%class,%property,%method) q:$$$ISERR(sc) sc
+
+		#; Initialize qHandle...
+		$$$GENERATE(" Set repid=$I(^CacheTemp)")
+		$$$GENERATE(" If $g(ind)="""" Set ind=1")
+		#; copy code to Excute
+		$$$comMemberKeyGetLvar(query,%class,$$$cCLASSquery,%property,$$$cQUERYsqlquery)
+		s qline=0
+		f i=1:1:$l(query,$$$NL) s line=$p(query,$$$NL,i) i line'="" s qline=qline+1,qline(qline)=line
+		f i=1:1:qline-1 $$$GENERATE($Char(9,9)_qline(i))
+		i qline {
+			$$$GENERATE($Char(9,9)_qline(qline))
+		}
+		$$$GENERATE(" Set qHandle=$lb(0,repid,0)")
+		$$$GENERATE(" QUIT $$$OK")
+		QUIT $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Fetch">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[&qHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>Execute</PlaceAfter>
+<ProcedureBlock>1</ProcedureBlock>
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+		$$$GENERATE(" Set AtEnd=$LIST(qHandle,1)")
+		$$$GENERATE(" Set repid=$LIST(qHandle,2)")
+		$$$GENERATE(" Set ind=$LIST(qHandle,3)")
+		$$$GENERATE(" Set ind=$o(^CacheTemp(repid,ind))")
+		$$$GENERATE(" If ind="""" { // if there are no more rows, finish fetching")
+		$$$GENERATE(" Set AtEnd=1")
+		$$$GENERATE(" Set Row=""""")
+		$$$GENERATE(" }Else{ // fetch row")
+		$$$GENERATE(" Set Row=^CacheTemp(repid,ind)")
+		$$$GENERATE(" }")
+		$$$GENERATE(" s qHandle=$lb(AtEnd,repid,ind)")
+		$$$GENERATE(" QUIT $$$OK")
+		QUIT $$$OK
+]]></Implementation>
+</Method>
+</Class>
+</Export>

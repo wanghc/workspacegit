@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DictionaryTranslated">
+<Description>
+Foreign Languuage Translation of dictionary items</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62582,46339.515533</TimeChanged>
+<TimeCreated>59122,56653</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>124</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Property name="Item">
+<Type>websys.Dictionary</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>many</Cardinality>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LanguageDR">
+<Type>User.SSLanguage</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Phrase">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="LanguageItem">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>LanguageDR,Item</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="AddItem">
+<Description>
+2011.06.30 zhouzq 增加短语翻译
+w ##class(websys.DictionaryTranslated).AddItem(20,1308,"代码22")</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>langid:%Library.String,phraseid:%Library.String,trans:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n id
+	&SQL(Select ID into :id From websys.DictionaryTranslated Where Item=:phraseid and LanguageDR=:langid )
+	if SQLCODE {
+		&SQL(Insert Into websys.DictionaryTranslated (Item,LanguageDR,Phrase) Values (:phraseid,:langid,:trans))
+	}else{
+		&SQL(Update websys.DictionaryTranslated Set Phrase=:trans Where ID=:id )
+	}
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n repid
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,langid:%Library.String,phrase:%Library.String,untranslated:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n repid
+	s (ID,Phrase,TransID,Translation)=""
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	i langid="" s QHandle=$lb(0,repid,0) Q $$$OK
+	s untranslated=##class(websys.Conversions).BooleanHtmlToLogical(untranslated)
+	s phrase=$zu(28,phrase,7,32768)
+	s text=phrase 
+	i text'="" s text=$o(^websys.DictionaryI("UniquePhraseIndex",text),-1)
+	s len=$l(phrase)
+	f  s text=$o(^websys.DictionaryI("UniquePhraseIndex",text)) q:(text="")||($e(text,1,len)'=phrase)  d	
+	.s ID=$o(^websys.DictionaryI("UniquePhraseIndex",text,""))
+	.s obj = ##class(websys.Dictionary).%OpenId(ID)
+	.q:'$IsObject(obj)
+	.s Phrase=obj.Phrase
+	.s TransID=$o(^websys.DictionaryTranslatedI("LanguageItem",langid,ID,""))
+	.s Translation=""
+	.q:TransID&&untranslated
+	.i (untranslated=0)&&TransID d
+	..s obj = ##class(websys.DictionaryTranslated).%OpenId(TransID)
+	..q:'$IsObject(obj)
+	..s Translation=obj.Phrase
+	.s ^CacheTemp(repid,ind)=$lb(ID,Phrase,TransID,Translation)
+	.s ind=ind+1
+	.S obj=""
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n repid
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}Else{				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetItem">
+<Description>
+Return the transation for a specific phrase
+zhaocz  2011-05-26</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>langid:%Library.String,phraseid:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n objDT, TransRowID, TransDesc
+	
+	s TransRowID=$o(^websys.DictionaryTranslatedI("LanguageItem",langid,phraseid,0))
+	q:(TransRowID="") ""
+	
+	s objDT=##class(websys.DictionaryTranslated).%OpenId(TransRowID,0)
+	
+	s TransDesc = objDT.Phrase
+	
+	d objDT.%Close()
+	s objDT=""
+	
+	q TransDesc
+]]></Implementation>
+</Method>
+
+<Method name="GetItemByPhrase">
+<Description>
+Return the transation for a specific phrase
+zhaocz  2011-05-26</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>langid:%Library.String,phraseDesc:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	;w ##class(dtwebsys.DictionaryTranslated).GetItemByPhrase(20, "is a required field but has not been entered")
+	n myDicRowID, myTransDesc
+	
+	s phraseDesc=$zu(28, phraseDesc,7,32768)
+	s myDicRowID=$o(^websys.DictionaryI("UniquePhraseIndex",phraseDesc,0))
+	q:(myDicRowID="") ""
+	q:langid="" ""
+	s myTransDesc=..GetItem(langid, myDicRowID)
+	
+	q myTransDesc
+]]></Implementation>
+</Method>
+
+<Method name="Kill">
+<Description>
+Kill all</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysSave">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+<Implementation><![CDATA[
+	S $zt="ERR"
+	s row=1,langid=%session.Get("LOGON.LANGID")
+	F  Q:'$d(%request.Data("IDz"_row,1))  s ID=%request.Data("IDz"_row,1),tranID=%request.Data("TransIDz"_row,1),Translation=%request.Data("Translationz"_row,1) d
+	.s row=row+1		
+	.q:(+tranID=0)&&(Translation="")
+	.i (+tranID'=0)&&(Translation="") d
+	..&sql(delete from websys.DictionaryTranslated where ID=:tranID )		
+	.i (+tranID'=0)&&(Translation'="")  d
+	..&sql(update websys.DictionaryTranslated set LanguageDR=:langid,Item=:ID,Phrase=:Translation where ID=:tranID )		
+	.i (+tranID=0)&&(Translation'="") d
+	..&sql(insert into websys.DictionaryTranslated(LanguageDR,Item,Phrase) values (:langid,:ID,:Translation))
+	q 0
+ERR
+	k ^TMP("websys.DictionaryTranslated","websysSave")
+	s ^TMP("websys.DictionaryTranslated","websysSave")=$ze
+	q 1
+]]></Implementation>
+</Method>
+
+<Parameter name="EXTENTSIZE">
+<Default>74</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Query name="Find">
+<Description>
+Get List of captions to translate for a language.
+Optionally exlcude items which already have a translation.
+For this reason the query is based on websys.Dictionary.
+wanghc 2011-06-10</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>langidX:%Library.String,phrase:%Library.String,untranslated:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Phrase,TransID,Translation"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.DictionaryTranslatedD</DataLocation>
+<DefaultData>DictionaryTranslatedDefaultData</DefaultData>
+<IdLocation>^websys.DictionaryTranslatedD</IdLocation>
+<IndexLocation>^websys.DictionaryTranslatedI</IndexLocation>
+<StreamLocation>^websys.DictionaryTranslatedS</StreamLocation>
+<Data name="DictionaryTranslatedClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DictionaryTranslatedDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Item</Value>
+</Value>
+<Value name="2">
+<Value>LanguageDR</Value>
+</Value>
+<Value name="3">
+<Value>Phrase</Value>
+</Value>
+</Data>
+<Property name="Item">
+</Property>
+<Property name="LanguageDR">
+</Property>
+<Property name="Phrase">
+</Property>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.TranslationEPR">
+<Description>
+Translation EPR</Description>
+<ClassType>persistent</ClassType>
+<IncludeCode>TRAK</IncludeCode>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy>SQLStorage</StorageStrategy>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62847,67790.57397</TimeChanged>
+<TimeCreated>61079,43958.104121</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>73</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Property name="ChildTranslationEPRTrans">
+<Type>TranslationEPRTrans</Type>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="ClassName">
+<Description>
+ClassName</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlColumnNumber>2</SqlColumnNumber>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PropertyName">
+<Description>
+PropertyName</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlColumnNumber>3</SqlColumnNumber>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PropertyText">
+<Description>
+PropertyText</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlColumnNumber>4</SqlColumnNumber>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="AlphaUp"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TextInUse">
+<Description>
+TextInUse</Description>
+<Type>%String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<SqlColumnNumber>5</SqlColumnNumber>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="AddItem">
+<Description>
+[Previously private]</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String,prpname:%Library.String,txt:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	
+	n obj
+	s obj = ##class(websys.TranslationEPR).%New()
+	s obj.ClassName = classname
+	s obj.PropertyName = prpname
+	s obj.PropertyText = txt
+	Set sc = obj.%Save()
+	If $$$ISERR(sc) {
+		Do $System.Status.DisplayError()
+		d obj.%Close()
+		s obj=""
+		Q ""
+	}
+	d obj.%Close()
+	s obj=""
+	q 0
+]]></Implementation>
+</Method>
+
+<Method name="Build">
+<Description>
+从EPR设置处刷新列表
+Scan all epr related classes which have names, descriptions etc which are used as captions and add them to the list of
+translateable items if they are not already there</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	/*目前只实现了epr.Chart,其余的还有待研究是什么关系,可能是对于电子病历里面数据的翻译
+	1 epr.Chart
+	2 epr.CTPages
+	3 epr.CTProfileParams
+	4 epr.CTChartItemType
+	5 User.MRCObservationGroup
+	6 User.MRCObservationItem
+	*/
+	Set chartId=""  
+	for  Set chartId = $Order(^ooChartD(chartId)) quit:chartId=""  do
+	.Set chartName = $lg(^ooChartD(chartId),4)
+	.If 0=$d(^websys.TranslationD("EPR",0,"epr.Chart","Name",chartName)) do
+	..Do ..AddItem("epr.Chart","Name",chartName)
+	q 0
+]]></Implementation>
+</Method>
+
+<Method name="FindClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindExecute">
+<Description><![CDATA[
+wanghc
+input : langid=SS_Language -->rowid
+phrase : PropertyText
+untranslated: 是否查询出已翻译的--->TranslationEPRTrans.PropertyTextTrans]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,langid:%Library.String,phrase:%Library.String,untranslated:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s (ID,ClassName,PropertyName,Text,TextTrans,InUse)=""
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	i langid="" s QHandle=$lb(0,repid,0) Q $$$OK
+	s untranslated=##class(websys.Conversions).BooleanHtmlToLogical(untranslated)
+	s ID="" 
+	f  s ID=$o(^websys.TranslationD("EPR",ID)) q:ID=""  d
+	.q:$d(^websys.TranslationD("EPR",ID,"LANG",langid))&&(untranslated)	//不显示已翻译的
+	.s obj = ##class(websys.TranslationEPR).%OpenId(ID)
+	.q:'$IsObject(obj)
+	.s Text=obj.PropertyText
+	.s InUse=obj.TextInUse	
+	.q:(phrase'="")&&(Text'[phrase)
+	.s ClassName=obj.ClassName
+	.s PropertyName=obj.PropertyName
+	.s TextTrans=""
+	.i (+untranslated=0)&&($d(^websys.TranslationD("EPR",ID,"LANG",langid))) d
+	..s langObj=##class(websys.TranslationEPRTrans).%OpenId(ID_"||"_langid) 
+ 	..s:$IsObject(langObj) TextTrans=langObj.PropertyTextTrans 
+ 	..s langObj=""
+	.s ^CacheTemp(repid,ind)=$lb(ID,ClassName,PropertyName,Text,TextTrans,InUse)
+	.s ind=ind+1
+	.S obj=""
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}Else{				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetTrans">
+<Description>
+by wuqk 2011-05-31</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String,prpname:%Library.String,langid:%Library.String,text:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	set trans=text
+	set text=$zu(28,text,6)
+	if $d(^websys.TranslationD("EPR",0,classname,prpname,text)){
+		set transId=$o(^websys.TranslationD("EPR",0,classname,prpname,text,0))
+		set:$d(^websys.TranslationD("EPR",transId,"LANG",langid)) trans=$g(^websys.TranslationD("EPR",transId,"LANG",langid))
+	}
+	quit trans
+]]></Implementation>
+</Method>
+
+<Method name="websysSave">
+<Description>
+by wanghc</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String,id:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	S $zt="ERR"
+	s row=1,langid=%session.Get("LOGON.LANGID")
+	f  Q:'$d(%request.Data("IDz"_row,1))  s rowid=%request.Data("IDz"_row,1),textTrans=%request.Data("TextTransz"_row,1) d
+	.s row=row+1
+	.q:(textTrans="")&&('$d(^websys.TranslationD("EPR",rowid,"LANG",langid)))	;值为空&&表中没存
+	.i $d(^websys.TranslationD("EPR",rowid,"LANG",langid))&&(textTrans="") D
+	..&sql(delete from websys.TranslationEPRTrans where rowid=:rowid_'||'_:langid)
+	.i $d(^websys.TranslationD("EPR",rowid,"LANG",langid))&&(textTrans'="") D
+	..&sql(update websys.TranslationEPRTrans set PropertyTextTrans=:textTrans where rowid=:rowid_'||'_:langid)
+	.i '$d(^websys.TranslationD("EPR",rowid,"LANG",langid))&&(textTrans'="") D
+	..&sql(insert into websys.TranslationEPRTrans(PropertyTextTrans,PropertyTextLang,ParRef) values(:textTrans,:langid,:rowid))
+	q 0
+ERR
+	k ^TMP("websys.TranslationEPR","websysSave")
+	s ^TMP("websys.TranslationEPR","websysSave")=$ze
+	q 1
+]]></Implementation>
+</Method>
+
+<Parameter name="SQLCODE">
+<Default>RowID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>RowID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>RowID</Default>
+</Parameter>
+
+<Query name="Find">
+<Type>%Library.Query</Type>
+<FormalSpec>langidX,phrase,untranslated</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,ClassName,PropertyName,Text,TextTrans,InUse"/>
+</Query>
+
+<Method name="ImportCodeTablesJob">
+<Description>
+by wanghc 导入代码表</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>dir:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="ImportCodeTables">
+<Description>
+ab 13.02.07 - imports codetable descriptions from flat file</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>dir:%String="",writeout:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="ImportCT">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[filename:%String,dir:%String,&error:%String,writeout:%String=""]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="ExportCodeTablesJob">
+<Description>
+by wanghc 导出代码表</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>dir:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="ExportCodeTables">
+<Description>
+ab 13.02.07 - exports codetable descriptions to flat file</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>dir:%String="",writeout:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="ExportCT">
+<Description>
+ab 1.02.07 61721 - modified from websys.Generator</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>tablename:%String,dir:%String,param,delim=",",writeout:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="LogErrors">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>dir:%String,ERRLOG:%String</FormalSpec>
+</Method>
+
+<Storage name="SQLStorage">
+<Type>%CacheSQLStorage</Type>
+<SqlIdExpression>$i(^websys.TranslationD("EPR",0))</SqlIdExpression>
+<SqlRowIdName>RowID</SqlRowIdName>
+<StreamLocation>^websys.TranslationEPRS</StreamLocation>
+<SQLMap name="DataMaster">
+<Type>data</Type>
+<Global>^websys.TranslationD</Global>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<Expression>"EPR"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{RowID}</Expression>
+<StartValue>1</StartValue>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}</Expression>
+<Field>RowID</Field>
+</RowIdSpec>
+<Data name="ClassName">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="PropertyName">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="PropertyText">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+<Data name="TextInUse">
+<Delimiter>"^"</Delimiter>
+<Piece>4</Piece>
+</Data>
+</SQLMap>
+<SQLMap name="IndexTrans">
+<Type>index</Type>
+<Global>^websys.TranslationD</Global>
+<PopulationType>nonnull</PopulationType>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<Expression>"EPR"</Expression>
+<NextCode/>
+</Subscript>
+<Subscript name="2">
+<Expression>0</Expression>
+<NextCode/>
+</Subscript>
+<Subscript name="3">
+<Expression>{ClassName}</Expression>
+<NextCode/>
+</Subscript>
+<Subscript name="4">
+<Expression>{PropertyName}</Expression>
+<NextCode/>
+</Subscript>
+<Subscript name="5">
+<Expression>$$ALPHAUP({PropertyText})</Expression>
+<NextCode/>
+</Subscript>
+<Subscript name="6">
+<Expression>{RowID}</Expression>
+<NextCode/>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L6}</Expression>
+<Field>RowID</Field>
+</RowIdSpec>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

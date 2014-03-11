@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Log">
+<Description>
+Audit Trail of component activity.</Description>
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62756,63603.591542</TimeChanged>
+<TimeCreated>61079,43958.076411</TimeCreated>
+
+<Property name="AuditDate">
+<Description>
+Date Stamp</Description>
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>+$H</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="AuditTime">
+<Description>
+Time entry added to log.</Description>
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>$p($H,",",2)</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CacheUser">
+<Description>
+Cache User</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ClientExe">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ClientIP">
+<Description>
+Computer Identification.
+Typically IP Address.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ClientName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ReferencedClass">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ReferencedId">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SourceType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",WEB,CLIENTSERVER,OTHER"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",W,C,O"/>
+</Property>
+
+<Property name="Type">
+<Description>
+Event Type</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",New,Open,Save,Delete"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",N,O,S,D"/>
+</Property>
+
+<Property name="UserDR">
+<Description>
+MEDTRAK User</Description>
+<Type>User.SSUser</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WorkFlowId">
+<Type>websys.WorkFlow</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WorkFlowItemId">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="requestEPISODE">
+<Type>User.PAAdm</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="requestID">
+<Description>
+web Request ID</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="requestMRADM">
+<Description>
+web request mradm (or MRAdmID)
+Property requestMRADM As %Library.String(TRUNCATE = 1);</Description>
+<Type>User.MRAdm</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="requestPATIENT">
+<Description>
+web request PatientID (or PAPersonID)</Description>
+<Type>User.PAPerson</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LogonLocation">
+<Description>
+cjb 22/08/2005 54089</Description>
+<Type>User.CTLoc</Type>
+</Property>
+
+<Index name="Date">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>AuditDate</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="EpisodeID">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>requestEPISODE</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="PatientID">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>requestPATIENT</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="ReferenceId">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ReferencedId,requestID</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="Time">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>AuditTime</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="UserDRIndex">
+<Description>
+Index for property UserDR</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>UserDR</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="AddItem">
+<Description>
+Add an entry to the component audit trail.
+Components may be opened from web or layout manager. Therefore we attept to log according to the process context.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>type:%Library.String,class:%Library.String,id:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	/*
+	n logobj
+	s EpisodeID=%request.Get("EpisodeID")
+	s UserID=%session.Get("LOGON.USERID")
+	i '$l(UserId) quit 0
+	i '$l(id) quit 0
+	s IP=$ZUTIL(67,15,$J)
+ 	s EXEC=$ZUTIL(67,13,$J)
+ 	s CACHEUSER=$ZUTIL(67,11,$J)
+ 	s MRADM=$p(^PAADM(EpisodeID),"^",61)
+ 	s obj=##Class(websys.Log).%New()
+ 	s obj.CacheUser=CACHEUSER
+ 	s obj.ClientExe=EXEC
+ 	s obj.ClientIP=IP
+ 	s obj.ClientName=""
+ 	s obj.SourceType="W"
+ 	s obj.Type=type
+ 	d obj.UserDRSetObjectId(UserID)
+ 	s obj.requestEPISODE=%request.Get("EpisodeID")
+ 	s obj.requestID=%request.Get("ID")
+ 	s obj.requestMRADM=MRADM
+ 	s obj.requestPATIENT=%request.Get("PateintID")
+ 	s obj.ReferencedId=id
+ 	s obj.ReferencedClass="websys.Component"
+ 	*/
+]]></Implementation>
+</Method>
+
+<Method name="FindClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>qHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(qHandle,2)
+	Kill ^CacheTemp(repid)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindExecute">
+<Description>
+王秋睿 2011.10.17
+do ##Class(%ResultSet).RunQuery("websys.Log","Find","",62112,"","")</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&qHandle:%Library.Binary,PatientID:%Library.String="",AuditDate:%Library.String="",EpisodeID:%Library.String="",UserCode:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$I(^CacheTemp)
+	Set qHandle=$lb(0,repid,0)
+	Set ind=1
+	
+	set ID = $o(^websys.LogD(""))
+	while(ID '= "")
+	{
+		set obj = ##class(websys.Log).%OpenId(ID)
+		if '$IsObject(obj)
+		{
+			w "can't find object",!
+			quit
+		}
+		set flag = 1
+		
+		if obj.requestPATIENT '= ""
+		{
+			set PatID = obj.requestPATIENT.%Id()
+		}
+		else
+		{
+			set PatID = ""
+		}
+		
+		if (PatientID '= "")
+		{
+			if (PatientID = PatID)
+			{
+				set flag = 1
+			}
+			else
+			{
+				set flag = 0
+			}
+		}
+		
+		if (AuditDate '= "")
+		{
+			if (AuditDate = obj.AuditDate)
+			{
+				set flag = 1
+			}
+			else
+			{
+				set flag = 0
+			}
+		}
+		
+		if (EpisodeID '= "")
+		{
+			if (EpisodeID = obj.requestEPISODE)
+			{
+				set flag = 1
+			}
+			else
+			{
+				set flag = 0
+			}
+		}
+		
+		if (flag)
+		{
+			set auditDate = obj.AuditDate
+			set auditTime = obj.AuditTime
+			set ClientName = obj.ClientName
+			set ClientIP = obj.ClientIP
+			set clsName = obj.ReferencedClass
+			if ((obj.ReferencedClass '= "") && (obj.ReferencedId '= ""))
+			{
+				if obj.ReferencedClass = "websys.Component"
+				{
+					set componentObj = ##class(websys.Component).%OpenId(obj.ReferencedId)
+					set ClassName = componentObj.Name
+					do componentObj.%Close()
+				}
+			}
+			set Type = obj.Type
+			if obj.requestPATIENT '= ""
+			{
+				set rowId = obj.requestPATIENT.%Id()
+				set PatRegNo = $p(^PAPER(rowId,"ALL"),"^",19)
+			}
+			else
+			{
+				set PatRegNo = ""
+			}
+			if obj.UserDR '= ""
+			{
+				set rowId = obj.UserDR.%Id()
+				set UserName = $p(^SSU("SSUSR",rowId),"^",2)
+			}
+			else
+			{
+				set UserName = ""
+			}
+			if obj.requestEPISODE '= ""
+			{
+				set EpisodeID = obj.requestEPISODE.%Id()
+				set EpisodeNo = $p(^PAADM(EpisodeID),"^",81)
+			}
+			else
+			{
+				set EpisodeID = ""
+				set EpisodeNo = ""
+			}
+			if obj.WorkFlowId '= ""
+			{
+				set rowId = obj.WorkFlowId.%Id()
+				set workflowObj = ##class(websys.WorkFlow).%OpenId(rowId)
+				set ClassName = workflowObj.Name
+				set itemObj = workflowObj.WorkFlowItems.GetAt(obj.WorkFlowItemId)
+				set componentObj = itemObj.Item.Component
+				if componentObj '= ""
+				{
+					set Component = componentObj.Name
+					set WorkFlowItemDesc = Component_" ("_itemObj.Item.Description_")"
+				}
+				do workflowObj.%Close()
+			}
+			else
+			{
+				set WorkFlowItemDesc = ClassName
+				set ClassName = ""
+			}
+			if obj.LogonLocation '= ""
+			{
+				set rowId = obj.LogonLocation.%Id()
+				set LogonLocation = $p(^CTLOC(rowId),"^",2)
+			}
+			else
+			{
+				set LogonLocation = ""
+			}
+			set output = $lb(ID,PatID,auditDate,auditTime,ClientName,ClientIP,ClassName,Type,PatRegNo,UserName,EpisodeID,EpisodeNo,WorkFlowItemDesc,LogonLocation)
+			;set ^tempWQRchk("websys.Log","FindExecute",ID) = output
+			set ^CacheTemp(repid,ind) = output
+			set ind = ind + 1
+		}
+		do obj.%Close()
+		set ID = $o(^websys.LogD(ID))
+	}
+	
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&qHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(qHandle,1)
+	Set repid=$LIST(qHandle,2)
+	Set ind=$LIST(qHandle,3)
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind=""
+	{// if there are no more rows, finish fetching
+		Set AtEnd=1
+		Set Row=""
+	}
+	Else
+	{// fetch row
+		Set Row=^CacheTemp(repid,ind)
+	}
+	// Save QHandle
+	set qHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Parameter name="EXTENTSIZE">
+<Default>88776</Default>
+</Parameter>
+
+<Query name="Find">
+<Description>
+KM 28-Feb-2001: Called By the websys.Log.List Component</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>PatientID:%Library.String,AuditDate:%Library.Date,EpisodeID:%Library.String,UserCode:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,PatID,auditDate,auditTime,ClientName,ClientIP,ClassName,Type,PatRegNo,UserName,EpisodeID,EpisodeNo,WorkFlowItemDesc,LogonLocation"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.LogD</DataLocation>
+<DefaultData>LogDefaultData</DefaultData>
+<IdLocation>^websys.LogD</IdLocation>
+<IndexLocation>^websys.LogI</IndexLocation>
+<StreamLocation>^websys.LogS</StreamLocation>
+<Data name="LogClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="LogDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>AuditDate</Value>
+</Value>
+<Value name="2">
+<Value>AuditTime</Value>
+</Value>
+<Value name="3">
+<Value>RefrencedOid</Value>
+</Value>
+<Value name="4">
+<Value>Machine</Value>
+</Value>
+<Value name="5">
+<Value>UserDR</Value>
+</Value>
+<Value name="6">
+<Value>requestID</Value>
+</Value>
+<Value name="7">
+<Value>requestMRADM</Value>
+</Value>
+<Value name="8">
+<Value>requestPatientID</Value>
+</Value>
+<Value name="9">
+<Value>Computer</Value>
+</Value>
+<Value name="10">
+<Value>requestPATIENT</Value>
+</Value>
+<Value name="11">
+<Value>Type</Value>
+</Value>
+<Value name="12">
+<Value>requestEPISODE</Value>
+</Value>
+<Value name="13">
+<Value>CacheUser</Value>
+</Value>
+<Value name="14">
+<Value>ClientExe</Value>
+</Value>
+<Value name="15">
+<Value>ClientIP</Value>
+</Value>
+<Value name="16">
+<Value>ClientName</Value>
+</Value>
+<Value name="17">
+<Value>SourceType</Value>
+</Value>
+<Value name="18">
+<Value>ReferencedClass</Value>
+</Value>
+<Value name="19">
+<Value>ReferencedId</Value>
+</Value>
+<Value name="20">
+<Value>WorkFlowItemId</Value>
+</Value>
+<Value name="21">
+<Value>WorkFlowId</Value>
+</Value>
+<Value name="22">
+<Value>LogonLocation</Value>
+</Value>
+</Data>
+<Property name="AuditDate">
+</Property>
+<Property name="AuditTime">
+</Property>
+<Property name="CacheUser">
+</Property>
+<Property name="ClientExe">
+</Property>
+<Property name="ClientIP">
+</Property>
+<Property name="ClientName">
+</Property>
+<Property name="ReferencedClass">
+</Property>
+<Property name="ReferencedId">
+</Property>
+<Property name="SourceType">
+</Property>
+<Property name="Type">
+</Property>
+<Property name="UserDR">
+</Property>
+<Property name="WorkFlowId">
+</Property>
+<Property name="WorkFlowItemId">
+</Property>
+<Property name="requestEPISODE">
+</Property>
+<Property name="requestID">
+</Property>
+<Property name="requestMRADM">
+</Property>
+<Property name="requestPATIENT">
+</Property>
+</Storage>
+</Class>
+</Export>

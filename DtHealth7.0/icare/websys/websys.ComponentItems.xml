@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.ComponentItems">
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<CompileAfter>websys.ComponentItem</CompileAfter>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy/>
+<Super>%Library.Persistent,websys.ComponentItem</Super>
+<TimeChanged>62235,56141</TimeChanged>
+<TimeCreated>59127,46705</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="EXTENTSIZE">
+<Default>12676</Default>
+</Parameter>
+
+<Parameter name="xmlidentifiedby">
+<Description>
+Used in conjunction with XMLId method to unqiuely identify a record.
+By default ..%Id() is used unless other properties are specified. A comma separated list may be provided and processed by overridding XMLId method</Description>
+<Final>0</Final>
+</Parameter>
+
+<Parameter name="xmltoclass">
+<Description>
+Mapping from XML to Class</Description>
+<Final>0</Final>
+<Default>componentitem</Default>
+</Parameter>
+
+<Parameter name="xmltypeCaptionStyle">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeItemIdGetExpression">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeLinkExpression">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeLookupProperties">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeNestedTransExpr">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeParRef">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeQuerySQLName">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeQuerySQLParsed">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeShowInNewWindow">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeStyle">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeValueGet">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeValueSet">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Property name="ParRef">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>Items</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Index name="IDKEY">
+<Properties>ParRef</Properties>
+</Index>
+
+<Index name="Name">
+<Properties>ParRef,Name</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="Lookup">
+<Properties>LookupClassName,LookupQueryName,ParRef</Properties>
+</Index>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.ComponentItemsD</DataLocation>
+<DefaultData>ComponentItemsDefaultData</DefaultData>
+<IdLocation>^websys.ComponentItemsD</IdLocation>
+<IndexLocation>^websys.ComponentItemsI</IndexLocation>
+<StreamLocation>^websys.ComponentItemsS</StreamLocation>
+<Data name="ComponentItemsClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="ComponentItemsDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>AttachedFile</Value>
+</Value>
+<Value name="2">
+<Value>Caption</Value>
+</Value>
+<Value name="3">
+<Value>CaptionStyle</Value>
+</Value>
+<Value name="4">
+<Value>ClassMethod</Value>
+</Value>
+<Value name="5">
+<Value>DataType</Value>
+</Value>
+<Value name="6">
+<Value>Disabled</Value>
+</Value>
+<Value name="7">
+<Value>DisplayOnly</Value>
+</Value>
+<Value name="8">
+<Value>DisplayType</Value>
+</Value>
+<Value name="9">
+<Value>Hidden</Value>
+</Value>
+<Value name="10">
+<Value>Image</Value>
+</Value>
+<Value name="11">
+<Value>ItemIdGetExpression</Value>
+</Value>
+<Value name="12">
+<Value>LinkComponent</Value>
+</Value>
+<Value name="13">
+<Value>LinkExpression</Value>
+</Value>
+<Value name="14">
+<Value>LinkUrl</Value>
+</Value>
+<Value name="15">
+<Value>LookupClassName</Value>
+</Value>
+<Value name="16">
+<Value>LookupJavascriptFunction</Value>
+</Value>
+<Value name="17">
+<Value>LookupProperties</Value>
+</Value>
+<Value name="18">
+<Value>LookupQueryName</Value>
+</Value>
+<Value name="19">
+<Value>Name</Value>
+</Value>
+<Value name="20">
+<Value>Password</Value>
+</Value>
+<Value name="21">
+<Value>ReferencedObject</Value>
+</Value>
+<Value name="22">
+<Value>Required</Value>
+</Value>
+<Value name="23">
+<Value>ShortcutKey</Value>
+</Value>
+<Value name="24">
+<Value>ShowInNewWindow</Value>
+</Value>
+<Value name="25">
+<Value>Style</Value>
+</Value>
+<Value name="26">
+<Value>ValueGet</Value>
+</Value>
+<Value name="27">
+<Value>ValueSet</Value>
+</Value>
+<Value name="28">
+<Value>HelpUrl</Value>
+</Value>
+<Value name="29">
+<Value>Tooltip</Value>
+</Value>
+<Value name="30">
+<Value>TabSequence</Value>
+</Value>
+<Value name="31">
+<Value>ListCellStyle</Value>
+</Value>
+<Value name="32">
+<Value>OrderByAsc</Value>
+</Value>
+<Value name="33">
+<Value>OrderByDesc</Value>
+</Value>
+<Value name="34">
+<Value>LookupBrokerMethod</Value>
+</Value>
+<Value name="35">
+<Value>NestedComponent</Value>
+</Value>
+<Value name="36">
+<Value>NestedTransExpr</Value>
+</Value>
+<Value name="39">
+<Value>LookupList</Value>
+</Value>
+<Value name="40">
+<Value>SQLColumn</Value>
+</Value>
+<Value name="41">
+<Value>SQLExtendedReference</Value>
+</Value>
+<Value name="42">
+<Value>SQLTable</Value>
+</Value>
+<Value name="43">
+<Value>SQLComment</Value>
+</Value>
+<Value name="44">
+<Value>SQLToVBCodeTable</Value>
+</Value>
+<Value name="45">
+<Value>ValueDefault</Value>
+</Value>
+<Value name="46">
+<Value>ClassMethodOnlyOnChange</Value>
+</Value>
+<Value name="47">
+<Value>ClassMethodIfDirty</Value>
+</Value>
+<Value name="48">
+<Value>DefaultValueExpression</Value>
+</Value>
+<Value name="49">
+<Value>NestedCondExpr</Value>
+</Value>
+<Value name="50">
+<Value>PasswordKeepVal</Value>
+</Value>
+<Value name="51">
+<Value>LookupUserDefinedDisplays</Value>
+</Value>
+<Value name="52">
+<Value>LookupUserDefinedValues</Value>
+</Value>
+<Value name="53">
+<Value>LookupUserDefined</Value>
+</Value>
+<Value name="54">
+<Value>IconProfile</Value>
+</Value>
+<Value name="55">
+<Value>CustomExpression</Value>
+</Value>
+<Value name="56">
+<Value>DefaultValueAlways</Value>
+</Value>
+<Value name="57">
+<Value>Description</Value>
+</Value>
+<Value name="58">
+<Value>LinkWorkFlow</Value>
+</Value>
+<Value name="59">
+<Value>CustomLookupBrokerMethod</Value>
+</Value>
+<Value name="60">
+<Value>CustomLookupClassName</Value>
+</Value>
+<Value name="61">
+<Value>CustomLookupProperties</Value>
+</Value>
+<Value name="62">
+<Value>CustomLookupQueryName</Value>
+</Value>
+<Value name="63">
+<Value>LookupCustomComponent</Value>
+</Value>
+<Value name="64">
+<Value>ReadOnly</Value>
+</Value>
+<Value name="65">
+<Value>LinkConditionalExp</Value>
+</Value>
+</Data>
+<Property name="AttachedFile">
+</Property>
+<Property name="Caption">
+</Property>
+<Property name="CaptionStyle">
+</Property>
+<Property name="ClassMethod">
+</Property>
+<Property name="ClassMethodIfDirty">
+</Property>
+<Property name="CustomExpression">
+</Property>
+<Property name="DataType">
+</Property>
+<Property name="DefaultValueAlways">
+</Property>
+<Property name="DefaultValueExpression">
+</Property>
+<Property name="Description">
+</Property>
+<Property name="Disabled">
+</Property>
+<Property name="DisplayOnly">
+</Property>
+<Property name="DisplayType">
+</Property>
+<Property name="HelpUrl">
+</Property>
+<Property name="Hidden">
+</Property>
+<Property name="IconProfile">
+</Property>
+<Property name="Image">
+</Property>
+<Property name="ItemIdGetExpression">
+</Property>
+<Property name="LinkComponent">
+</Property>
+<Property name="LinkExpression">
+</Property>
+<Property name="LinkUrl">
+</Property>
+<Property name="ListCellStyle">
+</Property>
+<Property name="LookupBrokerMethod">
+</Property>
+<Property name="LookupClassName">
+</Property>
+<Property name="LookupJavascriptFunction">
+</Property>
+<Property name="LookupProperties">
+</Property>
+<Property name="LookupQueryName">
+</Property>
+<Property name="LookupUserDefined">
+</Property>
+<Property name="LookupUserDefinedValues">
+</Property>
+<Property name="Name">
+</Property>
+<Property name="NestedComponent">
+</Property>
+<Property name="NestedCondExpr">
+</Property>
+<Property name="NestedTransExpr">
+</Property>
+<Property name="OrderByAsc">
+</Property>
+<Property name="OrderByDesc">
+</Property>
+<Property name="ParRef">
+</Property>
+<Property name="Password">
+</Property>
+<Property name="PasswordKeepVal">
+</Property>
+<Property name="ReferencedObject">
+</Property>
+<Property name="Required">
+</Property>
+<Property name="SQLColumn">
+</Property>
+<Property name="SQLComment">
+</Property>
+<Property name="SQLExtendedReference">
+</Property>
+<Property name="SQLTable">
+</Property>
+<Property name="SQLToVBCodeTable">
+</Property>
+<Property name="ShortcutKey">
+</Property>
+<Property name="ShowInNewWindow">
+</Property>
+<Property name="Style">
+</Property>
+<Property name="TabSequence">
+</Property>
+<Property name="Tooltip">
+</Property>
+<Property name="ValueDefault">
+</Property>
+<Property name="ValueGet">
+</Property>
+<Property name="ValueSet">
+</Property>
+</Storage>
+</Class>
+</Export>

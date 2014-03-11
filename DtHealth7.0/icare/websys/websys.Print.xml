@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Print">
+<Description><![CDATA[
+Control and manage print destinations and print Reports.<br>
+Destination is selected with the following precedence:<br>
+Report + IP<br>
+IP<br>
+Report + Location<br>
+Location<br>]]></Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>58522,50453</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>322</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>60</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="IP">
+<Description>
+IP address from which the report was requested.
+Only one of IP and Location may be entered.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Location">
+<Description>
+Location from which the report was requested. Typically this is the logged on user.
+Only one of IP and Location may be entered.</Description>
+<Type>User.CTLoc</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PaperOrientation">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PaperSource">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Printer">
+<Description>
+The printer on which the report will be generated.</Description>
+<Type>websys.Printer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PrinterAlternative">
+<Type>websys.PrintAlternativePrinter</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Report">
+<Type>websys.Report</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ReportGroup">
+<Type>websys.ReportGroup</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="TempOverridePrinter">
+<Description>
+The printer for temporary re-direction.</Description>
+<Type>websys.Printer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Index name="IP">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>IP</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="Location">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Location</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="LocationIP">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Location,IP</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="ReportIP">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Report,IP</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="CheckDuplicates">
+<Description>
+KK 27/May/2003 Log 35090 - to check duplicate entries in websys.Print. method called in websys.BeforeSave</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String,id:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="CopyPrintJobs">
+<Description>
+KK - Log:21937 - Date:14/Jan/2002
+Function to copy printing jobs from one computer to another depending on the Location and Report
+</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>IPSource:%Library.String,IPDest:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPerPrinterByIPClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindPerPrinterByIPFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPerPrinterByIPExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,IP:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPerPrinterByIPFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindPerPrinterByIPExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetPrinter">
+<Description><![CDATA[
+Return the printer device name given one or more of:
+Inputs:
+  Report Code
+  Location ID
+  IP (Computer Name)
+Outputs:
+  prtid - the id of the print definition, can be used to get additional print information.
+Returns:
+  printer device
+
+Precedence order to determine the printer:
+1. Report, Computer & Printer (report printed from specific computer)
+2. Report Group, Computer & Printer (any report in group printed from specific computer)
+3. Computer & Printer (all reports printed from specific computer)
+4. Report, Location & Printer (report printed from specific login location)
+5. Report Group, Location & Printer (any report in group printed from login location)
+6. Location & Printer (all reports printed from specific login location)
+7. Report & Printer (specific report from any computer or location)
+8. Report Group & Printer (all reports in that group)
+9. Printer Only (all reports printed will go to this printer)
+
+SA log 32663: Precendence order above changed. "3. Computer and Printer" had previously been 5., 
+but has been moved up in the order.
+Logs 51151 and 51628 - AI - 14-04-2005 : Rework so the above precedences are true.]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[reportcode:%Library.String="",locationid:%Library.String="",ip:%Library.String="",&prtid:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>websys.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* NOT CALLED
+   IF THIS IS EVER CALLED, MAKE SURE IT USES THE LOGIC AND HEIRARCHY ABOVE
+
+/// Return the printer device name given one or more of:<br>
+/// Inputs:
+/// Report Code.<br>
+/// Location ID.<br>
+/// IP.<br>
+/// Outputs:<br>
+/// prtid - the id of the print definition, can be used to get additional print information.
+/// Returns:<br>
+/// printer device
+/// 
+ClassMethod GetPrinter1(reportcode As %Library.String, locationid As %Library.String, ip As %Library.String, ByRef prtid As %Library.String) As websys.String
+{
+ ;RQG/Log21936/14.01.02
+ ; Introduce 'tdev' to check for Temporary Printer(TempOverridePrinter)
+ ; Also in the SQL statements, the (WHERE REPORT="") was changed to (WHERE Report IS NULL)
+ ; to make the statements valid
+ ;
+ n dev,cn,tdev
+ s dev="",prtid="",tdev=""
+ ;s cn=##Class(websys.Conversions).GetComputerName(ip)
+ i $d(%session) s cn=%session.Data("COMPUTER_NAME")
+ i '$d(%session) s cn=##Class(websys.Conversions).GetComputerName(ip)
+ ;
+ ; Find the printer according to the precedence rules
+ ;
+ ; Report + IP
+ &SQL(	SELECT ID,Printer->Device,TempOverridePrinter->Device
+ INTO :prtid,:dev,:tdev
+ FROM websys.Print
+ WHERE Report->Code=:reportcode AND IP=:cn
+ )
+ i 'SQLCODE,dev'="",tdev'="" q tdev
+ i 'SQLCODE,dev'="" q dev
+ ;
+ ; IP
+ &SQL(	SELECT ID,Printer->Device,TempOverridePrinter->Device
+ INTO :prtid,:dev,:tdev
+ FROM websys.Print
+ WHERE (Report IS NULL) AND IP=:cn
+ )
+ i 'SQLCODE,dev'="",tdev'="" q tdev	
+ i 'SQLCODE,dev'="" q dev
+ ;
+ ; Report + Location
+ &SQL(	SELECT ID,Printer->Device,TempOverridePrinter->Device
+ INTO :prtid,:dev,:tdev
+ FROM websys.Print
+ WHERE Report->Code=:reportcode AND Location->CTLOC_RowId=:locationid
+ )
+ i 'SQLCODE,dev'="",tdev'="" q tdev	
+ i 'SQLCODE,dev'="" q dev
+ ;
+ ; Location
+ &SQL(	SELECT ID,Printer->Device,TempOverridePrinter->Device
+ INTO :prtid,:dev,:tdev
+ FROM websys.Print
+ WHERE (Report IS NULL) AND Location->CTLOC_RowId=:locationid
+ )
+ i 'SQLCODE,dev'="",tdev'="" q tdev
+ i 'SQLCODE,dev'="" q dev
+ ;
+ ; Report to specific printer irrespective of location,ip
+ &SQL(	SELECT ID,Printer->Device,TempOverridePrinter->Device
+ INTO :prtid,:dev,:tdev
+ FROM websys.Print
+ WHERE (Report->Code=:reportcode) AND (Location IS NULL) AND (IP IS NULL)
+ )
+ i 'SQLCODE,dev'="",tdev'="" q tdev	
+ i 'SQLCODE,dev'="" q dev
+ 
+ i 'SQLCODE q dev
+ q ""
+}
+*/
+]]></Content>
+</UDLText>
+
+<Method name="RedirectPrinter">
+<Description>
+This method will redirect reports from original printer to temporary printer. A blank temporary printer will 
+default to original printer device.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>FromPrinter:%Library.String,TempPrinter:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="SwitchPrinter">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>IP:%Library.String,FromPrinter:%Library.String,NewPrinter:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.
+KK 27/Nov/2002 Log 30023</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="FindPerPrinterByIP">
+<Description>
+Standard Type Items by Type</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>IP:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>
+</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="IP:%String,PrinterID,PrinterDesc:%String,Reports:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.PrintD</DataLocation>
+<DefaultData>PrintDefaultData</DefaultData>
+<IdLocation>^websys.PrintD</IdLocation>
+<IndexLocation>^websys.PrintI</IndexLocation>
+<StreamLocation>^websys.PrintS</StreamLocation>
+<Data name="PrintClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="PrintDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>IP</Value>
+</Value>
+<Value name="2">
+<Value>Location</Value>
+</Value>
+<Value name="3">
+<Value>Printer</Value>
+</Value>
+<Value name="4">
+<Value>Report</Value>
+</Value>
+<Value name="5">
+<Value>PaperOrientation</Value>
+</Value>
+<Value name="6">
+<Value>PaperSource</Value>
+</Value>
+<Value name="7">
+<Value>TempOverridePrinter</Value>
+</Value>
+<Value name="8">
+<Value>ReportGroup</Value>
+</Value>
+</Data>
+<Property name="IP">
+</Property>
+<Property name="Location">
+</Property>
+<Property name="PaperOrientation">
+</Property>
+<Property name="PaperSource">
+</Property>
+<Property name="Printer">
+</Property>
+<Property name="Report">
+</Property>
+<Property name="ReportGroup">
+</Property>
+<Property name="TempOverridePrinter">
+</Property>
+</Storage>
+</Class>
+</Export>

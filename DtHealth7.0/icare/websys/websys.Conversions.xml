@@ -1,0 +1,1196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Conversions">
+<Description>
+Standard functions used for converting to and from Html / Database formats.
+Other utilities are alos included here.</Description>
+<Abstract>0</Abstract>
+<ClassType/>
+<CompileAfter>websys.Configuration</CompileAfter>
+<IncludeCode>TRAK</IncludeCode>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>63256,73325</TimeChanged>
+<TimeCreated>61079,43958.069094</TimeCreated>
+
+<Parameter name="Base64Seq">
+<Final>0</Final>
+<Default>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/</Default>
+</Parameter>
+
+<Property name="expression">
+<Type>websys.Expression</Type>
+<Final>1</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Method name="Base64">
+<Description>
+Base64 encode a string</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>line:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="Base64Encode">
+<Description>
+[Previously private]</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>b1:%Library.String,b2:%Library.String,b3:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="BinHexS">
+<Description>
+A Simple BinHex converter</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>str:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="JSValueToLogical">
+<Description>
+wanghc add</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>x:%Library.String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	q:x="undefined" ""
+	q x
+]]></Implementation>
+</Method>
+
+<Method name="BooleanHtmlToYesNo">
+<Description>
+Convert the vaue of an HTML check box to boolean</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>x:%Library.String</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[
+	i x="on" q "Y"
+	q "N"
+]]></Implementation>
+</Method>
+
+<Method name="BooleanHtmlToLogical">
+<Description>
+Convert the vaue of an HTML check box to boolean</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>x:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	i x="on" q 1
+	q 0
+]]></Implementation>
+</Method>
+
+<Method name="BooleanLogicalToHtml">
+<Description><![CDATA[
+Convert a stored boolean value to HTML value for a checkbox
+zhouzq  trak原来判断的是x>1,就返回on]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>x:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if x="1" quit "on"
+	quit "unchecked"
+]]></Implementation>
+</Method>
+
+<Method name="CalculateMinutesPassed">
+<Description>
+calculates the minutes passed since 'datefrom' and 'timefrom' till 'dateto' and 'timeto'
+if 'datefrom' or 'timefrom' is blank, returns 0
+if 'dateto' is blank, uses current date
+if 'timeto' is blank, uses current time</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>datefrom:%Library.Date,timefrom:%Library.Time,dateto:%Library.String,timeto:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Integer</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="CommonReload">
+<Description>
+/ 
+/</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s $ZT="ERROR^DHCSSERR"
+	
+	;zhaocz 2011-05-30 在websys.csp 中经过拆分测试 
+	;证明：1 msg在此类中创建， 同时 %request.Data 被赋给 msg.Data, 经过msg.Save()测试后的结果
+	s msg=##class(websys.Message).%OpenId(%session.SessionId)
+	; 创建完 msg后就把%request给它   zhaocz 2011-05=30
+	m msg.Data = %request.Data
+
+	;zhaocz 2011-05-28 需要判断是否reload 标志 是否为Reload 标志
+	s TRELOAD=+%request.Get("TRELOAD")
+	if (TRELOAD=1){
+		s TRELOADID=%request.Get("TRELOADID")
+		s TRELOADNEW = TRELOADID
+		;重新加载后， 可以执行websys.csp后面的 方法 envent, menu 等
+		k %request.Data
+		d ##Class(websys.Conversions).LoadReload(TRELOADID)
+		;先做测试  要清楚 Count是做什么的  zhaocz 2011-05-28 注
+		;
+	}else{
+		//websys.csp页面里会根据TRELOADID值决定是否刷新当前页面,并提示Message错误,
+
+		s TRELOADNEW=..Unique()
+		d ..SaveReload(TRELOADNEW)
+	}
+]]></Implementation>
+</Method>
+
+<Method name="CurrencyHtmlToLogical">
+<Description>
+code by zhouzq 2011.10.14
+w ##class(websys.Conversions).CurrencyHtmlToLogical("35,000.0089")</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>x:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n Config,GrpSymbol
+	s Config=^websys.ConfigurationD(1)
+	s GrpSymbol=$s($Lg(Config,62)=",":".",1:",")
+	Q $INUMBER(x,GrpSymbol)
+]]></Implementation>
+</Method>
+
+<Method name="CurrencyLogicalToHtml">
+<Description>
+code by zhouzq 2011.10.14
+w ##class(websys.Conversions).CurrencyLogicalToHtml("350000.01")</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>x:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n Config,DecPlaces,GrpSymbol
+	s Config=^websys.ConfigurationD(1)
+	s DecPlaces=$Lg(Config,61)
+	s GrpSymbol=$s($Lg(Config,62)=",":".",1:",")
+	Q $FNUMBER(x,GrpSymbol,DecPlaces)
+]]></Implementation>
+</Method>
+
+<Method name="FloatLogicalToHtml">
+<Description>
+ab 15.10.07 64959</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>x:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="DateHtmlToLogical">
+<Description>
+modify by wuqk 2011-06-22 根据config修改输出格式</Description>
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>d:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;Q $$intdate^SSUTIL4(d)
+	s $ZT="Err"
+	Q:d="" ""	;ARCOrdSets.Edit->ARCOSEffDateTo
+	//Q $ZDH(d,4)
+	n val,dateformat
+	s val=""
+	s dateformat=$lg(^websys.ConfigurationD(1),10)
+	i dateformat="DMY" {s val=$zdh(d,4)}
+	elseif dateformat="MDY" {s val=$zdh(d)}
+	elseif dateformat="YMD" {s val=$zdh(d,3)}
+	i val="" s val=$zdh(d)
+	quit val
+]]></Implementation>
+</Method>
+
+<Method name="DateLogicalToCrystal">
+<Description>
+Converted a cache $h format date to a crystal data format Date(yyyy,mm,dd)</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>h:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="DateLogicalToHtml">
+<Description>
+modify by wuqk 2011-06-18 根据config修改输出格式</Description>
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>h:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;return month/day/year
+	;w ##class(websys.Conversions).DateLogicalToHtml()
+	n val,dateformat
+	s val=""
+	Q:h="" ""
+	s $ZT="Err"
+	s dateformat=$lg(^websys.ConfigurationD(1),10)
+	s desc=$zd(h,3)
+	s d=$p(desc,"-",3),m=$p(desc,"-",2),y=$p(desc,"-",1)
+	i dateformat="DMY" {s val=d_"/"_m_"/"_y}
+	elseif dateformat="MDY" {s val=m_"/"_d_"/"_y}
+	elseif dateformat="YMD" {s val=y_"/"_m_"/"_d}
+	i val="" s val=$zd(h)
+	quit val
+	//Q $ZD(h)
+Err
+	Q "ERROR!"
+]]></Implementation>
+</Method>
+
+<Method name="DateHijraToJulianDay">
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>y:%Integer,m:%Integer,d:%Integer</FormalSpec>
+<ReturnType>%Numeric</ReturnType>
+</Method>
+
+<Method name="DateGregorianToJulianDay">
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>y:%Integer,m:%Integer,d:%Integer</FormalSpec>
+<ReturnType>%Numeric</ReturnType>
+</Method>
+
+<Method name="DateLogicalToHijra">
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>h:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="DateHijraToLogical">
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>dt:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="DelimitedStringToHtml">
+<Description>
+by wuqk 2011-07-12</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>str:%Library.String,strdelim:%Library.String,htmldelim:%Library.String="",keepblanks:%Boolean=0</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n len,i,ret
+	if $g(htmldelim)="" set htmldelim="<BR>"
+	if $g(keepblanks)="" set keepblanks=0
+	if keepblanks set str=$tr(str," ","")
+	set len=$l(str,strdelim)
+	set ret=$p(str,strdelim,1)
+	for i=2:1:len {
+		set ret=ret_htmldelim_$p(str,strdelim,i)
+	}
+	quit ret
+]]></Implementation>
+</Method>
+
+<Method name="EscapeUrl">
+<Description>
+w ##class(websys.Conversions).EscapeUrl("http://127.0.0.1/dthealth/web?name=周")
+zhouzq 2011-09-27        </Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>in:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	q $zcvt(in,"O","URL")
+]]></Implementation>
+</Method>
+
+<Method name="GetCacheVersion">
+<Description>
+/ zhaocz 2011-05-28</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	q $System.OBJ.Version()
+]]></Implementation>
+</Method>
+
+<Method name="GetClassRowIDName">
+<Description>
+Return the SQl rowid name for the class (if it is explicitly specified)
+zhaocz 2011-06-05  add</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n (classname)
+	; w ##class(websys.Conversions).GetClassRowIDName("websys.DictionaryClass")
+	
+	s myidname="ID"
+	s mycdf=##class(%Dictionary.CompiledClass).%OpenId(classname)
+	if $IsObject(mycdf){
+		if (('mycdf.Abstract)&&(mycdf.ClassType="persistent")){
+			s mysdf=mycdf.Storages.GetAt(1)
+			s myidname = mysdf.SqlRowIdName
+			s:(myidname="") myidname="ID"
+			s mysdf=""
+		}
+	}else{
+		s myidname=""
+	}
+	s mycdf=""
+	
+	q myidname
+]]></Implementation>
+</Method>
+
+<Method name="GetClassParameter">
+<Description>
+Return the SQL field name for the parameter/class specified</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%Library.String,parameter:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="GetComputerName">
+<Description>
+Get the computer name from the ip address.
+zhaocz 2011-05-28</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ip:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n (ip)
+	; w ##class(websys.Conversions).GetComputerName("172.21.21.2")
+	s $ZT="ERROR^DHCSSERR"
+	
+	s mycompname=""
+	
+	q:(ip="") mycompname
+	set bin = $zu(54,1,ip)
+	s mycompinfo = $zu(54,14,bin)
+	s mycompname = $p(mycompinfo,",",2)
+	
+	q mycompname
+]]></Implementation>
+</Method>
+
+<Method name="GetDirectoryPathSlash">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="GetPropertyParameter">
+<Description>
+This should be superceded by accescing the property definition but will do for now.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String,property:%Library.String,parameter:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetSQLTableName">
+<Description>
+Return the SQL table name given a class name
+zhaocz 2011-05-28 直接去 Persisten的 tablename 如果为空 或者不存在返回classname</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>userclass:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;w ##class(websys.Conversions).GetSQLTableName("web.SSUser")
+	n (userclass)
+	s $ZT="ERROR^DHCSSERR"
+	
+	set className = userclass
+	set tableName=""
+	s mycdf=##class(%Dictionary.CompiledClass).%OpenId(className)
+	
+	if ($IsObject(mycdf)){
+		set tableName=mycdf.SqlTableName
+		s mycdf=""
+	}
+	set:tableName="" tableName=className
+	quit tableName
+]]></Implementation>
+</Method>
+
+<Method name="GetUserClassName">
+<Description>
+; ab 4.05.06 52166
+w ##class(websys.Conversions).GetUserClassName("User.OEOrdItem")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>sqlclass:%String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="GetSQLTableID">
+<Description>
+; ab 4.05.06 52166
+ w ##class(websys.Conversions).GetSQLTableID("User.OEOrdItem")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>userclass:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="HexBinS">
+<Description>
+A simple HexBin Converter</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>str:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="HtmlFriendly">
+<Description><![CDATA[
+2011.06.30 zhouzq 将双引号转换为"&quot;",leavespace决定是否将空格装换为&nbsp;
+w ##class(websys.Conversions).HtmlFriendly(tc("caption","DefaultValueExpression"),0)]]></Description>
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>str:%String,leavespace:%String=0</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if leavespace=1 s str=$tr(str," ",$CHAR(160))
+	Q $zconvert(str,"O","HTML")
+]]></Implementation>
+</Method>
+
+<Method name="IsValidClassName">
+<Description>
+zhaocz 2011-05-28
+zhaocz 2011-06-05 edit</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;w ##class(websys.Conversions).IsValidClassName("websys.Conversions")
+	n (classname)
+	s $ZT="ERROR^DHCSSERR"
+	
+	q:(classname="") 0
+	
+	s myobj=##class(%Dictionary.CompiledClass).%OpenId(classname)
+	s myrtn=0
+	i ($IsObject(myobj)){
+		s myobj=""
+		s myrtn = 1
+	}
+	
+	q myrtn
+]]></Implementation>
+</Method>
+
+<Method name="IsValidMethodName">
+<Description>
+Check if query exists for a class
+zhaocz 2011-06-05 add</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String,methodname:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;w ##class(websys.Conversions).IsValidMethodName("websys.Conversions","IsValidMethodName")
+	n (classname, methodname)
+	s $ZT="ERROR^DHCSSERR"
+	
+	q:((classname="")||(methodname="")) 0
+	
+	;
+	s myobj=##class(%Dictionary.CompiledMethod).%OpenId(classname_"||"_methodname)
+	s myrtn=0
+	
+	i ($IsObject(myobj)){
+		s myobj=""
+		s myrtn = 1
+	}
+	
+	q myrtn
+]]></Implementation>
+</Method>
+
+<Method name="IsValidQueryName">
+<Description>
+Check if query exists for a class
+/ zhaocz 2011-06-05 add</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>classname:%Library.String,queryname:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;w ##class(websys.Conversions).IsValidQueryName("web.DHCOutPhDisp","GDispItm")
+	
+	n (classname, queryname)
+	s $ZT="ERROR^DHCSSERR"
+	;q $$$OK
+	
+	q:((classname="")||(queryname="")) 0
+	
+	s myobj=##class(%Dictionary.CompiledQuery).%OpenId(classname_"||"_queryname)
+	s myrtn=0
+	
+	i ($IsObject(myobj)){
+		s myobj=""
+		s myrtn = 1
+	}
+	q myrtn
+]]></Implementation>
+</Method>
+
+<Method name="IsValidResultSet">
+<Description>
+Determine if result set is valid (a run time test!)
+zhaocz 2011-06-12  add</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>rs:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q rs.QueryIsValid()
+	;Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ListLogicalToHtml">
+<Description>
+Convert a $LIST format string to Html data using the delimiter specified.
+Useful for converting long text fields from result set queries for html display/update.
+by wuqk 2011-06-09</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[list:%String,delim:%String="<BR>",keepblanks:%Integer=0]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Q:list="" $$$OK
+	set len=$ll(list)
+	set ret=$lg(list,1)
+	for index=2:1:len{
+		set ret=ret_delim_$lg(list,index)
+	}
+	quit ret
+]]></Implementation>
+</Method>
+
+<Method name="LoadReload">
+<Description>
+Load Reload parameters from temp global
+zhaocz  2011-05-28 根据ID 由临时Global把数据加入到 %request.Data() 中</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	m %request.Data = ^TMP("reload",%session.SessionId,id)
+]]></Implementation>
+</Method>
+
+<Method name="LoadRequest">
+<Description>
+wrokaround for serverside redirect losing request data.
+zhaocz 2011-05-26  把 %request 重新装载一遍  ”防止丢失“  只是猜测， 讨论
+原因： temporarily save request variables when jumping betweeen pages with ServerSideRedirect. ????</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;d %request.Set("PatientID",%request.Get("PatientID"))
+	;d %request.Set("PageType",%request.Get("PageType"))
+	;d %request.Set("Action",%request.Get("Action"))
+	;d %request.Set("ShowUnpaidBillsOnly",%request.Get("ShowUnpaidBillsOnly"))
+	;d %request.Set("ShowPatientBillsOnly",%request.Get("ShowPatientBillsOnly"))
+	
+	s myreqstr= 0
+	f {
+		s myreqstr=$o(%request.Data(myreqstr))
+		q:(myreqstr="")
+		d %request.Set(myreqstr,%request.Get(myreqstr))
+	}
+]]></Implementation>
+</Method>
+
+<Method name="LongTextHtmlToLogical">
+<Description><![CDATA[
+convert from a string to long text field
+wanghc 把str通过<BR>分割转换成list
+prp应该是一个list的引用
+测试SSUser.Editstr.comments str=1_$c(13,10)_2_$c(13,10)_3]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&prp:%Library.String,str:%Library.String,delim:%Library.String="<BR>"]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	
+	d prp.Clear()
+	s len=$l(str,delim)
+	For i=1:1:len s item=$p(str,delim,i)  d prp.Insert(item)
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LongTextLogicalToHtml">
+<Description><![CDATA[
+wanghc 发现入参是%Collection.ListOfDT
+正库库返回的是: 1<BR>2<BR>3
+@return 1_$c(13,10)_2_$c(13,10)_3]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&longtext:%String,delim:%String="<BR>"]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;w ##class(websys.Conversions).LongTextLogicalToHtml("kjsdjksjldjflsjdfjlsjfljskjfs")
+	n rtn,key
+	s rtn=""
+	i ($ClassName(longtext)="%Collection.ListOfDT"){
+		if longtext&&(longtext.Count()=0) q rtn		;SSUser.Edit的comments
+		s key=longtext.Next(""),rtn=longtext.GetAt(key)
+		for  Set key = longtext.Next(key) Quit:key=""  s rtn=rtn_delim_longtext.GetAt(key)
+	}
+	Q rtn
+]]></Implementation>
+</Method>
+
+<Method name="LookUpClassNameClose">
+<Description>
+zhaocz 2011-06-05 add</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpClassNameFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+	Kill ^CacheTemp(repid)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpClassNameExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,classname:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	; d ##class(%ResultSet).RunQuery("websys.Conversions", "LookUpClassName", "")
+	; 如果为空 返回  User包下的类
+	Set repid=$I(^CacheTemp)
+	s ind=1
+	s ret=0
+	
+	d ResetVariablesLUC
+	s classname=$g(classname)
+	i classname=""{
+		s classname="User"
+	}
+	
+	s mylen=$l(classname)
+	Set result = ##class(%ResultSet).%New("%Dictionary.ClassDefinition:Summary")
+	Do result.Execute()
+	While (result.Next()) {
+    	s myDataName=result.Data("Name")
+    	s mypreabc=$e(myDataName,1,mylen)
+    	
+    	//系统类也需要查询出来,否则元素上没法定义系统的DataType zhouzq 2012.01.10
+    	//if ((+result.Data("System")=0)&(mypreabc=classname)){
+	    if (mypreabc=classname){
+    		s mySqlTableName=result.Data("SqlTableName")
+	    	i (mySqlTableName=""){
+		    	s mySqlTableName=myDataName
+	    	}
+			s myClsName=$g(myDataName)
+			s mySqlTableName=$g(mySqlTableName)
+			
+			Do OutputRowLUC
+    	}
+    }
+	
+	Set QHandle=$lb(0,repid,0)
+	Quit $$$OK
+OutputRowLUC
+	set Data=$lb(myClsName, mySqlTableName)
+	Set ^CacheTemp(repid,ind)=Data
+	Set ind=ind+1
+	quit
+ResetVariablesLUC
+	s (No,DataType)=""
+	s (myClsName, mySqlTableName)=""
+	q
+]]></Implementation>
+</Method>
+
+<Method name="LookUpClassNameFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpClassNameExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+	Set repid=$LIST(QHandle,2)
+	Set ind=$LIST(QHandle,3)
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind="" {				// if there are no more rows, finish fetching
+		Set AtEnd=1
+		Set Row=""
+	}Else{
+		Set Row=^CacheTemp(repid,ind)
+	}
+	
+	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpPropertyNameClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpPropertyNameFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+	Kill ^CacheTemp(repid)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpPropertyNameExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,tablename:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$I(^CacheTemp)
+	s ind=1
+	if $P(tablename,".",1)="User" s $P(tablename,".",1)="SQLUser"
+	s classname=##class(%Library.SQLCatalog).SQLClassname("",tablename)
+	
+	s (property, column)=""
+	s objclass=##class(%Dictionary.CompiledClass).%OpenId(classname)
+	if $isObject(objclass){
+		s count=objclass.Properties.Count()
+		for i=1:1:count {
+			s property=objclass.Properties.GetAt(i).Name
+			s column=objclass.Properties.GetAt(i).SqlFieldName
+			set Data=$lb(property, column)
+			Set ^CacheTemp(repid,ind)=Data
+			Set ind=ind+1
+		}
+    }
+	
+	Set QHandle=$lb(0,repid,0)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpPropertyNameFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpPropertyNameExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	Set AtEnd=$LIST(QHandle,1)
+	Set repid=$LIST(QHandle,2)
+	Set ind=$LIST(QHandle,3)
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind="" {				// if there are no more rows, finish fetching
+		Set AtEnd=1
+		Set Row=""
+	}Else{
+		Set Row=^CacheTemp(repid,ind)
+	}
+	
+	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpMethodNameClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpPropertyNameFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+	Kill ^CacheTemp(repid)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpMethodNameExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,tablename:%String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$I(^CacheTemp)
+	Set ind=1
+	Set Name=""
+	Set objclass=##class(%Dictionary.CompiledClass).%OpenId(tablename,0)
+	if $isObject(objclass){
+		s methods=objclass.Methods
+		s count = methods.Count()
+		for i=1:1:count {
+			set Name=methods.GetAt(i).Name
+			set Data=$lb(Name,Name)
+			Set ^CacheTemp(repid,ind)=Data
+			Set ind=ind+1
+		}
+    }	
+	Set QHandle=$lb(0,repid,0)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpMethodNameFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpPropertyNameExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	Set AtEnd=$LIST(QHandle,1)
+	Set repid=$LIST(QHandle,2)
+	Set ind=$LIST(QHandle,3)
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind="" {				// if there are no more rows, finish fetching
+		Set AtEnd=1
+		Set Row=""
+	}Else{
+		Set Row=^CacheTemp(repid,ind)
+	}
+	
+	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="QuotedCacheString">
+<Description>
+replaces a double quote for 2 double quotes
+used in questionnaires, websys.Component.JSBuild(), websys.ComponentItem.InvokeMethod()</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	n (str)
+	s str2=""
+	s count=$length(str,"""")
+	for j=1:1:count {
+		s str1=$P(str,"""",j)
+		
+		i j=1 s str2=str1
+		e  s str2=str2_""""""_str1
+	}
+	q str2
+]]></Implementation>
+</Method>
+
+<Method name="SaveReload">
+<Description>
+Save reload parameters and return unique id</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>optid:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	if optid="" s optid=..Unique()
+	m ^TMP("reload",%session.SessionId,optid)=%request.Data
+
+	; zhaocz 2011-05-28 add requestname 
+	; 需要增加页面设置？  zhaocz
+	s ^TMP("reload", %session.SessionId, optid, "RequestPageName") = %request.PageName
+	
+	//wanghc 20130321 logonrefresh.csp内用到时web.SSUser.cls的方法CheckforDiffUserGroup
+	if %session.Get("LOGON.USERCODE")'="" S ^TMP("reload", %session.SessionId, optid, "USERNAME",1)= %session.Get("LOGON.USERCODE")
+	
+	//add by wuqk 2011-07-30 增加GROUPID
+	if %session.Get("LOGON.GROUPID")'="" s ^TMP("reload", %session.SessionId, optid, "LOGON.GROUPID") = %session.Get("LOGON.GROUPID")
+	;s ^TMP("reload", %session.SessionId, optid, "RequestPageName", 1 ) = %request.PageName
+	Q optid
+]]></Implementation>
+</Method>
+
+<Method name="SaveRequest">
+<Description>
+temporarily save request variables when jumping betweeen pages with ServerSideRedirect.
+Should be fixed as a bug by Intersystems. (!!)</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="TimeHtmlToLogical">
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>t:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Q:t="" ""
+	s $ZT="Err"
+	Q $ZTH(t)
+]]></Implementation>
+</Method>
+
+<Method name="TimeLogicalToHtml">
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>h:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Q:h="" ""
+	s Config=^websys.ConfigurationD(1)
+	s timeformat=$s($Lg(Config,11)="HM":2,1:1)
+	s timeseperator=$Lg(Config,9)
+	;6.9测试TimeFormat不起作用
+	s timeformat=2
+	
+	s $ZTrap="Err"
+ 	Q $s(timeseperator'="":$TRanslate($ZTime(h,timeformat),":",timeseperator),1:$ZTime(h,timeformat))
+]]></Implementation>
+</Method>
+
+<Method name="Unique">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.Integer</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	q $i(^websys.Unique)
+]]></Implementation>
+</Method>
+
+<Method name="WhiteSpace">
+<Description>
+Replace CR, LF, TAB etc with SPACE.
+Mainly used with multipline fields and SQL queries
+code by zhouzq 2011.05.27</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>str:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s str=$tr(str,$C(13)," ")
+	s str=$tr(str,$C(10)," ")
+	s str=$tr(str,$C(9)," ")
+	Q str
+]]></Implementation>
+</Method>
+
+<Method name="YesNoHtmlToLogical">
+<Description>
+Convert the value from an html check box to a Yes/No field value
+code by zhouzq 2011.06.27</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>x:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Q:$ZCVT(x,"U")="ON" "Y"
+	Q "N"
+]]></Implementation>
+</Method>
+
+<Method name="YesNoLogicalToHtml">
+<Description>
+Convert a yes/no vaue to HTML checkbox value  
+code by zhouzq 2011.05.27</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>x:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	
+	Q:x="Y" "on"
+	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="CalculateExpression">
+<Description><![CDATA[
+Takes a mathematical expression that uses brackets *,/,+ and - and evaluates it
+If there is an error then the error variable is set with the error
+error returned as <CODE>^Error Text (where messages are defined in MRObservations.EditList)
+/ zhaocz 2011-05-28 分析： 计算表达式的错误 返回一个 error]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[function:%String,&error:%String,&ARYTOK:%String,ValidateFunction:%Integer=0]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Query name="LookUpClassName">
+<Description>
+Get a list of classnames - faster than using the system classes</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>classname:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ClassName:%String,TableName:%String"/>
+</Query>
+
+<Query name="LookUpMethodName">
+<Description>
+Get a list of methodnames - faster than using the system classes</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>classname:%String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ClassName:%String,TableName:%String"/>
+</Query>
+
+<Query name="LookUpPropertyName">
+<Description>
+parameter is an unqualified table name (possibly) with underscores.
+The classname will be deduced from this.</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>tablename</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="property:%String,column:%String"/>
+</Query>
+</Class>
+</Export>

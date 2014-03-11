@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.SessionEvents">
+<Description>
+Session Managment</Description>
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%CSP.SessionEvents</Super>
+<TimeChanged>62881,40483.004348</TimeChanged>
+<TimeCreated>58944,76815</TimeCreated>
+
+<Method name="OnEndSession">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	k ^TMP("FP",$j),^TMP("WEB",$j)
+ 	k ^TMP("reload",%session.SessionId)
+ 	k ^TMP("find",%session.SessionId)
+ 	k ^TMP("TPATLIST",%session.SessionId)
+	d ##Class(websys.Lock).LockClearSession(%session.SessionId)
+]]></Implementation>
+</Method>
+
+<Method name="websysMenuChange">
+<Description>
+called from websys.csp to clear/set any locked data when changing menus (not completing workflows)
+zhaocz 2011-06-11 add</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>newMenuId:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[
+	; d ##class(websys.SessionEvents).websysMenuChange("1")
+	d ##Class(websys.Lock).LockClearSession(%session.SessionId)
+	; kill work flow ^TMP
+	//k ^TMP("find",%session.SessionId)  //by wuqk 2011-06-25
+	;工作流中删除 患者列表
+	k ^TMP("TPATLIST",%session.SessionId)
+	; 是否删除 reload  数据 ， 有时太大
+	//k ^TMP("reload",%session.SessionId)  //by wuqk 2011-07-30 超时登录时,判断刷新页面
+]]></Implementation>
+</Method>
+
+<Method name="OnStartSession">
+<Description>
+Called when a new session is created and its values are initialised.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="OnTimeout">
+<Description><![CDATA[
+Called when the CSP Daemon times out out this session before calling <method>EndSession</method>.
+Use the %session object to examine this session. If you wish to
+abort this deletion then:
+<example>
+Set %session.EndSession=0
+</example>]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="SessionExpired">
+<Description>
+Wrapper to determine if there is a valid session
+用来验证是否 是否超期或者 超用户数</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	
+	n myflag,myrlflag
+	
+	s myflag=0
+	
+	;增加lisence控制
+	/*
+	if ($g(^TMPSession("Session",+$h, "COUNT"))>..#LicenseCount){
+		q 0
+	}
+	*/
+	
+	;s %session.EndSession=1
+	;s mysessionobj =##class(%CSP.Session).%OpenId(%session.SessionId)
+	s myrlflag=(('$d(%session.Data("LOGON.USERID")))!($g(%session.Data("LOGON.USERID"))=""))
+	;s myrlflag = (myrlflag)&&(%session.EndSession'=1)
+	i (myrlflag){
+		
+		;add by wuqk 2010-11-19
+		;如果是退出菜单，不校验session超时，直接关闭页面
+		n mnu, linkUrl, TMENU
+		
+		s mnu="",linkUrl=""
+		s TMENU=$g(%request.Data("TMENU",1))
+		s:TMENU mnu=##Class(websys.Menu).%OpenId(TMENU,0)
+		s:mnu linkUrl=mnu.LinkUrl
+		i ($ZCVT($g(linkUrl),"l")="websys.closesession.csp") {
+			&javascript<#("<SCRIPT Language='JavaScript'>window.parent.close();</SCRIPT>")#>
+			}
+		else{
+			;如果超时  弹出 ext.logon.csp,  重新登录成功后， 
+			;调用 logonrefresh.csp 加载 epr.frames.csp
+			;弹出新的登录窗体
+			s %response.ServerSideRedirect="logonexpired.csp"
+		}
+		s myflag=1
+	}
+	
+	q myflag
+]]></Implementation>
+</Method>
+</Class>
+</Export>

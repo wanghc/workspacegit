@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Report">
+<Description>
+Report Interface Definition</Description>
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>61079,43958.100878</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>473</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>103</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Code">
+<Description>
+Code which uniquely identifies a report</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DSN">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Description>
+Brief Description of the report</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Expression">
+<Description>
+Pre-processing expression</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Hospital">
+<Type>User.CTHospital</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="SaveToDatabase">
+<Type>%Boolean</Type>
+</Property>
+
+<Property name="DoNotSaveHistory">
+<Type>%Boolean</Type>
+</Property>
+
+<Property name="P1">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P1Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P2">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P2Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P3">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P3Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P4">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P4Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P5">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P5Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P6">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P6Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P7">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P7Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P8">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P8Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P9">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P9Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ParameterComponent">
+<Description>
+Component for page to capture report parameter.
+Used in conjunction with ParameterComponent.</Description>
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ParameterUrl">
+<Description>
+Url for page to capture report parameter.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PrintDescriptionExpression">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Printer">
+<Type>websys.Printer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PrintPriority">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ReportGroup">
+<Type>websys.ReportGroup</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ReportIsAuditLetter">
+<Type>%Boolean</Type>
+</Property>
+
+<Property name="ReportUrl">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Type">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UpdateDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="UpdateTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="UpdateUser">
+<Type>User.SSUser</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ReportDisabled">
+<Description>
+ab 28.03.06 45135</Description>
+<Type>%Boolean</Type>
+</Property>
+
+<Index name="CodeHospital">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Code,Hospital</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="CrystalParamList">
+<Description><![CDATA[
+Return parameters list for crystal reports web server.<br>
+&prompt0=abc&prompt1=cde
+etc]]></Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>websys.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="EvaluateExpressionForTPS">
+<Description><![CDATA[
+To Be used by the TPS, to Execute a routine that will both create temporary tables for a crystal report
+and return a string of the form:
+prompt0=value0&prompt1=value1 ...........up to Prompt 9.
+OR if there is an error
+Error=<Error Message>]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ExecuteReportForTPS">
+<Description>
+Executes a cache report for Trak Print Service.
+The Parameter expressions have already been evaluated.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetIdFromLocation">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>reportcode:%Library.String,locationid:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetReportType">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetReportDSN">
+<Description>
+Log 51261 - AI - 30-08-2005 : Method to return the Report's DSN.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="Job">
+<Description>
+Generate a report as a bckground job.
+;s userid=%session.Get("LOGON.USERID")
+;Set config=##Class(websys.Configuration).%OpenId(1,0)
+;;log 22193 if Print service is enabled and the report type is crystal do not job print request
+;i config.PrintServiceEnabled {
+;    i locationid'="" s rptid=..GetIdFromLocation(reportcode,locationid)
+;    i rptid="" s rptid=..GetIdFromCodeOrDescription(reportcode)
+;    i rptid="" q
+;    ;
+;    s rpt=##Class(websys.Report).%OpenId(rptid)
+;    i rpt {
+;	i (rpt.Type = "Crystal"){
+;	    d Print(reportcode,locationid,ip,saveas,userid,MailFrom,MailTo,MailCC,MailSubject,MailMessage)
+;	} 
+;	i (rpt.Type = "Word") {
+;	   i $d(^TPSForWordDisabled) {
+;	       j Print(reportcode,locationid,ip,saveas,userid,MailFrom,MailTo,MailCC,MailSubject,MailMessage):(:1)
+;	   }else {
+;   	       d Print(reportcode,locationid,ip,saveas,userid,MailFrom,MailTo,MailCC,MailSubject,MailMessage)
+;	   }
+;	}
+;	else {
+;	    j Print(reportcode,locationid,ip,saveas,userid,MailFrom,MailTo,MailCC,MailSubject,MailMessage):(:1)
+;	}
+;    }
+;} else {
+;    j Print(reportcode,locationid,ip,saveas,userid,MailFrom,MailTo,MailCC,MailSubject,MailMessage):(:1)
+;}
+;q
+;</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>reportcode:%Library.String,locationid:%Library.String,ip:%Library.String,saveas:%Library.String="",userid:%Library.String="",MailFrom:%Library.String="",MailTo:%Library.String="",MailCC:%Library.String="",MailSubject:%Library.String="",MailMessage:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpByReportBroker">
+<Description>
+KK 21/Jan/2003 Log 31573 - LookUpBroker for LinkReport field in websys.Menu.Edit</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="Execute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>%exp:%String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="ParameterUrlSet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="Print">
+<Description>
+Generate a printed report.:
+ReportCode - unique code for the report, corresponds to websys.Report
+LocationID - location from where the report was requested. Used in Print Manager to determine the destination printer, e.g. login location
+IP - ip address of the client PC from where the report was requested
+Filename - filename to save the report to. e.g. test.rtf. Applies to crystal reports.
+If the type of report is word this is the name of the file to print.
+
+Log 51153 - AI - 13-07-2005 : Add parameters 18 and 19 - Reprint and SaveOnly. These are passed through to websys.PrintHistory AddItem.
+NOTE: Parameters 18 and 19 may not be in most calls to Print - They are currently only set from the calls that set them to 1.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[reportcode:%Library.String,locationid:%Library.String,ip:%Library.String,filename:%Library.String="",userid:%Library.String="",MailFrom:%Library.String="",MailTo:%Library.String="",MailCC:%Library.String="",MailSubject:%Library.String="",MailMessage:%Library.String="",Device:%Library.String="",noofcopies:%Library.String="",ClassName:%String="",ClassNameID:%String="",&ReportHistoryID:%String="",meth:%String="",recip:%String="",reprint:%Boolean=0,saveonly:%Boolean=0]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ReportUrlSet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="VBFindLEClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>VBFindLEFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="VBFindLEExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="VBFindLEFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>VBFindLEExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysSaveAs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String="",id:%Library.String=""</FormalSpec>
+</Method>
+
+<Method name="websysBeforeDelete">
+<Description>
+KK 7/Feb/2003 Log:29627 - Check before deleting Report</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String="",id:%Library.String=""</FormalSpec>
+</Method>
+
+<Method name="zPrintReport">
+<Description>
+TP 29/01/03: This method has been retired. It is no longer called from anywhere.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>rptid:%Library.String,prtid:%Library.String,userid:%Library.String,filename:%Library.String="",P1:%Library.String="",P2:%Library.String="",P3:%Library.String="",P4:%Library.String="",P5:%Library.String="",P6:%Library.String="",P7:%Library.String="",P8:%Library.String="",P9:%Library.String="",printdesc:%Library.String="",MailFrom:%Library.String="",MailTo:%Library.String="",MailCC:%Library.String="",MailSubject:%Library.String="",MailMessage:%Library.String=""</FormalSpec>
+</Method>
+
+<Query name="LookUpByReport">
+<Description>
+KK 21/Jan/2003 Log 31573
+</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc</FormalSpec>
+<SqlQuery>SELECT ID,Code,Description,Type
+FROM websys.Report
+WHERE ((%ALPHAUP Description [ %ALPHAUP :desc) OR (:desc IS NULL))</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="HIDDEN,Code,Description,HIDDEN"/>
+</Query>
+
+<Query name="VBFindLE">
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String,UpdateDate:%String,UpdateTime:%String"/>
+</Query>
+
+<Query name="VBFindLESimple">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlQuery>SELECT ID, Description,UpdateDate,UpdateTime
+FROM Report
+WHERE (Description %STARTSWITH :desc)
+ORDER BY Description</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String,UpdateDate:%Date,UpdateTime:%Time"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.ReportD</DataLocation>
+<DefaultData>ReportDefaultData</DefaultData>
+<IdLocation>^websys.ReportD</IdLocation>
+<IndexLocation>^websys.ReportI</IndexLocation>
+<StreamLocation>^websys.ReportS</StreamLocation>
+<Data name="ReportClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="ReportDefaultData">
+<Value name="1">
+<Value>Code</Value>
+</Value>
+<Value name="2">
+<Value>Description</Value>
+</Value>
+<Value name="3">
+<Value>NewProperty6</Value>
+</Value>
+<Value name="4">
+<Value>NewProperty7</Value>
+</Value>
+<Value name="5">
+<Value>NewProperty8</Value>
+</Value>
+<Value name="6">
+<Value>NewProperty9</Value>
+</Value>
+<Value name="7">
+<Value>Printer</Value>
+</Value>
+<Value name="8">
+<Value>Type</Value>
+</Value>
+<Value name="9">
+<Value>Url</Value>
+</Value>
+<Value name="10">
+<Value>Expression</Value>
+</Value>
+<Value name="11">
+<Value>ReportUrl</Value>
+</Value>
+<Value name="12">
+<Value>ParameterComponent</Value>
+</Value>
+<Value name="13">
+<Value>ParameterUrl</Value>
+</Value>
+<Value name="14">
+<Value>P1</Value>
+</Value>
+<Value name="15">
+<Value>P2</Value>
+</Value>
+<Value name="16">
+<Value>P3</Value>
+</Value>
+<Value name="17">
+<Value>P4</Value>
+</Value>
+<Value name="18">
+<Value>P5</Value>
+</Value>
+<Value name="19">
+<Value>P6</Value>
+</Value>
+<Value name="20">
+<Value>P7</Value>
+</Value>
+<Value name="21">
+<Value>P8</Value>
+</Value>
+<Value name="22">
+<Value>P9</Value>
+</Value>
+<Value name="23">
+<Value>P1Name</Value>
+</Value>
+<Value name="24">
+<Value>P2Name</Value>
+</Value>
+<Value name="25">
+<Value>P3Name</Value>
+</Value>
+<Value name="26">
+<Value>P4Name</Value>
+</Value>
+<Value name="27">
+<Value>P5Name</Value>
+</Value>
+<Value name="28">
+<Value>P6Name</Value>
+</Value>
+<Value name="29">
+<Value>P7Name</Value>
+</Value>
+<Value name="30">
+<Value>P8Name</Value>
+</Value>
+<Value name="31">
+<Value>P9Name</Value>
+</Value>
+<Value name="32">
+<Value>Hospital</Value>
+</Value>
+<Value name="33">
+<Value>DSN</Value>
+</Value>
+<Value name="34">
+<Value>PrintDescriptionExpression</Value>
+</Value>
+<Value name="35">
+<Value>UpdateDate</Value>
+</Value>
+<Value name="36">
+<Value>UpdateTime</Value>
+</Value>
+<Value name="37">
+<Value>UpdateUser</Value>
+</Value>
+<Value name="38">
+<Value>ReportGroup</Value>
+</Value>
+<Value name="39">
+<Value>bSaveToDatabase</Value>
+</Value>
+<Value name="40">
+<Value>BSaveToDatabase</Value>
+</Value>
+<Value name="41">
+<Value>SaveToDatabase</Value>
+</Value>
+<Value name="42">
+<Value>ReportIsAuditLetter</Value>
+</Value>
+<Value name="43">
+<Value>DoNotSaveHistory</Value>
+</Value>
+<Value name="44">
+<Value>PrintPriority</Value>
+</Value>
+<Value name="45">
+<Value>ReportDisabled</Value>
+</Value>
+</Data>
+<Property name="Code">
+</Property>
+<Property name="DSN">
+</Property>
+<Property name="Description">
+</Property>
+<Property name="Expression">
+</Property>
+<Property name="Hospital">
+</Property>
+<Property name="P1">
+</Property>
+<Property name="P1Name">
+</Property>
+<Property name="P2">
+</Property>
+<Property name="P2Name">
+</Property>
+<Property name="P3">
+</Property>
+<Property name="P3Name">
+</Property>
+<Property name="P4">
+</Property>
+<Property name="P4Name">
+</Property>
+<Property name="P5">
+</Property>
+<Property name="P5Name">
+</Property>
+<Property name="P6">
+</Property>
+<Property name="P6Name">
+</Property>
+<Property name="P7">
+</Property>
+<Property name="P7Name">
+</Property>
+<Property name="P8">
+</Property>
+<Property name="P8Name">
+</Property>
+<Property name="P9">
+</Property>
+<Property name="P9Name">
+</Property>
+<Property name="ParameterComponent">
+</Property>
+<Property name="ParameterUrl">
+</Property>
+<Property name="PrintDescriptionExpression">
+</Property>
+<Property name="Printer">
+</Property>
+<Property name="ReportGroup">
+</Property>
+<Property name="ReportUrl">
+</Property>
+<Property name="Type">
+</Property>
+<Property name="UpdateDate">
+</Property>
+<Property name="UpdateTime">
+</Property>
+<Property name="UpdateUser">
+</Property>
+</Storage>
+</Class>
+</Export>

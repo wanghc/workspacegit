@@ -1,0 +1,1335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.PrintHistory">
+<Description>
+History of print jobs (and repints)</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>61079,43958.10025</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>749</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>1000000</Default>
+</Parameter>
+
+<Query name="FindForRReportHistory">
+<Type>%Query</Type>
+<FormalSpec>RequestReportHistory:%String=""</FormalSpec>
+<Parameter name="ROWSPEC" value="ID:%String,ReportID:%String,ReportName:%String,PrintDate:%Date,PrintTime:%String,Computer:%String,Filename:%String,User:%String,Location:%String,Status:%String,Printer:%String,NoCopies:%String,Error:%String,MailTo,MailSubject,MethodType,Recipient"/>
+</Query>
+
+<Property name="RequestedReportHistoryDR">
+<Type>websys.RequestedReportHistory</Type>
+</Property>
+
+<Index name="RequestedReportHistoryDRIndex">
+<Properties>RequestedReportHistoryDR</Properties>
+</Index>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="BatchID">
+<Description>
+BatchID is only set for members of a Batch Print.
+See also BatchSeq</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="BatchSeq">
+<Description>
+Sequence of an Item in a Batch. </Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ChildKeywords">
+<Type>websys.PrintHistoryKeywords</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Computer">
+<Description>
+Requesting Computer</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DSN">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ErrorDescription">
+<Description>
+Description of the error in the event that the print failed.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Filename">
+<Description>
+User can request the the Report be printed to a file in stead of a Printer. This is the name of the file.
+Typically used for Email and faxing</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LocationDR">
+<Description>
+Login Location of User calling print</Description>
+<Type>User.CTLoc</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="MailCC">
+<Description>
+For Email and Faxing</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MailFrom">
+<Description>
+For Email and Faxing</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MailMessage">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MailSubject">
+<Description>
+For Email and Faxing</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MailTo">
+<Description>
+For Email and Faxing</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MethodType">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Recipient">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="NoofCopies">
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="P1">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P2">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P3">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P4">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P5">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P6">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P7">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P8">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="P9">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PrintDate">
+<Description>
+DateTime that the report was Processes(attempted to print)</Description>
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PrintDuration">
+<Description>
+Print Duration (in seconds)</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PrintTime">
+<Description>
+DateTime that the report was Processes(attempted to print)</Description>
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PrinterDR">
+<Type>websys.Printer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ReportDR">
+<Type>websys.Report</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="RequestedDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>+$h</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="RequestedTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>$p($h,",",2)</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ServiceID">
+<Description>
+MachineId of the Service that processed the Request</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Status">
+<Description>
+W - Waiting to Print.
+I - Printing in progress,
+P - Print processing complete
+E - Error - Error description in ErrorDescription
+A - Aborted
+D - Deferred
+B - Printed Batch</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Waiting,InProgress,Printed,Error,Aborted,Deferred,Printed Batch,Previewed"/>
+<Parameter name="MAXLEN" value="2"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",W,I,P,E,A,D,B,V"/>
+</Property>
+
+<Property name="UserDR">
+<Type>User.SSUser</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Reprint">
+<Description>
+Log 51153 - AI - 13-07-2005 : Is this entry a reprint ?</Description>
+<Type>%Library.Boolean</Type>
+<InitialExpression>0</InitialExpression>
+</Property>
+
+<Property name="SaveOnly">
+<Description>
+Log 51153 - AI - 13-07-2005 : Should this entry only save to database ?
+  TPS still processes this entry, but only saves the report to the database. It does not email, fax or print.</Description>
+<Type>%Library.Boolean</Type>
+<InitialExpression>0</InitialExpression>
+</Property>
+
+<Property name="HospitalDR">
+<Description>
+Log 52404 YC - Hospital</Description>
+<Type>User.CTHospital</Type>
+</Property>
+
+<Property name="JobNumber">
+<Description>
+Cache Job Number</Description>
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="BatchID">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>BatchID</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="ComputerIndex">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Computer</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="DSNIndex">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>DSN</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="DescriptionIndex">
+<Description>
+Index for property Description</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Description</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="HospitalDRIndex">
+<Description>
+Index for property HospitalDR</Description>
+<Properties>HospitalDR</Properties>
+</Index>
+
+<Index name="LocationDRIndex">
+<Description>
+Index for property LocationDR</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>LocationDR</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="PrintDateIndex">
+<Description>
+Index for property PrintDate</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>PrintDate,PrintTime</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="PrinterDRIndex">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>PrinterDR</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="ReportDRIndex">
+<Description>
+Index for property ReportDR</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ReportDR</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="ReportDRP1Index">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ReportDR,P1</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="StatusIndex">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Status</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="UserDRIndex">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>UserDR</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="%OnBeforeSave">
+<Description>
+Log 51153 - AI - 28-06-2005 : Create the %old array before saving.</Description>
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="%OnAfterSave">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="%OnDelete">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>oid:%Library.ObjectIdentity</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="AbortJob">
+<Description>
+If the Print job is currently In Progress this method aborts the job by flagging it to "A"
+if the TPS is currently active or if the TPS is not running the job is flagged to "E" with
+an appropriate message.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="AddItem">
+<Description>
+Log 51153 - AI - 13-07-2005 : Add the two new fields as parameters 29 and 30 - Reprint and SaveOnly.
+NOTE: Parameters 29 and 30 may not be in most calls to AddItem - They are currently only set from the calls that set them to 1.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>userID:%Library.String="",reportID:%Library.String="",printerID:%Library.String="",filename:%Library.String="",P1:%Library.String="",P2:%Library.String="",P3:%Library.String="",P4:%Library.String="",P5:%Library.String="",P6:%Library.String="",P7:%Library.String="",P8:%Library.String="",P9:%Library.String="",printdesc:%Library.String="",status:%Library.String="",MailFrom:%Library.String="",MailTo:%Library.String="",MailCC:%Library.String="",MailSubject:%Library.String="",MailMessage:%Library.String="",Comment:%Library.String="",BatchID:%Library.String="",LocationID:%Library.String="",NoofCopies:%Library.String="",ip:%Library.String="",ReportHistoryID:%Library.String="",MethodType:%String="",Recipient:%String="",Reprint:%Boolean=0,SaveOnly:%Boolean=0,DSN:%String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="CompleteReport">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ServerName:%Library.String,Status:%Library.String,ErrorMessage:%Library.String,DSN:%Library.String="",Duration:%Library.Integer=0</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="CreateBatch">
+<Description>
+The BatchItems argument is a ^ delimited list of PrintHistory IDs that are to be 
+processed as a Batch.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,DateFrom:%String="",SearchDesc:%Library.String=""]]></FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindForRReportHistoryClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindForRReportHistoryFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="FindForRReportHistoryExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,RequestReportHistory:%String=""]]></FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="FindForRReportHistoryFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindForRReportHistoryExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="FindWithStatusClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindWithStatusFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindWithStatusExecute">
+<Description><![CDATA[
+Query search precedence order for indexing is: 
+=1. User 
+=1. Location 
+3. BatchOnly flag 
+4. Date Printed (date from -> date to) 
+5. Status 
+=6. Computer 
+=6. Printer 
+=6. Report 
+9. UserDR 
+10. Description 
+11. DSN ]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,DateFrom:%String="",SearchDesc:%Library.String="",Status:%Library.String="",BatchOnly:%Library.Boolean=0,DateTo:%Library.Date="",Computer:%Library.String="",Printer:%Library.String="",User:%Library.String="",Report:%Library.String="",DSN:%Library.String="",Location:%Library.String="",Hospital:%Library.String=""]]></FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindWithStatusFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindWithStatusExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetLastSeqNo">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>PrintBatchID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Integer</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetNewBatchID">
+<Description>
+get a new BatchId fron the User Defined counter "PRINTBATCH"</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetNextReport">
+<Description>
+PJC-Jan-2008</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ServerName:%Library.String,Type:%Library.String="",BatchID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="HasPrinted">
+<Description>
+SA 23.7.02 - log 26835: Leon has added a new index to this class - ReportDRP1Index.
+This line of the query:
+AND ((P1 = :P1) OR ((P1 IS NULL) AND (:P1 IS NULL)))
+has been replaced by: 
+AND (P1 = :P1)
+to utilise the new index on P1.
+
+This assumes all calls to here utilise P1. If at a later stage we find that this is not the case, Leon
+has suggested a mask method be used that determines the number of blank params, and set number
+of passing params for the report.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>report:%Library.String,P1:%Library.String="",P2:%Library.String="",P3:%Library.String="",P4:%Library.String="",P5:%Library.String="",P6:%Library.String="",P7:%Library.String="",P8:%Library.String="",P9:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LockRecord">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="MailOrFaxFile">
+<Description>
+Mails or faxes the FileName using MailFrom,MailTo</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&Message:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="MailOrFaxPDF">
+<FormalSpec><![CDATA[&Message:%Library.String,filepath]]></FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="Reprint">
+<Description>
+Log 53052 - AI - 03-08-2005 : Add the 6th parameter, "NoCopies", for the number of copies of this reprint.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String,printer:%Library.String,userid:%Library.String="",nrrhid:%Library.String="",Recipient:%String="",NoCopies:%Integer=1</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ReprintBatch">
+<Description>
+*********************************************
+
+METHOD NO LONGER USED - SEE ReprintSelected.
+
+This method may be resurrected if a site wants to reprint an entire Batch as a Batch.
+
+*********************************************
+
+Log 56363 - AI - 20-10-2005 : Modify method to be run by the TPS. 13 Batchobj properties fixed. Old code commented next to new code.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ReprintSelected">
+<Description>
+Log 56363 - AI - 20-10-2005 : New method similar to PrintBatch. Resubmits only the selected jobs as individuals (ad-hoc).
+    Modify method to be run by the TPS. 13 Batchobj properties fixed. Old code commented next to new code.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String</FormalSpec>
+</Method>
+
+<Method name="ResetToWaiting">
+<Description>
+Reads all PrintRequests with a Status of I = In Progress
+For each Print Request that has been stamped by ServerName, return the Status to Waiting.
+These Print request Items have been left hanging by some sort of a crash ... the ain is to
+recover them ... but can only do this for Print Request belonging to the Calling Server</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ServerName:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetJobNumber">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="GetJobNumberFromId">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="AddJobToHistory">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="KillJobFromHistory">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="KillJob">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Query name="Find">
+<Description>
+Standard Type Items by Type</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>DateFrom:%Date,SearchDesc:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,ReportDesc,PrinterDesc,PrintDate:%Date,PrintTime:%Time,SSUSRInitials,Computer,Description"/>
+</Query>
+
+<Query name="FindBatchItems">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>BatchID,Status</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[select ID, ReportDR->Type, ServiceID
+From websys.PrintHistory
+where (Status=:Status)
+and (BatchID=:BatchID)]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Type,ServiceID"/>
+</Query>
+
+<Query name="FindBatchItemsAll">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>BatchID</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[Select ID,ReportDR->Description, PrinterDR->Description, PrintDate, PrintTime, UserDR->SSUSR_Initials, Computer, Description, ReportDR->Type, ErrorDescription, RequestedDate, RequestedTime, ServiceID, Status, BatchID
+from websys.PrintHistory
+where BatchID=:BatchID and BatchSeq > 0
+Order BY BatchSeq]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,ReportDesc,PrinterDesc,PrintDate:%Date,PrintTime:%Time,SSUSRInitials,Computer,Description,Type,ErrorDescr,RequestDate:%Date,RequestTime:%Time,ServiceID,Status,BatchID"/>
+</Query>
+
+<Query name="FindByStatus">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>status,type</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[select ID, ReportDR->Type, ServiceID
+From websys.PrintHistory
+where (Status=:status)
+AND ID IN (
+     SELECT ID 
+     FROM websys.PrintHistory
+	 where ((ReportDR->Type=:type) or (:type is NULL))
+	 and (BatchSeq=0 OR BatchID IS NULL))
+order by ReportDR->PrintPriority desc, RequestedDate, RequestedTime]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Type,ServiceID"/>
+</Query>
+
+<Query name="FindByStatusCacheOther">
+<Description>
+Used by GetNextProcess for retreiving Cache or Other Reports in one go. 
+Otherwise it's too inefficent.</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>status</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[select ID, ReportDR->Type, ServiceID
+From websys.PrintHistory
+where (Status=:status)
+AND ID IN (
+     SELECT ID 
+     FROM websys.PrintHistory
+     where (ReportDR->Type IN ('Cache','Other'))
+	 and (BatchSeq=0 OR BatchID IS NULL)) 
+order by ReportDR->PrintPriority desc, RequestedDate, RequestedTime]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Type,ServiceID"/>
+</Query>
+
+<Query name="FindByStatusCrystal">
+<Description>
+The select statement returns 
+Print History items of ReportType Crystal or Cache+Crystal</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>status</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[select ID, ReportDR->Type, ServiceID
+From websys.PrintHistory
+where (Status=:status)
+AND ID IN (
+     SELECT ID 
+     FROM websys.PrintHistory
+     where (ReportDR->Type IN ('Crystal','Cache+Crystal'))
+	 and (BatchSeq=0 OR BatchID IS NULL)) 
+order by ReportDR->PrintPriority desc, RequestedDate, RequestedTime]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Type,ServiceID"/>
+</Query>
+
+<Query name="FindWithStatus">
+<Description>
+Standard Type Items by Type</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>DateFrom:%Date,SearchDesc:%String,Status:%String,BatchOnly:%Boolean,DateTo:%Date,Computer:%String,Printer:%String,User:%String,Report:%String,DSN:%String,Location:%String,Hospital:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,ReportDesc,PrinterDesc,PrintDate:%Date,PrintTime:%Time,SSUSRInitials,Computer,Description,Type,ErrorDescr,RequestDate:%Date,RequestTime:%Time,ServiceID,Status,BatchID,DSN,Location,PrintDuration:%Integer,Hospital"/>
+</Query>
+
+<Trigger name="OnAfterInsert">
+<Code> d ##Class(websys.PrintHistoryKeywords).KeywordsInsert({ID},{Description})</Code>
+<Event>INSERT</Event>
+<Order>1</Order>
+<Time>AFTER</Time>
+</Trigger>
+
+<Trigger name="OnAfterUpdate">
+<Code> d ##Class(websys.PrintHistoryKeywords).KeywordsDelete({ID})
+ d ##Class(websys.PrintHistoryKeywords).KeywordsInsert({ID},{Description})</Code>
+<Event>UPDATE</Event>
+<Order>2</Order>
+<Time>AFTER</Time>
+</Trigger>
+
+<Trigger name="OnBeforeDelete">
+<Code> d ##Class(websys.PrintHistoryKeywords).KeywordsDelete({ID})</Code>
+<Event>DELETE</Event>
+<Order>3</Order>
+</Trigger>
+
+<Method name="UpdateDSN">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String,DSN:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.PrintHistoryD</DataLocation>
+<DefaultData>PrintHistoryDefaultData</DefaultData>
+<IdLocation>^websys.PrintHistoryD</IdLocation>
+<IndexLocation>^websys.PrintHistoryI</IndexLocation>
+<StreamLocation>^websys.PrintHistoryS</StreamLocation>
+<Data name="PrintHistoryClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="PrintHistoryDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Computer</Value>
+</Value>
+<Value name="2">
+<Value>Description</Value>
+</Value>
+<Value name="3">
+<Value>P1</Value>
+</Value>
+<Value name="4">
+<Value>P2</Value>
+</Value>
+<Value name="5">
+<Value>P3</Value>
+</Value>
+<Value name="6">
+<Value>P4</Value>
+</Value>
+<Value name="7">
+<Value>P5</Value>
+</Value>
+<Value name="8">
+<Value>P6</Value>
+</Value>
+<Value name="9">
+<Value>P7</Value>
+</Value>
+<Value name="10">
+<Value>P8</Value>
+</Value>
+<Value name="11">
+<Value>P9</Value>
+</Value>
+<Value name="12">
+<Value>PrintDate</Value>
+</Value>
+<Value name="13">
+<Value>PrintTime</Value>
+</Value>
+<Value name="14">
+<Value>PrinterDR</Value>
+</Value>
+<Value name="15">
+<Value>RePrints</Value>
+</Value>
+<Value name="16">
+<Value>ReportDR</Value>
+</Value>
+<Value name="17">
+<Value>UserDR</Value>
+</Value>
+<Value name="18">
+<Value>Filename</Value>
+</Value>
+<Value name="19">
+<Value>Status</Value>
+</Value>
+<Value name="20">
+<Value>ErrorDescription</Value>
+</Value>
+<Value name="21">
+<Value>RequestedDate</Value>
+</Value>
+<Value name="22">
+<Value>RequestedTime</Value>
+</Value>
+<Value name="23">
+<Value>ServiceID</Value>
+</Value>
+<Value name="24">
+<Value>MailCC</Value>
+</Value>
+<Value name="25">
+<Value>MailFrom</Value>
+</Value>
+<Value name="26">
+<Value>MailMessage</Value>
+</Value>
+<Value name="27">
+<Value>MailSubject</Value>
+</Value>
+<Value name="28">
+<Value>MailTo</Value>
+</Value>
+<Value name="32">
+<Value>BatchID</Value>
+</Value>
+<Value name="33">
+<Value>BatchSeq</Value>
+</Value>
+<Value name="34">
+<Value>DSN</Value>
+</Value>
+<Value name="35">
+<Value>PrintDuration</Value>
+</Value>
+<Value name="36">
+<Value>LocationDR</Value>
+</Value>
+<Value name="37">
+<Value>NoofCopies</Value>
+</Value>
+<Value name="38">
+<Value>RequestedReportHistoryDR</Value>
+</Value>
+<Value name="39">
+<Value>MethodType</Value>
+</Value>
+<Value name="40">
+<Value>Recipient</Value>
+</Value>
+<Value name="41">
+<Value>Reprint</Value>
+</Value>
+<Value name="42">
+<Value>SaveOnly</Value>
+</Value>
+<Value name="43">
+<Value>HospitalDR</Value>
+</Value>
+<Value name="44">
+<Value>JobNumber</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

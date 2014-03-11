@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.PrinterGroup">
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>60592,57266.26551</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>21</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Internal>0</Internal>
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Description>
+Code</Description>
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Description>
+Description</Description>
+<Default>Description</Default>
+</Parameter>
+
+<Property name="Code">
+<Type>%Library.String</Type>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+</Property>
+
+<Index name="UniqueCodeIndex">
+<Description>
+Uniqueness index for property Code</Description>
+<Properties>Code</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Query name="LookUpList">
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>	SELECT	Code,Description,ID
+	FROM	websys.PrinterGroup
+	ORDER	BY Description</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Code,Desc,HIDDEN"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.PrinterGroupD</DataLocation>
+<DefaultData>PrinterGroupDefaultData</DefaultData>
+<IdLocation>^websys.PrinterGroupD</IdLocation>
+<IndexLocation>^websys.PrinterGroupI</IndexLocation>
+<StreamLocation>^websys.PrinterGroupS</StreamLocation>
+<Data name="PrinterGroupDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Code</Value>
+</Value>
+<Value name="3">
+<Value>Description</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

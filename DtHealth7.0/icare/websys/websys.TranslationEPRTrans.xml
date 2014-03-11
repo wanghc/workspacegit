@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.TranslationEPRTrans">
+<Description>
+Translation EPR Translations</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy>SQLStorage</StorageStrategy>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62251,64473.221771</TimeChanged>
+<TimeCreated>61079,43958.104121</TimeCreated>
+
+<Property name="ParRef">
+<Description>
+ParRef</Description>
+<Type>TranslationEPR</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<InitialExpression>$s($d(initvalue):initvalue,1:%d(0))</InitialExpression>
+<Inverse>ChildTranslationEPRTrans</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PropertyTextLang">
+<Description><![CDATA[
+Language-->User.SS_Language]]></Description>
+<Type>%String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<SqlColumnNumber>4</SqlColumnNumber>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PropertyTextTrans">
+<Description>
+TranslatedText</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlColumnNumber>3</SqlColumnNumber>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="RowIDBasedIDKeyIndex">
+<Extent>0</Extent>
+<IdKey>1</IdKey>
+<PrimaryKey>1</PrimaryKey>
+<Properties>PropertyTextLang</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="SQLStorage">
+<Type>%CacheSQLStorage</Type>
+<SqlRowIdName>RowID</SqlRowIdName>
+<StreamLocation>^websys.TranslationEPRTransS</StreamLocation>
+<SQLMap name="DataMaster">
+<Type>data</Type>
+<Global>^websys.TranslationD</Global>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<Expression>"EPR"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{TranslationEPR.RowID}</Expression>
+<StartValue>1</StartValue>
+</Subscript>
+<Subscript name="3">
+<Expression>"LANG"</Expression>
+</Subscript>
+<Subscript name="4">
+<Expression>{PropertyTextLang}</Expression>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}</Expression>
+<Field>TranslationEPR.RowID</Field>
+</RowIdSpec>
+<RowIdSpec name="2">
+<Expression>{L4}</Expression>
+<Field>PropertyTextLang</Field>
+</RowIdSpec>
+<Data name="PropertyTextTrans">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

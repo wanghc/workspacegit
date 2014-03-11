@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.WorkFlow">
+<Description>
+Definition of a sequenced set of WorkFlowItems</Description>
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62593,55838.802161</TimeChanged>
+<TimeCreated>61079,43958.104465</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>210</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>295</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Final>0</Final>
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="xmlidentifiedby">
+<Description>
+Used in conjunction with XMLId method to unqiuely identify a record.
+By default ..%Id() is used unless other properties are specified. A comma separated list may be provided and processed by overridding XMLId method</Description>
+<Final>0</Final>
+<Default>%Id()</Default>
+</Parameter>
+
+<Parameter name="xmltoclass">
+<Description>
+Mapping from XML to Class</Description>
+<Final>0</Final>
+<Default>workflow</Default>
+</Parameter>
+
+<Parameter name="xmltypeWorkFlowItems">
+<Final>0</Final>
+<Default>workflowitems</Default>
+</Parameter>
+
+<Property name="CycleSelection">
+<Description>
+Used for cycling a workflow for a set number of selected items.
+ie. TKWFLL stores a collection of multiple ids.
+If CycleSelection is ticked the workflow will flow for the first id, then the second id, and so on to the last id,
+then it quits out.</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="JumpToList">
+<Description>
+Determines whether the workflow should return back to a particular screen after completion</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Loop">
+<Description>
+Determines whether the workflow should return back to the first item after completion</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Name">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UpdateDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="UpdateTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="UpdateUser">
+<Type>User.SSUser</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WorkFlowItems">
+<Type>websys.WorkFlowItem</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Index name="UniqueNameIndex">
+<Description>
+Uniqueness index for property Name</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Name</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="ConditionalExpressionsGet">
+<Description>
+wanghc
+Return delimited list of workflow item Conditional Expressions.</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n cnd,items,len
+	s cnd=""
+	s items=%this.WorkFlowItems
+	s len=items.Size
+	f i=1:1:len d
+	.i i=1 s cnd=items.GetAt(i).ConditionalExpression
+	.e  s cnd=cnd_"|"_items.GetAt(i).ConditionalExpression
+	q cnd
+]]></Implementation>
+</Method>
+
+<Method name="FindByWKFLItemClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindByWKFLItemFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindByWKFLItemExecute">
+<Description>
+by wanghc</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,WKFLName:%Library.String,WKFLItemDesc:%Library.String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	s rowid=""
+	F  s rowid= $o(^websys.WorkFlowD(rowid)) q:rowid=""  d
+	.s obj=##class(websys.WorkFlow).%OpenId(rowid)
+	.q:'$IsObject(obj)
+	.s flag=1
+	.i WKFLItemDesc'="" d
+	..s flag=0
+	..s items=obj.WorkFlowItems
+	..s len=items.Size
+	..f i=1:1:len d
+	...s item=items.GetAt(i)
+	...s desc = item.Item.Description
+	...s flag=flag+$s(desc=WKFLItemDesc:1,1:0)
+	.s name=obj.Name
+	.q:flag=0
+	.q:(WKFLName'="")&&(name'[WKFLName)
+	.s ^CacheTemp(repid,ind)=$lb(rowid,name)
+	.s ind=ind+1
+	.d obj.%Close()
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindByWKFLItemFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindByWKFLItemExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}Else{				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="NamesGet">
+<Description>
+wanghc
+Return delimited list of workflow item names.</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s itms=""
+	s items=%this.WorkFlowItems
+	s len=items.Size
+	f i=1:1:len d
+	.s item=items.GetAt(i)
+	.s name = item.Item.Description
+	.i itms="" s itms=name
+	.e  s itms=itms_"|"_name
+	q itms
+]]></Implementation>
+</Method>
+
+<Method name="TransitionExpressionsGet">
+<Description>
+wanghc
+Return delimited list of workflow item Transition Expressions.</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n trn,items,len
+	s trn=""
+	s items=%this.WorkFlowItems
+	s len=items.Size
+	f i=1:1:len d
+	.i i=1 s trn=items.GetAt(i).TransitionExpression
+	.e  s trn=trn_"|"_items.GetAt(i).TransitionExpression
+	q trn
+]]></Implementation>
+</Method>
+
+<Method name="VBFindLEClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>VBFindLEFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="VBFindLEExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="VBFindLEFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>VBFindLEExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="WorkFlowItemsAdd">
+<Description>
+by wanghc
+Rebuild workflow items from a set of delimited strings.</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>names:%Library.String,expressions:%Library.String,conditions:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s len=$l(names,"|")
+	s list=##class(%ListOfObjects).%New()
+	f i=1:1:len d	
+	.q:$p(names,"|",i)=""
+	.s item=##class(websys.WorkFlowItem).%New()
+	.s item.Item=##class(websys.WorkFlowItemDefinition).getObjByDesc($p(names,"|",i))	
+	.s item.TransitionExpression= ##class(websys.Conversions).JSValueToLogical($p(expressions,"|",i))
+	.s item.ConditionalExpression=##class(websys.Conversions).JSValueToLogical($p(conditions,"|",i))
+	.d list.Insert(item)
+	s %this.WorkFlowItems=list
+	q 0
+]]></Implementation>
+</Method>
+
+<Method name="XMLExport">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="XMLId">
+<Description>
+Get the ID from the identified by string.
+By default the generated version of this returns the value passed.
+In general this method will be overridden to provide the required behaviour.
+For example - Component name is passed - this will return ..%Id()</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="XMLPreference">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysBeforeSave">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="FindByWKFLItem">
+<Type>%Library.Query</Type>
+<FormalSpec>WKFLName:%Library.String,WKFLItemDesc:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Name"/>
+</Query>
+
+<Query name="VBFind">
+<Description>
+Find called from VB Patching OCX</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT Name
+FROM Workflow
+WHERE Name %STARTSWITH :name
+ORDER BY Name</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Name:%String"/>
+</Query>
+
+<Query name="VBFindLE">
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Name:%Library.String,UpdateDate:%String,UpdateTime:%String"/>
+</Query>
+
+<Query name="VBFindLESimple">
+<Description>
+Used in:
+Layout Editor XML Export</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, Name,UpdateDate,UpdateTime
+FROM WorkFlow
+WHERE ((Name %STARTSWITH :name) OR (:name IS NULL))
+ORDER BY Name</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Name:%Library.String,UpdateDate:%Date,UpdateTime:%Time"/>
+</Query>
+
+<Query name="LookUp">
+<Description>
+Basic query returning description from a partial description, ordered by description.
+Compiled will attempt to derive the 'description' property from available properties unless it is explicity
+set in the SQLDESCRIPTION parameter.
+SQLROWID may be used to specify the field name to be used as rowid.</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Description:%String,HIDDEN:%String,Code:%String"/>
+</Query>
+
+<Query name="VBFindLETrak">
+<Description>
+Used in:
+Layout Editor Component Item LinkWorkFlow
+Only choose from Trak distributed workflows</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%Library.String</FormalSpec>
+<SqlQuery><![CDATA[SELECT ID, Name,UpdateDate,UpdateTime
+FROM WorkFlow
+WHERE (Name %STARTSWITH :name) and (ID<50000)
+ORDER BY Name]]></SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Name:%Library.String,UpdateDate:%Date,UpdateTime:%Time"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.WorkFlowD</DataLocation>
+<DefaultData>WorkFlowDefaultData</DefaultData>
+<IdLocation>^websys.WorkFlowD</IdLocation>
+<IndexLocation>^websys.WorkFlowI</IndexLocation>
+<StreamLocation>^websys.WorkFlowS</StreamLocation>
+<Data name="WorkFlowClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="WorkFlowDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Name</Value>
+</Value>
+<Value name="2">
+<Value>WorkFlowItems</Value>
+</Value>
+<Value name="3">
+<Value>Loop</Value>
+</Value>
+<Value name="4">
+<Value>CycleSelection</Value>
+</Value>
+<Value name="5">
+<Value>JumpToList</Value>
+</Value>
+<Value name="6">
+<Value>UpdateDate</Value>
+</Value>
+<Value name="7">
+<Value>UpdateTime</Value>
+</Value>
+<Value name="8">
+<Value>UpdateUser</Value>
+</Value>
+</Data>
+<Property name="CycleSelection">
+</Property>
+<Property name="JumpToList">
+</Property>
+<Property name="Loop">
+</Property>
+<Property name="Name">
+</Property>
+<Property name="UpdateDate">
+</Property>
+<Property name="UpdateTime">
+</Property>
+<Property name="UpdateUser">
+</Property>
+<Property name="WorkFlowItems">
+</Property>
+</Storage>
+</Class>
+</Export>

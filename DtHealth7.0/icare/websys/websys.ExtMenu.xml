@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.ExtMenu">
+<Super>%Persistent</Super>
+<TimeChanged>62567,68607.637825</TimeChanged>
+<TimeCreated>62565,47806.281913</TimeCreated>
+
+<Property name="EMCode">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="EMText">
+<Type>%String</Type>
+</Property>
+
+<Property name="EMHandler">
+<Type>%String</Type>
+</Property>
+
+<Property name="EMDisplayHandler">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="100"/>
+</Property>
+
+<Property name="EMCls">
+<Type>%String</Type>
+</Property>
+
+<Property name="EMNote1">
+<Type>%String</Type>
+</Property>
+
+<Property name="EMNote2">
+<Type>%String</Type>
+</Property>
+
+<Property name="EMItemIndex">
+<Type>%String</Type>
+</Property>
+
+<Property name="EMParentCode">
+<Description>
+不能出现循环菜单</Description>
+<Type>%String</Type>
+</Property>
+
+<Index name="EMChildrenMenu">
+<Properties>EMParentCode,EMItemIndex</Properties>
+</Index>
+
+<Index name="EMCodeMenu">
+<Properties>EMCode</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="GetMenuJson">
+<Description>
+只是当前菜单</Description>
+<FormalSpec>groupid</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s grantFlag=0
+	i $d(^SSU("SSGRP",groupid,"Menu")) d
+	.s grantFlag=$bit($p(^SSU("SSGRP",groupid,"Menu"),"^",1),%this.%Id()) 
+	q:grantFlag=0 ""
+	s json = "id:'"_i%EMCode_"', text:'"_i%EMText_"'"
+	i i%EMHandler'="" s json=json_",handler:"_i%EMHandler
+	i i%EMDisplayHandler'="" s json=json_", displayHandler:"_i%EMDisplayHandler
+	i i%EMCls'="" s json=json_", cls:'"_i%EMCls	
+	i i%EMNote1'="" s json=json_", note1:"_i%EMNote1
+	i i%EMNote2'="" s json=json_", note2:"_i%EMNote2
+	q "{"_json_"}"
+]]></Implementation>
+</Method>
+
+<Method name="GetMenusJson">
+<Description>
+递归出所有的子菜单</Description>
+<FormalSpec>groupid</FormalSpec>
+<Implementation><![CDATA[
+	s childrenjson = "",parentjson=""
+	s parentcode = " "_$$ALPHAUP^SSUTIL4(i%EMCode)
+	s grantFlag=0
+	i $d(^SSU("SSGRP",groupid,"Menu")) d 
+	.s grantFlag=$bit($p(^SSU("SSGRP",groupid,"Menu"),"^",1),%this.%Id()) 
+	q:grantFlag=0 ""
+	q:$d(^websys.ExtMenuI("EMChildrenMenu",parentcode))=0 ..GetMenuJson(groupid)
+	s parentjson = ..GetMenuJson(groupid)
+	#dim obj As websys.ExtMenu
+	s index="" f  s index=$o(^websys.ExtMenuI("EMChildrenMenu",parentcode,index)) q:index=""  d
+	.s id=0 f  s id=$o(^websys.ExtMenuI("EMChildrenMenu",parentcode,index,id)) q:id=""  d
+	..s obj = ##class(websys.ExtMenu).%OpenId(id,0)
+	..s grantFlag=0
+	..i $d(^SSU("SSGRP",groupid,"Menu")) d
+	...s grantFlag=$bit($p(^SSU("SSGRP",groupid,"Menu"),"^",1),id) 
+	..q:grantFlag=0
+	..i childrenjson="" s childrenjson = obj.GetMenusJson(groupid)
+	..e  s childrenjson=childrenjson_","_obj.GetMenusJson(groupid)
+	..d obj.%Close()
+	..s obj=""
+	s rtn=$e(parentjson,1,$l(parentjson)-1)
+	s:childrenjson'="" rtn=rtn_",menu:{items:["_childrenjson_"]}"
+	q rtn_"}"
+]]></Implementation>
+</Method>
+
+<Method name="GetTreeNodeJson">
+<FormalSpec>checked:%String="false"</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s leaf = $s(($d(^websys.ExtMenuI("EMChildrenMenu"," "_$$ALPHAUP^SSUTIL4(i%EMCode)))=0):"true",1:"false")
+	s json = "id:'"_i%EMCode_"', text:'"_i%EMText_"',leaf:"_leaf_",checked:"_checked
+	q "{"_json_"}"
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.ExtMenuD</DataLocation>
+<DefaultData>ExtMenuDefaultData</DefaultData>
+<IdLocation>^websys.ExtMenuD</IdLocation>
+<IndexLocation>^websys.ExtMenuI</IndexLocation>
+<StreamLocation>^websys.ExtMenuS</StreamLocation>
+<Data name="ExtMenuDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>EMCode</Value>
+</Value>
+<Value name="3">
+<Value>EMText</Value>
+</Value>
+<Value name="4">
+<Value>EMHandler</Value>
+</Value>
+<Value name="5">
+<Value>EMDisplayHandler</Value>
+</Value>
+<Value name="6">
+<Value>EMCls</Value>
+</Value>
+<Value name="7">
+<Value>EMNote1</Value>
+</Value>
+<Value name="8">
+<Value>EMNote2</Value>
+</Value>
+<Value name="9">
+<Value>EMItemIndex</Value>
+</Value>
+<Value name="10">
+<Value>EMParentCode</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

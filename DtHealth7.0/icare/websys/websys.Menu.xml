@@ -1,0 +1,1298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.Menu">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>63176,36266.066456</TimeChanged>
+<TimeCreated>61079,43958.081585</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>598</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.]]></Description>
+<Default>7550</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Caption</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="xmlidentifiedby">
+<Description>
+Used in conjunction with XMLId method to unqiuely identify a record.
+By default ..%Id() is used unless other properties are specified. A comma separated list may be provided and processed by overridding XMLId method</Description>
+<Final>0</Final>
+<Default>%Id()</Default>
+</Parameter>
+
+<Parameter name="xmltoclass">
+<Description>
+Mapping from XML to Class</Description>
+<Final>0</Final>
+<Default>menu</Default>
+</Parameter>
+
+<Parameter name="xmltypeChart">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeChartBook">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeConditionalExpression">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeLinkReport">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeValueExpression">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeWorklist">
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeJavascriptFileName">
+<Default>IGNORE</Default>
+</Parameter>
+
+<Property name="Caption">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>""</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Chart">
+<Type>epr.Chart</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ChartBook">
+<Type>epr.ChartBook</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ConditionalExpression">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Image">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="JavascriptFileName">
+<Description>
+filename of where the JavascriptFunction resides. 
+Should only be set for custom site menus, expects file to sit in relation to custom/SITECODE/scripts folder</Description>
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="JavascriptFunction">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LinkComponent">
+<Description>
+Used in conjunction with LinkUrl of websysDefault.asp.
+If this property is set then LinkLinkUrl is assumes to be websysDefault.ASP</Description>
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LinkReport">
+<Type>websys.Report</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LinkUrl">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Method">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="99"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PrintPreview">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PrintLocal">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="Sequence">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ShortcutKey">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ShowInNewWindow">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SubMenuOf">
+<Type>websys.Menu</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Target">
+<Description>
+name of browser window frame to send the link</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Type">
+<Description>
+a value of either: SideMenu, ComponentMenu, HeaderMenu
+this will be automatically calculated on update</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UpdateDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="UpdateTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="UpdateUser">
+<Type>User.SSUser</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ValueExpression">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WorkFlow">
+<Description>
+Name of workflow</Description>
+<Type>websys.WorkFlow</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Worklist">
+<Type>epr.Worklist</Type>
+</Property>
+
+<Index name="CaptionName">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Caption,Name</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="SubMenuOf1">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>SubMenuOf</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="SubMenuOf2">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>SubMenuOf,Sequence</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="UniqueNameIndex">
+<Description>
+Uniqueness index for property Name</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Name</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="CaptionGet">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;zhaocz 2011-06-30 修正 菜单使用 t来返回翻译
+	
+	i ((..%Id()="")||(i%Name="")) q i%Caption
+	q:($d(t(i%Name))) $p(t(i%Name),"^",1)
+	q i%Caption
+	
+	/*
+	n (%session,%reuqest)
+	if ..%Id()="" Q i%Caption
+	
+	//modify by wuqk 2011-06-13 如果没有session，取系统配置中定义的默认语言
+	set langId=""
+	if $d(%session){
+		set langId=$g(%session.Data("LOGON.LANGID"))
+	}
+	set:langId="" langId=##class(websys.Configuration).GetDefaultLanguage()
+	
+	if langId=""{set caption=i%Caption}
+	else{
+		s caption= $P($g(^websys.TranslationD("MENU",langId,..%Id(),i%Name)),"^",1)
+		i caption="" s caption=i%Caption
+	}
+	
+	;s caption= $P($g(^websys.TranslationD("MENU",%session.Data("LOGON.LANGID"),..%Id(),i%Name)),"^",1)
+	;i caption="" s caption=i%Caption
+	q caption
+	*/
+]]></Implementation>
+</Method>
+
+<Method name="JavascriptFileNameSet">
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="CopyMenu">
+<Description>
+Creates a new menu from an existing menu
+
+origmenuid - the id of the original menu to copy from
+newname - the name for the newly created menu
+newcaption - the caption for the newly created menu
+newid - a reference pointer to the id of the newly created menu
+newsubmenuid - if not null, the newly created menu takes on this submenu instead of that of the original menu</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[origmenuid:%String,newname:%String,newcaption:%String,&newid:%String="",newsubmenuid:%String="",newcode:%String=""]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="EvaluateMethod">
+<Description>
+/w ##class(websys.Menu).EvaluateMethod() ,zhzhq 2011.5.27
+zhaocz 2011-06-22 修正， 如果有错误，就返回 ""，而不能返回 其他</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>expression:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:expression="" ""
+	q ##class(websys.Conversions).expressionEvaluate(expression)
+	;q @expression
+]]></Implementation>
+</Method>
+
+<Method name="EvaluateValue">
+<Description>
+zhaocz 2011-06-23 edit 修正表达式</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:(..ValueExpression="") ""
+	n ValExp
+	s ValExp = ..ValueExpression
+	s:'(ValExp["""") ValExp=""""_..ValueExpression_""""
+	q ..EvaluateMethod(ValExp)
+]]></Implementation>
+</Method>
+
+<Method name="FindClose">
+<Description>
+Default implementation of Find Query.
+zhouzq 2011.05.30</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindExecute">
+<Description>
+Find menus by cpation,name OR by submenuof.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,caption:%String="",name:%String="",submenuof:%String="",Component:%Library.String="",workflow:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	
+	s caption=$ZCVT(caption,"U")
+	s name=$ZCVT(name,"U")
+	s submenuof=$ZCVT(submenuof,"U")
+	s workflow=$ZCVT(workflow,"U")
+	//s Component=$ZCVT(Component,"U") ;wanghc
+	
+	if (submenuof'="") {
+		s submenuof=..GetIdFromCodeOrDescription(submenuof)
+		if submenuof="" Q $$$OK
+		s id=0
+		while id'="" {
+			s id=$o(^websys.MenuI("SubMenuOf1",submenuof,id))
+			Q:id=""
+			s menuobj=##class(websys.Menu).%OpenId(id)
+			d setdata()
+			d menuobj.%Close()
+		}
+	}else{
+		if (workflow'="")||(Component'=""){
+			s id=0
+			while id'="" {
+				s id=$o(^websys.MenuD(id))
+				Q:id=""
+				s menuobj=##class(websys.Menu).%OpenId(id)
+				i workflow'="" continue:(menuobj.WorkFlow.Name'=workflow)
+				i Component'="" continue:(menuobj.LinkComponent.Name'=Component)
+				;continue:(menuobj.Caption'[caption)&&(menuobj.Name'[name)
+				d setdata()
+				d menuobj.%Close()
+			}
+		}else{
+			s caption1=" "
+			while (caption1'=""){
+				s caption1=$O(^websys.MenuI("CaptionName",caption1))
+				Q:caption1=""
+				i caption'="" continue:(caption1'[(" "_caption))
+				s name1=" "
+				while (name1'=""){
+					s name1=$O(^websys.MenuI("CaptionName",caption1,name1))
+					Q:name1="" 
+					i name'="" continue:(name1'[(" "_name))
+					s id=$O(^websys.MenuI("CaptionName",caption1,name1,0))
+					Q:id=""
+					s menuobj=##class(websys.Menu).%OpenId(id)
+					d setdata()
+					d menuobj.%Close()
+					;w "id:"_id_" caption:"_caption_"name1:"_name1
+				}
+			}
+		}
+	}
+
+	Quit $$$OK
+
+setdata()
+	////ID,Caption,Name,SubMenuOf,SubMenuOfName,Workflow,ReportID,ReportDescription,Sequence:%String,ShortcutKey:%String")	
+	set SubMenuOfId="",SubMenuOfName=""
+	if $IsObject(menuobj.SubMenuOf) {
+		set SubMenuOfId=menuobj.SubMenuOf.%Id()
+		set SubMenuOfName=$lg(^websys.MenuD(SubMenuOfId),1)
+	}
+	set WorkFlowName=""
+	if $IsObject(menuobj.WorkFlow) {
+		set WorkFlowName=menuobj.WorkFlow.Name
+	}
+
+	set LinkReportId="",LinkReportIdDescription=""
+	if $IsObject(menuobj.LinkReport) {
+		set LinkReportId=menuobj.LinkReport.%Id()
+		set LinkReportIdDescription=menuobj.LinkReport.Description
+	}
+
+	set $li(data,1)=menuobj.%Id()
+	;set $li(data,2)=menuobj.Caption     ///通过属性会得到翻译值
+	set $li(data,2)=$lg(^websys.MenuD(menuobj.%Id()),1)
+	set $li(data,3)=menuobj.Name
+	set $li(data,4)=SubMenuOfId
+	set $li(data,5)=SubMenuOfName
+	set $li(data,6)=WorkFlowName
+	set $li(data,7)=LinkReportId
+	set $li(data,8)=LinkReportIdDescription
+	set $li(data,9)=menuobj.Sequence
+	set $li(data,10)=menuobj.ShortcutKey
+	set ^CacheTemp(repid,ind)=data
+	set ind=ind+1
+	Q
+]]></Implementation>
+</Method>
+
+<Method name="FindFetch">
+<Description>
+Default implementation of Find Query.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ImageEx">
+<Description><![CDATA[
+Extended image.<br>
+Treat image property as an expression to be evaluated.<br>
+Formats include:<br>
+Literal : webemr/rb.gif<br>
+Function : $s(rs.GetDataByName("Type")="S":"webemr/super.gif",1:"webemr/other.gif")<br>
+ClassMethod : ##Class(web.SomeClass).GetImage(rs.GetDataByName("Type"))<br>
+by wuqk 2011-06-08 暂时未发现在菜单中将图标定义为表达式
+zhaocz 2011-06-22 修正 是表达式
+zhaocz 2011-06-23 修正非表达式问题]]></Description>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	q:(..Image="") ""
+	n ImgExp
+	s ImgExp = ..Image
+	s:'(ImgExp["""") ImgExp=""""_..Image_""""
+	q ..EvaluateMethod(ImgExp)
+	;q ..EvaluateMethod(..Image)
+	;quit i%Image
+]]></Implementation>
+</Method>
+
+<Method name="InvokeMethod">
+</Method>
+
+<Method name="LinkUrlSet">
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[	s i%LinkUrl=val
+]]></Implementation>
+</Method>
+
+<Method name="OpenName">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>name:%String</FormalSpec>
+</Method>
+
+<Method name="ShowBar">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String</FormalSpec>
+</Method>
+
+<Method name="ShowBarSub">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String,j:%String,sublevel:%Integer,sublevelidx:%Integer=0</FormalSpec>
+</Method>
+
+<Method name="ShowBarItem">
+<Description>
+Log 51261 - AI - 30-08-2005 : Modified Method to include reportmanagerdsn and configmanagerdsn.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[top:%String,cnt:%String,menuid:%String,sublevel:%Integer=0,&JSfiles:%String]]></FormalSpec>
+</Method>
+
+<Method name="ShowMenuMS">
+<Description>
+Log 51261 - AI - 30-08-2005 : Modified Method to include reportmanagerdsn and configmanagerdsn.
+组件页面的menu显示
+by wuqk 2011-07-13 </Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>menulist:%String,title:%String="",componentid:%Library.String="",componentname:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[
+	n len,index,menuName,menuId,objMenu,tpageid,treloadid,menuReloadID,objSubMenu
+	s $zt="Err"
+	;m ^Temp("Upgrade",$j,"ShowMenuMS","%req")=%request.Data
+	s len=$l(menulist,",")
+	s treloadid=##class(websys.Conversions).Unique()
+	;s tpageid=%request.Data("TPAGID",1)
+	s langId=+$g(%session.Data("LOGON.LANGID"))
+	s security=%session.Data("LOGON.GROUPMENUS")
+	w "<div class=tbToolbar>"_$c(13)_$c(10)
+	//因为100%菜单间隔会很大,所以注释
+	//w "<TABLE width=""100%"" id=m"_componentname_" name=m"_componentname_">"_$c(13)_$c(10)
+	;wanghc 2012/11/17 componentname->$tr(componentname,".","_")
+	w "<TABLE id=""m"_$tr(componentname,".","_")_""" name=""m"_$tr(componentname,".","_")_""">"_$c(13)_$c(10)
+	w "<TR>"_$c(13)_$c(10)
+	w "<TD valign=middle width=1><IMG SRC=""../images/websys/tbseparator.gif""></TD>"_$c(13)_$c(10)
+	for index=1:1:len{
+		s menuName=$p(menulist,",",index)
+		//s ^Temp("Upgrade",$j,"ShowMenuMS",index)=menuName
+		continue:menuName=""
+		s menuId=..GetIdFromCodeOrDescription(menuName)
+		continue:menuId=""
+		continue:security=""
+		d ShowMenu(menuId,langId,security,treloadid,1)
+	}
+	s menuId=..GetIdFromCodeOrDescription("System.Help")
+	d ShowMenu(menuId,langId,security,treloadid,1)    //System.Help  -13
+	w "</TR>"
+	w "</TABLE>"
+	w "</div>"
+	quit
+ShowMenu(menuId,langId,security,treloadid,IsHeadMenu)
+	n (menuId,langId,security,treloadid,IsHeadMenu,%request,%session)
+	quit:$zbitlen(security)<menuId
+	quit:'$zbitget(security,menuId)
+	m t=^websys.TranslationD("MENU",langId,menuId)
+	s objMenu=##Class(websys.Menu).%OpenId(menuId)
+	i $IsObject(objMenu) {
+		//如果是头菜单但没有定义子菜单也需要走父菜单的处理
+		if $d(^websys.MenuI("SubMenuOf1",menuId))||($g(IsHeadMenu)=1) {     //子菜单
+			s menuReloadID=##class(websys.Conversions).Unique()
+			w $c(13)_$c(10)_"<TD NOWRAP valign=middle onmouseover=""websys_show('"_menuReloadID_"');"" onmouseout=""websys_hide('"_menuReloadID_"');"">"_$c(13)_$c(10)
+			w "<div class=tbMenu id=tbMenu"_menuReloadID_">"_objMenu.Caption_$c(13)_$c(10)
+			w "<div class=""tbMenuItemHide"" ID=""tbMenuItem"_menuReloadID_""">"_$c(13)_$c(10)
+			// find sub menu
+			s tmpId=menuId
+			s subId=$o(^websys.MenuI("SubMenuOf1",tmpId,0))
+			while (subId'="") {
+				s objSubMenu=##Class(websys.Menu).%OpenId(subId)
+				//d ShowMenuItem(objSubMenu,langId,security,treloadid)
+				d ShowMenu(subId,langId,security,treloadid,0)
+				s subId=$o(^websys.MenuI("SubMenuOf1",tmpId,subId))
+			}
+			w "</div></div></TD>"
+		}
+		else{
+			d ShowMenuItem(objMenu,langId,security,treloadid)
+		}
+	}
+	quit
+ShowMenuItem(objMenu,langId,security,treloadid)
+	n (objMenu,langId,security,treloadid,%request,%session)
+	//n Image,LinkUrl,ShowInNewWindow,JavascriptFunction,ValueExpression
+	//n href,jsfunction
+	set menuId=objMenu.%Id()
+	quit:$zbitlen(security)<menuId
+	quit:'$zbitget(security,menuId)
+	m t=^websys.TranslationD("MENU",langId,menuId)
+	//s ^Temp("Upgrade",$j,"ShowMenuMS.ShowMenuItem",menuId,1)=0
+	s Image = objMenu.Image
+	
+	i (Image'="") {
+		s:(($e(Image,1)="/")||($e(Image,1)="\")) Image=$e(Image,2,$l(Image))
+		s Image=$tr(Image,"\","/")
+		s Image="../images/"_Image
+	}
+	else{
+		s Image="../images/websys/blank.gif"
+	}
+	;s ^Temp("Upgrade",$j,"ShowMenuMS.ShowMenuItem",menuId,2)=0
+	s LinkUrl = objMenu.LinkUrl
+	s ShowInNewWindow = objMenu.ShowInNewWindow
+	s JavascriptFunction = objMenu.JavascriptFunction
+	s Target=objMenu.Target
+	s href = ""
+	i (LinkUrl'="") {
+		s href = ##class(ext.websys.Menu).getMenuLinkURL(objMenu,menuId,treloadid)
+		//s href=href_"&TRELOADID="_treloadid
+	}
+	//返回的链接缺少 缺TRELOADID
+	s jsfunction=""
+	//s ^Temp("Upgrade",$j,"ShowMenuMS.ShowMenuItem",menuId,4)=0
+	i (JavascriptFunction'="") {
+		s jsfunction=JavascriptFunction_"('"_href_"', '"_ShowInNewWindow_"');"
+		s href=""
+	}
+	elseif (ShowInNewWindow'="") {  //add by wuqk 2011-03-29
+		s jsfunction=jsfunction_"websys_lu('"_href_"',false,'"_ShowInNewWindow_"');"
+		s href=""
+	}
+	
+	w "<A HREF="""_$s(href="":"#",1:href)_""" id='tbM"_menuId_"' "
+	if Target'="" w "target=""TRAK_hidden"" "
+	w:jsfunction'="" "onclick="""_jsfunction_""" "
+	w "title="""_objMenu.Caption_""">"
+	w "<img src='"_Image_"' BORDER='0' >"_objMenu.Caption_"</A><BR>"_$c(13)_$c(10)
+	
+	quit
+Err
+	s ^Temp("Upgrade","websys.Menu","ShowMenuMS.Err")=$ze
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="ShowToolBar">
+<Description>
+Displays a menu across the page.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+</Method>
+
+<Method name="ShowToolBarItem">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[top:%Library.String,cnt:%Library.String,menuid:%Library.String,&JSfiles:%String]]></FormalSpec>
+</Method>
+
+<Method name="VBFindLEClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>VBFindLEFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="VBFindLEExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%Library.String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="VBFindLEFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>VBFindLEExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="XMLId">
+<Description>
+Get the ID from the identified by string.
+By default the generated version of this returns the value passed.
+In general this method will be overridden to provide the required behaviour.
+For example - Component name is passed - this will return ..%Id()</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="XMLPreference">
+</Method>
+
+<Method name="websysBeforeSave">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	Q $$$OK
+	;是否需要按照websys.Abstract里的代码生成逻辑?
+	new blnUDF,blnDSS
+	set blnUDF=##class(websys.UserDefinedFunctions).Evaluate("websys.Menu","OnBeforeSave")
+	do ##class(websys.DSSActionType).doSomething(id,"C",compref,"OnBeforeSave")
+	if 'blnUDF quit 0
+	if 'blnDSS quit 0
+	quit 1
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveCopyHeaders">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>newcode:%Library.String</FormalSpec>
+</Method>
+
+<Query name="Find">
+<Description>
+Find Menus by name and caption prefix OR by submenuof</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>caption:%String,name:%String,submenuof:%String,Component:%String,workflow:%String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Caption,Name,SubMenuOf,SubMenuOfName,Workflow,ReportID,ReportDescription,Sequence:%String,ShortcutKey:%String"/>
+</Query>
+
+<Query name="FindByLinkUrl">
+<Description>
+used to find menus which are are valid as submenu of i.e. valid parents</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%String</FormalSpec>
+<SqlQuery>SELECT Name,Caption
+FROM websys.Menu
+WHERE (LinkUrl IS NULL) AND ((Name %STARTSWITH :name) OR (Caption %STARTSWITH :name))
+ORDER BY Name</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Name:%String,Caption:%String"/>
+</Query>
+
+<Query name="FindCaptionByLinkUrl">
+<Description>
+select menus by caption which have no url and so are valid for submenu of (i.e. valid parent)</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>caption:%Library.String</FormalSpec>
+<SqlQuery>SELECT Caption
+FROM websys.Menu
+WHERE (Caption %STARTSWITH :caption) AND (LinkUrl IS NULL)
+ORDER BY Caption</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Caption:%String"/>
+</Query>
+
+<Query name="FindCaptionByLinkUrlDistinct">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>caption:%Library.String</FormalSpec>
+<SqlQuery>SELECT DISTINCT Caption
+FROM websys.Menu
+WHERE (Caption %STARTSWITH :caption) AND (LinkUrl IS NULL)
+ORDER BY Caption</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Caption:%String"/>
+</Query>
+
+<Method name="FindCapByLinkUrlBroker">
+<Description>
+by wuqk 2011-06-14</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[
+	set rs=##Class(%ResultSet).%New("websys.Menu.FindCaptionByLinkUrlDistinct")
+	quit:'$IsObject(rs) 0
+	do rs.Execute(val)
+	set cols=rs.GetColumnCount()
+	set rows=0
+	set retval=""
+	while rs.Next() {
+		set rows=rows+1
+		quit:rows>1
+		set firstVal=rs.GetData(1)
+		for colIndex=1:1:cols{
+			set retval=retval_rs.GetData(colIndex)_"^"
+		}
+	}
+ 	d rs.%Close() k rs
+ 	quit:rows'=1 0
+ 	set:itmjs'="" fn=itmjs_"('"_firstVal_"');"
+ 	set:itmjsex'="" fn=fn_itmjsex_"('"_retval_"');"
+	&javascript<#(fn)#>
+ 	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="FindbyTarget">
+<Description>
+used to find menus which are are valid as submenu of i.e. valid parents</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>target:%String</FormalSpec>
+<SqlQuery>SELECT ID,Name,Caption,Target
+FROM websys.Menu
+WHERE (Target = :target) 
+ORDER BY Name</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Name:%String,Caption:%String,Target"/>
+</Query>
+
+<Query name="Items">
+<Type>%SQLQuery</Type>
+<FormalSpec>menuid:%String</FormalSpec>
+<SqlQuery>SELECT ID,Name,Caption
+FROM websys.Menu
+WHERE SubMenuOf=:menuid
+ORDER BY Sequence</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Name,Caption"/>
+</Query>
+
+<Query name="VBFind">
+<Description>
+Find called from VB Patching OCX</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name</FormalSpec>
+<SqlQuery>SELECT ID, Name
+FROM Menu
+WHERE Name %STARTSWITH :name
+ORDER BY Name</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Name:%String"/>
+</Query>
+
+<Method name="%OnBeforeSave">
+<Description><![CDATA[
+This callback method is invoked by the <METHOD>%Save</METHOD> method to 
+provide notification that the object is being saved. It is called before 
+any data is written to disk.
+
+<P><VAR>insert</VAR> will be set to 1 if this object is being saved for the first time.
+
+<P>If this method returns an error then the call to <METHOD>%Save</METHOD> will fail.
+by wuqk 2011-07-09]]></Description>
+<FormalSpec>insert:%Boolean</FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	///name名称以System.开头的菜单默认为ComponentMenu,否则为HeaderMenu
+	///子菜单与主菜单类型一致
+	if ..SubMenuOf {
+		set ..Type=..SubMenuOf.Type
+	}else{
+		if ..Name["System." {
+			set ..Type="ComponentMenu"
+		}else{
+			s ..Type="HeaderMenu"
+		}
+	}
+	//通过测试发现,其实新建菜单时并没有插入翻译表
+	
+	s langId=$s($d(%session):+$g(%session.Data("LOGON.LANGID")),1:"")
+	if (langId'="")&&(..%Id()'="") {
+		d ##class(websys.Translation).AddItem("MENU",langId,..%Id(),..Name,..Caption,0)
+		if $IsObject(..SubMenuOf) {
+			set SubMenuOfId=..SubMenuOf.%Id()
+			d ##class(websys.Translation).AddItem("MENU",langId,SubMenuOfId,..Name,..Caption,0)
+		}
+	}
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="VBFindLE">
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String,UpdateDate:%String,UpdateTime:%String"/>
+</Query>
+
+<Query name="VBFindLESimple">
+<Description>
+Find Menu items in:
+Layout Editor XML Export</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%Library.String</FormalSpec>
+<SqlQuery>SELECT ID, Name,UpdateDate,UpdateTime
+FROM Menu
+WHERE ((Name %STARTSWITH :name) OR (:name IS NULL))
+ORDER BY Name</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%String,UpdateDate:%Date,UpdateTime:%Time"/>
+</Query>
+
+<Method name="PatientSearchLink">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="PatientSearchStore">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>cmpname:%Library.String</FormalSpec>
+</Method>
+
+<Method name="PatientSearchRetrieve">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Storage name="Default">
+<Type>%CacheStorage</Type>
+<DataLocation>^websys.MenuD</DataLocation>
+<DefaultData>MenuDefaultData</DefaultData>
+<IdLocation>^websys.MenuD</IdLocation>
+<IndexLocation>^websys.MenuI</IndexLocation>
+<StreamLocation>^websys.MenuS</StreamLocation>
+<Data name="MenuDefaultData">
+<Value name="1">
+<Value>Caption</Value>
+</Value>
+<Value name="2">
+<Value>Image</Value>
+</Value>
+<Value name="3">
+<Value>Method</Value>
+</Value>
+<Value name="4">
+<Value>Name</Value>
+</Value>
+<Value name="5">
+<Value>Sequence</Value>
+</Value>
+<Value name="6">
+<Value>ShortcutKey</Value>
+</Value>
+<Value name="7">
+<Value>ShowInNewWindow</Value>
+</Value>
+<Value name="8">
+<Value>Type</Value>
+</Value>
+<Value name="9">
+<Value>LinkUrl</Value>
+</Value>
+<Value name="10">
+<Value>ValueExpression</Value>
+</Value>
+<Value name="11">
+<Value>websysMenu</Value>
+</Value>
+<Value name="12">
+<Value>SubMenuOf</Value>
+</Value>
+<Value name="13">
+<Value>expression</Value>
+</Value>
+<Value name="14">
+<Value>Component</Value>
+</Value>
+<Value name="15">
+<Value>LinkComponent</Value>
+</Value>
+<Value name="16">
+<Value>WorkFlow</Value>
+</Value>
+<Value name="17">
+<Value>JavascriptFunction</Value>
+</Value>
+<Value name="18">
+<Value>LinkReport</Value>
+</Value>
+<Value name="19">
+<Value>ConditionalExpression</Value>
+</Value>
+<Value name="20">
+<Value>Target</Value>
+</Value>
+<Value name="21">
+<Value>Chart</Value>
+</Value>
+<Value name="22">
+<Value>ChartBook</Value>
+</Value>
+<Value name="23">
+<Value>PrintPreview</Value>
+</Value>
+<Value name="24">
+<Value>UpdateDate</Value>
+</Value>
+<Value name="25">
+<Value>UpdateTime</Value>
+</Value>
+<Value name="26">
+<Value>UpdateUser</Value>
+</Value>
+<Value name="27">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="28">
+<Value>Worklist</Value>
+</Value>
+<Value name="29">
+<Value>JavascriptFileName</Value>
+</Value>
+<Value name="30">
+<Value>PrintLocal</Value>
+</Value>
+</Data>
+<Property name="Caption">
+</Property>
+<Property name="Chart">
+</Property>
+<Property name="ChartBook">
+</Property>
+<Property name="ConditionalExpression">
+</Property>
+<Property name="Image">
+</Property>
+<Property name="JavascriptFunction">
+</Property>
+<Property name="LinkComponent">
+</Property>
+<Property name="LinkReport">
+</Property>
+<Property name="LinkUrl">
+</Property>
+<Property name="Method">
+</Property>
+<Property name="Name">
+</Property>
+<Property name="PrintPreview">
+</Property>
+<Property name="Sequence">
+</Property>
+<Property name="ShortcutKey">
+</Property>
+<Property name="ShowInNewWindow">
+</Property>
+<Property name="SubMenuOf">
+</Property>
+<Property name="Target">
+</Property>
+<Property name="Type">
+</Property>
+<Property name="UpdateDate">
+</Property>
+<Property name="UpdateTime">
+</Property>
+<Property name="UpdateUser">
+</Property>
+<Property name="ValueExpression">
+</Property>
+<Property name="WorkFlow">
+</Property>
+</Storage>
+</Class>
+</Export>

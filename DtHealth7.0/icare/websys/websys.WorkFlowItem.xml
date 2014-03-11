@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.WorkFlowItem">
+<Description>
+A item which may be sequenced in a workflow. An item may be either a component or a page.</Description>
+<ClassType>serial</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.SerialObject,XML.Abstract</Super>
+<TimeChanged>60506,62134</TimeChanged>
+<TimeCreated>58462,47443</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Property name="ConditionalExpression">
+<Description><![CDATA[
+Conditional expression is evaluated at the start of each work flow item (prior to evaluating transition expression).<br>
+This expression may be used to skip a specific item subject to a run time condition.<br>
+Conditional expression may be any valid Cache script.
+To force the controlling program to skip a workflow item at run time the conditional expression should set the variable 'val'.
+For example.
+To skip a workflow item for male patient:<br>
+s val=$s(sex="M":0,1:1)<br>
+if val=0 the item will be skipped.<br>
+if val=1 the item will be included.<br>
+By default a workflow item will be included in the workflow.
+]]></Description>
+<Type>websys.Expression</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Item">
+<Type>websys.WorkFlowItemDefinition</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="TransitionExpression">
+<Description><![CDATA[
+Transition expression is evaluated at the start of each work flow step.<br>
+It is typically used to coerce interfaces between workflow items.<br>
+For example,<br>
+where the output from one workflow item is the PatientID, and the input to the next worflow item is ID, we can set the transition expression as:<br>
+d %request.Set("ID",%request.Get("PatientID"))<br>
+Since transition expression can be any valid Cache script we can also perform more sophisticated operations such as calling a clas method to get the current patient episode id.]]></Description>
+<Type>websys.Expression</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Parameter name="xmlidentifiedby">
+<Description>
+Used in conjunction with XMLId method to unqiuely identify a record.
+By default ..%Id() is used unless other properties are specified. A comma separated list may be provided and processed by overridding XMLId method</Description>
+<Final>0</Final>
+<Default>Item</Default>
+</Parameter>
+
+<Parameter name="xmltoclass">
+<Description>
+Mapping from XML to Class</Description>
+<Final>0</Final>
+<Default>workflowitem</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>WorkFlowItemState</State>
+<StreamLocation>^websys.WorkFlowItemS</StreamLocation>
+<Data name="WorkFlowItemState">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Name</Value>
+</Value>
+<Value name="2">
+<Value>TransitionExpression</Value>
+</Value>
+<Value name="3">
+<Value>Item</Value>
+</Value>
+<Value name="4">
+<Value>ConditionalExpression</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

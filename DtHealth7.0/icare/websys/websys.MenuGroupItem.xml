@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.MenuGroupItem">
+<ClassType>serial</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.SerialObject</Super>
+<TimeChanged>60506,62125</TimeChanged>
+<TimeCreated>59798,58407.215924</TimeCreated>
+
+<Property name="Menu">
+<Type>websys.Menu</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>MenuGroupItemState</State>
+<StreamLocation>^websys.MenuGroupItemS</StreamLocation>
+<Data name="MenuGroupItemState">
+<Subscript/>
+<Value name="1">
+<Value>Menu</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

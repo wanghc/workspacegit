@@ -1,0 +1,814 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.StandardTypeItem">
+<Description>
+Standard Type Item</Description>
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<CompileAfter>websys.StandardType</CompileAfter>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy>SQLStorage</StorageStrategy>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>61079,43958.103372</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>321</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>562</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Description>
+This is set to StoredValue to allow GetIdFromCodeOrDescription to return StoredValue rather than id.</Description>
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Final>0</Final>
+<Default>StoredValue</Default>
+</Parameter>
+
+<Parameter name="xmlidentifiedby">
+<Description>
+Used in conjunction with XMLId method to unqiuely identify a record.
+By default ..%Id() is used unless other properties are specified. A comma separated list may be provided and processed by overridding XMLId method</Description>
+<Final>0</Final>
+<Default>%Id()</Default>
+</Parameter>
+
+<Parameter name="xmltoclass">
+<Description>
+Mapping from XML to Class</Description>
+<Final>0</Final>
+<Default>standardtypeitem</Default>
+</Parameter>
+
+<Property name="ChildSub">
+<Description>
+ChildSub</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>$i(^websys.StandardTypeD("STD",$s($d(initvalue):initvalue,1:%d(0)),"0"))</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlColumnNumber>2</SqlColumnNumber>
+<SqlComputed>0</SqlComputed>
+<SqlFieldName>ChildSub</SqlFieldName>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Code">
+<Description>
+Code</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlColumnNumber>4</SqlColumnNumber>
+<SqlComputed>0</SqlComputed>
+<SqlFieldName>Code</SqlFieldName>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Upper"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Description>
+Description</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlColumnNumber>5</SqlColumnNumber>
+<SqlComputed>0</SqlComputed>
+<SqlFieldName>Description</SqlFieldName>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="AlphaUp"/>
+<Parameter name="MAXLEN" value="100"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ExtraValue">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="IsDirty">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>0</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ParRef">
+<Description>
+ParRef</Description>
+<Type>StandardType</Type>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>ChildStandardTypeItem</Inverse>
+<Relationship>1</Relationship>
+<Required>1</Required>
+<SqlFieldName>ParRef</SqlFieldName>
+</Property>
+
+<Property name="StoredValue">
+<Description>
+Stored StoredValue</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlColumnNumber>3</SqlColumnNumber>
+<SqlComputed>0</SqlComputed>
+<SqlFieldName>StoredValue</SqlFieldName>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="RowIDBasedIDKeyIndex">
+<Extent>0</Extent>
+<IdKey>1</IdKey>
+<PrimaryKey>1</PrimaryKey>
+<Properties>ChildSub</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="GetDescription">
+<Description>
+Get the description given the type and StoredValue.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>type:%Library.String,val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:(type="") ""
+	Q:(val="") val
+	s ChildSub=$O(^websys.StandardTypeD("STD",type,"ITM",0,"StoredValue",val,0))
+	i ChildSub'="" Q $P($G(^websys.StandardTypeD("STD",type,"ITM",ChildSub)),"^",3)
+	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="GetCodeDescriptionFromId">
+<Description><![CDATA[
+wanghc 返回值是list 
+pr.Worklist.edit组件中item->StyleCode 用到 
+s val=$li(##Class(websys.StandardTypeItem).GetCodeDescriptionFromId(%request.Get("Style")),3)
+返回值是空会报null value错误]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	//q:id="" $LB("1","1","O")
+	;
+	;应该还要通过parref=WorklistStyle 来查询
+	
+	&sql(SELECT Description,StoredValue,Code into :Zdesc,:Zid,:Zcode from websys.StandardTypeItem 
+	where storedValue=:id)
+	if SQLCODE=0 {
+		set ret=$LB(Zdescription,Zrowid,Zcode)
+	}else {
+		set ret=$LB("","","")
+	}
+	quit ret
+]]></Implementation>
+</Method>
+
+<Method name="GetDescriptionFromCode">
+<Description>
+Get the description given the type and Code.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>type:%Library.String,code:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s Zdesc=""
+	&sql(SELECT Description into :Zdesc from websys.StandardTypeItem 
+	where parref=:type and code=:code)
+	q Zdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDescriptionPlus">
+<Description>
+KM 13-Sept-2001:
+Get the description and ExtraValue from the type and val</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>type:%Library.String="",val:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetExactDescription">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>type:%Library.String,val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetIdFromCodeOrDescription">
+<Description>
+Get the StoredValue from code or description.
+StoredValue is the stored database StoredValue.
+Code or Description can be entered by users at prompts.
+Description is the display StoredValue.
+by wuqk 2011-06-08
+zhaocz 2011-06-17 edit</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>type:%Library.String,val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:(val="") ""
+	n mysvalue
+	&sql(select StoredValue into :mysvalue from websys.StandardTypeItem where ParRef=:type and  (Code=:val or Description=:val))
+	q $g(mysvalue)
+]]></Implementation>
+</Method>
+
+<Method name="LookUpBrokerByType">
+<Description><![CDATA[
+KM 11-Mar-2002: Edited as it was throwing and UNDEFINED error
+n id,code,desc
+;
+s (id,code,desc)=""
+;
+; Try and find a matching code
+&sql(SELECT StoredValue,Description,Code INTO :id,:desc,:code FROM websys.StandardTypeItem WHERE PARREF->Code=:type AND Code=:val)
+;
+; Try and find a matching description
+i '$l(id) &sql(SELECT StoredValue,Description,Code INTO :id,:desc,:code FROM websys.StandardTypeItem WHERE PARREF->Code=:type AND Description=:val)
+;
+s retval=itmjs_"('"_$ZCVT(desc,"O","JS")_"');"
+i itmjsex'="""" s retval=retval_itmjsex_"('"_$ZCVT(desc,"O","JS")_"^"_$ZCVT(code,"O","JS")_"^"_id_"');"
+&javascript<#(retval)#>
+i id="" q 0
+q 1
+2011-06-16 zhaocz]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>itmjs:%Library.String,itmjsex:%Library.String="",type:%Library.String="",val:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n id,code,desc
+	;
+	s (id,code,desc)=""
+	;
+	; Try and find a matching code
+	&sql(SELECT StoredValue,Description,Code INTO :id,:desc,:code FROM websys.StandardTypeItem WHERE PARREF->Code=:type AND Code=:val)
+	
+	;
+	; Try and find a matching description
+	i '$l($g(id)) &sql(SELECT StoredValue,Description,Code INTO :id,:desc,:code FROM websys.StandardTypeItem WHERE PARREF->Code=:type AND Description=:val)
+	;
+	i ('SQLCODE){
+		
+		n retval
+		s retval=itmjs_"('"_$ZCVT(desc,"O","JS")_"');"
+		i itmjsex'="""" s retval=retval_itmjsex_"('"_$ZCVT(desc,"O","JS")_"^"_$ZCVT(code,"O","JS")_"^"_id_"');"
+		&javascript<#(retval)#>
+	}
+	
+	i SQLCODE q 0
+	
+	q 1
+]]></Implementation>
+</Method>
+
+<Method name="LookUpBrokerByTypeButRestrict">
+<Description>
+Called by the web broker.
+The main purpose is to convert from code to description dynamically.
+itmjs - javascript function e.g. Location_lookupsel
+itmjsex - extended javascript function</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>itmjs:%Library.String,itmjsex:%Library.String,type:%Library.String="",val:%Library.String="",codelist:%Library.String="",extraval:%String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysSave">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.
+2011-06-15 zhaocz add save]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n compid,status,new,j,oktosave,save,value,parref,oldval
+	s compid=$e($p(compref,"i",1),2,999)
+	s oktosave=1,save=0
+	s $ZT="ERROR^DHCSSERR"
+	
+	n myIdx,myId
+	s myId="IDz"
+	s new = 0
+	f {
+		s myId=$o(%request.Data(myId))
+		q:($e(myId,1,3)'="IDz")
+		q:(myId="")
+		s myIdx = +$e(myId,4,999)
+		s oktosave=1,save=0
+		
+		s id = %request.Get(myId)
+		i id'="",'##class(websys.Lock).Lock($lb(id,"websys.StandardTypeItem"),%session.SessionId,%session.Get("LOGON.USERID"),.status){
+			d msg.AddItem("E","LOCKED",status,compid) s oktosave=0
+		}
+		i '##class(websys.StandardTypeItem).websysBeforeSave(compref,.id) {
+		}
+		s:id'="" obj=##class(websys.StandardTypeItem).%OpenId(id)
+		
+		i $d(%request.Data("Codez"_myIdx,1)) d
+		. s (val,oldval)=$g(%request.Data("Codez"_myIdx, 1)) s obj.Code=$g(val)
+		
+		i $d(%request.Data("Descriptionz"_myIdx,1)) d
+		. s (val,oldval)=$g(%request.Data("Descriptionz"_myIdx, 1)) s obj.Description=$g(val)
+		
+		i $d(%request.Data("ExtraValuez"_myIdx,1)) d
+		. s (val,oldval)=$g(%request.Data("ExtraValuez"_myIdx, 1)) s obj.ExtraValue=$g(val)
+		
+		i $d(%request.Data("Valuez"_myIdx,1)) d
+		. s (val,oldval)=$g(%request.Data("Valuez"_myIdx, 1)) s obj.StoredValue=$g(val)
+		
+		s obj.IsDirty = 1
+		
+		i 'oktosave,'$g(msg.Count("E")),$g(%request.Data("TOVERRIDE",1)) s oktosave=1
+		i oktosave d
+		. s save=obj.%Save(0)
+		. i $d(msg) d msg.Status(save,compid)
+		s:save id=obj.%Id()
+		d obj.%Close() s obj=""
+		d:save ##class(websys.StandardTypeItem).websysAfterSave(compref,id,new)
+		i 'new d ##class(websys.Lock).LockClear($lb(id,"websys.StandardTypeItem"),%session.SessionId)
+	
+	}
+	
+	q save
+]]></Implementation>
+</Method>
+
+<Query name="FindByType">
+<Description>
+Standard Type Items by Type</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>type,val</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT StoredValue,Description,Code
+FROM websys.StandardTypeItem
+WHERE ParRef=:type AND Description %STARTSWITH :val</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="value,Description,Code"/>
+</Query>
+
+<Query name="LookUpByType">
+<Description>
+Standard Type Items by Type</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>type,val</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT Description, Code, StoredValue
+FROM websys.StandardTypeItem
+WHERE ParRef=:type 
+AND Description %STARTSWITH :val</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Description,Code,HIDDEN"/>
+</Query>
+
+<Query name="LookUpByTypeButRestrict">
+<Description>
+Standard Type Items by Type</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>type,val,codelist,extraval</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT Description, Code, StoredValue
+FROM websys.StandardTypeItem
+WHERE (ParRef=:type) 
+AND (Description %STARTSWITH :val) 
+AND ((:codelist [ (StoredValue) ) OR (:codelist IS NULL))
+AND (({fn CONCAT( ',', {fn CONCAT((ExtraValue),',')})} [ {fn CONCAT( ',', {fn CONCAT((:extraval),',')})}) OR (:extraval IS NULL))</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Description,Code,HIDDEN"/>
+</Query>
+
+<Query name="LookUpByTypeForListBox">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>type:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT Code, Description
+FROM StandardTypeItem
+WHERE (ParRef = :type)
+ORDER BY Description</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Code:%String,Description:%String"/>
+</Query>
+
+<Query name="LookUpByTypeForListBoxStoredVal">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>type:%Library.String</FormalSpec>
+<SqlQuery>SELECT StoredValue, Description
+FROM StandardTypeItem
+WHERE (ParRef = :type)
+ORDER BY Description</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="StoredValue:%String,Description:%String"/>
+</Query>
+
+<Query name="LookUpVBEncoding">
+<Type>%Library.SQLQuery</Type>
+<SqlQuery>SELECT Description,Code
+FROM websys.StandardTypeItem
+WHERE (ParRef = 'CharSet')</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Description:%String,Code:%String"/>
+</Query>
+
+<Storage name="SQLStorage">
+<Type>%CacheSQLStorage</Type>
+<SqlIdExpression/>
+<SqlRowIdName>RowID</SqlRowIdName>
+<SqlTableNumber/>
+<StreamLocation>^websys.StandardTypeItemS</StreamLocation>
+<Property name="ChildSub">
+</Property>
+<Property name="Code">
+</Property>
+<Property name="Description">
+</Property>
+<Property name="ExtraValue">
+</Property>
+<Property name="IsDirty">
+</Property>
+<Property name="ParRef">
+</Property>
+<Property name="StoredValue">
+</Property>
+<SQLMap name="DataMaster">
+<Type>data</Type>
+<Global>^websys.StandardTypeD</Global>
+<PopulationPct/>
+<PopulationType/>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<AccessType/>
+<Delimiter/>
+<Expression>"STD"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="2">
+<AccessType/>
+<Delimiter/>
+<Expression>{StandardType.Code}</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="3">
+<AccessType/>
+<Delimiter/>
+<Expression>"ITM"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="4">
+<AccessType/>
+<Delimiter/>
+<Expression>{ChildSub}</Expression>
+<StartValue>1</StartValue>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}</Expression>
+<Field>StandardType.Code</Field>
+</RowIdSpec>
+<RowIdSpec name="2">
+<Expression>{L4}</Expression>
+<Field>ChildSub</Field>
+</RowIdSpec>
+<Data name="Code">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="Description">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+<Data name="ExtraValue">
+<Delimiter>"^"</Delimiter>
+<Piece>4</Piece>
+</Data>
+<Data name="IsDirty">
+<Delimiter>"^"</Delimiter>
+<Piece>5</Piece>
+</Data>
+<Data name="StoredValue">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+<SQLMap name="IndexCode">
+<Type>index</Type>
+<Global>^websys.StandardTypeD</Global>
+<PopulationPct/>
+<PopulationType>nonnull</PopulationType>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<AccessType/>
+<Delimiter/>
+<Expression>"STD"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="2">
+<AccessType/>
+<Delimiter/>
+<Expression>{StandardType.Code}</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="3">
+<AccessType/>
+<Delimiter/>
+<Expression>"ITM"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="4">
+<AccessType/>
+<Delimiter/>
+<Expression>0</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="5">
+<AccessType/>
+<Delimiter/>
+<Expression>"Code"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="6">
+<AccessType/>
+<Delimiter/>
+<Expression>$$UPPER({Code})</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="7">
+<AccessType/>
+<Delimiter/>
+<Expression>{ChildSub}</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}</Expression>
+<Field>StandardType.Code</Field>
+</RowIdSpec>
+<RowIdSpec name="2">
+<Expression>{L7}</Expression>
+<Field>ChildSub</Field>
+</RowIdSpec>
+</SQLMap>
+<SQLMap name="IndexDesc">
+<Type>index</Type>
+<Global>^websys.StandardTypeD</Global>
+<PopulationPct/>
+<PopulationType/>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<AccessType/>
+<Delimiter/>
+<Expression>"STD"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="2">
+<AccessType/>
+<Delimiter/>
+<Expression>{StandardType.Code}</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="3">
+<AccessType/>
+<Delimiter/>
+<Expression>"ITM"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="4">
+<AccessType/>
+<Delimiter/>
+<Expression>0</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="5">
+<AccessType/>
+<Delimiter/>
+<Expression>"Desc"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="6">
+<AccessType/>
+<Delimiter/>
+<Expression>$$ALPHAUP({Description})</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="7">
+<AccessType/>
+<Delimiter/>
+<Expression>{ChildSub}</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}</Expression>
+<Field>StandardType.Code</Field>
+</RowIdSpec>
+<RowIdSpec name="2">
+<Expression>{L7}</Expression>
+<Field>ChildSub</Field>
+</RowIdSpec>
+</SQLMap>
+<SQLMap name="IndexStoredValue">
+<Type>index</Type>
+<Global>^websys.StandardTypeD</Global>
+<PopulationPct/>
+<PopulationType/>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<AccessType/>
+<Delimiter/>
+<Expression>"STD"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="2">
+<AccessType/>
+<Delimiter/>
+<Expression>{StandardType.Code}</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="3">
+<AccessType/>
+<Delimiter/>
+<Expression>"ITM"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="4">
+<AccessType/>
+<Delimiter/>
+<Expression>0</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="5">
+<AccessType/>
+<Delimiter/>
+<Expression>"StoredValue"</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="6">
+<AccessType/>
+<Delimiter/>
+<Expression>{StoredValue}</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<Subscript name="7">
+<AccessType/>
+<Delimiter/>
+<Expression>{ChildSub}</Expression>
+<StartValue/>
+<StopExpression/>
+<StopValue/>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}</Expression>
+<Field>StandardType.Code</Field>
+</RowIdSpec>
+<RowIdSpec name="2">
+<Expression>{L7}</Expression>
+<Field>ChildSub</Field>
+</RowIdSpec>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

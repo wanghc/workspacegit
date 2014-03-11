@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.License">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59798,58407.080716</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>78</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="LicenseKey">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SiteCode">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LicensedMedtrakUsers">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ActiveMedtrakUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Property name="MaximumMedtrakUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Property name="LicensedOrderEntryUsers">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ActiveOrderEntryUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Property name="MaximumOrderEntryUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Property name="LicensedEprChartUsers">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ActiveEprChartUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Property name="MaximumEprChartUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Property name="LicensedRadiologyWBUsers">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ActiveRadiologyWBUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Property name="MaximumRadiologyWBUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Property name="LicensedTheatreWBUsers">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ExpiryDate">
+<Type>%Date</Type>
+</Property>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Property name="ActiveTheatreWBUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Property name="MaximumTheatreWBUsers">
+<Type>%Integer</Type>
+<Transient>1</Transient>
+</Property>
+
+<Method name="ActiveMedtrakUsersGet">
+</Method>
+
+<Method name="MaximumMedtrakUsersGet">
+</Method>
+
+<Method name="ActiveOrderEntryUsersGet">
+</Method>
+
+<Method name="MaximumOrderEntryUsersGet">
+</Method>
+
+<Method name="ActiveEprChartUsersGet">
+</Method>
+
+<Method name="MaximumEprChartUsersGet">
+</Method>
+
+<Method name="ActiveRadiologyWBUsersGet">
+</Method>
+
+<Method name="MaximumRadiologyWBUsersGet">
+</Method>
+
+<Method name="ActiveTheatreWBUsersGet">
+</Method>
+
+<Method name="MaximumTheatreWBUsersGet">
+</Method>
+
+<Method name="License">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>type:%String="MT"</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="ListUsageClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>ListUsageExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="UnLicense">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="ListUsageExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Binary]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="ListUsageFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>ListUsageExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Query name="ListUsage">
+<Type>%Query</Type>
+<Parameter name="ROWSPEC" value="LicenseType:%String,ComputerName:%String,User:%String,AllocatedDate:%String,AllocatedTime:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.LicenseD</DataLocation>
+<DefaultData>LicenseDefaultData</DefaultData>
+<IdLocation>^websys.LicenseD</IdLocation>
+<IndexLocation>^websys.LicenseI</IndexLocation>
+<StreamLocation>^websys.LicenseS</StreamLocation>
+<Data name="LicenseDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>LicenseKey</Value>
+</Value>
+<Value name="3">
+<Value>LicensedEprChartUsers</Value>
+</Value>
+<Value name="4">
+<Value>LicensedMedtrakUsers</Value>
+</Value>
+<Value name="5">
+<Value>LicensedOrderEntryUsers</Value>
+</Value>
+<Value name="6">
+<Value>LicensedRadiologyWBUsers</Value>
+</Value>
+<Value name="7">
+<Value>LicensedTheatreWBUsers</Value>
+</Value>
+<Value name="8">
+<Value>SiteCode</Value>
+</Value>
+<Value name="9">
+<Value>ExpiryDate</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.PrintAlternativePrinter">
+<Description>
+Alternative Printer definition</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59798,58407.353514</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>170</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>7</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="AlternatePrinter">
+<Type>websys.Printer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ParRef">
+<Type>websys.Print</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>PrinterAlternative</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Method name="GetDefaultPrinter">
+<Description>
+KK 13/Jan/2003 Log 30023 To get the reportcode and default printer for User printer options. 
+Called from websys.PrintOptions.Edit component.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>strurl:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>websys.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetUserPrintOption">
+<Description>
+KK 18/Dec/2002 Log 30023 Method to get the Print options from websys.configuration...
+used in webcommon.DateFromTo.Custom component</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpAlternativePrinterClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpAlternativePrinterFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpAlternativePrinterExecute">
+<Description>
+KK 27/Nov/2002 Log 30023</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,Printer:%Library.String="",ReportCode:%Library.String="",Location:%Library.String="",PrintID:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpAlternativePrinterFetch">
+<Description>
+KK 27/Nov/2002 Log 30023</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpAlternativePrinterExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpLocwithPrinterBroker">
+<Description>
+KK 17/Oct/2003 Log 39609</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String="",repcode:%String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="LookUpLocwithPrinterClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>LookUpLocwithPrinterExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="LookUpLocwithPrinterExecute">
+<Description>
+KK 17/Oct/2003 Log 36909</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,val:%String="",repcode:%String=""]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="LookUpLocwithPrinterFetch">
+<Description>
+KK 17/Oct/2003 Log 36909</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpLocwithPrinterExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="LookUpPrintersClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpPrintersFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpPrintersExecute">
+<Description>
+KK 27/Nov/2002 Log 30023</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,PrintID:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpPrintersFetch">
+<Description>
+KK 27/Nov/2002 Log 30023</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpPrintersExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="OldAlternativePrintLookupexec">
+<Description>
+KK Old LookUpAlternativePrinterExecute method.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.String,Printer:%Library.String="",ReportCode:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysSaveAll">
+<Description>
+KK 27/Nov/2002 Log 30023</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>PrintID:%Library.String,Printers:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="Find">
+<Description>
+KK 27/Nov/2002 Log 30023</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>PrintID:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[SELECT ID, 
+ AlternatePrinter->Description,AlternatePrinter->Device
+FROM websys.PrintAlternativePrinter
+WHERE (ParRef = :PrintID)]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID,AltPrinter,Device"/>
+</Query>
+
+<Query name="LookUpAlternativePrinter">
+<Description>
+KK 27/Nov/2002 Log 30023</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>Printer,ReportCode,Location,PrintID</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="desc:%String,hidden"/>
+</Query>
+
+<Query name="LookUpPrinters">
+<Description>
+KK 27/Nov/2002 Log 30023</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>PrintID:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="values:%String,desc:%String"/>
+</Query>
+
+<Query name="LookUpLocwithPrinter">
+<Description>
+KK 17/Oct/2003 Log 39609</Description>
+<Type>%Query</Type>
+<FormalSpec>val:%String="",repcode:%String=""</FormalSpec>
+<Parameter name="ROWSPEC" value="Desc:%String,HIDDEN:%String,Code:%String,HIDDEN:%String,HIDDEN:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.PrintAlternativePrinterD</DataLocation>
+<DefaultData>PrintAlternativePrinterDefaultData</DefaultData>
+<IdLocation>^websys.PrintAlternativePrinterD</IdLocation>
+<IndexLocation>^websys.PrintAlternativePrinterI</IndexLocation>
+<StreamLocation>^websys.PrintAlternativePrinterS</StreamLocation>
+<Data name="PrintAlternativePrinterClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="PrintAlternativePrinterDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>AlternatePrinter</Value>
+</Value>
+</Data>
+<Property name="AlternatePrinter">
+</Property>
+<Property name="ParRef">
+</Property>
+</Storage>
+</Class>
+</Export>

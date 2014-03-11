@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.DSSActionItem">
+<ClassType>persistent</ClassType>
+<CompileAfter>websys.DSSAction</CompileAfter>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>59009,42040</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>829</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>34</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="ActionType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Error,Information,Warning,Notification"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",E,I,W,N"/>
+</Property>
+
+<Property name="ClassProperty">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CommandExecute">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ComponentItem">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EmailSubject">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EmailTo">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EmailFrom">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EpisodeRecipient">
+<Type>websys.DSSContact</Type>
+</Property>
+
+<Property name="FaxTo">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MedTrakGroupID">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MedTrakRecipient">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MessageTo">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="8192"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PageTo">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ParRef">
+<Type>websys.DSSAction</Type>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>Items</Inverse>
+<Relationship>1</Relationship>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PresentationType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Alert,Email,Pager,SetField,MedtrakMessage,PreferContact"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",A,E,P,S,M,O"/>
+</Property>
+
+<Property name="Recipient">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SetFieldType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SetFieldValue">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OrderItem">
+<Type>User.ARCItmMast</Type>
+</Property>
+
+<Index name="PresTypeIndex">
+<Properties>PresentationType</Properties>
+</Index>
+
+<Method name="%OnAfterSave">
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetUserNameId">
+<Description>
+This function returns a string of users and ids separated by "#" given a list of user_id
+e.g 
+Given : 175^571
+Returns : hun^175#nuh^571</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ArgListUserID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysCustomInit">
+<Description>
+TN:13-Aug-2002
+Changed component websys.DSSActionItem from and 'Edit' type to 'Custom' type.
+This is because we merge the 2 steps of creating the websys.DSSAction with the websys.DSSActionItem
+into the one edit screen and not both, so now we don't have the PARREF for websys.DSSActionItem.
+Now that the component is a 'Custom' type it does not create the correct object when an ID is passed.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysDel">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysSave">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.
+
+TN: 4-Sep-2002: Altered to add the DSSAction step into one.
+Checks the item's time and timeunit and either updates normally or creates a new or different ]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Items")</DataLocation>
+<DefaultData>DSSActionItemDefaultData</DefaultData>
+<IdLocation>{%%PARENT}("Items")</IdLocation>
+<IndexLocation>^websys.DSSActionItemI</IndexLocation>
+<StreamLocation>^websys.DSSActionItemS</StreamLocation>
+<Data name="DSSActionItemClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="DSSActionItemDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>ActionType</Value>
+</Value>
+<Value name="2">
+<Value>ComponentItem</Value>
+</Value>
+<Value name="3">
+<Value>EmailSubject</Value>
+</Value>
+<Value name="4">
+<Value>EmailTo</Value>
+</Value>
+<Value name="5">
+<Value>MessageBody</Value>
+</Value>
+<Value name="6">
+<Value>PresentationType</Value>
+</Value>
+<Value name="7">
+<Value>Recipient</Value>
+</Value>
+<Value name="8">
+<Value>SetFieldValue</Value>
+</Value>
+<Value name="9">
+<Value>FaxTo</Value>
+</Value>
+<Value name="10">
+<Value>MessageTo</Value>
+</Value>
+<Value name="11">
+<Value>PageTo</Value>
+</Value>
+<Value name="12">
+<Value>MESSMessage</Value>
+</Value>
+<Value name="13">
+<Value>MedTrakGroupID</Value>
+</Value>
+<Value name="14">
+<Value>MedTrakRecipient</Value>
+</Value>
+<Value name="15">
+<Value>ClassProperty</Value>
+</Value>
+<Value name="16">
+<Value>CommandExecute</Value>
+</Value>
+<Value name="17">
+<Value>SetFieldType</Value>
+</Value>
+<Value name="18">
+<Value>EpisodeRecepient</Value>
+</Value>
+<Value name="19">
+<Value>EpisodeRecipient</Value>
+</Value>
+<Value name="20">
+<Value>OrderItem</Value>
+</Value>
+<Value name="21">
+<Value>EmailFrom</Value>
+</Value>
+</Data>
+<Property name="ActionType">
+</Property>
+<Property name="ClassProperty">
+</Property>
+<Property name="CommandExecute">
+</Property>
+<Property name="ComponentItem">
+</Property>
+<Property name="EmailSubject">
+</Property>
+<Property name="EmailTo">
+</Property>
+<Property name="EpisodeRecipient">
+</Property>
+<Property name="FaxTo">
+</Property>
+<Property name="MedTrakGroupID">
+</Property>
+<Property name="MedTrakRecipient">
+</Property>
+<Property name="MessageTo">
+</Property>
+<Property name="PageTo">
+</Property>
+<Property name="ParRef">
+</Property>
+<Property name="PresentationType">
+</Property>
+<Property name="Recipient">
+</Property>
+<Property name="SetFieldType">
+</Property>
+<Property name="SetFieldValue">
+</Property>
+</Storage>
+</Class>
+</Export>

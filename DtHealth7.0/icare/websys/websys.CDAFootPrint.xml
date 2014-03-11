@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.CDAFootPrint">
+<Description>
+Track records / Objects inserted from CDA document</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Persistent</Super>
+<TimeChanged>62271,50604</TimeChanged>
+<TimeCreated>60506,62108</TimeCreated>
+
+<UDLText name="T">
+<Content><![CDATA[
+//CSPSession ID	
+
+]]></Content>
+</UDLText>
+
+<Property name="CSPSessionId">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+//ClassName
+
+]]></Content>
+</UDLText>
+
+<Property name="ObjectClassName">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+//Object ID (along with classname uniquely identifies record)
+
+]]></Content>
+</UDLText>
+
+<Property name="ObjectId">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="CSPSessionIdIndex">
+<Properties>CSPSessionId,ObjectClassName,ObjectId</Properties>
+</Index>
+
+<Method name="Add">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>cspsessionid:%String,objectclassname:%String,objectid:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="Kill">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="KillData">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="KillSessionData">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>CSPSessionId:%String</FormalSpec>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.CDAFootPrintD</DataLocation>
+<DefaultData>CDAFootPrintDefaultData</DefaultData>
+<IdLocation>^websys.CDAFootPrintD</IdLocation>
+<IndexLocation>^websys.CDAFootPrintI</IndexLocation>
+<StreamLocation>^websys.CDAFootPrintS</StreamLocation>
+<Data name="CDAFootPrintDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>CSPSessionId</Value>
+</Value>
+<Value name="3">
+<Value>ObjectClassName</Value>
+</Value>
+<Value name="4">
+<Value>ObjectId</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

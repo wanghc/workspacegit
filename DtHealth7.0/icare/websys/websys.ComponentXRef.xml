@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:07">
+<Class name="websys.ComponentXRef">
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<IncludeCode>webgen</IncludeCode>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62361,41387.968102</TimeChanged>
+<TimeCreated>61079,43958.067674</TimeCreated>
+
+<Parameter name="RTNPREFIX">
+<Final>0</Final>
+<Default>GCOM</Default>
+</Parameter>
+
+<Property name="App">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ComponentId">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Context">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Dirty">
+<Description>
+Used to flag if the defining params have changed (.e.g the component), and the code need to be regenerated.
+no longer used</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LastUpdateDate">
+<Type>%Library.Date</Type>
+</Property>
+
+<Property name="LastUpdateTime">
+<Type>%Library.Time</Type>
+</Property>
+
+<Property name="LangId">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="ComponentId">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ComponentId</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="Master">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ComponentId,Context,LangId,App</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="Gen">
+<Description>
+[Previously private]</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>cmpid:%Library.String,template:%Library.String,rtn:%Library.String,ActiveObject:%Library.String,ActiveReference:%Library.String,ActiveContext:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenComponentCaption">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>token:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenForm">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="GenItem">
+<Description>
+tblitmcnt - applies only to table items and is the GetAt(index)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String,isinlist:%Library.String,tblitmcnt:%Library.String=""</FormalSpec>
+</Method>
+
+<Method name="GenItemAnchor">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String,isinlist:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenItemButton">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenItemCaption">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,isinheader:%Library.Boolean,inlinequit:%Library.String=0</FormalSpec>
+</Method>
+
+<Method name="GenItemCustom">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GenItemDescription">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenItemIconProfile">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenItemListBox">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenItemNestedStub">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenItemRTF">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenItemTextArea">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenItemTextBox">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itm:%Library.String,itmid:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenListLookup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>firstrtn:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenList">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>firstrtn:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GenListEnd">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GenListInit">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GenListValues">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>rtn:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GenPageUrl">
+<Description>
+Get (and create) Xref entry</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+</Method>
+
+<Method name="GenPageUrlSort">
+<Description>
+Get (and create) Xref entry</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+</Method>
+
+<Method name="GenPageUrlX">
+<Description>
+Get (and create) Xref entry</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+</Method>
+
+<Method name="GenPageUrlParam">
+<Description>
+called by GenPageUrl,GenPageUrlX,GenPageUrlSort - keep PassThruParams for urls in one place instead of 3 times</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+</Method>
+
+<Method name="GenSave">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="GenTemplate">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>template:%Library.String</FormalSpec>
+</Method>
+
+<Method name="GetSave">
+<Description>
+此方法被组件逻辑类的websyssave方法调用</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String,id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	s myCompId=$e($p(TEVENT,"i",1),2,999)
+	s myAppKey="LAYOUT"
+	s myAppSubKey=myCompId
+	
+	s myApp=""
+	s myUserID=%session.Data("LOGON.USERID")
+	s myGroupID=%session.Data("LOGON.GROUPID")
+	s mySiteCODE=%session.Data("LOGON.SITECODE")
+	s myHospID = %session.Data("LOGON.HOSPID")
+	s myTrustID=%session.Data("LOGON.TRUSTID")
+	;默认值
+	s mycontext="-100000000000000"
+	s myLangId=%session.Data("LOGON.LANGID")
+	s myLocID = %session.Data("LOGON.CTLOCID")
+	s myRegion=%session.Data("LOGON.REGION")
+	;是否会去找其他语言呢?
+	s mydata = ##class(websys.Preferences).GetDataEx(myUserID, myGroupID, mySiteCODE, mycontext, .myApp, myAppKey, myAppSubKey, myLocID, myRegion)
+	s myApp=ActiveObject_"."_ ActiveReference
+	Q:myApp="."
+	
+	s myCompXRefId=$o(^websys.ComponentXRefI("Master",myCompId,myContext,myLangId,myApp,0))
+	i myCompXRefId="" q
+	
+	s str="d save^"_..#RTNPREFIX_myCompXRefId("""_compref_""","""_id_""")
+]]></Implementation>
+</Method>
+
+<Method name="GetXRef">
+<Description>
+Get (and create) Xref entry</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&cmp:%Library.String,ActiveContext:%Library.String,langid:%Library.String,ActiveObject:%Library.String,ActiveReference:%Library.String,isnested:%Library.String]]></FormalSpec>
+</Method>
+
+<Method name="Init">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="Kill">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+</Method>
+
+<Method name="MakeDirtyAll">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="MakeDirtyComponent">
+<Description>
+d ##class(websys.ComponnetXRef).MakeDirtyComponent(52742)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>componentid:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	s h1=+$H
+	s h2=$P($H,",",2)
+	&SQL(Update websys.Component set LastUpdateDate=:h1,LastUpdateTime=:h2 where ID=:componentid )
+]]></Implementation>
+</Method>
+
+<Method name="MakeDirtyLanguage">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>langid:%Library.String</FormalSpec>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.ComponentXRefD</DataLocation>
+<DefaultData>ComponentXRefDefaultData</DefaultData>
+<IdLocation>^websys.ComponentXRefD</IdLocation>
+<IndexLocation>^websys.ComponentXRefI</IndexLocation>
+<StreamLocation>^websys.ComponentXRefS</StreamLocation>
+<Data name="ComponentXRefClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="ComponentXRefDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>App</Value>
+</Value>
+<Value name="2">
+<Value>ComponentId</Value>
+</Value>
+<Value name="3">
+<Value>Context</Value>
+</Value>
+<Value name="4">
+<Value>LangId</Value>
+</Value>
+<Value name="5">
+<Value>Dirty</Value>
+</Value>
+<Value name="6">
+<Value>LastUpdateDate</Value>
+</Value>
+<Value name="7">
+<Value>LastUpdateTime</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

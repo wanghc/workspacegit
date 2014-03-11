@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="websys.UserDefinedFunctions">
+<Description><![CDATA[
+User defined functions which are called in response to websys events
+All user defined values must return a value.<br>
+For certain events the return value can affect subsequent processing.<br>
+The naming convention is to create a function where the function name corresponds to the event name, and the 
+cache script routine corresponds to the class name prefixed with U.<br>
+<br>
+$$OnNew^Usample(compref)<br>
+<br>
+$$OnBeforeSave^Usample(compref,.id)<br>
+<br>
+$$OnAfterSave^Usample(compref,id,new)<br>
+<br>
+Where: <br>
+compref is the calling component name.<br>
+id is the instance id. Where OnBeforeSave takes over the task of creating a new instance this should be passed by reference.<br>
+new is a boolean flag to indicate wether a new instance was created. <br>
+All parameters are optional.<br>
+<br>
+<br>
+Return values:<br>
+OnNew - ignored<br>
+OnBeforeSave - 1 - continues with the save.<br>
+OnBeforeSave - 0 - abort the save.<br>
+OnAfterSave - ignored<br>
+<br>
+Additional instances which can be utilised:<br>
+msg - websys.Message<br>
+obj - the object instance corresponding to the component classname. This object may be manipulated in order to set default values.
+]]></Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>62247,41365.231079</TimeChanged>
+<TimeCreated>59798,58407.631852</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>112</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Property name="CacheScript">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ClassName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Event">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UpdateDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="UpdateTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="UpdateUser">
+<Type>User.SSUser</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Index name="ClassNameEvent">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>ClassName,Event</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="Evaluate">
+<Description>
+Evaluate the user defined function and return the return value.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ClassName:%Library.String,Event:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Exists">
+<Description>
+Evaluate the user defined function and return the return value.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ClassName:%Library.String,Event:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;w ##class(websys.UserDefinedFunctions).Exists("web.ddd","OnBeforeSave")
+	; 根据索引  判断是否存在， 存在 返回 1 否则 返回 ""
+	;^websys.UserDefinedFunctionsI("ClassNameEvent"," WEB.DDD"," ONBEFORESAVE",1) = "" 
+	n (ClassName,Event)
+	s myrtn=""
+	q:((ClassName="")||(Event="")) "0"
+	
+	s myclassname = $zu(28,ClassName,7,32768)
+	s myevent = $zu(28,Event,7,32768)
+	i $o(^websys.UserDefinedFunctionsI("ClassNameEvent",myclassname,myevent,0)){
+		s myrtn=1
+	}else{
+		s myrtn="0"
+	}
+	
+	q myrtn
+]]></Implementation>
+</Method>
+
+<Method name="GetIdFromClassAndEvent">
+<Description>
+Evaluate the user defined function and return the return value.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ClassName:%Library.String,Event:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="VBFindLEClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>VBFindLEFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="VBFindLEExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="VBFindLEFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>VBFindLEExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Parameter name="EXTENTSIZE">
+<Default>52</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Query name="VBFindLE">
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Name:%Library.String,UpdateDate:%String,UpdateTime:%String"/>
+</Query>
+
+<Query name="VBFindLESimple">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, ClassName,Event,UpdateDate,UpdateTime
+FROM UserDefinedFunctions
+WHERE (ClassName %STARTSWITH :name)
+ORDER BY ClassName,Event</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Name:%Library.String,Event:%String,UpdateDate:%String,UpdateTime:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.UserDefinedFunctionsD</DataLocation>
+<DefaultData>UserDefinedFunctionsDefaultData</DefaultData>
+<IdLocation>^websys.UserDefinedFunctionsD</IdLocation>
+<IndexLocation>^websys.UserDefinedFunctionsI</IndexLocation>
+<StreamLocation>^websys.UserDefinedFunctionsS</StreamLocation>
+<Data name="UserDefinedFunctionsClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="UserDefinedFunctionsDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>CacheScript</Value>
+</Value>
+<Value name="2">
+<Value>ClassName</Value>
+</Value>
+<Value name="3">
+<Value>Event</Value>
+</Value>
+<Value name="4">
+<Value>UpdateDate</Value>
+</Value>
+<Value name="5">
+<Value>UpdateTime</Value>
+</Value>
+<Value name="6">
+<Value>UpdateUser</Value>
+</Value>
+</Data>
+<Property name="CacheScript">
+</Property>
+<Property name="ClassName">
+</Property>
+<Property name="Event">
+</Property>
+<Property name="UpdateDate">
+</Property>
+<Property name="UpdateTime">
+</Property>
+<Property name="UpdateUser">
+</Property>
+</Storage>
+</Class>
+</Export>
