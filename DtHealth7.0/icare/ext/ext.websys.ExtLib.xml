@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.websys.ExtLib">
+<Description>
+ext框架lib</Description>
+<Super>%RegisteredObject</Super>
+<TimeChanged>62762,54820</TimeChanged>
+<TimeCreated>61965,62983.861966</TimeCreated>
+
+<Parameter name="pExtLibPath">
+<Default>/scripts_lib/</Default>
+</Parameter>
+
+<Method name="Version330">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	set language=##class(ext.websys.Translation).ExtLanuageFile()
+	;Ext Version 3.3.0
+	;d ##class(ext.websys.ExtLib).Version330()
+	s myCode($i(myCode))= " "_"<link rel=""stylesheet"" type=""text/css"" href="".."_..#pExtLibPath_"ext3.3.0/resources/css/ext-all.css"" />"
+	s myCode($i(myCode))= " "_"<link rel=""stylesheet"" type=""text/css"" href="".."_..#pExtLibPath_"ext3.3.0/resources/css/ext-extend.css"" />"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext3.3.0/adapter/ext/ext-base.js""></script>"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext3.3.0/ext-all.js""></script>"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext3.3.0/src/locale/"_language_"""></script>"
+	s myCode($i(myCode))= " "_"<script>Ext.BLANK_IMAGE_URL='.."_..#pExtLibPath_"ext3.3.0/resources/images/default/s.gif';</script>"
+	f myIdx=1:1:myCode {
+		w myCode(myIdx),!
+	}
+	d ##class(ext.websys.Translation).WriteTranslations()
+]]></Implementation>
+</Method>
+
+<Method name="Version321">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	set language=##class(ext.websys.Translation).ExtLanuageFile()
+	;Ext Version 3.2.1
+	;d ##class(ext.websys.ExtLib).Version321()
+	s myCode($i(myCode))= " "_"<link rel=""stylesheet"" type=""text/css"" href="".."_..#pExtLibPath_"ext3.2.1/resources/css/ext-all.css"" />"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext3.2.1/adapter/ext/ext-base.js""></script>"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext3.2.1/ext-all-debug.js""></script>"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext3.2.1/src/locale/"_language_"""></script>"
+	
+	s myCode($i(myCode))= " "_"<script>Ext.BLANK_IMAGE_URL='.."_..#pExtLibPath_"ext3.2.1/resources/images/default/s.gif';</script>"
+	f myIdx=1:1:myCode {
+		w myCode(myIdx),!
+	}
+	d ##class(ext.websys.Translation).WriteTranslations()
+]]></Implementation>
+</Method>
+
+<Method name="Version310">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	set language=##class(ext.websys.Translation).ExtLanuageFile()
+	;Ext Version 3.1.0
+	;d ##class(ext.websys.ExtLib).Version310()
+	s myCode($i(myCode))= " "_"<link rel=""stylesheet"" type=""text/css"" href="".."_..#pExtLibPath_"ext3.1.0/resources/css/ext-all.css"" />"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext3.1.0/adapter/ext/ext-base.js""></script>"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext3.1.0/ext-all.js""></script>"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext3.1.0/src/locale/"_language_"""></script>"
+	
+	s myCode($i(myCode))= " "_"<script>Ext.BLANK_IMAGE_URL='.."_..#pExtLibPath_"ext3.1.0/resources/images/default/s.gif';</script>"
+	
+	f myIdx=1:1:myCode {
+		w myCode(myIdx),!
+	}
+	d ##class(ext.websys.Translation).WriteTranslations()
+]]></Implementation>
+</Method>
+
+<Method name="Version210">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	set language=##class(ext.websys.Translation).ExtLanuageFile()
+	;Ext Version 2.1.0
+	;d ##class(ext.websys.ExtLib).Version210()
+	s myCode($i(myCode))= " "_"<link rel=""stylesheet"" type=""text/css"" href="".."_..#pExtLibPath_"ext2.1.0/resources/css/ext-all.css"" />"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext2.1.0/adapter/ext/ext-base.js""></script>"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext2.1.0/ext-all.js""></script>"
+	s myCode($i(myCode))= " "_"<script type=""text/javascript"" src="".."_..#pExtLibPath_"ext2.1.0/source/locale/"_language_"""></script>"
+	
+	s myCode($i(myCode))= " "_"<script>Ext.BLANK_IMAGE_URL='.."_..#pExtLibPath_"ext2.1.0/resources/images/default/s.gif';</script>"
+	
+	f myIdx=1:1:myCode {
+		w myCode(myIdx),!
+	}
+	d ##class(ext.websys.Translation).WriteTranslations()
+]]></Implementation>
+</Method>
+
+<Method name="Version200">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	set language=##class(ext.websys.Translation).ExtLanuageFile()
+	;Ext Version 2.0.0
+	;d ##class(ext.websys.ExtLib).Version200()
+	
+	s myCode($i(myCode))= " "_"<script language='javascript' src="".."_..#pExtLibPath_"ext2.0.0/ext-base.js""></script>"
+	s myCode($i(myCode))= " "_"<script language='javascript' src="".."_..#pExtLibPath_"ext2.0.0/ext-core-debug.js""></script>"
+	s myCode($i(myCode))= " "_"<script language='javascript' src="".."_..#pExtLibPath_"ext2.0.0/ext-all.js""></script>"
+	s myCode($i(myCode))= " "_"<script language='javascript' src="".."_..#pExtLibPath_"ext2.0.0/"_language_"""></script>"
+	s myCode($i(myCode))= " "_"<link rel=""stylesheet"" type=""text/css"" href="".."_..#pExtLibPath_"ext2.0.0/resources/css/ext-all.css"" />"
+	
+	s myCode($i(myCode))= " "_"<script>Ext.BLANK_IMAGE_URL='.."_..#pExtLibPath_"ext2.0.0/resources/images/default/s.gif';</script>"
+	f myIdx=1:1:myCode {
+		w myCode(myIdx),!
+	}
+	d ##class(ext.websys.Translation).WriteTranslations()
+]]></Implementation>
+</Method>
+</Class>
+</Export>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.websys.DHTMLXLib">
+<Super>%RegisteredObject</Super>
+<TimeChanged>61986,67383</TimeChanged>
+<TimeCreated>61971,39156.566424</TimeCreated>
+
+<Parameter name="pLibPath">
+<Default>../scripts_lib/</Default>
+</Parameter>
+
+<Method name="BasePath">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[	Quit ..#pLibPath_"dhtmx/"
+]]></Implementation>
+</Method>
+</Class>
+</Export>

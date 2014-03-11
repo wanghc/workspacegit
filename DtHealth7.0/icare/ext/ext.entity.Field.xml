@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.entity.Field">
+<Super>%RegisteredObject,%XML.Adaptor</Super>
+<TimeChanged>61965,60207</TimeChanged>
+<TimeCreated>61865,53429.765841</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Method name="GetJosnData">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s myjosnstr=""
+	
+	i (..name'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"'name'"_":"_"'"_..name_"'"
+	}
+
+	i (..type'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"'type'"_":"_"'"_..type_"'"
+	}
+	
+	s myjosnstr="{"_myjosnstr_"}"
+	
+	q myjosnstr
+]]></Implementation>
+</Method>
+
+<Property name="name">
+<Type>%String</Type>
+</Property>
+
+<Property name="type">
+<Type>%String</Type>
+</Property>
+
+<Method name="typeGet">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s mytype="string"	;##class(ext.entity.Field).GetExtDataType(..type)
+	
+	q mytype
+]]></Implementation>
+</Method>
+
+<Method name="GetExtDataType">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>CacheType:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q "string"
+]]></Implementation>
+</Method>
+</Class>
+</Export>

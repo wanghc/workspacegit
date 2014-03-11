@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.entity.ColumnModel">
+<Super>%RegisteredObject,%XML.Adaptor</Super>
+<TimeChanged>62762,67073.658062</TimeChanged>
+<TimeCreated>61864,65244.35873</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Property name="header">
+<Description>
+The header text to display in the Grid view</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="hidden">
+<Description>
+optional) True to hide the column. Defaults to false</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="align">
+<Description>
+(optional) Set the CSS text-align property of the column. Defaults to undefined</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="css">
+<Description>
+(optional) Set custom CSS for all table cells in the column (excluding headers). Defaults to undefined.</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="fixed">
+<Description>
+(optional) True if the column width cannot be changed. Defaults to false.</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="id">
+<Type>%String</Type>
+</Property>
+
+<Property name="resizable">
+<Description>
+optional) False to disable column resizing. Defaults to true.</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="sortable">
+<Description>
+(optional) True if sorting is to be allowed on this column. Defaults to the value of the defaultSortable property</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="width">
+<Description>
+optional) The initial width in pixels of the column</Description>
+<Type>%String</Type>
+</Property>
+
+<Method name="GetJosnData">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s myjosnstr=""
+	i (..header'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		;优先取翻译
+		i $e(..header,1,3)="$g(" s myjosnstr=myjosnstr_"header"_":"_..header
+		e  s myjosnstr=myjosnstr_"header"_":"_"'"_..header_"'"
+	}
+	
+	i (..hidden'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"""hidden"""_":"_""""_..hidden_""""
+	}
+	
+	i (..align'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"""align"""_":"_""""_..align_""""
+	}
+
+	i (..css'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"""css"""_":"_""""_..css_""""
+	}
+
+	i (..fixed'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"""fixed"""_":"_""""_..fixed_""""
+	}
+
+	i (..id'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"""id"""_":"_""""_..id_""""
+	}
+
+	i (..resizable'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"""resizable"""_":"_""""_..resizable_""""
+	}
+	i (..sortable'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"""sortable"""_":"_""""_..sortable_""""
+	}
+	
+	i (..width'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"""width"""_":"_""_..width_""
+	}
+	
+	i (..dataIndex'=""){
+		s:myjosnstr'="" myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_"dataIndex"_":"_"'"_..dataIndex_"'"
+	}
+	s myjosnstr="{"_myjosnstr_"}"
+	q myjosnstr
+]]></Implementation>
+</Method>
+
+<Property name="dataIndex">
+<Type>%String</Type>
+</Property>
+</Class>
+</Export>

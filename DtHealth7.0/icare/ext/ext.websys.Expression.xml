@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.websys.Expression">
+<ClassType>datatype</ClassType>
+<ClientDataType>VARCHAR</ClientDataType>
+<IncludeGenerator>%occInclude</IncludeGenerator>
+<OdbcType>VARCHAR</OdbcType>
+<SqlCategory>STRING</SqlCategory>
+<TimeChanged>61986,67383</TimeChanged>
+<TimeCreated>61853,53282.442147</TimeCreated>
+
+<Method name="Evaluate">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>eval:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s %code=0
+	///$$$I()
+	$$$GENERATE(" s $zt=""expressionytrap""")
+	$$$GENERATE(" k e")
+	$$$GENERATE(" q:eval="""" """"")
+	$$$GENERATE(" q @eval")
+	$$$GENERATE("expressionytrap")
+	$$$GENERATE(" s e=$ze")
+	$$$GENERATE(" i $d(msg) d:msg msg.AddItem(""E"",""XEVALUATE"",$g(eval)_"" ""_$g(e)) ")
+	$$$GENERATE(" q """"")
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Execute">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>exp:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s %code=0
+	$$$GENERATE(" s $zt=""expressionztrap""")
+	$$$GENERATE(" k e")
+	$$$GENERATE(" i exp'="""" x exp")
+	$$$GENERATE(" q """"")
+	$$$GENERATE("expressionztrap")
+	$$$GENERATE(" s e=$ze")
+	$$$GENERATE(" i $d(msg) d:msg msg.AddItem(""E"",""XEVALUATE"",$g(exp)_"" ""_$g(e))")
+	$$$GENERATE(" q """"")
+	
+	q $$$OK
+]]></Implementation>
+</Method>
+</Class>
+</Export>

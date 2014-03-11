@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.websys.Broker">
+<Description>
+代码执行的支持</Description>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%RegisteredObject</Super>
+<TimeChanged>62538,50964.555079</TimeChanged>
+<TimeCreated>61860,36560.142741</TimeCreated>
+
+<Method name="CMExecute">
+<Description>
+类方法执行</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%String,classmethod:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s $ZT="err"
+	;n (classname, classmethod, arryvalue)
+	s ^TmpMenusub($j,1)=classmethod
+	d ..XecuteStr(.myMethod, .classname, .classmethod, 1)
+	s rs=""
+	;s ^TmpMenusub($j,2)=myMethod
+	i myMethod'=""{
+		XECUTE myMethod
+	}
+	q rs
+err
+	s ^TmpMenusub($j,9)=$ZE
+	q
+]]></Implementation>
+</Method>
+
+<Method name="XecuteStr">
+<Description>
+String to execute to run the desired method.
+[Previously private]</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&code:%String,cls:%String,method:%String,wantreturnval:%Boolean]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;n (code , cls , method , wantreturnval , arrayvlaue)
+	;w (arryvalue("id"))
+	If wantreturnval {
+		Set code="Set rs=##class("_cls_")."_method_"("
+	} Else {
+		Set code="Do ##class("_cls_")."_method_"("
+	}
+	
+	s mycminlist=..GetCMInParaList(cls,method)
+	
+	s myColLen=$l(mycminlist, ",")
+	s:(mycminlist="") myColLen=0
+	f myIdx=1:1:myColLen {
+		s myColStr=$p(mycminlist,",",myIdx)
+		s myParaName=$p(myColStr,":",1)
+		If myIdx>1 Set code=code_","
+		i myParaName'=""{
+			Set code=code_""""_$g(%request.Data(myParaName,1))_""""
+		}
+	}
+	s code=code_")"
+	
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetCMInParaList">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ClassName:%String="",ClassMethod:%String="",ExpStr:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;w ##class(ext.websys.Broker).GetCMInParaList("ext.websys.Menu","ShowBarJson","")
+	;n (ClassName,ClassMethod, ExpStr)
+	
+	s myrtn=""
+	
+	q:((ClassName="")!(ClassMethod="")) myrtn
+	
+	s myIsVal=##class(websys.Conversions).IsValidClassName(ClassName)
+	
+	q:('myIsVal) myrtn
+	s myIsVal=##class(websys.Conversions).IsValidMethodName(ClassName,ClassMethod)
+	q:('myIsVal) myrtn
+	
+	s myCID=ClassName_"||"_ClassMethod
+	s myobj=##class(%Dictionary.MethodDefinition).%OpenId(myCID)
+	
+	q:('$IsObject(myobj)) myrtn
+	
+	s myrtn=myobj.FormalSpec
+	
+	d myobj.%Close()
+	
+	q myrtn
+]]></Implementation>
+</Method>
+</Class>
+</Export>

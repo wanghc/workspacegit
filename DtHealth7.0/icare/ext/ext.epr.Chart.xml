@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.epr.Chart">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>63166,38423.573049</TimeChanged>
+<TimeCreated>61866,73444.357861</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>1752</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="ChartSettings">
+<Description>
+This field stores the information, in the following format in a List.
+itemID,itemType,Rows,Sequence</Description>
+<Type>epr.ChartItem</Type>
+<Collection>list</Collection>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Student">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="IsHistoryPage">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="DisplayConsultBanner">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="ChartColour">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TextColour">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SELChartColour">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SELTextColour">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="NameIndex">
+<Description>
+Index for property Name</Description>
+<Properties>Name</Properties>
+</Index>
+
+<Method name="CopyChart">
+<Description>
+ab 24.03.06 58654</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ID:%String="",Name:%String=""</FormalSpec>
+</Method>
+
+<Method name="CanMarkAsRead">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>EpisodeID:%Library.String,userid:%Library.String,OrderID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="CanMarkItemAsRead">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>OrderID:%Library.String="",GroupID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="ItemsFindClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ItemsFindFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ItemsFindExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,ChartID:%Library.String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ItemsFindFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ItemsFindExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="UnreadResults">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[episodeid:%Library.String,mradm:%Library.String,&unread:%Library.List]]></FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="UnreadResultsInChart">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[ChartID:%Library.String,&unread:%Library.List]]></FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="chartSettingsDelete">
+<Description>
+KM Feb-2001</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%String,itemIdx:%String</FormalSpec>
+</Method>
+
+<Method name="chartSettingsInsert">
+<Description>
+KM 20-Feb-2001</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&cs:%Library.List,ItemID:%Library.String,ItemType:%Library.String]]></FormalSpec>
+</Method>
+
+<Method name="chartSettingsSelect">
+<Description>
+KM 7-Mar-2001: Called from both epr.chart.csp AND epr.eprgraph.csp</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&itmLIST:%Library.List,&params:%Library.String,cs:%Library.String]]></FormalSpec>
+</Method>
+
+<Method name="chartSettingsSort">
+<Description>
+KM 13-Mar-2001</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&obj:%Library.String,ChartID:%Library.String=""]]></FormalSpec>
+</Method>
+
+<Method name="ChartDisplay">
+<Description>
+YC - epr.chart.csp got too big. Moved half the code to this method.</Description>
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="getEPRChartPage">
+<Description>
+KM 4-Oct-2001: Called from the class methods websysBeforeSave() for any saves which 
+may reload the EPR Chart Page after an update.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="getGraph">
+<Description>
+KM 7-Nov-2001: Called From epr.ChartItem.Edit component</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String,Type:%Library.String</FormalSpec>
+</Method>
+
+<Method name="getHeading">
+<Description>
+AI 01-Jul-2002: Called From epr.ChartHeading.Edit component</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String,Type:%Library.String,delim:%Library.String=$c(13,10)</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="getExpression">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String,Type:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="insertGraph">
+<Description>
+KM 7-Nov-2001: Called From epr.ChartItem.Edit component</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String</FormalSpec>
+</Method>
+
+<Method name="insertHeading">
+<Description>
+AI 01-Jul-2002: Called From epr.ChartHeading.Edit component</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String</FormalSpec>
+</Method>
+
+<Method name="insertExpression">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String</FormalSpec>
+</Method>
+
+<Method name="websysSave">
+<Description>
+KM 13-Mar-2001: Called From epr.Chart.Edit component</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String,ChartID:%Library.String</FormalSpec>
+</Method>
+
+<Query name="Find">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%Library.String</FormalSpec>
+<SqlQuery>SELECT ID, Name
+FROM epr.Chart
+WHERE (Name %STARTSWITH :name)</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="id,name:%String"/>
+</Query>
+
+<Query name="ItemsFind">
+<Description>
+Log 55973 - PJC - 20-12-2005 : Add the "Only show entries marked for DS Report" checkbox.</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>ChartID:%String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="index,ItemID:%String,ItemType:%String,ItemDesc:%String,DisplayHeader:%Boolean,DisplayAddButton:%Boolean,Sequence:%String,Rows:%Integer,graph:%String,heading:%String,HeadingDisplay:%String,Collapse:%Library.Boolean,ColumnWidth:%Library.Integer,AcrossEpisodes:%Boolean,OnlyMarkedForDSReport:%Boolean"/>
+</Query>
+
+<Query name="VBFindLE">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlQuery>SELECT	ID, Name
+FROM	epr.Chart
+WHERE	(Name %STARTSWITH :desc)
+ORDER	BY Name</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String"/>
+</Query>
+
+<Method name="RedirctCharURL">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%String,chLINK:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;add 2013/05/14 在普通图表组加入cspname类型的chart
+	s tmpChartObj = ##class(epr.Chart).%OpenId(ChartID,0)
+	i tmpChartObj.ChartSettings.Count()>0 {
+		s CTProfileParamsType = tmpChartObj.ChartSettings.GetAt(1).ItemType
+		s CTProfileParamsId = tmpChartObj.ChartSettings.GetAt(1).Item
+		s paramsObj = ##class(epr.CTProfileParams).%OpenId(CTProfileParamsId,0)	
+		i $IsObject(paramsObj)&&(CTProfileParamsType="CSPNAME") {
+			s cspname = $p(paramsObj.PPParameters,"^",1)
+			s csprefresh = $p(paramsObj.PPParameters,"^",2)
+			d paramsObj.%Close()
+			s paramsObj= ""
+			i (cspname["?"){
+				s newhrefstr=$P(chLINK,"epr.chart.csp?",1)_cspname_"&"_$P(chLINK,"epr.chart.csp?",2)
+			}else{
+				s newhrefstr=$P(chLINK,"epr.chart.csp",1)_cspname_$P(chLINK,"epr.chart.csp",2)
+			}			
+			s chLINK=newhrefstr
+		}
+	}
+
+	Set DHCePROEChart=$O(^ooChartI("NameIndex","DHCOE",""))
+	Set DHCePRReturn=$O(^ooChartI("NameIndex","RETURN",""))
+	Set DHCePROEWKFL=##Class(websys.WorkFlow).GetIdFromCodeOrDescription("DHC.Doc.OrderEntry")
+	s DHCePROECMChart=""
+	Set DHCePROECMChart=$O(^ooChartI("NameIndex","DHCOECM",""))
+	if DHCePROECMChart'="" Set DHCePROECMWKFL=##Class(websys.WorkFlow).GetIdFromCodeOrDescription("DHC.Doc.OP.OrderEntry.CM")
+	Set DHCEprMRDiagnosChart=$O(^ooChartI("NameIndex","DHCEPRMRDIAGNOS",""))
+	Set DHCEprMRDiagnosWKFL=##Class(websys.WorkFlow).GetIdFromCodeOrDescription("DHC.MRDiagnos.Edit")
+	Set DHCEprMRDiagnosCMWKFL=""
+	Set DHCEprMRDiagnosCMChart=$O(^ooChartI("NameIndex","DHCEPRMRDIAGNOSCM",""))
+	Set DHCEprMRDiagnosCMWKFL=##Class(websys.WorkFlow).GetIdFromCodeOrDescription("DHC.MRDiagnos.CM.Edit")
+	//新西医诊断
+	Set DHCEprMRDiagnosNewWKFL=##Class(websys.WorkFlow).GetIdFromCodeOrDescription("DHCMRDiagnosNew")
+	Set DHCEprMRDiagnosNewChart=$O(^ooChartI("NameIndex","DHCMEDICINEMRDIAGNOS",""))
+
+	Set DHCEprHLDChart=$O(^ooChartI("NameIndex","DHCEPRHLD",""))
+	Set DHCEprHLDWKFL=##Class(websys.WorkFlow).GetIdFromCodeOrDescription("DHC.Doc.OP.OrderEntry.HLD")
+	
+	//检查
+	Set DHCePROEJCChart=$O(^ooChartI("NameIndex","DHCOEJC",""))
+	Set DHCePROEJCWKFL=##Class(websys.WorkFlow).GetIdFromCodeOrDescription("DHC.Doc.OrderEntry.JC")
+	//检验
+	Set DHCePROEHYChart=$O(^ooChartI("NameIndex","DHCOEHY",""))
+	Set DHCePROEHYWKFL=##Class(websys.WorkFlow).GetIdFromCodeOrDescription("DHC.Doc.OrderEntry.HY")
+	//治疗
+	Set DHCePROEZLChart=$O(^ooChartI("NameIndex","DHCOEZL",""))
+	Set DHCePROEZLWKFL=##Class(websys.WorkFlow).GetIdFromCodeOrDescription("DHC.Doc.OrderEntry.ZL")
+	//新本次医嘱
+	Set DHCOEORDListWKFL=##Class(websys.WorkFlow).GetIdFromCodeOrDescription("DHC.OEORD.List")
+	Set DHCOEORDListNewChart=$O(^ooChartI("NameIndex","THEOELIST",""))
+
+	if (ChartID=DHCePROEChart)	{
+		;s StartWKFL=$Find(chLINK,"&TWKFL=")
+		s newwkfl="&TWKFL="_DHCePROEWKFL_"&TWKFLI="
+		s newhrefstr=$P(chLINK,"&TWKFL=",1)_newwkfl
+		s newhrefstr=$P(newhrefstr,"epr.chart.csp",1)_"websys.csp"_$P(newhrefstr,"epr.chart.csp",2)
+		s chLINK=newhrefstr
+	}		
+
+	if (ChartID=DHCePROECMChart)	{
+		;s StartWKFL=$Find(chLINK,"&TWKFL=")
+		s newwkfl="&TWKFL="_DHCePROECMWKFL_"&TWKFLI="
+		s newhrefstr=$P(chLINK,"&TWKFL=",1)_newwkfl
+		s newhrefstr=$P(newhrefstr,"epr.chart.csp",1)_"websys.csp"_$P(newhrefstr,"epr.chart.csp",2)
+		s chLINK=newhrefstr
+	}		
+
+	if (ChartID=DHCEprMRDiagnosChart)	{
+		;s StartWKFL=$Find(chLINK,"&TWKFL=")
+		s newwkfl="&TWKFL="_DHCEprMRDiagnosWKFL_"&TWKFLI="
+		s newhrefstr=$P(chLINK,"&TWKFL=",1)_newwkfl
+		s newhrefstr=$P(newhrefstr,"epr.chart.csp",1)_"websys.csp"_$P(newhrefstr,"epr.chart.csp",2)
+		s chLINK=newhrefstr
+	}		
+
+	if (ChartID=DHCEprMRDiagnosCMChart)	{
+		;s StartWKFL=$Find(chLINK,"&TWKFL=")
+		s newwkfl="&TWKFL="_DHCEprMRDiagnosCMWKFL_"&TWKFLI="
+		s newhrefstr=$P(chLINK,"&TWKFL=",1)_newwkfl
+		s newhrefstr=$P(newhrefstr,"epr.chart.csp",1)_"websys.csp"_$P(newhrefstr,"epr.chart.csp",2)
+		s chLINK=newhrefstr
+	}		
+
+	if (ChartID=DHCEprMRDiagnosNewChart)	{
+		;s StartWKFL=$Find(chLINK,"&TWKFL=")
+		s newwkfl="&TWKFL="_DHCEprMRDiagnosNewWKFL_"&TWKFLI="
+		s newhrefstr=$P(chLINK,"&TWKFL=",1)_newwkfl
+		s newhrefstr=$P(newhrefstr,"epr.chart.csp",1)_"websys.csp"_$P(newhrefstr,"epr.chart.csp",2)
+		s chLINK=newhrefstr
+	}		
+
+	if (ChartID=DHCEprHLDChart)	{
+		;s StartWKFL=$Find(chLINK,"&TWKFL=")
+		s newwkfl="&TWKFL="_DHCEprHLDWKFL_"&TWKFLI="
+		s newhrefstr=$P(chLINK,"&TWKFL=",1)_newwkfl
+		s newhrefstr=$P(newhrefstr,"epr.chart.csp",1)_"websys.csp"_$P(newhrefstr,"epr.chart.csp",2)
+		s chLINK=newhrefstr
+	}
+	
+	if (ChartID=DHCePROEJCChart)	{
+		;s StartWKFL=$Find(chLINK,"&TWKFL=")
+		s newwkfl="&TWKFL="_DHCePROEJCWKFL_"&TWKFLI="
+		s newhrefstr=$P(chLINK,"&TWKFL=",1)_newwkfl
+		s newhrefstr=$P(newhrefstr,"epr.chart.csp",1)_"websys.csp"_$P(newhrefstr,"epr.chart.csp",2)
+		s chLINK=newhrefstr
+	}
+	
+	if (ChartID=DHCePROEHYChart)	{
+		;s StartWKFL=$Find(chLINK,"&TWKFL=")
+		s newwkfl="&TWKFL="_DHCePROEHYWKFL_"&TWKFLI="
+		s newhrefstr=$P(chLINK,"&TWKFL=",1)_newwkfl
+		s newhrefstr=$P(newhrefstr,"epr.chart.csp",1)_"websys.csp"_$P(newhrefstr,"epr.chart.csp",2)
+		s chLINK=newhrefstr
+	}
+	
+	if (ChartID=DHCePROEZLChart)	{
+		;s StartWKFL=$Find(chLINK,"&TWKFL=")
+		s newwkfl="&TWKFL="_DHCePROEZLWKFL_"&TWKFLI="
+		s newhrefstr=$P(chLINK,"&TWKFL=",1)_newwkfl
+		s newhrefstr=$P(newhrefstr,"epr.chart.csp",1)_"websys.csp"_$P(newhrefstr,"epr.chart.csp",2)
+		s chLINK=newhrefstr
+	}
+	
+	if (ChartID=DHCOEORDListNewChart)	{
+		s newwkfl="&TWKFL="_DHCOEORDListWKFL_"&TWKFLI="
+		s newhrefstr=$P(chLINK,"&TWKFL=",1)_newwkfl
+		s newhrefstr=$P(newhrefstr,"epr.chart.csp",1)_"websys.csp"_$P(newhrefstr,"epr.chart.csp",2)
+		s chLINK=newhrefstr
+	}
+		
+		
+	if (ChartID=DHCePRReturn)	{
+		/*
+		if(parent.name=='TRAK_main') {
+			parent.location.href="epr.default.csp";
+			return;
+		}
+		*/
+	}
+	Q chLINK
+]]></Implementation>
+</Method>
+
+<Method name="ShowChartJson">
+<Description>
+w ##class(ext.epr.Chart).ShowChartJson(12,"")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartBookID:%String,ChartType:%String,PatientID:%String,EpisodeID:%String,EpisodeIDs:%String,mradm:%String,apptID:%String,ConsultID:%String,PAAdmTransactionID:%String,OperRoomID:%String,DischID:%String,CurrDischID:%String,DischEpisodes:%String,doctype:%String,TWKFL:%String,TWKFLI:%String</FormalSpec>
+<ProcedureBlock>0</ProcedureBlock>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	
+	n ChartID,ChartName,count,obj,jh,lst,unread,cmp
+	s ChartID="",jh=0,count=0,unread="",myjosnstr=""
+
+	s obj=##Class(epr.ChartBook).%OpenId(ChartBookID,0)
+	//i 'obj w $p($g(t("NoChartBook"),"No ChartBook selected"),"^",1)
+	i obj {
+		if ChartType="L" {
+			s lst=obj.LeftChartList
+		} else {
+			s lst=obj.ChartList
+		}
+		s TimeLine=obj.ShowTimeline
+		s count=lst.Count()
+		//i count=0 w $p($g(t("NoChartItems"),"No charts within ChartBook selected"),"^",1)
+		s unreadexists=##class(epr.Chart).UnreadResults(EpisodeID,mradm,.unread)
+		f jh=1:1:count {
+			i lst.GetAt(jh) {
+			  s ChartID=lst.GetAt(jh).%Id()
+			  s flag=##class(web.DHCPE.Public.Setting).ShowChartPage(EpisodeID,ChartID)
+			  continue:flag=0
+			  i (ShowCharts="")!((","_ShowCharts_",")[(","_ChartID_",")) {
+				;s ChartName=lst.GetAt(jh).Name
+				n chrt
+				s chrt=##class(epr.Chart).%OpenId(ChartID),IsHistPage=0,(ChartColour,TextColour)=""
+				i chrt d
+				. s IsHistPage=chrt.IsHistoryPage
+				. ; 51477
+				. s ChartColour=chrt.ChartColour
+				. s TextColour=chrt.TextColour
+				. s SELChartColour=chrt.SELChartColour
+				. s SELTextColour=chrt.SELTextColour
+				. d chrt.%Close()
+				s ChartName=##Class(websys.TranslationEPR).GetTrans("epr.Chart","Name",$g(%session.Data("LOGON.LANGID")),lst.GetAt(jh).Name)
+				i IsHistPage {
+					s chLINK="epr.chart.csp?PatientID="_PatientID_"&EpisodeID="_EpisodeID_"&EpisodeIDs="_EpisodeIDs_"&mradm="_mradm_"&ChartID="_ChartID_"&apptID="_apptID_"&ConsultID="_ConsultID_"&ConsultEpisodeID="
+				} else  {
+					s chLINK="epr.chart.csp?PatientID="_PatientID_"&EpisodeID="_EpisodeID_"&EpisodeIDs="_EpisodeIDs_"&mradm="_mradm_"&ChartID="_ChartID_"&PAAdmTransactionID="_PAAdmTransactionID_"&OperRoomID="_OperRoomID_"&DischID="_DischID_"&CurrDischID="_CurrDischID_"&DischEpisodes="_DischEpisodes_"&doctype="_$zcvt(doctype,"O","HTML")_"&TWKFL="_TWKFL_"&TWKFLI="_TWKFLI_"&TimeLine="_TimeLine_"&ConsultID="_ConsultID_"&ConsultEpisodeID="
+				}
+				s chLINK=..RedirctCharURL(ChartID,chLINK)
+				s chLINK=chLINK_"&Random=2"
+				s:(myjosnstr'="") myjosnstr=myjosnstr_","
+				set myjosnstr=myjosnstr_"{"
+				set myjosnstr=myjosnstr_"id:"""_ChartID_""","
+				set myjosnstr=myjosnstr_"title:"""_ChartName_""","
+				//set myjosnstr=myjosnstr_"iconCls:""icon-by-category"","
+				set myjosnstr=myjosnstr_"autoLoad:{url:"""_chLINK_""",scripts:true}"
+				
+				set myjosnstr=myjosnstr_"}"
+									
+				/*
+				w "<DIV class='chartitem' id='chart",ChartID,"' onclick='SelectChart(this);' "
+				w " ChartColour='"_ChartColour_"' TextColour='"_TextColour_"'"
+				w " SELChartColour='"_SELChartColour_"' SELTextColour='"_SELTextColour_"'"
+				// Log 58796 YC - New line according to TN's changes
+				w " style='" w:ChartColour'="" "BACKGROUND-COLOR:"_ChartColour_";" w:TextColour'="" "COLOR:"_TextColour_";" w "' "
+				i IsHistPage d
+				. // Log 58796 YC - Replace code according to TN's changes
+				. ; Log 59791 YC - Both links now goto epr.chart.csp which decides whether or not to redirect to epr.clinicalhistory.csp
+				. w " chLINK='epr.chart.csp?PatientID=",PatientID,"&EpisodeID=",EpisodeID,"&EpisodeIDs=",EpisodeIDs,"&mradm=",mradm,"&ChartID=",ChartID,"&apptID=",apptID,"&ConsultID=",ConsultID,"&ConsultEpisodeID=' >"
+				e  d
+				. // Log 58796 YC - Replace code according to TN's changes
+				. w " chLINK='epr.chart.csp?PatientID=",PatientID,"&EpisodeID=",EpisodeID,"&EpisodeIDs=",EpisodeIDs,"&mradm=",mradm,"&ChartID=",ChartID,"&PAAdmTransactionID=",PAAdmTransactionID,"&OperRoomID=",OperRoomID,"&DischID=",DischID,"&CurrDischID=",CurrDischID,"&DischEpisodes=",DischEpisodes,"&doctype=",$zcvt(%request.Get("doctype"),"O","HTML"),"&TWKFL=",%request.Get("TWKFL"),"&TWKFLI=",%request.Get("TWKFLI"),"&TimeLine=",TimeLine,"&ConsultID=",ConsultID,"&ConsultEpisodeID='>"
+				s unreadresults=0
+				i unreadexists s unreadresults=##class(epr.Chart).UnreadResultsInChart(ChartID,.unread)
+				i unreadresults w "<b>"_ChartName_"</b>"
+				i 'unreadresults w ChartName
+				w "</a>"
+				w "</div>",$c(13,10)
+				*/
+			  }
+			}
+		}
+
+	}
+		
+	d obj.%Close()
+	s myjosnstr="["_myjosnstr_"]"
+	q myjosnstr
+]]></Implementation>
+</Method>
+
+<Method name="ShowNoEpisodeChartJson">
+<Description>
+w ##class(ext.epr.Chart)ShowNoEpisodeChartJson(12,"")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartBookID:%String,ChartType:%String,PatientID:%String,EpisodeID:%String,EpisodeIDs:%String,mradm:%String,apptID:%String,ConsultID:%String,PAAdmTransactionID:%String,OperRoomID:%String,DischID:%String,CurrDischID:%String,DischEpisodes:%String,doctype:%String,TWKFL:%String,TWKFLI:%String</FormalSpec>
+<ProcedureBlock>0</ProcedureBlock>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	
+	n ChartID,ChartName,count,obj,jh,lst,unread,cmp
+	s ChartID="",jh=0,count=0,unread="",myjosnstr=""
+
+	s obj=##Class(epr.ChartBook).%OpenId(ChartBookID,0)
+	//i 'obj w $p($g(t("NoChartBook"),"No ChartBook selected"),"^",1)
+	i obj {
+		if ChartType="L" {
+			s lst=obj.LeftChartList
+		} else {
+			s lst=obj.ChartList
+		}
+		s TimeLine=obj.ShowTimeline
+		s count=lst.Count()
+		//i count=0 w $p($g(t("NoChartItems"),"No charts within ChartBook selected"),"^",1)
+		s unreadexists=##class(epr.Chart).UnreadResults(EpisodeID,mradm,.unread)
+		f jh=1:1:count {
+			i lst.GetAt(jh) {
+			  s ChartID=lst.GetAt(jh).%Id()
+			  ;s flag=##class(web.DHCPE.Public.Setting).ShowChartPage(EpisodeID,ChartID)
+			  ;continue:flag=0
+			  i (ShowCharts="")!((","_ShowCharts_",")[(","_ChartID_",")) {
+				;s ChartName=lst.GetAt(jh).Name
+				n chrt
+				s chrt=##class(epr.Chart).%OpenId(ChartID),IsHistPage=0,(ChartColour,TextColour)=""
+				i chrt d
+				. s IsHistPage=chrt.IsHistoryPage
+				. ; 51477
+				. s ChartColour=chrt.ChartColour
+				. s TextColour=chrt.TextColour
+				. s SELChartColour=chrt.SELChartColour
+				. s SELTextColour=chrt.SELTextColour
+				. d chrt.%Close()
+				s ChartName=##Class(websys.TranslationEPR).GetTrans("epr.Chart","Name",$g(%session.Data("LOGON.LANGID")),lst.GetAt(jh).Name)
+				i IsHistPage {
+					s chLINK="epr.dhcwmr.chart.csp?PatientID="_PatientID_"&EpisodeID="_EpisodeID_"&EpisodeIDs="_EpisodeIDs_"&mradm="_mradm_"&ChartID="_ChartID_"&apptID="_apptID_"&ConsultID="_ConsultID_"&ConsultEpisodeID="
+				} else  {
+					s chLINK="epr.dhcwmr.chart.csp?PatientID="_PatientID_"&EpisodeID="_EpisodeID_"&EpisodeIDs="_EpisodeIDs_"&mradm="_mradm_"&ChartID="_ChartID_"&PAAdmTransactionID="_PAAdmTransactionID_"&OperRoomID="_OperRoomID_"&DischID="_DischID_"&CurrDischID="_CurrDischID_"&DischEpisodes="_DischEpisodes_"&doctype="_$zcvt(doctype,"O","HTML")_"&TWKFL="_TWKFL_"&TWKFLI="_TWKFLI_"&TimeLine="_TimeLine_"&ConsultID="_ConsultID_"&ConsultEpisodeID="
+				}
+				//s chLINK=..RedirctCharURL(ChartID,chLINK)
+				s chLINK=chLINK_"&Random=2"
+				s:(myjosnstr'="") myjosnstr=myjosnstr_","
+				set myjosnstr=myjosnstr_"{"
+				set myjosnstr=myjosnstr_"id:"""_ChartID_""","
+				set myjosnstr=myjosnstr_"title:"""_ChartName_""","
+				//set myjosnstr=myjosnstr_"iconCls:""icon-by-category"","
+				set myjosnstr=myjosnstr_"autoLoad:{url:"""_chLINK_""",scripts:true}"
+				
+				set myjosnstr=myjosnstr_"}"
+						
+			  }
+			}
+		}
+
+	}
+		
+	d obj.%Close()
+	s myjosnstr="["_myjosnstr_"]"
+	q myjosnstr
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^ext.epr.ChartD</DataLocation>
+<DefaultData>ChartDefaultData</DefaultData>
+<IdLocation>^ext.epr.ChartD</IdLocation>
+<IndexLocation>^ext.epr.ChartI</IndexLocation>
+<StreamLocation>^ext.epr.ChartS</StreamLocation>
+<Data name="ChartDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ChartColour</Value>
+</Value>
+<Value name="3">
+<Value>ChartSettings</Value>
+</Value>
+<Value name="4">
+<Value>DisplayConsultBanner</Value>
+</Value>
+<Value name="5">
+<Value>IsHistoryPage</Value>
+</Value>
+<Value name="6">
+<Value>Name</Value>
+</Value>
+<Value name="7">
+<Value>SELChartColour</Value>
+</Value>
+<Value name="8">
+<Value>SELTextColour</Value>
+</Value>
+<Value name="9">
+<Value>Student</Value>
+</Value>
+<Value name="10">
+<Value>TextColour</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

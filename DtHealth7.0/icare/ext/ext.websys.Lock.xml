@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.websys.Lock">
+<Owner>_SYSTEM</Owner>
+<Super>%Persistent,ext.websys.Abstract</Super>
+<TimeChanged>62613,77639.236842</TimeChanged>
+<TimeCreated>61853,53317.757605</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="MAJORVERSION">
+</Parameter>
+
+<Parameter name="MINORVERSION">
+</Parameter>
+
+<Parameter name="SQLFILTER">
+</Parameter>
+
+<Parameter name="BUILD">
+<Default>38</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="ClassName">
+<Type>%Library.String</Type>
+<Parameter name="COLLATION" value="EXACT"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Computer">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ComputerName">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Id">
+<Description>
+Referenced Id of persistant class ClassName</Description>
+<Type>%Library.String</Type>
+<Parameter name="COLLATION" value="EXACT"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LockDate">
+<Description>
+Date Stamp</Description>
+<Type>%Library.Date</Type>
+<InitialExpression>+$H</InitialExpression>
+</Property>
+
+<Property name="LockTime">
+<Type>%Library.Time</Type>
+<InitialExpression>$p($H,",",2)</InitialExpression>
+</Property>
+
+<Property name="LoginLocation">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SessionId">
+<Type>%Library.String</Type>
+<Parameter name="COLLATION" value="EXACT"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UserDR">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="Lock">
+<Description><![CDATA[
+Inputs: <br>
+oid - persistent class oid.<br>
+ID+ TableName 锁数据
+Outputs: <br>
+msg.Information message if lock fails<br>
+Return value:<br>
+1 - lock successful<br>
+0 - lock fails<br>]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[oid:%Library.String,sessionid:%Library.String,userid:%Library.String,&returnmsg:%Library.String,loginlocation:%Library.String=""]]></FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Lock).Lock(oid,sessionid,userid,.returnmsg,loginlocation)
+]]></Implementation>
+</Method>
+
+<Method name="LockClear">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>oid:%Library.String,sessionid:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.Lock).LockClear(oid,sessionid)
+]]></Implementation>
+</Method>
+
+<Method name="LockClearComputer">
+<Description>
+Clears the locks from the current computer.
+Original called for the logon screen just to make sure the computer hasn't locked any patients.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>comp:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	q
+	d ##class(websys.Lock).LockClearComputer(comp)
+]]></Implementation>
+</Method>
+
+<Method name="LockClearSession">
+<Description>
+Delete all locks for a session.
+e.g. when a session timeout occurs.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>session:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##Class(websys.Lock).LockClearSession(session)
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^ext.websys.LockD</DataLocation>
+<DefaultData>LockDefaultData</DefaultData>
+<IdLocation>^ext.websys.LockD</IdLocation>
+<IndexLocation>^ext.websys.LockI</IndexLocation>
+<StreamLocation>^ext.websys.LockS</StreamLocation>
+<Data name="LockDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ClassName</Value>
+</Value>
+<Value name="3">
+<Value>Computer</Value>
+</Value>
+<Value name="4">
+<Value>ComputerName</Value>
+</Value>
+<Value name="5">
+<Value>Id</Value>
+</Value>
+<Value name="6">
+<Value>LockDate</Value>
+</Value>
+<Value name="7">
+<Value>LockTime</Value>
+</Value>
+<Value name="8">
+<Value>LoginLocation</Value>
+</Value>
+<Value name="9">
+<Value>SessionId</Value>
+</Value>
+<Value name="10">
+<Value>UserDR</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.entity.GridModal">
+<Description>
+解析的Ext对象
+ColumnModal  
+Field 对象</Description>
+<Super>%RegisteredObject,%XML.Adaptor</Super>
+<TimeChanged>61965,60207</TimeChanged>
+<TimeCreated>61865,52497.121858</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Property name="cms">
+<Description>
+columModle</Description>
+<Type>ColumnModel</Type>
+<Collection>list</Collection>
+</Property>
+
+<Property name="fns">
+<Description>
+fieldNames</Description>
+<Type>Field</Type>
+<Collection>list</Collection>
+</Property>
+
+<Method name="GetJosnData">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s myjosnstr=""
+	
+	;;List 对象的 cms
+	s mycount=..cms.Count()
+	s mycmsstr=""
+	for myidx=1:1:mycount {
+		s:(mycmsstr'="") mycmsstr=mycmsstr_","
+		s myobj=..cms.GetAt(myidx)
+		s mysubstr=myobj.GetJosnData()
+		s mycmsstr=mycmsstr_mysubstr
+	}
+	i mycmsstr'=""{
+		s mycmsstr="["_mycmsstr_"]"
+		
+	}
+	s mycmsstr="'cms'"_":"_mycmsstr
+	i mycmsstr'=""{
+		s:(myjosnstr'="") myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_mycmsstr
+	}
+	
+	;;List 对象的 fns
+	s mycount=..fns.Count()
+	s myfnsstr=""
+	s mysubstr=""
+	for myidx=1:1:mycount {
+		
+		s:(myfnsstr'="") myfnsstr=myfnsstr_","
+		s myobj=..fns.GetAt(myidx)
+		s mysubstr=myobj.GetJosnData()
+		s myfnsstr=myfnsstr_mysubstr
+	}
+	
+	i myfnsstr'=""{
+		s myfnsstr="["_myfnsstr_"]"
+	}
+	
+	s myfnsstr="'fns'"_":"_myfnsstr
+	i myfnsstr'=""{
+		s:(myjosnstr'="") myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_myfnsstr
+	}
+	
+	s myjosnstr="{"_myjosnstr_"}"
+	
+	q myjosnstr
+]]></Implementation>
+</Method>
+</Class>
+</Export>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.websys.SessionEvents">
+<Super>websys.SessionEvents</Super>
+<TimeChanged>62049,51071.649988</TimeChanged>
+<TimeCreated>61853,41570.433146</TimeCreated>
+
+<Method name="OnEndSession">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	;s ^TMPSession("EndSession",$h,"Property")=..GetSessionProperty()
+	i ($d(^TMPSession("Session",+$h,%session.SessionId))){
+		k ^TMPSession("Session",+$h,%session.SessionId)
+	}
+	s ^TMPSession("Session",+$h, "COUNT")=+$g(^TMPSession("Session",+$h, "COUNT"))-1
+]]></Implementation>
+</Method>
+
+<Method name="websysMenuChange">
+<Description>
+called from websys.csp to clear/set any locked data when changing menus (not completing workflows)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>newMenuId:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.SessionEvents).websysMenuChange(newMenuId)
+]]></Implementation>
+</Method>
+
+<Method name="OnStartSession">
+<Description>
+Called when a new session is created and its values are initialised.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	if (+$g(^TMPSession("Session",+$h, "COUNT"))<=(+..#LicenseCount-1)){
+		s ^TMPSession("Session",+$h,%session.SessionId)=""
+	}
+	s ^TMPSession("Session",+$h, "COUNT")=+$g(^TMPSession("Session",+$h, "COUNT"))+1
+]]></Implementation>
+</Method>
+
+<Method name="OnApplicationChange">
+<Description><![CDATA[
+Called when a session that was in CSP application <var>oldapp</var> is now going to run a page in
+CSP application <var>newapp</var>. If this returns an error value then instead of running the
+page in the new application it will redirect to the error page (error page looked up from old application).]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>oldapp:%String,newapp:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OnTimeout">
+<Description><![CDATA[
+Called when the CSP Daemon times out out this session before calling <method>EndSession</method>.
+Use the %session object to examine this session. If you wish to
+abort this deletion then:
+<example>
+Set %session.EndSession=0
+</example>]]></Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[	;s ^TMPSession("Session",+$h, "COUNT")=+$g(^TMPSession("Session",+$h, "COUNT"))-1
+]]></Implementation>
+</Method>
+
+<Method name="SessionExpired">
+<Description>
+Wrapper to determine if there is a valid session
+用来验证是否 是否超期或者 超用户数</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[
+	s myflag=0
+	
+	;zhoacz
+	;增加lisence控制
+	;if ($g(^TMPSession("Session",+$h, "COUNT"))>..#LicenseCount){
+		;q 0
+	;}
+	
+	;s %session.EndSession=1
+	s mysessionobj=##class(%CSP.Session).%OpenId(%session.SessionId)
+	s myrlflag=(('$d(%session.Data("LOGON.USERID")))!($g(%session.Data("LOGON.USERID"))=""))
+	;s myrlflag = (myrlflag)&&(%session.EndSession'=1)
+	i (myrlflag){
+		
+		;add by wuqk 2010-11-19
+		;如果是退出菜单，不校验session超时，直接关闭页面
+		s mnu="",linkUrl=""
+		s TMENU=$g(%request.Data("TMENU",1))
+		s:TMENU mnu=##Class(websys.Menu).%OpenId(TMENU,0)
+		s:mnu linkUrl=mnu.LinkUrl
+		i ($ZCVT($g(linkUrl),"l")="websys.closesession.csp") {
+			&javascript<#("<SCRIPT Language='JavaScript'>window.parent.close();</SCRIPT>")#>
+			}
+		else{
+			;如果超时  弹出 ext.logon.csp,  重新登录成功后， 
+			;调用 logonrefresh.csp 加载 epr.frames.csp
+			;弹出新的登录窗体
+			s %response.ServerSideRedirect="logonexpired.csp"
+		}
+		s myflag=1
+	}
+	
+	q myflag
+]]></Implementation>
+</Method>
+
+<Method name="GetSessionProperty">
+<Description>
+获取当前Session的属性</Description>
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s mystr=" EndSession = "_%session.EndSession_"; SessionId = "_%session.SessionId _" TimeOut= "_%session.AppTimeout_" EventClass=" _ %session.EventClass
+	s mystr=mystr _";  Preserve= "_%session.Preserve_"; CookiePath = "_%session.CookiePath_"; Language = "_%session.Language
+	s mystr=mystr_"; HttpAuthorization= "_%session.HttpAuthorization_";  KeepAlive= "_%session.KeepAlive_"; Application = "_%session.Application_" ;SecurityContext = "_%session.SecurityContext
+	q mystr
+]]></Implementation>
+</Method>
+
+<Parameter name="LicenseCount">
+<Default>20</Default>
+</Parameter>
+</Class>
+</Export>

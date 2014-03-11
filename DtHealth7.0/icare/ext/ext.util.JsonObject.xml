@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.util.JsonObject">
+<Description>
+@author wanghc
+@date   2012/4/27
+对象与json间转换</Description>
+<Super>%RegisteredObject</Super>
+<TimeChanged>63077,58382.585494</TimeChanged>
+<TimeCreated>62598,37681.609963</TimeCreated>
+
+<Property name="Data">
+<Type>%String</Type>
+<MultiDimensional>1</MultiDimensional>
+<Private>1</Private>
+</Property>
+
+<Property name="DateFormat">
+<Type>%String</Type>
+<InitialExpression>"3"</InitialExpression>
+</Property>
+
+<Property name="TimeFormat">
+<Type>%String</Type>
+<InitialExpression>"1"</InitialExpression>
+</Property>
+
+<Property name="ContainNullValue">
+<Description>
+生成的json内是不是包含空值的属性</Description>
+<Type>%String</Type>
+<InitialExpression>"0"</InitialExpression>
+</Property>
+
+<Method name="ListObjToJson">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ListObj:%Collection.ListOfObj,className:%String</FormalSpec>
+<Implementation><![CDATA[
+	Set rtn = ""
+	Set len = ListObj.Count()
+	for j=1:1:len d
+	.set o = ListObj.GetAt(j)
+	.set json = ..ObjToJson(o)
+	.if rtn="" set rtn=json
+	.else  set rtn=rtn_","_json
+	q "["_rtn_"]"
+]]></Implementation>
+</Method>
+
+<Method name="ListDTToJson">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ListObj:%Collection.ListOfDT,className:%String</FormalSpec>
+<Implementation><![CDATA[
+	Set rtn = ""
+	Set len = ListObj.Count()
+	for j=1:1:len d
+	.set o = ListObj.GetAt(j)
+	.if rtn="" set rtn=o
+	.e  set rtn=rtn_","_o
+	q "["_rtn_"]"
+]]></Implementation>
+</Method>
+
+<Method name="ObjToJson">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Obj,className:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	set jsonObj = ##class(ext.util.JsonObject).%New()
+	set json = jsonObj.FromObject(Obj,.className).Json()
+	set jsonObj=""
+	q json
+]]></Implementation>
+</Method>
+
+<Method name="FromObject">
+<Description><![CDATA[
+@param: 请求串 或 对象 
+例如:EMParentCode=NURPRNOrder&EMCode=NURPRNOrderCancel&EMText=%E6%92%A4%E6%B6%88(DC)
+	s obj = ##class(websys.ExtMenu).%OpenId(2,0)
+	s jsonObj = ##class(ext.util.JsonObject).%New()
+	s json = jsonObj.FromObject(obj).Json()]]></Description>
+<FormalSpec><![CDATA[bean,&className]]></FormalSpec>
+<Implementation><![CDATA[
+	q:bean="" %this
+	if $g(className)="" s cn = $CLASSNAME(bean)
+	else  s cn=className
+	Set ClassType=""
+	s dcd = ##Class(%Dictionary.CompiledClass).%OpenId(cn)
+	i $IsObject(dcd) d
+	.set ClassType = dcd.ClassType
+	.s cnt=dcd.Properties.Count()
+	.f i=1:1:cnt  d
+	..s propObj = dcd.Properties.GetAt(i)
+	..s PropertyName = propObj.Name
+	..q:$e(PropertyName,1)="%"
+	..q:propObj.Cardinality="children"
+	..s type = propObj.Type
+	..s private = propObj.Private
+	..q:(private=1)
+	..if propObj.Collection="list" d
+	...if propObj.RuntimeType="%Collection.ListOfObj" d
+	....set value = ..ListObjToJson($ZOBJPROPERTY(bean,PropertyName),type)
+	...if (propObj.RuntimeType="%Collection.ListOfDT") d
+	....set value = ..ListDTToJson($ZOBJPROPERTY(bean,PropertyName),type)
+	..else  d
+	...i $e(type,1)'="%" d		;说明是指向
+	....set value = ..ObjToJson($ZOBJPROPERTY(bean,PropertyName),type) ;$ZOBJMETHOD(bean,PropertyName_"GetObjectId")
+	...e  d	
+	....s value = $ZOBJPROPERTY(bean,PropertyName)
+	..i ((type="%Library.Date")||(type="%Date"))&&(value'="") s value=$zd(value, i%DateFormat)
+	..i ((type="%Library.Time")||(type="%Time"))&&(value'="") s value=$zt(value, i%TimeFormat)
+	..;i ((type="%Float")||(type="%Float"))&&(value'="")
+	..Q:('i%ContainNullValue)&&(value="")
+	..d %this.Put(PropertyName,value)
+	..d dcd.%Close()
+	.if ClassType="persistent" d %this.Put("ID",$ZOBJMETHOD(bean,"%Id"))	
+	else  d
+	.s jsn = bean
+	.s len=$l(jsn,"&")
+	.f i=1:1:len d
+	..s jsnitem = $p(jsn,"&",i)
+	..d %this.Put($p(jsnitem,"="),$ZCVT($zcvt($p(jsnitem,"=",2),"I","URL"),"I","UTF8"))
+	s dcd=""
+	Q %this
+]]></Implementation>
+</Method>
+
+<Method name="Put">
+<FormalSpec>key,value</FormalSpec>
+<ReturnType>JsonObject</ReturnType>
+<Implementation><![CDATA[
+	if $e(key,1,1)="'",$e(key,$l(key),$l(key))="'"{
+		set key = $e(key,2,$l(key)-1)
+	}
+	if $e(value,1,1)="'",$e(value,$l(value),$l(value))="'"{
+		set value = $e(value,2,$l(value)-1)
+	}
+	Set i%Data(key)=value
+	q %this
+]]></Implementation>
+</Method>
+
+<Method name="Json">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	Set json=""
+	Set key=$order(i%Data(""))
+	i key'="" d
+	.Set value = i%Data(key)
+	.Set len = $l(value)
+	.;Set json=""""_key_""""_":"_$s(value?1.N>0:value,1:""""_value_"""")  ;如果数字是以0开头，js会看成是8进制数字\
+	.If (($e(value,1,1)="[")&&($e(value,len,len)="]")) || (($e(value,1,1)="{")&&($e(value,len,len)="}")) Set json = "'"_key_"':"_value
+	.else  Set json = "'"_key_"':'"_##class(ext.util.String).EvalJSON(value)_"'"
+	.For  Set key=$order(i%Data(key)) Quit:key=""  d 
+	..set value = i%Data(key)
+	..Set len = $l(value)
+	..;set value = $s(value?1.N>0:value,1:""""_value_"""")	
+	..b:"CTLOCDepDR"=key ;
+	..If (($e(value,1,1)="[")&&($e(value,len,len)="]")) || (($e(value,1,1)="{")&&($e(value,len,len)="}")) Set json = json_",'"_key_"':"_value
+	..else  Set json = json_",'"_key_"':'"_##class(ext.util.String).EvalJSON(value)_"'"
+	q "{"_json_"}"
+]]></Implementation>
+</Method>
+
+<Method name="Bean">
+<FormalSpec>className:%String</FormalSpec>
+<ReturnType>%ObjectHandle</ReturnType>
+<Implementation><![CDATA[
+	s dcd = ##Class(%Dictionary.ClassDefinition).%OpenId(className)
+	q:'$IsObject(dcd) "没有找到"_className_"类"
+
+	if ($d(i%Data("ID")) && +i%Data("ID")>0) d
+	.s bean = $classmethod(className,"%OpenId",i%Data("ID"))
+	else  d
+	.s bean = $classmethod(className,"%New")
+	s cnt=dcd.Properties.Count()
+	f i=1:1:cnt  d
+	.s propObj = dcd.Properties.GetAt(i)
+	.s PropertyName = propObj.Name
+	.q:$e(PropertyName,1)="%"
+	.q:propObj.Cardinality="children"
+	.s type = propObj.Type
+	.s private = propObj.Private
+	.q:private=1
+	.q:$d(i%Data(PropertyName))=0
+	.s value = i%Data(PropertyName)
+	.Q:('i%ContainNullValue)&&(value="")
+	.i $e(type,1)'="%" d
+	..d $ZOBJMETHOD(bean,PropertyName_"SetObjectId",value)
+	.e  d	
+	..i ((type="%Library.Date")||(type="%Date"))&&(value'="") s value=$zdh(value, i%DateFormat)
+	..i ((type="%Library.Time")||(type="%Time"))&&(value'="") s value=$zth(value, i%TimeFormat)
+	.s $ZOBJPROPERTY(bean,PropertyName)=value	
+	d dcd.%Close()
+	s dcd = ""
+	q bean
+]]></Implementation>
+</Method>
+
+<Method name="ObjectFromJSON">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>jsonstr:%String,className:%String</FormalSpec>
+<ReturnType>%ObjectHandle</ReturnType>
+<Implementation><![CDATA[
+	
+	if jsonstr="{}" Quit ""
+	s jsonstrlen=$length(jsonstr)
+	s tempstr=$EXTRACT(jsonstr,2,jsonstrlen-1)
+	s obj = ##class(ext.util.JsonObject).%New()
+	s len=$length(tempstr,",")
+	for i=1:1:len {
+		s tempstr1=$P(tempstr,",",i)
+		s name=$P(tempstr1,":",1)
+		s value=$P(tempstr1,":",2)
+		if name["""" s name=$P(name,"""",2)
+		if value["""" s value=$P(value,"""",2)
+		d obj.Put(name,value)
+	}
+	Q obj.Bean(className)
+]]></Implementation>
+</Method>
+
+<Method name="test">
+<Description>
+w ##class(ext.util.JsonObject).test()</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	#dim obj As ext.util.JsonObject
+	s obj = ##class(ext.util.JsonObject).%New()
+	d obj.Put("weight",120).Put("name","wanghc").Put("sex","man")
+	w obj.Json(),!
+	
+	s pm = ##class(User.CTPayMode).%OpenId(2,0)
+	d obj.FromObject(pm)
+	w obj.Json()
+	d obj.%Close()
+	s obj = ""
+	q ""
+]]></Implementation>
+</Method>
+</Class>
+</Export>

@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.websys.QueryBroker">
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%RegisteredObject</Super>
+<TimeChanged>62762,67280.48985</TimeChanged>
+<TimeCreated>61864,59270.400832</TimeCreated>
+
+<Method name="CQPExecute">
+<Description>
+Query执行
+1. 分页功能  				pStart, pPageCount
+   需要传入 当前页  和每页多少行
+2. 排序功能(传入排序的列)	列名:Desc,列名:Asc
+3. 日期格式转换问题</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%String,classquery:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	n rs, myrtn
+	s $ZT="Error"
+
+	s rs=""
+	s myrtn=""
+	i ((classname="")||(classquery="")){
+		q myrtn
+	}
+	
+	s myIsVal=##class(websys.Conversions).IsValidClassName(classname)
+	q:('myIsVal) myrtn
+	s myIsVal=##class(websys.Conversions).IsValidQueryName(classname,classquery)
+	q:('myIsVal) myrtn
+	
+	s rs=##class(%Library.ResultSet).%New(classname_":"_classquery)
+	s paramcnt=rs.GetParamCount()
+	n x,ival
+	s x="s execstatus=$$InvokeMethod^%apiOBJ(""%ResultSet"",rs,""Execute"""
+	f j=1:1:paramcnt {
+		s paramname=rs.GetParamName(j)
+		s val=$g(%request.Data(("P"_j),1))
+		i $l(val,"""")>1 s val="" f ival=1:1:$l($g(%request.Data(paramname,1)),"""") s $p(val,"""""",ival)=$p(%request.Data(paramname,1),"""",ival)
+		;i val'="",val'?1n.n i ##class(%Library.Collation).Upper(paramname)["DATE" s val=##class(websys.Conversions).DateHtmlToLogical(val)
+		;i val'="",val'?1n.n i ##class(%Library.Collation).Upper(paramname)["TIME" s val=##class(websys.Conversions).TimeHtmlToLogical(val)
+		s x=x_","""_val_""""
+	}
+ 	s x=x_")"
+	x x
+	s ^TMPExtRequest("QueryBroker.CQPExecute")=x
+	s myjsonstr=""
+	;
+	;判断返回是否ResultSet
+	s myIsVal=##class(websys.Conversions).IsValidResultSet(rs)
+	i myIsVal{
+		if ($g(%request.Data("GetTotal",1))=1){
+			w ..GetTotal(rs)
+		}else{		
+			d ..GetRSJsonData(rs)
+		}
+		d rs.%Close()
+	}
+	q myjsonstr
+Error
+	;s ErrorMsg=$ZE
+	;s ^TempLookUpError($i(^TempLookUpError),classname,classquery)=ErrorMsg
+	q "100"_"^"_$ZE
+]]></Implementation>
+</Method>
+
+<Method name="CQExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%String,classquery:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	n rs, myrtn, mypageflag,mypagecount
+	
+	;默认分页
+	s mypageflag=1
+	s mypagecount=20
+	s rs=""
+	s myrtn=""
+	i ((classname="")||(classquery="")){
+		q myrtn
+	}
+	s myIsVal=##class(websys.Conversions).IsValidClassName(classname)
+	q:('myIsVal) myrtn
+	s myIsVal=##class(websys.Conversions).IsValidQueryName(classname,classquery)
+	q:('myIsVal) myrtn
+	
+	s rs=##class(%Library.ResultSet).%New(classname_":"_classquery)
+	s paramcnt=rs.GetParamCount()
+	n x,ival
+	s x="s execstatus=$$InvokeMethod^%apiOBJ(""%ResultSet"",rs,""Execute"""
+	f j=1:1:paramcnt {
+		s paramname=rs.GetParamName(j)
+		s val=$g(%request.Data(paramname,1))
+		i $l(val,"""")>1 s val="" f ival=1:1:$l($g(%request.Data(paramname,1)),"""") s $p(val,"""""",ival)=$p(%request.Data(paramname,1),"""",ival)
+		;i val'="",val'?1n.n i ##class(%Library.Collation).Upper(paramname)["DATE" s val=##class(websys.Conversions).DateHtmlToLogical(val)
+		;i val'="",val'?1n.n i ##class(%Library.Collation).Upper(paramname)["TIME" s val=##class(websys.Conversions).TimeHtmlToLogical(val)
+		s x=x_","""_val_""""
+	}
+ 	s x=x_")"
+	x x
+	s ^TMPExtRequest("QueryBroker.CQExecute")=x
+	s myjsonstr=""
+	;
+	;判断返回是否ResultSet
+	s myIsVal=##class(websys.Conversions).IsValidResultSet(rs)
+	i myIsVal{
+		d ..GetRSJsonData(rs)
+		d rs.%Close()
+	}
+	
+	q myjsonstr
+]]></Implementation>
+</Method>
+
+<Method name="GetRSXMLData">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>rs:%Library.ResultSet</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="GetRSJsonData">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>rs:%Library.ResultSet</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;s mygridobj=##class(ext.entity.GridData).%New()
+	s cnt=0
+	s displayRows=0
+	s rowData=""
+	w "{record:[",!
+	s columns=rs.GetColumnCount()
+	s start = +$g(%request.Data("start",1))
+	s limit = +$g(%request.Data("limit",1))
+	;
+	;ext默认的开始是0
+	s startRecordNo=start+1
+	s limitRecordCnt=limit
+	
+	f  q:rs.Next()=0  d
+	.s cnt=cnt+1
+	.i ((cnt'<startRecordNo)&&(displayRows<limitRecordCnt))!(startRecordNo="")!(limitRecordCnt=0)  d
+	..w:displayRows>0 ","
+	..w "{"
+	..s rowData=""
+	..f i=1:1:columns  d
+	...s:i>1 rowData=rowData_","
+	...s myColName=rs.GetColumnName(i)
+	...s:($ZCVT(myColName,"U")=..#LookupHidden) myColName=..#LookupHidden_i
+	...s rowData=rowData_"'"_myColName_"':"		;;rs.GetColumnName(i)
+	...s tmpData=rs.GetData(i)	
+	...s tmpData=##class(ext.util.String).EvalJSON(tmpData)
+	...;s tmpData=##class(web.DHCMedBaseCtl).ReplaceString(tmpData,"'","\'")
+	...;s tmpData=##class(web.DHCMedBaseCtl).ReplaceString(tmpData,$c(13),"\n")
+	...;s tmpData=##class(web.DHCMedBaseCtl).ReplaceString(tmpData,$c(10),"\r")
+	...;s tmpData=##class(web.DHCMedBaseCtl).ReplaceString(tmpData,$c(2),"<$C2>")
+	...;s tmpData=##class(web.DHCMedBaseCtl).ReplaceString(tmpData,$c(5),"<$C5>")
+	...;s tmpData=##class(web.DHCMedBaseCtl).ReplaceString(tmpData,$c(7),"<$C7>")
+	...s rowData=rowData_"'"_tmpData_"'"
+	..w rowData
+	..w "}",!
+	..s displayRows=displayRows+1
+	
+	w "],total : "_cnt_"}"
+	
+	;d mygridobj.%Close()
+]]></Implementation>
+</Method>
+
+<Method name="ReadRS">
+<Description>
+自动获取一个RS的输出列表 
+返回Json格式
+</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%String,classquery:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;w ##class(ext.websys.QueryBroker).ReadRS("web.DHCPE.PreGADM","SearchPreGADMShort")
+	;w ##class(ext.websys.QueryBroker).ReadRS("web.DHCSTDISPSTAT2","GroupLoc")
+	;w ##class(ext.websys.QueryBroker).ReadRS("web.SSLanguage","LookUp")
+	n (classname,classquery)
+	
+	s myjosnstr=""
+	s myOutStr=##class(DHCCPMWeb.CPMBL.DHCBLCommFunLib).GetQOutParaList(classname,classquery,"")	
+	
+	s mycms=##class(ext.entity.GridModal).%New()
+	s myColLen=$l(myOutStr, ",")
+	s:(myOutStr="") myColLen=""
+	f myIdx=1:1:myColLen {
+		s myColStr=$p(myOutStr,",",myIdx)
+		s myColumnName=$TR($p(myColStr,":",1)," ","")
+		s myColumnType=$p(myColStr,":",2)
+		s myColumnCaption=$p(myColStr,":",3)
+		
+		s mycm=##class(ext.entity.ColumnModel).%New()
+		if (($zconvert(myColumnName,"U"))'=..#LookupHidden){
+			;s mycm.header=$s(myColumnCaption'="":myColumnCaption,1: myColumnName)
+			;wanghc 2012-10-31 国际化
+			s mycm.header=$s(myColumnCaption'="":"$g('"_myColumnCaption_"')",1: "$g('"_myColumnName_"')") ;"$g('"_myColumnName_"')" ;
+			s mycm.dataIndex=myColumnName
+			;s mycm.width=100
+		}else{
+			s mycm.header=..#LookupHidden_myIdx		;$s(myColumnCaption'="":myColumnCaption,1: myColumnName)
+			s mycm.dataIndex=..#LookupHidden_myIdx
+			s mycm.hidden="true"
+		}
+		d mycms.cms.Insert(mycm)
+		
+		s myfn=##class(ext.entity.Field).%New()
+		s myfn.name=mycm.dataIndex		;;myColumnName
+		d mycms.fns.Insert(myfn)
+	}
+	
+	s myjosnstr=mycms.GetJosnData()
+	
+	q myjosnstr
+]]></Implementation>
+</Method>
+
+<Method name="ReadRSNew">
+<Description><![CDATA[
+@date: 2011/11/11
+@author:	 wanghc 
+能自定义列头,	列宽, 行数, 隐藏
+query定义HIDDEN:%String:ARowId  -->        {header:hidden1, dataindex:hidden1}
+列编辑定义 ARowId:%String:行标 是hidden  -->	{header:'行标', dataindex:ARowId, hidden:true}
+Query 是定义为HIDDEN列一定是hidden的且cm名为HIDDEN_Ind, 列定义的隐藏不改变cm名称]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%String,classquery:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	q:(classname="")||(classquery="") ""
+	n (%session,classname,classquery)
+	;s LookupListComponetId = $o(^websys.ComponentI("UniqueNameIndex","WEBSYSLOOKUPLIST",0))
+	s context="K"_classname_":"_classquery
+	s myjosnstr=""
+	
+	s myOutStr=##class(DHCCPMWeb.CPMBL.DHCBLCommFunLib).GetQOutParaList(classname,classquery,"")	
+	s mycms=##class(ext.entity.GridModal).%New()	
+	s myColLen=$l(myOutStr, ",")	
+	s uSet=""
+	if (($g(%session)'="")&&($g(%session.Data("LOGON.USERID"))'="")) d
+	.;s uSet=##class(websys.Preferences).GetDataExLE(1,1,"","",context,"COLUMNS","websys.LookUp.List",.app,.appid,.activecontext,"","")
+	.s uSet=##Class(websys.Preferences).GetDataExLE($g(%session.Data("LOGON.USERID")),$g(%session.Data("LOGON.GROUPID")),$g(%session.Data("LOGON.HOSPID")),$g(%session.Data("LOGON.SITECODE")),context,"COLUMNS","websys.LookUp.List",.app,.appid,.activecontext,$g(%session.Data("LOGON.TRUSTID")),$g(%session.Data("LOGON.REGION")))
+	.;不能改顺序,影响前台取值
+	.f idx=1:1:$l(uSet,"|") d
+	..s uSetItem = $p(uSet,"|",idx)
+	..s myIdx = $p(uSetItem,",",1)		;col-index,width,sort|
+	..s:myIdx>0 hiddenPlist(myIdx)=1,hiddenPlist(myIdx,2)=$p(uSetItem,",",2),hiddenPlist(myIdx,3)=$p(uSetItem,",",3)	
+	.s rowsSet=##Class(websys.Preferences).GetDataExLE($g(%session.Data("LOGON.USERID")),$g(%session.Data("LOGON.GROUPID")),$g(%session.Data("LOGON.HOSPID")),$g(%session.Data("LOGON.SITECODE")),context,"ROWS","websys.LookUp.List",.app,.appid,.activecontext,$g(%session.Data("LOGON.TRUSTID")),$g(%session.Data("LOGON.REGION")))
+	.s pageSize=$lg(rowsSet,1) 
+	f myIdx=1:1:myColLen {
+		s myColStr=$p(myOutStr,",",myIdx)
+		s myColumnName=$TR($p(myColStr,":",1)," ","")
+		s myColumnType=$p(myColStr,":",2)
+		s myColumnCaption=$p(myColStr,":",3)
+		s myColumnWidth = $p(myColumnCaption,"^",2)
+		s myColumnCaption = $p(myColumnCaption,"^",1)
+		s mycm=##class(ext.entity.ColumnModel).%New()
+		if ($zcvt(myColumnName,"U")=..#LookupHidden){
+			s mycm.header=..#LookupHidden_myIdx		;$s(myColumnCaption'="":myColumnCaption,1: myColumnName)
+			s mycm.dataIndex=..#LookupHidden_myIdx
+			s mycm.hidden="true"
+		}else{
+			;s mycm.header=$s(myColumnCaption'="":myColumnCaption,1: myColumnName)
+			;wanghc 2012-10-31 国际化
+			s mycm.header=$s(myColumnCaption'="":"$g('"_myColumnCaption_"')",1: "$g('"_myColumnName_"')") ;"$g('"_myColumnName_"')" ;
+			s mycm.dataIndex=myColumnName
+			i (uSet'=""),$g(hiddenPlist(myIdx))="" s mycm.hidden="true"
+			i +myColumnWidth>0	s mycm.width=+myColumnWidth
+			i ($g(hiddenPlist(myIdx))=1),$g(hiddenPlist(myIdx,2))'="" s mycm.width=hiddenPlist(myIdx,2)	
+		}		
+		d mycms.cms.Insert(mycm)		
+		s myfn=##class(ext.entity.Field).%New()
+		s myfn.name=mycm.dataIndex		;;myColumnName
+		d mycms.fns.Insert(myfn)
+	}
+	s myjosnstr =mycms.GetJosnData()
+	i $g(pageSize)'="" s myjosnstr = $e(mycms.GetJosnData(),1,$l(mycms.GetJosnData())-1)_",pageSize:"_pageSize_"}"
+
+	q myjosnstr
+]]></Implementation>
+</Method>
+
+<Method name="ReadRSNew2">
+<Description><![CDATA[
+@date: 		2011/11/11
+@author:	 wanghc 
+能自定义列头,	列宽, 行数, 隐藏,顺序
+query定义HIDDEN:%String:ARowId  -->        {header:hidden1, dataindex:hidden1}
+列编辑定义 ARowId:%String:行标 是hidden  -->	{header:'行标', dataindex:ARowId, hidden:true}
+Query 是定义为HIDDEN列一定是hidden的且cm名为HIDDEN_Ind, 列定义的隐藏不改变cm名称]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%String,classquery:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	q:(classname="")||(classquery="") ""
+	n (%session,classname,classquery)
+	k ^||MyColTempList
+	;s LookupListComponetId = $o(^websys.ComponentI("UniqueNameIndex","WEBSYSLOOKUPLIST",0))
+	s context="K"_classname_":"_classquery
+	s myjosnstr=""
+	s myOutStr=##class(DHCCPMWeb.CPMBL.DHCBLCommFunLib).GetQOutParaList(classname,classquery,"")	
+	s mycms=##class(ext.entity.GridModal).%New()	
+	s myColLen=$l(myOutStr, ",")	
+	s uSet=""
+	if (($g(%session)'="")&&($g(%session.Data("LOGON.USERID"))'="")) d
+	.;s uSet=##class(websys.Preferences).GetDataExLE(1,1,"","",context,"COLUMNS","websys.LookUp.List",.app,.appid,.activecontext,"","")
+	.s uSet=##Class(websys.Preferences).GetDataExLE($g(%session.Data("LOGON.USERID")),$g(%session.Data("LOGON.GROUPID")),$g(%session.Data("LOGON.HOSPID")),$g(%session.Data("LOGON.SITECODE")),context,"COLUMNS","websys.LookUp.List",.app,.appid,.activecontext,$g(%session.Data("LOGON.TRUSTID")),$g(%session.Data("LOGON.REGION")))
+	.;不能改顺序,影响前台取值
+	.f idx=1:1:$l(uSet,"|") d
+	..s uSetItem = $p(uSet,"|",idx)
+	..s myIdx = $p(uSetItem,",",1)		;col-index,width,sort|
+	..s:myIdx>0 hiddenPlist(myIdx)=1,hiddenPlist(myIdx,2)=$p(uSetItem,",",2),hiddenPlist(myIdx,3)=$p(uSetItem,",",3)	
+	.s rowsSet=##Class(websys.Preferences).GetDataExLE($g(%session.Data("LOGON.USERID")),$g(%session.Data("LOGON.GROUPID")),$g(%session.Data("LOGON.HOSPID")),$g(%session.Data("LOGON.SITECODE")),context,"ROWS","websys.LookUp.List",.app,.appid,.activecontext,$g(%session.Data("LOGON.TRUSTID")),$g(%session.Data("LOGON.REGION")))
+	.s pageSize=$lg(rowsSet,1) 
+	f myIdx=1:1:myColLen {
+		s myColStr=$p(myOutStr,",",myIdx)
+		s myColumnName=$TR($p(myColStr,":",1)," ","")
+		s myColumnType=$p(myColStr,":",2)
+		s myColumnCaption=$p(myColStr,":",3)
+		s myColumnWidth = $p(myColumnCaption,"^",2)
+		s myColumnCaption = $p(myColumnCaption,"^",1)
+		s mycm=##class(ext.entity.ColumnModel).%New()
+		if ($zcvt(myColumnName,"U")=..#LookupHidden){
+			s mycm.header=..#LookupHidden_myIdx		;$s(myColumnCaption'="":myColumnCaption,1: myColumnName)
+			s mycm.dataIndex=..#LookupHidden_myIdx
+			s mycm.hidden="true"
+		}else{
+			;s mycm.header=$s(myColumnCaption'="":myColumnCaption,1: myColumnName)
+			;wanghc 2012-10-31 国际化
+			s mycm.header=$s(myColumnCaption'="":"$g('"_myColumnCaption_"')",1: "$g('"_myColumnName_"')") ;"$g('"_myColumnName_"')" ;
+			s mycm.dataIndex=myColumnName
+			i (uSet'=""),$g(hiddenPlist(myIdx))="" s mycm.hidden="true"
+			i +myColumnWidth>0	s mycm.width=+myColumnWidth
+			i ($g(hiddenPlist(myIdx))=1),$g(hiddenPlist(myIdx,2))'="" s mycm.width=hiddenPlist(myIdx,2)	
+		}		
+		d mycms.cms.Insert(mycm)		
+		s myfn=##class(ext.entity.Field).%New()
+		s myfn.name=mycm.dataIndex		;;myColumnName
+		d mycms.fns.Insert(myfn)
+		s ^||MyColTempList(myIdx)=1
+	}
+	
+	s mycmsNew=##class(ext.entity.GridModal).%New()	
+	;把显示的顺序弄好
+	i uSet'="" d
+	.f idx=1:1:$l(uSet,"|") d
+	..s uSetItem = $p(uSet,"|",idx)
+	..s myIdx = $p(uSetItem,",",1)		;col-index,width,sort|
+	..q:+myIdx=0
+	..d mycmsNew.cms.Insert(mycms.cms.GetAt(myIdx))
+	..d mycmsNew.fns.Insert(mycms.fns.GetAt(myIdx))
+	..k ^||MyColTempList(myIdx)
+	;把最后面隐藏的加上
+	s idx="" f  s idx = $o(^||MyColTempList(idx)) q:idx=""  d
+	.d mycmsNew.cms.Insert(mycms.cms.GetAt(idx))
+	.d mycmsNew.fns.Insert(mycms.fns.GetAt(idx))
+	d mycms.cms.%Close()
+	d mycms.fns.%Close()
+	s mycms.cms = ""
+	s mycms.fns = ""
+	d mycms.%Close() 
+	s mycms=""
+	s myjosnstr =mycmsNew.GetJosnData()
+	i $g(pageSize)'="" s myjosnstr = $e(myjosnstr,1,$l(myjosnstr)-1)_",pageSize:"_pageSize_"}"
+
+	q myjosnstr
+]]></Implementation>
+</Method>
+
+<Method name="GetTotal">
+<Description>
+拿query的总行数,query的参数是%request.Data("P1",1),%request.Data("P2",1)...</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>rs</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s cnt=0
+	s myIsVal=##class(websys.Conversions).IsValidResultSet(rs)
+	i myIsVal{
+		f  q:rs.Next()=0  s cnt=cnt+1
+	}
+	q cnt
+]]></Implementation>
+</Method>
+
+<Parameter name="LookupHidden">
+<Description>
+trak lookup的特殊约定</Description>
+<Default>HIDDEN</Default>
+</Parameter>
+</Class>
+</Export>

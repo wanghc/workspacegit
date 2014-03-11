@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.websys.MenuGroup">
+<Description>
+/ websys.MenuGroup</Description>
+<Owner>_SYSTEM</Owner>
+<Super>%Persistent,ext.websys.Abstract</Super>
+<TimeChanged>62613,77639.702312</TimeChanged>
+<TimeCreated>61853,41873.647517</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="MAJORVERSION">
+</Parameter>
+
+<Parameter name="MINORVERSION">
+</Parameter>
+
+<Parameter name="SQLFILTER">
+</Parameter>
+
+<Parameter name="BUILD">
+<Default>45</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<UDLText name="T">
+<Content><![CDATA[
+// 显示菜单
+
+]]></Content>
+</UDLText>
+
+<Method name="ShowBar">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	d ##Class(websys.MenuGroup).ShowBar(id)
+]]></Implementation>
+</Method>
+
+<Method name="MenuItemsAdd">
+<Description>
+Rebuild menugroup items from a set of delimited strings.</Description>
+<FormalSpec>ids:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="MenuItemsGet">
+<Description>
+return list of menugroupitem's menu id in sequence order</Description>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="MenuType">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^ext.websys.MenuGroupD</DataLocation>
+<DefaultData>MenuGroupDefaultData</DefaultData>
+<IdLocation>^ext.websys.MenuGroupD</IdLocation>
+<IndexLocation>^ext.websys.MenuGroupI</IndexLocation>
+<StreamLocation>^ext.websys.MenuGroupS</StreamLocation>
+<Data name="MenuGroupDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

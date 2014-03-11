@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.JsonDataTest">
+<Super>%CSP.Page</Super>
+<TimeChanged>61965,60207</TimeChanged>
+<TimeCreated>61858,57906.084836</TimeCreated>
+
+<Method name="OnPage">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	;w "Josn Data<br>"
+	;i %session.New
+	s %session.Data("LOGON.GROUPID")=1
+	s %session.Data("LOGON.LANGID")=20
+	;w ##Class(ext.websys.Menu).GetMainMenuJosn()
+	;Quit $$$OK
+	w ##class(ext.websys.Menu).ShowToolBarJosn(1073)
+	
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Parameter name="CHARSET">
+<Description><![CDATA[
+Specifies the default character set for the page.  This can be overriden using the
+&lt;CSP:CONTENT CHARSET=&gt; tag, or by setting the <b>%response</b>.CharSet property
+in the <method>OnPreHTTP</method> method.  If this parameter is not specified, then
+for Unicode systems the default charset is utf-8 and for 8-bit systems it is the
+system default charset.]]></Description>
+<Default>GB18030</Default>
+</Parameter>
+</Class>
+</Export>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.util.String">
+<Description>
+主要用来处理字符操作</Description>
+<Super>%RegisteredObject</Super>
+<TimeChanged>62595,36484.078561</TimeChanged>
+<TimeCreated>61971,32410.797507</TimeCreated>
+
+<Method name="Split">
+<Description>
+把一个字符串分割 回传一个数组</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>instr:%String,separator:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;w ##class(ext.util.String).Split("abacad","a")
+	s myary(1)=""
+	s mylen=$l(instr,separator)
+	for myIdx=1:1:mylen {
+		s myary(myIdx)=$p(instr,separator, myIdx)
+	}
+	
+	q myary
+]]></Implementation>
+</Method>
+
+<Method name="Join">
+<Description>
+传入一个数组  返回一个字符串</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>instrarray:%String,separator:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;w ##class(ext.util.String).Join(.myary,"^")
+	s mystr=""
+	s myIdx=""
+	s myIdx=$o(instrarray(myIdx))
+	while (myIdx'=""){
+		s myrepstr=""
+		i ($o(instrarray(myIdx))=""){
+			s myrepstr=instrarray(myIdx)
+		}else{
+			s myrepstr=instrarray(myIdx)_separator
+		}
+		
+		i (mystr=""){
+			s mystr=myrepstr
+		}else{
+			s mystr=mystr_myrepstr
+		}
+		
+		s myIdx=$o(instrarray(myIdx))
+		q:(myIdx="")
+	}
+	
+	q mystr
+]]></Implementation>
+</Method>
+
+<Method name="Trim">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>instr:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="EvalJSON">
+<Description>
+对JSON数据字符特殊字符处理
+JSON 中的特殊字符
+$c(13)
+$c(10)
+\
+'</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>instr:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;w ##class(ext.util.String).EvalJSON("a\")
+	s mystr = instr
+	
+	q:(mystr="") mystr
+	
+	s mystr = ..Replace(mystr,"\", "\\")
+	
+	s mystr = ..Replace(mystr,"'", "\'")
+	
+	s mystr = ..Replace(mystr,$c(13), "")
+	
+	s mystr = ..Replace(mystr,$c(10), "")
+	
+	q mystr
+]]></Implementation>
+</Method>
+
+<Method name="Replace">
+<Description>
+要求被替换的内容不能=""</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>instr:%String,substr:%String,replacement:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;
+	q:(substr="") instr
+	;q:(replacement="") instr
+	q:'($l(instr,substr)>1) instr
+	
+	s mylen=$l(instr,substr)
+	for myIdx=1:1:mylen {
+		s myary(myIdx)=$p(instr,substr, myIdx)
+	}
+	
+	s mystr=""
+	s myIdx=""
+	s myIdx=$o(myary(myIdx))
+	while (myIdx'=""){
+		s myrepstr=""
+		i ($o(myary(myIdx))=""){
+			s myrepstr=myary(myIdx)
+		}else{
+			s myrepstr=myary(myIdx)_replacement
+		}
+		
+		i (mystr=""){
+			s mystr=myrepstr
+		}else{
+			s mystr=mystr_myrepstr
+		}
+		
+		s myIdx=$o(myary(myIdx))
+		q:(myIdx="")
+	}
+	
+	q mystr
+]]></Implementation>
+</Method>
+</Class>
+</Export>

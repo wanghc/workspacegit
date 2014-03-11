@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.websys.Abstract">
+<Description>
+websys.Abstract
+Abstract class used to provide common functionality to classes in the websys package.</Description>
+<Final>0</Final>
+<Abstract>1</Abstract>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>62613,77638.576465</TimeChanged>
+<TimeCreated>61853,51628.959029</TimeCreated>
+
+<Parameter name="BUILD">
+<Default>54</Default>
+</Parameter>
+
+<Parameter name="MAJORVERSION">
+</Parameter>
+
+<Parameter name="MINORVERSION">
+</Parameter>
+
+<Parameter name="SQLCODE">
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+</Parameter>
+
+<Parameter name="SQLFILTER">
+</Parameter>
+
+<Method name="GetAuditDisplayInfo">
+<Description>
+Inputs:
+array(columnnumber)=value as a reference to a table
+
+Output:
+
+array(columnnumber)=description from refrenced table</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[&aryColInfo:%Library.String]]></FormalSpec>
+</Method>
+
+<Parameter name="SQLROWID">
+</Parameter>
+
+<Method name="GetCodeDescriptionFromId">
+<Description>
+This returns description,id,code (this is to be consitent with lookups)</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	;d %code.WriteLine($$$TRAKDEF)
+]]></Implementation>
+</Method>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="GetIdFromCodeOrDescription">
+<Description><![CDATA[
+Find the object id given either a code or a description.<br>
+To provide control over the code that is generated the following parameters can be used:<br>
+SQLROWID - specify the SQL field name to be returned from the function.<br>
+SQLCODE - specify the SQL field name to be used in the search by code.<br>
+SQLDESCRIPTION - specify the SQL field name to be used in the search by descripiton.<br>
+<br>
+NOTE that these same parameters are are in the generation of default lookups.<br>]]></Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	s %code=0
+]]></Implementation>
+</Method>
+
+<Method name="websysBeforeSave">
+<Description><![CDATA[
+Invoked before websysSave - can be used to cancel the save.<br>]]></Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="GetCompiledVersion">
+<Description>
+Get Version of the class.
+Compoiled version is based on MAJORVERSION, MINORVERSION, BUILD and includes a dat and time stamp.</Description>
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	;新生成BUILD Parameter
+	
+	s myBuildPara="BUILD"
+	s myMajorVersion = "MAJORVERSION"
+	s myMinVersion = "MINORVERSION"
+	s mySQLCODE = "SQLCODE"
+	s mySQLDESCRIPTION="SQLDESCRIPTION"
+	s mySQLFILTER="SQLFILTER"
+	s mySQLROWID="SQLROWID"
+	s mySQLDATEFROM="SQLDATEFROM"
+	s mySQLDATETO="SQLDATETO"
+	
+	;Build para
+	s myRowID=%class.Name_"||"_myBuildPara
+	s myflag = ##class(%Dictionary.ParameterDefinition).%ExistsId(myRowID)
+	i ('+myflag){
+		s myparobj=##class(%Dictionary.ParameterDefinition).%New()
+		s myparobj.Name=myBuildPara
+		d %class.Parameters.Insert(myparobj)
+	}else{
+		s myparobj=##class(%Dictionary.ParameterDefinition).%OpenId(myRowID)
+	}
+	s myparobj.Default=myparobj.Default+1
+	s myBuildValue=myparobj.Default
+	d myparobj.%Save()
+	
+	;MAJORVERSION
+	s myRowID=%class.Name_"||"_myMajorVersion
+	s myflag = ##class(%Dictionary.ParameterDefinition).%ExistsId(myRowID)
+	i ('(+myflag)){
+		s myparobj=##class(%Dictionary.ParameterDefinition).%New()
+		s myparobj.Name=myMajorVersion
+		d %class.Parameters.Insert(myparobj)
+		d myparobj.%Save()
+	}
+
+	;MAJORVERSION
+	s myRowID=%class.Name_"||"_myMinVersion
+	s myflag = ##class(%Dictionary.ParameterDefinition).%ExistsId(myRowID)
+	i ('(+myflag)){
+		s myparobj=##class(%Dictionary.ParameterDefinition).%New()
+		s myparobj.Name=myMinVersion
+		d %class.Parameters.Insert(myparobj)
+		d myparobj.%Save()
+	}
+	
+	;SQLCODE
+	s myRowID=%class.Name_"||"_mySQLCODE
+	s myflag = ##class(%Dictionary.ParameterDefinition).%ExistsId(myRowID)
+	i ('(+myflag)){
+		s myparobj=##class(%Dictionary.ParameterDefinition).%New()
+		s myparobj.Name=mySQLCODE
+		d %class.Parameters.Insert(myparobj)
+		d myparobj.%Save()
+	}
+	
+	;SQLDESCRIPTION
+	s myRowID=%class.Name_"||"_mySQLDESCRIPTION
+	s myflag = ##class(%Dictionary.ParameterDefinition).%ExistsId(myRowID)
+	i ('(+myflag)){
+		s myparobj=##class(%Dictionary.ParameterDefinition).%New()
+		s myparobj.Name=mySQLDESCRIPTION
+		d %class.Parameters.Insert(myparobj)
+		d myparobj.%Save()
+	}
+	
+	;mySQLFILTER
+	s myRowID=%class.Name_"||"_mySQLFILTER
+	s myflag = ##class(%Dictionary.ParameterDefinition).%ExistsId(myRowID)
+	i ('(+myflag)){
+		s myparobj=##class(%Dictionary.ParameterDefinition).%New()
+		s myparobj.Name=mySQLFILTER
+		d %class.Parameters.Insert(myparobj)
+		d myparobj.%Save()
+	}
+	
+	;mySQLROWID
+	s myRowID=%class.Name_"||"_mySQLROWID
+	s myflag = ##class(%Dictionary.ParameterDefinition).%ExistsId(myRowID)
+	i ('(+myflag)){
+		s myparobj=##class(%Dictionary.ParameterDefinition).%New()
+		s myparobj.Name=mySQLROWID
+		d %class.Parameters.Insert(myparobj)
+		d myparobj.%Save()
+	}
+	
+	;mySQLDATEFROM
+	s myRowID=%class.Name_"||"_mySQLDATEFROM
+	s myflag = ##class(%Dictionary.ParameterDefinition).%ExistsId(myRowID)
+	i ('(+myflag)){
+		s myparobj=##class(%Dictionary.ParameterDefinition).%New()
+		s myparobj.Name=mySQLDATEFROM
+		d %class.Parameters.Insert(myparobj)
+		d myparobj.%Save()
+	}
+	
+	;mySQLDATETO
+	s myRowID=%class.Name_"||"_mySQLDATETO
+	s myflag = ##class(%Dictionary.ParameterDefinition).%ExistsId(myRowID)
+	i ('(+myflag)){
+		s myparobj=##class(%Dictionary.ParameterDefinition).%New()
+		s myparobj.Name=mySQLDATETO
+		d %class.Parameters.Insert(myparobj)
+		d myparobj.%Save()
+	}
+	
+	
+	;format "..1 at 2009-06-12 09:05:16AM"
+	;定义一个时间区域格式
+	Do %code.WriteLine(" Quit "_""".."_myBuildValue_" at "_+$h_" "_$p($h,",",2)_"""")
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysDelete">
+<Description>
+Delete an instance - this is provided as a wrapper for %DeleteId functionality.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+</Method>
+
+<Method name="websysSave">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.]]></Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+</Method>
+
+<Method name="LookUpBroker">
+<Description>
+Called by the web broker.
+The main purpose is to convert from code to description dynamically.
+itmjs - javascript function e.g. Location_lookupsel
+itmjsex - extended javascript function</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetIdFromDateCodeOrDesc">
+<Description>
+Just like GetIdFromCodeOrDescription except now it accepts a parameter for date to be used for active date check
+the following parameters is also used:
+SQLDATEFROM - specify the SQL field name to be used in the search by datefrom.
+SQLDATETO - specify the SQL field name to be used in the search by dateto.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>val:%Library.String,date:%Library.Date=""</FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="LookUpClose">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[	;Quit $$Error^%apiOBJ(5758,"%Query::Close")
+]]></Implementation>
+</Method>
+
+<Method name="LookUpExecute">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%String]]></FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpFetch">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpDateBroker">
+<Description>
+Just like LookUpBroker except it now accepts a date to be compared with SQLDATEFROM and SQLDATETO fields</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String="",date:%Library.String=""</FormalSpec>
+<PlaceAfter>GetIdFromDateCodeOrDesc</PlaceAfter>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="LookUpDateExecute">
+<Description>
+Default implementation of LookUpDate Query.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%String,date:%Date=""]]></FormalSpec>
+<PlaceAfter>GetIdFromDateCodeOrDesc</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpDateFetch">
+<Description>
+Default implementation of LookUpDate Query.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpDateExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpDateClose">
+<Description>
+Default implementation of LookUpDate Query.</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpDateFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Query name="LookUp">
+<Description>
+Basic query returning description from a partial description, ordered by description.
+Compiled will attempt to derive the 'description' property from available properties unless it is explicity
+set in the SQLDESCRIPTION parameter.
+SQLROWID may be used to specify the field name to be used as rowid.</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%String</FormalSpec>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Description:%String,HIDDEN:%String,Code:%String"/>
+</Query>
+
+<Query name="LookUpDate">
+<Description>
+Just like LookUp except it now accepts a date to be compared with SQLDATEFROM and SQLDATETO fields</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%String,date:%Date</FormalSpec>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Description:%String,HIDDEN:%String,Code:%String"/>
+</Query>
+
+<Method name="TestInc">
+<Description>
+[Previously private]</Description>
+<ClassMethod>1</ClassMethod>
+</Method>
+</Class>
+</Export>

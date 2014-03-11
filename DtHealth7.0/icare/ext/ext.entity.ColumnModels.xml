@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.entity.ColumnModels">
+<Super>%RegisteredObject,%XML.Adaptor</Super>
+<TimeChanged>61965,60207</TimeChanged>
+<TimeCreated>61864,67804.865744</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Property name="cms">
+<Type>ColumnModel</Type>
+<Collection>list</Collection>
+</Property>
+
+<Method name="GetJosnData">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;
+	;list
+	s myjosnstr=""
+	
+	;;List 对象的
+	s mycount=..cms.Count()
+	s mycmsstr=""
+	for myidx=1:1:mycount {
+		s:(mycmsstr'="") mycmsstr=mycmsstr_","
+		s myobj=..cms.GetAt(myidx)
+		s mysubstr=myobj.GetJosnData()
+		s mycmsstr=mycmsstr_mysubstr
+	}
+	i mycmsstr'=""{
+		;s mycmsstr="["_mycmsstr_"]"
+	}
+	i mycmsstr'=""{
+		s:(myjosnstr'="") myjosnstr=myjosnstr_","
+		s myjosnstr=myjosnstr_mycmsstr
+	}
+	
+	q myjosnstr
+]]></Implementation>
+</Method>
+</Class>
+</Export>

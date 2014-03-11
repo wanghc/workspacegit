@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="ext.websys.Conversions">
+<Description>
+websys.Conversions</Description>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%RegisteredObject</Super>
+<TimeChanged>62232,54489.917645</TimeChanged>
+<TimeCreated>61853,52597.338152</TimeCreated>
+
+<Parameter name="Base64Seq">
+<Default>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/</Default>
+</Parameter>
+
+<Property name="expression">
+<Type>ext.websys.Expression</Type>
+<Final>1</Final>
+</Property>
+
+<Method name="Base64">
+<Description>
+Base64 encode a string</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>line:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).Base64(line)
+]]></Implementation>
+</Method>
+
+<Method name="Base64Encode">
+<Description>
+[Previously private]</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>b1:%Library.String,b2:%Library.String,b3:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).Base64Encode(b1, b2, b3)
+]]></Implementation>
+</Method>
+
+<Method name="BinHexS">
+<Description>
+A Simple BinHex converter</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).BinHexS(str)
+]]></Implementation>
+</Method>
+
+<Method name="BooleanHtmlToLogical">
+<Description>
+Convert the vaue of an HTML check box to boolean</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>x:%Library.String</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).BooleanHtmlToLogical(x)
+]]></Implementation>
+</Method>
+
+<Method name="BooleanLogicalToHtml">
+<Description>
+Convert a stored boolean value to HTML value for a checkbox</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>x:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).BooleanLogicalToHtml(x)
+]]></Implementation>
+</Method>
+
+<Method name="CalculateMinutesPassed">
+<Description>
+calculates the minutes passed since 'datefrom' and 'timefrom' till 'dateto' and 'timeto'
+if 'datefrom' or 'timefrom' is blank, returns 0
+if 'dateto' is blank, uses current date
+if 'timeto' is blank, uses current time</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>datefrom:%Library.Date,timefrom:%Library.Time,dateto:%Library.String,timeto:%Library.String</FormalSpec>
+<ReturnType>%Library.Integer</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).CalculateMinutesPassed(datefrom, timefrom, dateto, timeto)
+]]></Implementation>
+</Method>
+
+<Method name="CommonReload">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[	d ##class(websys.Conversions).CommonReload()
+]]></Implementation>
+</Method>
+
+<Method name="CurrencyHtmlToLogical">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>x:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).CurrencyHtmlToLogical(x)
+]]></Implementation>
+</Method>
+
+<Method name="CurrencyLogicalToHtml">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>x:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).CurrencyLogicalToHtml(x)
+]]></Implementation>
+</Method>
+
+<Method name="FloatLogicalToHtml">
+<Description>
+ab 15.10.07 64959</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>x:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).FloatLogicalToHtml(x)
+]]></Implementation>
+</Method>
+
+<Method name="DateLogicalToCrystal">
+<Description>
+Converted a cache $h format date to a crystal data format Date(yyyy,mm,dd)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>h:%Library.String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).DateLogicalToCrystal(h)
+]]></Implementation>
+</Method>
+
+<Method name="DelimitedStringToHtml">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str:%Library.String,strdelim:%Library.String,htmldelim:%Library.String="",keepblanks:%Boolean=0</FormalSpec>
+<Implementation><![CDATA[	q ##class(websys.Conversions).DelimitedStringToHtml(str, strdelim,htmldelim, keepblanks)
+]]></Implementation>
+</Method>
+
+<Method name="EscapeUrl">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>in:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).EscapeUrl(in)
+]]></Implementation>
+</Method>
+
+<Method name="GetCacheVersion">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).GetCacheVersion()
+]]></Implementation>
+</Method>
+
+<Method name="GetClassRowIDName">
+<Description>
+Return the SQl rowid name for the class (if it is explicitly specified)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).GetClassRowIDName(classname)
+]]></Implementation>
+</Method>
+
+<Method name="GetClassParameter">
+<Description>
+Return the SQL field name for the parameter/class specified</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%Library.String,parameter:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).GetClassParameter(classname, parameter)
+]]></Implementation>
+</Method>
+
+<Method name="GetComputerName">
+<Description>
+Get the computer name from the ip address.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ip:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	Q ##class(%SYS.ProcessQuery).%OpenId($JOB).ClientNodeName
+	;q ##class(websys.Conversions).GetComputerName(ip)
+]]></Implementation>
+</Method>
+
+<Method name="GetDirectoryPathSlash">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).GetDirectoryPathSlash()
+]]></Implementation>
+</Method>
+
+<Method name="GetPropertyParameter">
+<Description>
+This should be superceded by accescing the property definition but will do for now.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%Library.String,property:%Library.String,parameter:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).GetPropertyParameter(classname, property, parameter)
+]]></Implementation>
+</Method>
+
+<Method name="GetSQLTableName">
+<Description>
+Return the SQL table name given a class name</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>userclass:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).GetSQLTableName(userclass)
+]]></Implementation>
+</Method>
+
+<Method name="GetUserClassName">
+<Description>
+; ab 4.05.06 52166</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>sqlclass:%String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).GetUserClassName(sqlclass)
+]]></Implementation>
+</Method>
+
+<Method name="GetSQLTableID">
+<Description>
+; ab 4.05.06 52166</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>userclass:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).GetSQLTableID(userclass)
+]]></Implementation>
+</Method>
+
+<Method name="HexBinS">
+<Description>
+A simple HexBin Converter</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).HexBinS(str)
+]]></Implementation>
+</Method>
+
+<Method name="IsValidClassName">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%Library.String</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).IsValidClassName(classname)
+]]></Implementation>
+</Method>
+
+<Method name="IsValidMethodName">
+<Description>
+Check if query exists for a class</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%Library.String,methodname:%Library.String</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).IsValidMethodName(classname, methodname)
+]]></Implementation>
+</Method>
+
+<Method name="IsValidQueryName">
+<Description>
+Check if query exists for a class</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>classname:%Library.String,queryname:%Library.String</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).IsValidQueryName(classname, queryname)
+]]></Implementation>
+</Method>
+
+<Method name="IsValidResultSet">
+<Description>
+Determine if result set is valid (a run time test!)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>rs:%Library.String</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).IsValidResultSet(rs)
+]]></Implementation>
+</Method>
+
+<Method name="ListLogicalToHtml">
+<Description>
+Convert a $LIST format string to Html data using the delimiter specified.
+Useful for converting long text fields from result set queries for html display/update.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[list:%String,delim:%String="<BR>",keepblanks:%Integer=0]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).ListLogicalToHtml(list, delim, keepblanks)
+]]></Implementation>
+</Method>
+
+<Method name="LoadReload">
+<Description>
+Load Reload parameters from temp global</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.Conversions).LoadReload(id)
+]]></Implementation>
+</Method>
+
+<Method name="LoadRequest">
+<Description>
+wrokaround for serverside redirect losing request data.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[	d ##class(websys.Conversions).LoadRequest()
+]]></Implementation>
+</Method>
+
+<Method name="LongTextHtmlToLogical">
+<Description>
+convert from a string to long text field</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&prp:%Library.String,str:%Library.String,delim:%Library.String="<BR>"]]></FormalSpec>
+<Implementation><![CDATA[	d ##class(websys.Conversions).LongTextHtmlToLogical(.prp, str, delim)
+]]></Implementation>
+</Method>
+
+<Method name="LongTextLogicalToHtml">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&longtext:%String,delim:%String="<BR>"]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).LongTextLogicalToHtml(.longtext, delim)
+]]></Implementation>
+</Method>
+
+<Method name="LookUpClassNameClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpClassNameFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpClassNameExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,classname:%String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpClassNameFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpClassNameExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpPropertyNameClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpPropertyNameFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpPropertyNameExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,tablename:%String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpPropertyNameFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpPropertyNameExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpMethodNameClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpPropertyNameFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpMethodNameExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,tablename:%String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpMethodNameFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpPropertyNameExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="QuotedCacheString">
+<Description>
+replaces a double quote for 2 double quotes
+used in questionnaires, websys.Component.JSBuild(), websys.ComponentItem.InvokeMethod()</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="SaveReload">
+<Description>
+Save reload parameters and return unique id</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>optid:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).SaveReload(optid)
+]]></Implementation>
+</Method>
+
+<Method name="SaveRequest">
+<Description>
+temporarily save request variables when jumping betweeen pages with ServerSideRedirect.
+Should be fixed as a bug by Intersystems. (!!)</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[	d ##class(websys.Conversions).SaveRequest()
+]]></Implementation>
+</Method>
+
+<Method name="Unique">
+<Description>
+2009-07-07  zhaocz</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+<Implementation><![CDATA[
+	;q ##class(websys.Conversions).Unique()
+	q $i(^websys.Unique)
+]]></Implementation>
+</Method>
+
+<Method name="WhiteSpace">
+<Description>
+Replace CR, LF, TAB etc with SPACE.
+Mainly used with multipline fields and SQL queries</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).WhiteSpace(str)
+]]></Implementation>
+</Method>
+
+<Method name="YesNoHtmlToLogical">
+<Description>
+Convert the value from an html check box to a Yes/No field value</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>x:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).YesNoHtmlToLogical(x)
+]]></Implementation>
+</Method>
+
+<Method name="YesNoLogicalToHtml">
+<Description>
+Convert a yes/no vaue to HTML checkbox value</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>x:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).YesNoLogicalToHtml(x)
+]]></Implementation>
+</Method>
+
+<Method name="CalculateExpression">
+<Description><![CDATA[
+Takes a mathematical expression that uses brackets *,/,+ and - and evaluates it
+If there is an error then the error variable is set with the error
+error returned as <CODE>^Error Text (where messages are defined in MRObservations.EditList)]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[function:%String,&error:%String,&ARYTOK:%String,ValidateFunction:%Integer=0]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).CalculateExpression(function, .error, .ARYTOK,ValidateFunction)
+]]></Implementation>
+</Method>
+
+<Query name="LookUpClassName">
+<Description>
+Get a list of classnames - faster than using the system classes</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>classname:%String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ClassName:%String,TableName:%String"/>
+</Query>
+
+<Query name="LookUpMethodName">
+<Description>
+Get a list of methodnames - faster than using the system classes</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>classname:%String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ClassName:%String,TableName:%String"/>
+</Query>
+
+<Query name="LookUpPropertyName">
+<Description>
+parameter is an unqualified table name (possibly) with underscores.
+The classname will be deduced from this.</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>tablename</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="property:%String,column:%String"/>
+</Query>
+
+<Method name="DateLogicalToHtml">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>h:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).DateLogicalToHtml(h)
+]]></Implementation>
+</Method>
+
+<Method name="DateHijraToJulianDay">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>y:%Integer,m:%Integer,d:%Integer</FormalSpec>
+<ReturnType>%Numeric</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).DateHijraToJulianDay(y, m, d)
+]]></Implementation>
+</Method>
+
+<Method name="DateGregorianToJulianDay">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>y:%Integer,m:%Integer,d:%Integer</FormalSpec>
+<ReturnType>%Numeric</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).DateGregorianToJulianDay(y, m, d)
+]]></Implementation>
+</Method>
+
+<Method name="DateLogicalToHijra">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>h:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;w ##class(dtwebsys.Conversions).DateLogicalToHijra($h)
+	q ##class(websys.Conversions).DateLogicalToHijra(h)
+]]></Implementation>
+</Method>
+
+<Method name="DateHijraToLogical">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>dt:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).DateHijraToLogical(dt)
+]]></Implementation>
+</Method>
+
+<Method name="TimeHtmlToLogical">
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>t:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).TimeHtmlToLogical(t)
+]]></Implementation>
+</Method>
+
+<Method name="TimeLogicalToHtml">
+<Final>1</Final>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>h:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q ##class(websys.Conversions).TimeLogicalToHtml(h)
+]]></Implementation>
+</Method>
+</Class>
+</Export>
