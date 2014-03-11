@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.TaskList">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>61079,43958.010441</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>372</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<UDLText name="T">
+<Content><![CDATA[
+//Property Task As epr.Task;
+
+]]></Content>
+</UDLText>
+
+<Property name="TaskItemDR">
+<Type>epr.Task</Type>
+</Property>
+
+<Property name="AssignedToDetails">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PatientDetails">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Comments">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PriorityDR">
+<Type>User.OECPriority</Type>
+</Property>
+
+<Property name="WardDetails">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ScheduledDate">
+<Type>%Library.Date</Type>
+</Property>
+
+<Property name="ScheduledTime">
+<Type>%Library.Time</Type>
+</Property>
+
+<Property name="DurationDR">
+<Type>User.PHCDuration</Type>
+</Property>
+
+<Property name="FrequencyDR">
+<Type>User.PHCFreq</Type>
+</Property>
+
+<Property name="EscalateAfter">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EscalateTimeUnit">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Reminder">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ReminderTimeUnit">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UserDR">
+<Type>User.SSUser</Type>
+</Property>
+
+<Property name="ExecutionDate">
+<Type>%Library.Date</Type>
+</Property>
+
+<Property name="ExecutionTime">
+<Type>%Library.Time</Type>
+</Property>
+
+<Property name="ExecutedBy">
+<Type>User.CTCareProv</Type>
+</Property>
+
+<Property name="AdminStatus">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ExecNotes">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ReasonNotComplete">
+<Type>User.MRCVarianceReason</Type>
+</Property>
+
+<Property name="AssignedDate">
+<Type>%Library.Date</Type>
+</Property>
+
+<Property name="AssignedTime">
+<Type>%Library.Time</Type>
+</Property>
+
+<Index name="Status">
+<Properties>AssignedToDetails,AdminStatus,ScheduledDate,ScheduledTime</Properties>
+</Index>
+
+<Index name="ASSINGINGUSER">
+<Properties>UserDR,AdminStatus,ScheduledDate,ScheduledTime</Properties>
+</Index>
+
+<Method name="GetlongTextField">
+<Description>
+used by component to get long text area field </Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>txt:%Library.String="",delimiter:%Library.String="",DisplayOnly:%Library.String="",FieldName:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="CheckOverdue">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>CareProviderDR:%Library.String,TaskStatus:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="websysSaveTaskExec">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String=""]]></FormalSpec>
+</Method>
+
+<Method name="websysSaveTask">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String="",UserID:%String=""]]></FormalSpec>
+</Method>
+
+<Method name="ListTasksClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ListTasksFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ListTasksExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,DateFrom:%Library.String="",DateTo:%Library.String="",TimeFrom:%Library.String="",TimeTo:%Library.String="",CareProviderDR:%Library.String="",TaskStatus:%Library.String="",OECPRDesc:%Library.String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ListTasksFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ListTasksExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ListSessionTasksClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ListSessionTasksFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ListSessionTasksExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,DateFrom:%Library.String="",DateTo:%Library.String="",TimeFrom:%Library.String="",TimeTo:%Library.String="",CareProvider:%Library.String="",TaskStatus:%Library.String="",Priority:%Library.String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ListSessionTasksFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ListSessionTasksExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="TaskUserLookupBroker">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%String="",itmjsex:%String="",val:%String="",ID:%Library.String=""</FormalSpec>
+</Method>
+
+<Method name="TaskUserLookupClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>TaskUserLookupFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="TaskUserLookupExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,val:%Library.String="",ID:%Library.String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="TaskUserLookupFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>TaskUserLookupExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ListOverdueTasksClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ListOverdueTasksFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ListOverdueTasksExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,CareProviderDR:%Library.String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ListOverdueTasksFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ListOverdueTasksExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Query name="ListOverdueTasks">
+<Type>%Library.Query</Type>
+<FormalSpec>CareProviderDR:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="RowID:%Library.String,ExecutionDate:%Library.String,ExecutionTime:%Library.String,Task:%Library.String,AssignedTo:%Library.String,Patient:%Library.String,ShortComments:%Library.String,LongComments:%Library.String,Priority:%Library.String,Ward:%Library.String,Duration:%Library.String,Frequency:%Library.String,EscalateAfter:%Library.String"/>
+</Query>
+
+<Query name="TaskUserLookup">
+<Type>%Library.Query</Type>
+<FormalSpec>val:%Library.String,ID:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Desc:%Library.String,HIDDEN:%Library.String,Code:%Library.String"/>
+</Query>
+
+<Query name="ListTasks">
+<Type>%Library.Query</Type>
+<FormalSpec>DateFrom:%Library.String,DateTo:%Library.String,TimeFrom:%Library.String,TimeTo:%Library.String,CareProviderDR:%Library.String,TaskStatus:%Library.String,OECPRDesc:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="RowID:%Library.String,ExecutionDate:%Library.String,ExecutionTime:%Library.String,Task:%Library.String,AssignedTo:%Library.String,Patient:%Library.String,ShortComments:%Library.String,LongComments:%Library.String,Priority:%Library.String,Ward:%Library.String,Duration:%Library.String,Frequency:%Library.String,EscalateAfter:%Library.String,AssignedBy:%Library.String,AssignedDate:%Library.String,AssignedTime:%Library.String,TaskStatusDesc:%Library.String"/>
+</Query>
+
+<Query name="ListSessionTasks">
+<Type>%Library.Query</Type>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="RowID:%Library.String,ExecutionDate:%Library.String,ExecutionTime:%Library.String,Task:%Library.String,AssignedTo:%Library.String,Patient:%Library.String,Comments:%Library.String,Priority:%Library.String,Ward:%Library.String,EndDate:%Library.String,Duration:%Library.String,Frequency:%Library.String,EscalateAfter:%Library.String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.TaskListD</DataLocation>
+<DefaultData>TaskListDefaultData</DefaultData>
+<IdLocation>^epr.TaskListD</IdLocation>
+<IndexLocation>^epr.TaskListI</IndexLocation>
+<StreamLocation>^epr.TaskListS</StreamLocation>
+<Data name="TaskListDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>AssignedToDetails</Value>
+</Value>
+<Value name="3">
+<Value>Comments</Value>
+</Value>
+<Value name="4">
+<Value>DurationDR</Value>
+</Value>
+<Value name="5">
+<Value>EndDate</Value>
+</Value>
+<Value name="6">
+<Value>EscalateAfter</Value>
+</Value>
+<Value name="7">
+<Value>EscalateTimeUnit</Value>
+</Value>
+<Value name="8">
+<Value>FrequencyDR</Value>
+</Value>
+<Value name="9">
+<Value>PatientDetails</Value>
+</Value>
+<Value name="10">
+<Value>PriorityDR</Value>
+</Value>
+<Value name="11">
+<Value>Reminder</Value>
+</Value>
+<Value name="12">
+<Value>ReminderTimeUnit</Value>
+</Value>
+<Value name="13">
+<Value>StartDate</Value>
+</Value>
+<Value name="14">
+<Value>StartTime</Value>
+</Value>
+<Value name="15">
+<Value>TaskItemDR</Value>
+</Value>
+<Value name="16">
+<Value>UserDR</Value>
+</Value>
+<Value name="17">
+<Value>WardDetails</Value>
+</Value>
+<Value name="18">
+<Value>AdminStatus</Value>
+</Value>
+<Value name="19">
+<Value>AssignedDate</Value>
+</Value>
+<Value name="20">
+<Value>AssignedTime</Value>
+</Value>
+<Value name="21">
+<Value>ExecNotes</Value>
+</Value>
+<Value name="22">
+<Value>ExecutedBy</Value>
+</Value>
+<Value name="23">
+<Value>ExecutionDate</Value>
+</Value>
+<Value name="24">
+<Value>ExecutionTime</Value>
+</Value>
+<Value name="25">
+<Value>ReasonNotComplete</Value>
+</Value>
+<Value name="26">
+<Value>ScheduledDate</Value>
+</Value>
+<Value name="27">
+<Value>ScheduledTime</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.OrderCycle">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>61079,43958.009507</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>589</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Method name="DisplayCytoProfile">
+<Description>
+ab 19.04.06 56897
+called from custom item on OEOrdItem.ListCytoEMR</Description>
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.OrderCycleD</DataLocation>
+<DefaultData>OrderCycleDefaultData</DefaultData>
+<IdLocation>^epr.OrderCycleD</IdLocation>
+<IndexLocation>^epr.OrderCycleI</IndexLocation>
+<StreamLocation>^epr.OrderCycleS</StreamLocation>
+<Data name="OrderCycleDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

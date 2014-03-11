@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTGraphGroup">
+<Description>
+Log 44734 - AI - 24-09-2004 : Class created.
+NOTE: This class has "children" of type epr.CTGraphDefinition, but couldn't set up proper parent/child relationship as epr.CTGraphDefinition existed first.</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62593,34536.24448</TimeChanged>
+<TimeCreated>60506,62095</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>39</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>GGRPCode</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>GGRPDesc</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="GGRPCode">
+<Type>%Library.String</Type>
+<Required>1</Required>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GGRPDesc">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GGRPSelectedGraphs">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="GetSelectedGraphs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>groupid:%String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	n obj
+	if $g(groupid) = "" Quit ""
+	set obj = ##class(epr.CTGraphGroup).%OpenId(groupid)
+	if '$IsObject(obj) Quit ""
+	Quit obj.GGRPCode_"*"_obj.GGRPDesc_"^"_obj.GGRPSelectedGraphs
+]]></Implementation>
+</Method>
+
+<Method name="websysSave">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,id:%String="",selectedgraphs:%Library.String=""</FormalSpec>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTGraphGroupD</DataLocation>
+<DefaultData>CTGraphGroupDefaultData</DefaultData>
+<IdLocation>^epr.CTGraphGroupD</IdLocation>
+<IndexLocation>^epr.CTGraphGroupI</IndexLocation>
+<StreamLocation>^epr.CTGraphGroupS</StreamLocation>
+<Data name="CTGraphGroupDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>GGRPCode</Value>
+</Value>
+<Value name="3">
+<Value>GGRPDesc</Value>
+</Value>
+<Value name="4">
+<Value>GGRPSelectedGraphs</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

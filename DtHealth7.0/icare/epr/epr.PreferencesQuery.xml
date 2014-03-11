@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.PreferencesQuery">
+<Description>
+This is a class used as a place holder for queries used to store and retrieve 
+specific data from the websys.Preferences class
+eg. order favourites, appointments, etc</Description>
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%RegisteredObject</Super>
+<TimeChanged>63001,43154.746957</TimeChanged>
+<TimeCreated>61079,43958.010127</TimeCreated>
+
+<Method name="GetOEPrefDelims">
+<Description>
+Make sure you change the components and respective javascripts to reflect any changes, check notes on components for fields that use these delims.
+OEOrder.PrefTabs.EditList
+OEOrder.PrefTabs.Edit
+d ##Class(epr.PreferencesQuery).GetOEPrefDelims(.itemdataDelim,.groupitemDelim,.tabgroupDelim,.preflistDelim)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&itemdataDelim:%Library.String="",&groupitemDelim:%Library.Integer="",&tabgroupDelim:%Library.Boolean="",&preflistDelim:%Library.Binary=""]]></FormalSpec>
+<Implementation><![CDATA[
+	s itemdataDelim=$C(4)
+	s groupitemDelim=$C(28)
+	s tabgroupDelim=$lb()
+	s preflistDelim=""
+]]></Implementation>
+</Method>
+
+<Method name="GetOEPrefTabs">
+<Description>
+retrieves details used for order entry preferences and preferences setup.
+zhouzq 生成界面需要的%request属性值
+d ##Class(epr.PreferencesQuery).GetOEPrefTabs()
+w ##class(websys.Preferences).GetDataExPlus(208,100,"DHCHEALTH",8, "W50008",.app, "ORDER","OEOrder.PrefTabs.EditList", .activecontext, "2", "")
+select * from websys.Preferences where appsubkey='OEOrder.PrefTabs.EditList' and (ObjectReference=8 or ObjectReference=208 or ObjectReference=100 or ObjectReference='DHCHEALTH')</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>CONTEXT:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[
+	n objloc,t,LOGONLOCDESC,CONTEXT,ActiveObject,type,SaveContextActive,SaveContextAs
+	n ChartID,eprChart
+	
+	s objloc=##class(User.CTLoc).%OpenId(%session.Data("LOGON.CTLOCID"))
+	s LOGONLOCDESC=objloc.CTLOCDesc
+	d objloc.%Close() s objloc=""
+	
+	s CONTEXT=$g(%request.Data("XCONTEXT",1))
+	d ##class(websys.Component).GetComponentMessages(.t,"OEOrder.PrefTabs.EditList")
+	s data=##class(websys.Preferences).GetDataExPlus(%session.Data("LOGON.USERID"),%session.Data("LOGON.GROUPID"),%session.Data("LOGON.SITECODE"),%session.Data("LOGON.CTLOCID"),CONTEXT,.ActiveObject,"ORDER","OEOrder.PrefTabs.EditList",.ActiveContext,"","")
+	
+	;按用户
+	if ActiveObject="User.SSUser" {
+		s type="U"
+		s SaveContextActive=t("SSUSR")_" ("_%session.Data("LOGON.USERCODE")_")"
+		s SaveContextAs=t("SSUSR")_" ("_%session.Data("LOGON.USERNAME")_")"
+	}
+	
+	;按科室
+	if ActiveObject="User.CTLoc" {
+		s type="L"
+		s SaveContextActive=t("CTLOC")_" ("_LOGONLOCDESC_")"
+		s SaveContextAs=t("CTLOC")_" ("_LOGONLOCDESC_")"
+	}
+	
+	;按安全组
+	if ActiveObject="User.SSGroup" {
+		s type="G"
+		s SaveContextActive=t("SSGRP")_" ("_%session.Data("LOGON.GROUPDESC")_")"
+		s SaveContextAs=t("SSGRP")_" ("_%session.Data("LOGON.GROUPDESC")_")"
+	}
+	
+	;医院
+	if ActiveObject="User.CTHospital" {
+		s type="H"
+		s objhosp=##class(User.CTHospital).%OpenId(%session.Data("LOGON.HOSPID"))
+		s HOSPDESC=objhosp.HOSPDesc
+		d objhosp.%Close() s objloc=""
+		s SaveContextActive=t("HOSP")_" ("_HOSPDESC_")"
+		s SaveContextAs=t("SSUSR")_" ("_%session.Data("LOGON.USERNAME")_")"
+	}
+	
+	
+	;站点
+	if ActiveObject="SITE" {
+		s type="T"
+		s SaveContextActive=t("SITE")_" ("_%session.Data("LOGON.SITECODE")_")"
+		s SaveContextAs=t("SSUSR")_" ("_%session.Data("LOGON.USERNAME")_")"
+	}
+	
+	if ActiveObject="SYS" {
+		s type="U"
+		s SaveContextActive=""
+		s SaveContextAs=t("SSUSR")_" ("_%session.Data("LOGON.USERNAME")_")"
+	}
+	
+	s SaveContextWorkflow=""
+	if ActiveContext'="" {
+		s SaveContextAs=SaveContextAs_" + "_ActiveContext
+		s SaveContextActive=SaveContextActive_" + "_ActiveContext
+		s SaveContextWorkflow="on"
+	}
+		
+	s ChartID=$lg(data,1)
+	s eprChartFrameSize=$lg(data,2)
+	s TABLIST=$lg(data,3)
+	s NoShowAlias=$lg(data,4)
+	s NoShowAliasSameCode=$lg(data,5)
+	
+	s eprChart=""
+	if ChartID'="" s eprChart=$Lg(##class(epr.Chart).GetCodeDescriptionFromId(ChartID),1)
+	s %request.Data("eprChart",1)=eprChart
+	s %request.Data("Chart",1)=ChartID
+	s %request.Data("eprChartFrameSize",1)=eprChartFrameSize
+	
+	s %request.Data("SSGRP",1)=%session.Data("LOGON.GROUPDESC")
+	s %request.Data("SSUSR",1)=%session.Data("LOGON.USERCODE")
+	s %request.Data("SaveContextAs",1)=SaveContextAs
+	s %request.Data("SaveContextActive",1)=SaveContextActive
+	s %request.Data("SaveContextWorkflow",1)=SaveContextWorkflow
+	for i=1:1:$listlength(TABLIST){
+		s %request.Data("TABLIST",i)=$lg(TABLIST,i)
+	}
+	s %request.Data("XTYPE",1)=type
+	
+	;s val=$g(%request.Data("OEWIN",1))
+	s %request.Data("NoShowAlias",1)=NoShowAlias
+	s %request.Data("NoShowAliasSameCode",1)=NoShowAliasSameCode
+	s %request.Data("CTLOC",1)=LOGONLOCDESC
+]]></Implementation>
+</Method>
+
+<Method name="GetOETabGroupName">
+<Description>
+retrieves name set for a particular group 'groupno' (group 1 to 5) for a particular tabitem (passed as a sting 'TABITEMS') from the order favaourites/preferences list</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>TABITEMS:%Library.String="",groupno:%Library.Integer=0</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	s groupitemDelim=$C(28)
+	s itemdataDelim=$C(4)
+	s tabgroupDelim=$C(1)
+	Q $P($p(TABITEMS,tabgroupDelim,groupno),groupitemDelim,1)
+]]></Implementation>
+</Method>
+
+<Method name="DrawOrderPrefTabs">
+<Description>
+DrawOrderPrefTabs is like a broker method</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>FocusWindowName:%String="",CONTEXT:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="DrawOrderPrefTabItems">
+<Description>
+DrawOrderPrefTabItems is like a broker method</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>TABIDX:%String="",FocusWindowName:%String="",EpisodeID:%String="",CTLOC:%String="",formulary:%String="",CONTEXT:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="FindOETabItemsClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindOETabItemsFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	 Set repid=$LIST(QHandle,2)
+	 Kill ^CacheTemp(repid)
+	 Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindOETabItemsExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,TABITEMS:%Library.String="",groupno:%Library.Integer=0,getDetails:%Library.Boolean=0,SSGroupID:%Library.String="",EpisodeID:%Library.String="",formulary:%Library.String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	;TABITEMS, groupno, getDetails, SSGroupID, EpisodeID, formulary
+	;values,desc,hasdefault
+	Set repid=$I(^CacheTemp)
+	If $g(ind)="" Set ind=1
+	;
+	s groupitemDelim=$C(28)
+	s itemdataDelim=$C(4)
+	s tabgroupDelim=$C(1)
+	
+	s group=$p(TABITEMS,tabgroupDelim,groupno)
+	s groupitems=$P(group,groupitemDelim,2,$length(group,groupitemDelim))
+	s len=$Length(groupitems,groupitemDelim)
+	for i=1:1:len  {
+		s groupitem=$P(groupitems,groupitemDelim,i)
+		if groupitem="" continue
+		s itemtype=$P(groupitem,$C(4),1)
+		s itemrowid=$P(groupitem,$C(4),2)
+		Continue:itemrowid=""
+		if itemtype="ARCIM" {
+			if ##class(web.DHCDocOrderEntry).ValARCItem(itemrowid) continue
+			if '##Class(web.DHCDocOrderEntry).valordcat(SSGroupID,itemrowid) continue
+			s ItemCatDR=$p(^ARCIM(+itemrowid,$p(itemrowid,"||",2),1),"^",10)
+			s ordertype=$P(^ARC("IC",ItemCatDR),"^",7)
+			s Baseuomdesc="",FormDurRowid=""
+			Set inci=$o(^INCI(0,"ARCIM_DR",+itemrowid,""))
+			if inci'="" {
+				s baseuom=$p(^INCI(inci,1),"^",10)
+	    		i baseuom'="" s Baseuomdesc=##class(web.DHCDocOrderCommon).GetUOMDesc(baseuom)
+			}
+	   		s DrgformRowid=##class(web.DHCDocOrderEntry).GetDrgForm(itemrowid)
+	    	i DrgformRowid'=""  s FormDurRowid=$p($g(^PHCD(+DrgformRowid,"DF",$P(DrgformRowid,"||",2),1)),"^",8)
+			s desc=$p($g(^ARCIM(+itemrowid,$p(itemrowid,"||",2),1)),"^",2)
+			i getDetails=1 {
+				s values="ARCIM"_$C(4,4)_itemrowid_$C(4,4,4,4)_Baseuomdesc_$C(4)_FormDurRowid_$C(4)_ordertype_$C(4,4,4,4,4,4,4,4)
+			}else{
+				s values="ARCIM"_$C(4)_itemrowid
+			}
+		}else{
+			Continue:'$d(^ARCOS(itemrowid))
+			i ##class(web.DHCDocOrderEntry).ValARCOS(itemrowid) continue
+			s desc=$p(^ARCOS(itemrowid),"^",2)
+			i getDetails=1 {
+				s values="ARCOS"_$C(4,4)_itemrowid_$C(4,4,4,4,4,4,4,4,4,4,4,4,4,4)
+			}else{
+				s values="ARCOS"_$C(4)_itemrowid
+			}
+		}
+		
+		;s values=groupitem
+		Set ^CacheTemp(repid,ind)=$lb(values,desc)
+		Set ind=ind+1
+	}
+	Set QHandle=$lb(0,repid,0)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindOETabItemsFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindOETabItemsExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+	Set repid=$LIST(QHandle,2)
+	Set ind=$LIST(QHandle,3)
+	//
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind="" {				// if there are no more rows, finish fetching
+	Set AtEnd=1
+	Set Row=""
+	}
+	Else      {				// fetch row
+	Set Row=^CacheTemp(repid,ind)
+	}
+	// Save QHandle
+	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindOETabListClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindOETabListFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	 Set repid=$LIST(QHandle,2)
+	 Kill ^CacheTemp(repid)
+	 Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindOETabListExecute">
+<Description>
+d ##class(%ResultSet).RunQuery("epr.PreferencesQuery","FindOETabList")</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$I(^CacheTemp)
+	If $g(ind)="" Set ind=1
+	;
+	s Values="",Desc=""
+	s groupitemDelim=$C(28)
+	s itemdataDelim=$C(4)
+	s tabgroupDelim=$C(1)
+	s tabidx=""
+	for {
+		s tabidx=$o(%request.Data("TABLIST",tabidx))
+		Q:tabidx=""
+		s tabgroup=$G(%request.Data("TABLIST",tabidx))
+		s Desc=$P(tabgroup,tabgroupDelim,1)
+		s Values=$P(tabgroup,tabgroupDelim,2,$length(tabgroup,tabgroupDelim))
+		s OrderCategoryID=$P(Values,tabgroupDelim,6)
+		
+		s OrderCategory="",OrderSubCategory=""
+		if OrderCategoryID'="" {
+			s OrderCategory=$P($g(^OEC("ORCAT",OrderCategoryID)),"^",2)
+		}
+			
+		s OrderSubCategoryID=$P(Values,tabgroupDelim,7)
+		if OrderSubCategoryID'="" {
+			s OrderSubCategory=$P($g(^ARC("IC",OrderSubCategoryID)),"^",2)
+		}
+		
+		s $P(Values,tabgroupDelim,6)=OrderCategory_itemdataDelim_OrderCategoryID
+		s $P(Values,tabgroupDelim,7)=OrderSubCategory_itemdataDelim_OrderSubCategoryID
+
+		Set ^CacheTemp(repid,ind)=$lb(Values,Desc)
+		Set ind=ind+1
+	}
+	Set QHandle=$lb(0,repid,0)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindOETabListFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindOETabListExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+	Set repid=$LIST(QHandle,2)
+	Set ind=$LIST(QHandle,3)
+	//
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind="" {				// if there are no more rows, finish fetching
+	Set AtEnd=1
+	Set Row=""
+	}
+	Else      {				// fetch row
+	Set Row=^CacheTemp(repid,ind)
+	}
+	// Save QHandle
+	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="FindOETabItems">
+<Description>
+brings back each item for a particular group 'groupno' (group 1 to 5) for a particular tabitem (passed as a sting 'TABITEMS') from the order favaourites/preferences list
+accepts a boolean 'getDetails' to determine whether to fetch extra details against ecah item.
+getDetails = 0 (default) for preferences setup.
+getDetails = 1 in order entry screen (oeorder.entry.redrawprefs.csp)</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>TABITEMS:%Library.String,groupno:%Library.Integer,getDetails:%Library.Boolean,SSGroupID:%Library.String,EpisodeID:%Library.String,formulary:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="values,desc,hasdefault"/>
+</Query>
+
+<Query name="FindOETabList">
+<Description>
+used in order entry preferences list
+brings back each tab in the order favourites/preferences list</Description>
+<Type>%Library.Query</Type>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="values,desc"/>
+</Query>
+
+<Method name="websysDeleteOETabs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[
+	n compid,status,new,j,oktosave,save,value,parref,oldval 
+	n XCONTEXT,XTYPE,SaveContextWorkflow,eprChart,eprChartFrameSize,NoShowAlias,NoShowAliasSameCode
+ 	n ChartID,TABLIST,tabidx,ObjectType,ObjectReference,key,subkey
+ 
+ 	S $zt="DeleteError"
+	
+ 	s compid=$e($p(compref,"i",1),2,999),oktosave=1,save=0
+	
+	s XCONTEXT=$g(%request.Data("XCONTEXT",1))
+	s XTYPE=$g(%request.Data("XTYPE",1))
+	s SaveContextWorkflow=$g(%request.Data("SaveContextWorkflow",1))
+	
+	 s key="ORDER"
+	 s subkey="OEOrder.PrefTabs.EditList"
+	 i SaveContextWorkflow="on" s key=key_XCONTEXT
+	 if XTYPE="U" {
+		 s ObjectType="User.SSUser"
+		 s ObjectReference=%session.Data("LOGON.USERID")
+	 }
+	 if XTYPE="L" {
+		 s ObjectType="User.CTLoc"
+		 s ObjectReference=%session.Data("LOGON.CTLOCID")
+	 }
+	 if XTYPE="G" {
+		 s ObjectType="User.SSGroup"
+		 s ObjectReference=%session.Data("LOGON.GROUPID")
+	 }
+	 if XTYPE="T" {
+		 s ObjectType="SITE"
+		 s ObjectReference=%session.Data("LOGON.SITECODE")
+	 }
+	 if XTYPE="H" {
+		 s ObjectType="HOSPITAL"
+		 s ObjectReference=%session.Data("LOGON.HOSPID")
+	 }
+	
+	s id=$o(^websys.PreferencesI("Index", ObjectType, ObjectReference, key, subkey, 0))
+	;s ^Temp("Upgrade","debug","websysSaveOETabs")=id_","ObjectType","_ObjectReference_","_key_","_subkey
+	i id'="",'##Class(websys.Lock).Lock($lb(id,"websys.Preferences"),%session.SessionId,%session.Get("LOGON.USERID"),.status) d  q 0
+ 	. d msg.AddItem("E","LOCKED",status,compid) s oktosave=0
+
+	i 'oktosave,'$g(msg.Count("E")),$g(%request.Data("TOVERRIDE",1)) s oktosave=1
+ 	i oktosave d
+ 	. s save=##class(websys.Preferences).%DeleteId(id)
+ 	. i $d(msg) d msg.Status(save,compid)
+	
+ 	d ##Class(websys.Lock).LockClear($lb(id,"websys.Preferences"),%session.SessionId)
+ 	q save
+DeleteError
+	;s ^Temp("Upgrade","Error","websysSaveOETabs")=$ZE
+	d msg.AddItem("E","DeleteError",$ZE,compid)
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveOETabs">
+<Description>
+Saves favourite orders into websys.Preferences
+data=$lb(chart,chartframesize,tablist)
+where chart=%String,chartframesize=%String, tablist=$lb(tab1,tab2,...,tabX)
+where tabX=tabname_tabgroupDelim_grp1_tabgroupDelim_grp2_tabgroupDelim_..._tabgroupDelim_grp5_category_tabgroupDelim_subcategory
+where tabname=%String,category=%String(id of OECOrderCategory),subcategory=%String(id of ARCItemCat)
+and grpX=grpname_groupitemDelim_item1_groupitemDelim_item2_groupitemDelim_..._groupitemDelim_itemX
+where grpname=%String and itemX=type_itemdataDelim_itemid
+where type="ARCIM" or "ARCOS" and itemid=rowid of ARCItmMast or rowid of ARCOrdSet
+tabgroupDelim,groupitemDelim,itemdataDelim defined in GetOrderEntryDelims</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String="",id:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[
+	n compid,status,new,j,oktosave,save,value,parref,oldval 
+	n XCONTEXT,XTYPE,SaveContextWorkflow,eprChart,eprChartFrameSize,NoShowAlias,NoShowAliasSameCode
+ 	n ChartID,TABLIST,tabidx,ObjectType,ObjectReference,key,subkey
+ 
+ 	S $zt="Error"
+	
+ 	s compid=$e($p(compref,"i",1),2,999),oktosave=1,save=0
+	
+	s XCONTEXT=$g(%request.Data("XCONTEXT",1))
+	s XTYPE=$g(%request.Data("XTYPE",1))
+	s SaveContextWorkflow=$g(%request.Data("SaveContextWorkflow",1))
+	s eprChart=$g(%request.Data("eprChart",1))
+	s eprChartFrameSize=$g(%request.Data("eprChartFrameSize",1))
+	s NoShowAlias=##Class(websys.Conversions).BooleanHtmlToLogical($g(%request.Data("NoShowAlias",1)))
+	s NoShowAliasSameCode=##Class(websys.Conversions).BooleanHtmlToLogical($g(%request.Data("NoShowAliasSameCode",1)))
+	s CTLOCoverrideRowId = ##Class(web.CTLoc).GetIdFromCodeOrDescription($g(%request.Data("CTLOCoverride",1)))
+	s ChartID=##class(epr.Chart).GetIdFromCodeOrDescription(eprChart)
+	s TABLIST=""
+	s groupitemDelim=$C(28)
+	s itemdataDelim=$C(4)
+	s tabgroupDelim=$C(1)
+	s tabidx=""
+	for  {
+		Set tabidx = $o(%request.Data("LISTTabs",tabidx)) 
+		Quit:tabidx=""
+		s TABLISTValue=%request.Data("LISTTabs",tabidx)
+
+		s OrderCategory=$p($P(TABLISTValue,tabgroupDelim,7),itemdataDelim,1)
+		s OrderSubCategory=$p($P(TABLISTValue,tabgroupDelim,8),itemdataDelim,1)
+		s OrderCategoryID="",OrderSubCategoryID=""
+		if OrderCategory'="" s OrderCategoryID=$O(^OEC("ORCAT",0,"Desc",$$ALPHAUP^SSUTIL4(OrderCategory),0))
+		if OrderSubCategory'="" s OrderSubCategoryID=$O(^ARC("IC",0,"Desc",$$ALPHAUP^SSUTIL4(OrderSubCategory),0))
+		s $P(TABLISTValue,tabgroupDelim,7)=OrderCategoryID
+		s $P(TABLISTValue,tabgroupDelim,8)=OrderSubCategoryID
+
+		s $List(TABLIST,tabidx)= TABLISTValue
+	}
+	
+	s Data=$LB(ChartID,eprChartFrameSize,TABLIST,NoShowAlias,NoShowAliasSameCode)
+ 
+	 s key="ORDER"
+	 s subkey="OEOrder.PrefTabs.EditList"
+	 i SaveContextWorkflow="on" s key=key_XCONTEXT
+	 if XTYPE="U" {
+		 s ObjectType="User.SSUser"
+		 s ObjectReference=%session.Data("LOGON.USERID")
+	 }
+	 if XTYPE="L" {
+		 s ObjectType="User.CTLoc"
+		 s ObjectReference=%session.Data("LOGON.CTLOCID")
+		 if (CTLOCoverrideRowId'="") s ObjectReference = CTLOCoverrideRowId	;20130110 另存为其它科室
+	 }
+	 if XTYPE="G" {
+		 s ObjectType="User.SSGroup"
+		 s ObjectReference=%session.Data("LOGON.GROUPID")
+	 }
+	 if XTYPE="H" {
+		 s ObjectType="User.CTHospital"
+		 s ObjectReference=%session.Data("LOGON.HOSPID")
+	 }
+	 if XTYPE="T" {
+		 s ObjectType="SITE"
+		 s ObjectReference=%session.Data("LOGON.SITECODE")
+	 }
+	s id=$o(^websys.PreferencesI("Index", ObjectType, ObjectReference, key, subkey, 0))
+	;s ^Temp("Upgrade","debug","websysSaveOETabs")=id_","_ObjectType_","_ObjectReference_","_key_","_subkey
+	i id'="",'##Class(websys.Lock).Lock($lb(id,"websys.Preferences"),%session.SessionId,%session.Get("LOGON.USERID"),.status) d  q 0
+ 	. d msg.AddItem("E","LOCKED",status,compid) s oktosave=0
+ 	i '##Class(websys.Preferences).websysBeforeSave(compref,.id) q 0
+ 	 	
+ 	s new=id=""
+ 	s:id'="" obj=##Class(websys.Preferences).%OpenId(id)
+ 	if id="" {
+	 	s obj=##Class(websys.Preferences).%New()
+	 	s obj.AppKey=key
+	 	s obj.AppSubKey=subkey
+	 	s obj.ObjectType=ObjectType
+	 	s obj.ObjectReference=ObjectReference
+ 	}
+ 	s obj.Data=Data
+ 	 
+	i 'oktosave,'$g(msg.Count("E")),$g(%request.Data("TOVERRIDE",1)) s oktosave=1
+ 	i oktosave d
+ 	. s save=obj.%Save(0)
+ 	. i $d(msg) d msg.Status(save,compid)
+ 	s:save id=obj.%Id()
+	d obj.%Close() s obj=""
+	
+ 	d:save ##Class(websys.Preferences).websysAfterSave(compref,id,new)
+ 	i 'new d ##Class(websys.Lock).LockClear($lb(id,"websys.Preferences"),%session.SessionId)
+ 	q save
+Error
+	s ^Temp("Upgrade","Error","websysSaveOETabs")=$ZE
+	d ##Class(websys.Lock).LockClear($lb(id,"websys.Preferences"),%session.SessionId)
+	d msg.AddItem("E","UpdateError",$ZE,compid)
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveOETabsUserAdd">
+<Description>
+used in order entry from 'AddToFav' link to update selected items to the first group of the user's preferences
+原版医嘱录入界面(UDHCOEOrder.List.Custom)中用于AddToFav操作增加医嘱到模板中</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+ 	S $zt="ErrorUserAdd"
+    s preftab=$g(%request.Data("PREFTAB",1))
+    s orderentrywin=$g(%request.Data("OEWIN",1))
+    s tabidx=$g(%request.Data("TABIDX",1))
+    s PatLocID=$g(%request.Data("CTLOCID",1))
+    s XCONTEXT=$g(%request.Data("XCONTEXT",1))
+    s extraitms=##Class(%CSP.Page).UnescapeURL($g(%request.Data("EXTRAPREFITEMS",1))) ;add tab's groupitems
+
+	 s key="ORDER"
+	 s subkey="OEOrder.PrefTabs.EditList"
+	 i SaveContextWorkflow="on" s key=key_XCONTEXT
+	 if XTYPE="U" {
+		 s ObjectType="User.SSUser"
+		 s ObjectReference=%session.Data("LOGON.USERID")
+	 }
+	 if XTYPE="L" {
+		 s ObjectType="User.CTLoc"
+		 s ObjectReference=%session.Data("LOGON.CTLOCID")
+	 }
+	 if XTYPE="G" {
+		 s ObjectType="User.SSGroup"
+		 s ObjectReference=%session.Data("LOGON.GROUPID")
+	 }
+	 if XTYPE="H" {
+		 s ObjectType="User.CTHospital"
+		 s ObjectReference=%session.Data("LOGON.HOSPID")
+	 }
+	 if XTYPE="T" {
+		 s ObjectType="SITE"
+		 s ObjectReference=%session.Data("LOGON.SITECODE")
+	 }
+	
+	s id=$o(^websys.PreferencesI("Index", ObjectType, ObjectReference, key, subkey, 0))
+	i 'id q 0
+  	i id'="",'##Class(websys.Lock).Lock($lb(id,"websys.Preferences"),%session.SessionId,%session.Get("LOGON.USERID"),.status) d  q 0
+  	 	
+	s groupitemDelim=$C(28)
+	s tabgroupDelim=$C(1)
+	
+	s obj=##Class(websys.Preferences).%OpenId(id)
+	if '$isobject(obj) q 0	
+ 	s tabgroups=$lb(obj.Data,tabidx)
+ 	s tabgroup=$P(tabgroups,tabgroupDelim,2)
+ 	s tabgroupitems=$P(tabgroup,groupitemDelim,2)_groupitemDelim_extraitms
+ 	s $P(tabgroup,groupitemDelim,2)=tabgroupitems
+ 	s $P(tabgroups,tabgroupDelim,2)=tabgroup
+ 	s $list(obj.Data,tabidx)=tabgroups
+ 	
+ 	s save=obj.%Save(0)
+ 	s:save id=obj.%Id()
+	d obj.%Close() s obj=""
+ErrorUserAdd
+	s ^Temp("Upgrade","Error","websysSaveOETabsUserAdd")=$ZE
+	d ##Class(websys.Lock).LockClear($lb(id,"websys.Preferences"),%session.SessionId)
+	d msg.AddItem("E","UpdateError",$ZE,compid)
+	Q $$$OK
+]]></Implementation>
+</Method>
+</Class>
+</Export>

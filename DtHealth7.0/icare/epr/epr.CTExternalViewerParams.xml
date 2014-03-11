@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTExternalViewerParams">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>61079,43957.975672</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>17</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Name">
+<Type>%Library.String</Type>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="SELECTIVITY"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DatabaseElement">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="SELECTIVITY" value="1.5"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ExternalViewerDR">
+<Type>epr.CTExternalViewer</Type>
+</Property>
+
+<Method name="AddParameter">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,ParRef:%String=""</FormalSpec>
+</Method>
+
+<Method name="websysSave">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,ParRef:%String</FormalSpec>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTExternalViewerParamsD</DataLocation>
+<DefaultData>CTExternalViewerParamsDefaultData</DefaultData>
+<IdLocation>^epr.CTExternalViewerParamsD</IdLocation>
+<IndexLocation>^epr.CTExternalViewerParamsI</IndexLocation>
+<StreamLocation>^epr.CTExternalViewerParamsS</StreamLocation>
+<Data name="CTExternalViewerParamsDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>DatabaseElement</Value>
+</Value>
+<Value name="3">
+<Value>ExternalViewerDR</Value>
+</Value>
+<Value name="4">
+<Value>Name</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

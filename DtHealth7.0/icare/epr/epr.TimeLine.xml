@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.TimeLine">
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>60687,45935.416366</TimeChanged>
+<TimeCreated>60506,62114</TimeCreated>
+
+<Method name="DisplayClinTimeLine">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>PatientID</FormalSpec>
+</Method>
+
+<Method name="slotTypeTitle">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[slotC:%Library.String,Title:%Library.String,px:%Library.Integer,ct:%Library.Integer,&RetTitle,NoWrite=0]]></FormalSpec>
+</Method>
+
+<Method name="StartFormat">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>slotC:%Library.String,sDate:%Library.Date,eDate:%Library.Date,sTime:%Library.Time</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="DisplayTimeLine">
+<ClassMethod>1</ClassMethod>
+</Method>
+</Class>
+</Export>

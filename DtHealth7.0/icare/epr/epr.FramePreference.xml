@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.FramePreference">
+<Description>
+Generates a list of csp frame pages to be referenced for storing preferences for frame sizes in frameset tags.</Description>
+<ClassType>persistent</ClassType>
+<IncludeCode>TRAK</IncludeCode>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Persistent,websys.Abstract</Super>
+<TimeChanged>62251,40681.233183</TimeChanged>
+<TimeCreated>61079,43958.003796</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>58</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Code">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DefaultSize">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DefaultBorder">
+<Type>%Boolean</Type>
+</Property>
+
+<Index name="CodeIndex">
+<Properties>Code</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="CodeSet">
+<Description>
+convert the code to lowercase as these should be csp pages</Description>
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="AddItem">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Code:%String,Description:%String,DefaultSize:%String,DefaultBorder:%Boolean=1,AddOnlyIfNew:%Boolean=0</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="UpdateItem">
+<Description>
+modify frames description so that sites can have it in their own language</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Code:%String,Description:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="Generate">
+<Description>
+run this method if changing default sizes,default description,etc with AddOnlyIfNew=0
+screen epr.FramePreference.List calls this with AddOnlyIfNew=1</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>AddOnlyIfNew:%Boolean=0</FormalSpec>
+</Method>
+
+<Method name="FindPreferenceExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,SSGroupID:%String=""]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s qHandle=$lb(0,repid,0)
+	
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindPreferenceFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>FindPreferenceExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(qHandle,1)
+ 	Set repid=$LIST(qHandle,2)
+ 	Set ind=$LIST(qHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s qHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindPreferenceClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>FindPreferenceFetch</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$LIST(qHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetData">
+<Description>
+by wuqk 2011-05-31</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[SiteCode:%Library.String,GroupID:%Library.String,pagecode:%Library.String,&border:%Library.String=1]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	quit ""
+]]></Implementation>
+</Method>
+
+<Method name="ValidateSize">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[default:%Library.String,&newpref:%Library.String=1]]></FormalSpec>
+</Method>
+
+<Method name="websysSavePreferences">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String</FormalSpec>
+</Method>
+
+<Query name="FindPreference">
+<Type>%Query</Type>
+<FormalSpec>SSGroupID:%Library.String</FormalSpec>
+<Parameter name="ROWSPEC" value="FrameCode:%String,FrameDesc:%String,FrameSizes:%String,FrameBorder:%Boolean,PrefType:%String,DefaultSizes:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.FramePreferenceD</DataLocation>
+<DefaultData>FramePreferenceDefaultData</DefaultData>
+<IdLocation>^epr.FramePreferenceD</IdLocation>
+<IndexLocation>^epr.FramePreferenceI</IndexLocation>
+<StreamLocation>^epr.FramePreferenceS</StreamLocation>
+<Data name="FramePreferenceDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Code</Value>
+</Value>
+<Value name="3">
+<Value>Description</Value>
+</Value>
+<Value name="4">
+<Value>DefaultSize</Value>
+</Value>
+<Value name="5">
+<Value>DefaultBorder</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

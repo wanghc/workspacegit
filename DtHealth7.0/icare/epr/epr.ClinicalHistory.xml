@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.ClinicalHistory">
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>60522,60760.475304</TimeChanged>
+<TimeCreated>60506,62106</TimeCreated>
+
+<Property name="dummy">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="websysBeforeSave">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="websysDeleteHISTAllergen">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,rowID</FormalSpec>
+</Method>
+
+<Method name="websysSaveHISTAllergen">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String</FormalSpec>
+</Method>
+
+<Method name="websysAuthorise">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String</FormalSpec>
+</Method>
+
+<Method name="GetConsultFromAppt">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>apptID:%String=""</FormalSpec>
+</Method>
+</Class>
+</Export>

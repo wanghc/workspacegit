@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTEPRPages">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62249,43272.022035</TimeChanged>
+<TimeCreated>58463,68789</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>92</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Property name="AllowAddition">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Description">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EditComponentDR">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ListComponentDR">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="URL">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="IsHistoryPage">
+<Type>%Boolean</Type>
+</Property>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Method name="URLSet">
+<Description>
+by wuqk 2011-06-01</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	set i%URL=val
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary]]></FormalSpec>
+<PlaceAfter>LookUpFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%String,IsHistory:%String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	
+	set sqlstr="select IsHistoryPage,"_..#SQLCODE_" as Zcode,"_..#SQLROWID_" as Zrowid,"_..#SQLDESCRIPTION_" as Zdescription "
+	set sqlstr=sqlstr_" from epr.CTEPRPages where "_..#SQLDESCRIPTION_" %STARTSWITH '"_desc_"'"
+		
+	set rset=##class(%ResultSet).%New("%DynamicQuery:SQL")
+	set sc = rset.Prepare(sqlstr)
+	set sc=rset.Execute()
+	set (Zdescription,Zrowid,Zcode)=""
+	while rset.%Next(){
+		set IsHistoryPage=rset.Data("IsHistoryPage")
+		//continue:((IsHistory'="")&(IsHistory'=IsHistoryPage))
+		set Zcode=rset.Data("Zcode")
+		set Zrowid=rset.Data("Zrowid")
+		set Zdescription=rset.Data("Zdescription")
+		//set data=$LB(Zdescription,Zrowid,Zdescription)
+		//by wuqk 2011-06-07 原环境第三个字段输出的是description，
+		///但是epr.Chart.Edit组件lookup时，处理与其它类型Item不一致，导致 EP_ID 元素不能被赋值
+		set data=$LB(Zdescription,Zrowid,"EP")
+		set ^CacheTemp(repid,ind)=data
+		set ind=ind+1
+	}
+		
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="LookUp">
+<Description>
+by wuqk 2011-06-01</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%String,IsHistory:%String</FormalSpec>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Description:%String,HIDDEN:%String,Code:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%CacheStorage</Type>
+<DataLocation>^ooCTEPRPagesD</DataLocation>
+<DefaultData>CTEPRPagesDefaultData</DefaultData>
+<IdLocation>^ooCTEPRPagesD</IdLocation>
+<IndexLocation>^ooCTEPRPagesI</IndexLocation>
+<StreamLocation>^epr.CTEPRPagesS</StreamLocation>
+<Data name="CTEPRPagesDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Description</Value>
+</Value>
+<Value name="2">
+<Value>URL</Value>
+</Value>
+<Value name="3">
+<Value>EditComponent</Value>
+</Value>
+<Value name="4">
+<Value>AllowAddition</Value>
+</Value>
+<Value name="5">
+<Value>EditComponentDR</Value>
+</Value>
+<Value name="6">
+<Value>ListComponentDR</Value>
+</Value>
+<Value name="7">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="8">
+<Value>IsHistoryPage</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

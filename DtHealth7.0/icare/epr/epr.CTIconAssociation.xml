@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTIconAssociation">
+<Description>
+Associates an icon against a code to pictorial description</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>63256,69943</TimeChanged>
+<TimeCreated>61079,43957.988299</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>1502</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Code">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CondDescription">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CondExpr">
+<Description>
+Conditional Expression</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="250"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Icon">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="IsDirty">
+<Description>
+internal flag for marking the record has been updated on site, so that this does not get overwritten in full builds.
+ - updated only if websys.Configuration property TrakEnabledOptions is turned off (usual for sites)
+and sites update the record.
+</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Index name="UniqueCodeIndex">
+<Description>
+Uniqueness index for property Code</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Code</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="FPBookingRoomShow">
+<Description>
+called from epr.floorplan.csp and epr.floorplanredraw.csp
+w ##class(epr.CTIconAssociation).FPBookingRoomShow(77211,"10$BA$77211^24610^77211^张三,,32,女,0000024610^^^^^^^^^^^^^^^^^$1$$$$$0$",.ARY,.COL)</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[EpisodeID:%Library.String,PARAMS:%Library.String,&ARY:%Library.String,&COL:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s $ZT="Error"
+	n t 
+	s ARY("EpisodeID")=EpisodeID
+	s components="websys.SYSTEM,epr.floorplan.Messages"
+	d ##Class(websys.Component).GetComponentMessages(.t,components)
+	
+	s ProfileId=$P(PARAMS,"$",4)
+	s id=$P(PARAMS,"$",3)
+	s tabletitle=$P($P(PARAMS,"$",3),"^",4)
+	s text="&nbsp;"_$P(tabletitle,",",1,2)
+	s text=$P(tabletitle,",",1,2)
+	s adm=$P(id,"^",1)
+	;s html="<TABLE title="""_tabletitle_""" moveEnabled=1 selectEnabled=1  class="""" style=""width:100%;"" selected=0 id="""_id_""">"
+	;s html=html_"<TR><TD id="""_adm_""">"_$$getImages(ProfileId)_text
+	;s html=html_"</TD></TR></TABLE>"
+	
+	s top=($p(PARAMS,"$",1)*1.5)_"em"
+	s html="<DIV class=""waitingPat"" style=""top:"_top_"""><TABLE title="""_tabletitle_""" moveEnabled=1 selectEnabled=1  class="""" style=""width:100%;"" selected=0 id="""_id_""">"
+	;s html=html_"<TR><TD id="""_adm_""">"_$$getImages(ProfileId)_text
+	s html=html_"<TR><TD id="""_adm_""">"_..GetImages(ProfileId)_text
+	s html=html_"</TD></TR></TABLE></DIV>"
+	//<DIV class="waitingPat" style="top:1.5em"><TABLE title="毛镕。基 MY , 53   , 女, 0000110243&#13;FK-妇科" moveEnabled=1 selectEnabled=1  class="" style="width:100%;" selected=0 title="毛镕。基 MY , 53   , 女, 0000110243" id="76444^110243^76444^毛镕。基 MY , 53   , 女, 0000110243^^^^^^^^^^^^^^^^^^1"><TR><TD id="76444"><A HREF="#" onClick="websys_lu('websys.default.csp?WEBSYS.TCOMPONENT=DHCNurPatDetail&FromIconProfile=1&EpisodeID=76444&CONTEXT=W50001',false,'top=40,left=40,width=640,height=480');"><IMG align='top' SRC='../images//webemr/regalert.gif' title='病人基本信息' border=0></A>&nbsp;毛镕。基 M, 53   , 女 </TD></TR></TABLE></DIV>
+	s ^Temp("Upgrade","FPBookingRoomShow","html")=html
+	Q html
+Error
+	s ^Temp("Upgrade","FPBookingRoomShow")=$ZE_iconobj.CondExpr
+	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="FPData">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[EpisodeID:%Library.String,PARAMS:%Library.String,&ARY:%Library.String,&imgLIST:%Library.String,&imgDONE:%Library.String]]></FormalSpec>
+</Method>
+
+<Method name="FPGatheringData">
+<Description>
+	Any information required by the condition expressions on the icons is gathered in this method.
+	On top of that all the information required by the epr.floorplan.csp is gathered in this method.
+	And this method is subsequently called by many components that require similar information.  These include:
+	PACWard.ListPatientsInWard
+	PACWardRoom.ListPatients
+	PAAdm.ListCurrentInLoc
+	PAPerson.Banner
+		qse modify 2011.07.23</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[EpisodeID:%Library.String="",PARAMS:%Library.String,&ARY:%Library.String,&pColorArray:%Library.String]]></FormalSpec>
+<Implementation><![CDATA[
+	/*
+	s ARY("AdmissionStatusColor")=""
+	s ARY("AdmitCP")="李海"
+	s ARY("AdmitCPId")="2252"
+	s ARY("AdmitUnit")="210"
+	s ARY("AdmitUnitDesc")="JZCWK-结直肠外科"
+	s ARY("AgeDynamic")="55"
+	s ARY("AlertActive")="0"
+	s ARY("AlertTBC")="0"
+	s ARY("AllergyActive")="0"
+	s ARY("AllergyInd")="0"
+	s ARY("AllergyTBC")="0"
+	s ARY("BedBookStatus")="O"
+	s ARY("BookedBedCode")=""
+	s ARY("BookedBedID")=""
+	s ARY("BookedBedSortOrder")=""
+	s ARY("BookedBedStatus")=""
+	s ARY("BookedDeptCode")=""
+	s ARY("BookedDeptDesc")=""
+	s ARY("BookedDeptID")=""
+	s ARY("BookedDocDesc")=""
+	s ARY("BookedDocID")=""
+	s ARY("BookedInfoCode")=""
+	s ARY("BookedInfoDesc")=""
+	s ARY("BookedLocCode")=""
+	s ARY("BookedLocDesc")=""
+	s ARY("BookedLocID")=""
+	s ARY("BookedRoomCode")=""
+	s ARY("BookedRoomDesc")=""
+	s ARY("BookedRoomID")=""
+	s ARY("BookedRoomType")=""
+	s ARY("BookedStatusCode")=""
+	s ARY("BookedStatusColor")="Red"
+	s ARY("BookedStatusDesc")=""
+	s ARY("BookedWardCode")=""
+	s ARY("BookedWardDesc")=""
+	s ARY("BookedWardHosp")=""
+	s ARY("BookedWardID")=""
+	s ARY("ConsultDeptCodes")=""
+	s ARY("ConsultDeptDescs")=""
+	s ARY("DS_Sum")="0"
+	s ARY("DaysIn")="685"
+	s ARY("DaysOut")="-645"
+	s ARY("DaysOutColor")=""
+	s ARY("EpisodeNo")="IP162536"
+	s ARY("FirstDayOfLeave")="17/03/2011"
+	s ARY("HospitalDesc")=""
+	s ARY("HospitalID")=""
+	s ARY("IP_DS_Sum")=""
+	s ARY("InCom_HOSP_DS_Sum")=""
+	s ARY("MRADMCareTypeDR")=""
+	s ARY("MRADMConditAtDischDR")="好转"
+	s ARY("MRADMDischClassifID")=""
+	s ARY("MRADMDischDestinID")=""
+	s ARY("MRADMDischTransportID")=""
+	s ARY("MRADMGPConsent")=""
+	s ARY("MRADMMedicallyFit")="N"
+	s ARY("MRADMNursingHours")=""
+	s ARY("MRADMPatCondID")=""
+	s ARY("MRADMPresentComplaint")=""
+	s ARY("MRADMUpdateDate")=""
+	s ARY("MRADMUpdateTime")=""
+	s ARY("MostRecentSeenByDocCode")="0631"
+	s ARY("MostRecentSeenByDocDesc")="师新荣"
+	s ARY("MostRecentSeenByDocID")="1096"
+	s ARY("OS_IP_DS_Sum")=""
+	s ARY("PAADM2AdmPointLocDR")=""
+	s ARY("PAADM2AdmissionPoint")=""
+	s ARY("PAADMAdmCategID")="2"
+	s ARY("PAADMAdmDate")="61606"
+	s ARY("PAADMAdmDateTime")="6160662758"
+	s ARY("PAADMAdmDocCode")="0631"
+	s ARY("PAADMAdmDocCodeNum")=""
+	s ARY("PAADMAdmDocDesc")="师新荣"
+	s ARY("PAADMAdmDocID")="1096"
+	s ARY("PAADMAdmDocSpec")=""
+	s ARY("PAADMAdmReasonDesc")="自费(异地医保)"
+	s ARY("PAADMAdmTime")="62758"
+	s ARY("PAADMAppointBookingSystemDesc")=""
+	s ARY("PAADMBookLocReady")=""
+	s ARY("PAADMCClass")=""
+	s ARY("PAADMCreatePreadmission")=""
+	s ARY("PAADMCurrentBedCode")=""
+	s ARY("PAADMCurrentBedID")=""
+	s ARY("PAADMCurrentBedSortOrder")=""
+	s ARY("PAADMCurrentWardCode")="结直肠外科病区"
+	s ARY("PAADMCurrentWardDesc")="JZCWKBQ-结直肠外科病区"
+	s ARY("PAADMCurrentWardID")="108"
+	s ARY("PAADMCurrentWardSigFac")=""
+	s ARY("PAADMDaySurgeryType")=""
+	s ARY("PAADMDepCode")="结直肠外科"
+	s ARY("PAADMDepDesc")="JZCWK-结直肠外科"
+	s ARY("PAADMDepID")="210"
+	s ARY("PAADMDepRespUnitDesc")=""
+	s ARY("PAADMDepType")="E"
+	s ARY("PAADMDischgDate")=""
+	s ARY("PAADMDischgTime")=""
+	s ARY("PAADMEpissubtypeDesc")=""
+	s ARY("PAADMEstDischConfirmed")="Y"
+	s ARY("PAADMEstimDischargeDate")="61646"
+	s ARY("PAADMEstimDischargeTime")="66780"
+	s ARY("PAADMExpAdmDate")=""
+	s ARY("PAADMFinDischDate")=""
+	s ARY("PAADMFinDischTime")=""
+	s ARY("PAADMInPatAdmTypeCode")=""
+	s ARY("PAADMInPatAdmTypeDesc")=""
+	s ARY("PAADMInPatAdmTypeID")=""
+	s ARY("PAADMInpatBedReqDate")=""
+	s ARY("PAADMInpatBedReqTime")=""
+	s ARY("PAADMInterviewRec")=""
+	s ARY("PAADMLikelihoodAdmit")=""
+	s ARY("PAADMLikelyTransICUID")=""
+	s ARY("PAADMMedDischDate")=""
+	s ARY("PAADMMedDischTime")=""
+	s ARY("PAADMOESubCatDesc")=""
+	s ARY("PAADMOriginalAdmissionID")=""
+	s ARY("PAADMOriginalAdmissionType")=""
+	s ARY("PAADMParentWardCode")=""
+	s ARY("PAADMParentWardDesc")=""
+	s ARY("PAADMParentWardID")=""
+	s ARY("PAADMPatientContacted")=""
+	s ARY("PAADMPriorityCode")=""
+	s ARY("PAADMPriorityDesc")=""
+	s ARY("PAADMPriorityID")=""
+	s ARY("PAADMRefStatCode")=""
+	s ARY("PAADMRemark")=""
+	s ARY("PAADMSeenDate")=""
+	s ARY("PAADMSeenTime")=""
+	s ARY("PAADMTempLocCode")=""
+	s ARY("PAADMTempLocDesc")=""
+	s ARY("PAADMTriageDate")=""
+	s ARY("PAADMTriageTime")=""
+	s ARY("PAADMType")="I"
+	s ARY("PAADMUpdateDate")="61661"
+	s ARY("PAADMUpdateTime")="61394"
+	s ARY("PAADMVerified")="N"
+	s ARY("PAADMVisitStatus")="A"
+	s ARY("PAADMWaitListDR")=""
+	s ARY("PAADMWaitListNo")=""
+	s ARY("PAPERDeceased")=""
+	s ARY("PAPERDeceasedDate")=""
+	s ARY("PAPERDeceasedTime")=""
+	s ARY("PAPERDob")="42152"
+	s ARY("PAPEREstDOB")="N"
+	s ARY("PAPERName")="高维章"
+	s ARY("PAPERName2")="GWZ"
+	s ARY("PAPERName3")=""
+	s ARY("PAPERName4")=""
+	s ARY("PAPERName5")=""
+	s ARY("PAPERName6")=""
+	s ARY("PAPERName7")=""
+	s ARY("PAPERName8")=""
+	s ARY("PatientID")="252601"
+	s ARY("PriorityWaitTime")=""
+	s ARY("PriorityWaitingTime")="0"
+	s ARY("PriorityWaitingTimeStr")="0h 0m"
+	s ARY("RegWaitingTime")="985956"
+	s ARY("RegWaitingTimeStr")="16432h 36m"
+	s ARY("ReturnDayOfLeave")="19/03/2011"
+	s ARY("UR")="00252568"
+	s ARY("UrgentResults")="0^"
+	s ARY("VIPStatus")=""
+	s ARY("WardID")="108"
+	s ARY("admFreeTextRemark")=""
+	s ARY("age")="55"
+	s ARY("boarder")="N"
+	s ARY("canGiveBirth")="0"
+	s ARY("diagAltDesc")=""
+	s ARY("diagCode")=""
+	s ARY("diagDesc")="直肠癌术后"
+	s ARY("diagtype")="Primary Diagnosis"
+	s ARY("dobFormatted")="29/05/1956"
+	s ARY("escalate")="0"
+	s ARY("isEMLoc")="0"
+	s ARY("mradm")="325017"
+	s ARY("readresult")="0^"
+	s ARY("sex")="男"
+	s ARY("sexCode")="M"
+	s ARY("titlename")="高维章 GWZ , 55   , 男, 00252568"
+	s ARY("unreadresult")="0^"
+	*/
+	s itm=""  f  s itm=$O(ARY(itm)) q:itm=""  d
+	.s ARY(itm)=""
+	
+	s admId=EpisodeID
+    s papmiId=+^PAADM(admId)
+    s PatientID=papmiId
+    
+    s ARY("PatientID")=papmiId
+    s mradm=$p(^PAADM(admId),"^",61)
+    s ARY("mradm")=mradm
+    s ARY("diagDesc")=..Diag(mradm,"")
+    s ctlocId=$p(^PAADM(admId),"^",4)
+    set paadmTempLocDr = $p(^PAADM(admId),"^",74)
+    IF paadmTempLocDr>0 {
+	    SET ARY("PAADMTempLocCode")=$p(^CTLOC(paadmTempLocDr),"^",1)
+	    SET ARY("PAADMTempLocDesc")=$p(^CTLOC(paadmTempLocDr),"^",2)
+    }
+    s ARY("PAADMDepID")=ctlocId
+	s ARY("PAADMDepDesc")=$p(^CTLOC(+ctlocId),"^",2)	
+	s ARY("PAADMDepCode")=$p(^CTLOC(+ctlocId),"^",1)
+	s doc=$p(^PAADM(admId),"^",9)
+	s ARY("PAADMAdmDocID")=doc
+    if doc'="" {
+	    s ARY("PAADMAdmDocCode")=$P(^CTPCP(doc,1),"^",1)
+	    s ARY("PAADMAdmDocDesc")=$P(^CTPCP(doc,1),"^",2)
+    }
+    
+    s ARY("AllergyActive")=##class(web.PAAllergy).FindIfPatientHasAllergy(PatientID)
+	s ARY("AllergyInd")=##class(web.PAAllergy).FindIfPatientHasIndAllergy(PatientID)
+	s ARY("AllergyTBC")=##class(web.PAAllergy).GotTBCAllergy(PatientID)
+
+    s roomId=$p(^PAADM(admId),"^",69)
+    i (roomId'="") s room=$p(^PAROOM(roomId),"^",2)
+    s regNo=$p($g(^PAPER(papmiId,"PAT",1)),"^",1)
+    s ARY("UR")=regNo
+    s MedCareNo=$p($g(^PAPER(papmiId,"PAT",1)),"^",22)
+    s ARY("PAPERName")=$p($g(^PAPER(papmiId,"ALL")),"^",1)
+    s ARY("PAPERName2")=$p($g(^PAPER(papmiId,"ALL")),"^",2)
+    i $d(^PAPER(papmiId,"PAT",3)) s safetyNetCardNo=$p(^PAPER(papmiId,"PAT",3),"^",4) ;病案号
+    e  s safetyNetCardNo=""
+    s SexRowId=$p($g(^PAPER(papmiId,"ALL")),"^",7)
+    s ARY("sex")=$p($g(^CT("SEX",SexRowId)),"^",2)
+    s SexCode=$p($g(^CT("SEX",SexRowId)),"^",1)
+    ;Trak里得到canGiveBirth的逻辑不太清楚这个逻辑并不对,,暂时先判断成年人性别
+    s MotherAdmDR=$p($g(^PAADM(admId)),"^",75)
+    
+    ;标准版修改性别基础数据的定义,为了兼容原来的项目数据定义,判断了两次
+    s canGiveBirth=$S((SexCode="F")&&(MotherAdmDR=""):1,1:0)
+    if canGiveBirth'=1 {
+    	s canGiveBirth=$S((SexCode="2")&&(MotherAdmDR=""):1,1:0)
+    }
+    
+    s curWardId=$p($g(^PAADM(admId)),"^",70)  
+    s ARY("PAADMCurrentWardID")=curWardId
+    s ARY("PAADMVisitStatus")=$p($g(^PAADM(admId)),"^",20)
+    s ARY("WardID")=curWardId
+    i curWardId'="" s ARY("PAADMCurrentWardDesc")=$p(^PAWARD(curWardId),"^",1)
+    s birth=$p($g(^PAPER(papmiId,"ALL")),"^",6)
+    s age=..CalAge(birth,+$h)
+    s ARY("age")=$p(age,"Y",1)
+    s ARY("titlename")=ARY("PAPERName")_" "_ARY("PAPERName2")_","_" "_ARY("age")_","_" "_ARY("sex")_","_" "_regNo ;
+	
+	;TableID会被epr.floorplan.js里的TrakIt_onmousedown里使用,通过页面functionSetEpisodeDetails传递到epr.mneu里
+	;function SetEpisodeDetails(patID,episID,mradm,titleName,apptID,waitinglistID,OEOrdItemIDs,SinglePatientFlag,WardID,PAAdmCodingID,multipleIDs,OEORIItemStatus,BillRowIds,BillTypes,wlstatus,ARCIMDesc,FollowUpApptID,ItemApptStatus,Decease,ReqIDs,ReqVolIDs,canGiveBirth,MultiEpisodeID,OperRoomID,AnaesthesiaID,NokID,attendID) {
+	s TableID=EpisodeID_"^"_ARY("PatientID")_"^"_ARY("mradm")_"^"_ARY("titlename")_"^^^^^^^^^^^^^^^^^^"_canGiveBirth
+	s TableTitle=ARY("titlename")_$C(10,13)_ARY("diagDesc")_$C(10,13)_$s($g(ARY("PAADMAdmDocDesc"))'="":ARY("PAADMAdmDocDesc")_", ",1:"")_ARY("PAADMDepDesc")
+]]></Implementation>
+</Method>
+
+<Method name="Diag">
+<Description>
+qse add 2011.07.23 </Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>mradm,typ</FormalSpec>
+<Implementation><![CDATA[
+ //web.DHCMGNurComm^GetPat^^S0|PATNAME@S1|AGE@S2|SEX@S3|DIAG@S4|LOC
+         s i=0
+         s diag=""
+         q:mradm="" ""
+         f a2=1:1:$g(^MR(mradm,"DIA",0)) d
+         .s icdr=$p($g(^MR(mradm,"DIA",a2)),"^",1)
+         .i icdr'="" d
+         ..i $g(diatypedr)'="" s diatype=$P($g(^MRC("DTYP",diatypedr)),"^",1)  ;诊断类型
+         ..e  s diatype=""
+         ..;q:diatype'=typ
+         ..q:(diatype'=typ)&(typ'="")
+         ..s date=$ZD($p($g(^MR(mradm,"DIA",a2)),"^",7),3) ;日期
+         ..s statusdr=$p($g(^MR(mradm,"DIA",a2)),"^",9)
+         ..//i statusdr'="" d
+         ..//.s status=$P($g(^MRC("DSTAT",statusdr)),"^",2)
+         ..//.e  d
+         ..//..s status=""
+         ..s icdcode=$P($g(^MRC("ID",icdr)),"^",2)   ;疾病描述
+         ..s mrdesc=""
+         ..f de=1:1:$g(^MR(mradm,"DIA",a2,"DES",0)) d
+         ...s mrdesc=$g(mrdesc)_$g(^MR(mradm,"DIA",a2,"DES",de)) ;
+         ..s i=i+1
+         ..;s diag=icdcode_" "_$g(mrdesc)
+         ..i diag="" s diag=icdcode_" "_$g(mrdesc)
+         ..e  s diag=diag_";"_icdcode_" "_$g(mrdesc)            
+         q diag
+]]></Implementation>
+</Method>
+
+<Method name="FPHeadingShow">
+<Description>
+KM: 19-Mar-2002: Called from epr.floorplan.csp and pacward.listpatients.csp
+FPLayout 的输出值尚不清楚
+Header的排列顺序的机制还不清楚 zhouzq</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[isSetup:%Library.String,page:%Library.String,&LocID:%Library.String,&WardID:%Library.String,&isEMLoc:%Library.String,&DeptType:%Library.String,&FPLayout:%Library.String]]></FormalSpec>
+<Implementation><![CDATA[
+	;modify by zhouzq 2011.10.13
+	;先找%request.Data("WardID",1),如果为空,然后再通过%session.Data("LOGON.CURRLOCID")找WardID
+	s WardID=$g(%request.Data("WardID",1))
+	s desc=""
+	i WardID'="" {
+		if $d(^PAWARD(WardID)) {
+			s LocID=$P(^PAWARD(WardID),"^",5)
+			s desc=$P(^PAWARD(WardID),"^",2)
+		}else{
+			s WardID=""
+		}
+	}
+	i WardID="" {
+		s LocID=$g(%request.Data("CurrLocID",1))
+		if LocID="" s LocID=$g(%session.Data("LOGON.CURRLOCID"))
+		if LocID="" s LocID=$g(%session.Data("LOGON.CTLOCID"))
+		s WardID=$O(^PAWARD(0,"WARD_LocationDR",LocID,""))
+		if WardID'=""{
+			if $d(^PAWARD(WardID)) {
+				s desc=$P(^PAWARD(WardID),"^",2)
+			}else{
+				s desc=$P(^CTLOC(LocID),"^",2)
+			}
+		}else{
+			s desc=$P(^CTLOC(LocID),"^",2)
+		}
+	}
+	s %session.Data("LOGON.CURRLOCID")=LocID
+	
+	set DeptType=""
+	set:LocID'="" DeptType=$p($g(^CTLOC(LocID)),"^",13)
+	set isEMLoc="0"
+	set:DeptType="EM" isEMLoc="1"
+	set FPLayout=""
+	
+	w "<SCRIPT>function CallWardSummary() {var lnk='pacward.wardsummary.csp?WardID="_WardID_"'; window.open(lnk,'WardSummary','height=600,width=800,left=5,top=5,scrollbars=yes,resizable=yes,status=yes');}</SCRIPT>",$C(13,10)
+	w "<SCRIPT>function CallActivityReport() {var escapeDesc=escape('"_desc_"'); var lnk='websys.default.csp?WEBSYS.TCOMPONENT=PACBedAdm.ListActivityReport&StaffedCubicles=&EmergencyDepartment='+escapeDesc; window.open(lnk,'WardSummary','height=600,width=800,left=5,top=5,scrollbars=yes,resizable=yes,status=yes');}</SCRIPT>",$C(13,10)
+	
+	;w "<TABLE cellpadding=""1"" id=""header""><TR><TD valign=""top"" align=""left""><B><A class=""clsWardName"" href=""javascript:CallWardSummary()"">"_desc_"</A></B></TD><TD valign=""top"" align=""left""></TD></TR></TABLE>&nbsp;&nbsp;&nbsp;<a href='epr.floorplan.setup.csp?WardID="_WardID_"&CONTEXT="_$G(%request.Data("CONTEXT",1))_"&TWKFL="_$g(%request.Data("TWKFL",1))_"&TWKFLI="_"2"_"'><img src='../images/webemr/floor plan.gif' border=0 valign='bottom'></a><input type=""hidden"" name=""isEMLoc"" value="""_isEMLoc_"""><DIV  class='Messager' id=""Messager"" nowrap style=""background:#CCFFCC"" >"
+	
+	s table="<TABLE cellpadding=""1"" id=""header""><TR>"
+	s table=table_"<TD valign=""top"" align=""left""><B><A class=""clsWardName"" href=""javascript:CallWardSummary()"">"_desc_"</A></B></TD>"
+	
+	n linklocarr,i
+	s i=1
+	s OrigLocID=$g(%request.Data("OrigLocID",1))
+	if OrigLocID'="" s linklocarr(i)=OrigLocID
+
+	s childsub=$O(^CTLOC(LocID,"LINK",0))
+	while childsub'="" {
+		s LinkLocID=$P(^CTLOC(LocID,"LINK",childsub),"^",1)
+		i LinkLocID'=OrigLocID {
+			s i=i+1
+			s linklocarr(i)=LinkLocID
+		}
+		/*s LinkLocDesc=$P(^CTLOC(LinkLocID),"^",2)
+		s LInkLocWardID=$O(^PAWARD(0,"WARD_LocationDR",LinkLocID,0))
+		s table=table_"<TD valign=""top"" align=""left"">&nbsp;<A class=""clsWardName"" HREF=""epr.floorplan.csp?TEVENT=&TMENU="_$G(%request.Data("TMENU",1))_"&WardID="_LInkLocWardID_"&CurrLocID="_LinkLocID_"&OrigLocID="_LocID_""">"_LinkLocDesc_"</A></TD>"
+		*/
+		s childsub=$O(^CTLOC(LocID,"LINK",childsub))
+	}
+	s i=$O(linklocarr(0))
+	while i'="" {
+		s LinkLocID=linklocarr(i)
+		s LinkLocDesc=$P(^CTLOC(LinkLocID),"^",2)
+		s LInkLocWardID=$O(^PAWARD(0,"WARD_LocationDR",LinkLocID,0))
+		s table=table_"<TD valign=""top"" align=""left"">&nbsp;<A class=""clsWardName"" HREF=""epr.floorplan.csp?TEVENT=&TMENU="_$G(%request.Data("TMENU",1))_"&WardID="_LInkLocWardID_"&CurrLocID="_LinkLocID_"&OrigLocID="_LocID_""">"_LinkLocDesc_"</A></TD>"
+		s i=$O(linklocarr(i))
+	}
+	
+	s table=table_"<TD valign=""top"" align=""left""></TD>"
+	s table=table_"</TR></TABLE>"
+	if isSetup {
+		s table=table_"&nbsp;&nbsp;&nbsp;<a href='epr.floorplan.setup.csp?WardID="_WardID_"&CONTEXT="_$G(%request.Data("CONTEXT",1))_"&TWKFL="_$g(%request.Data("TWKFL",1))_"&TWKFLI="_"2"_"'><img src='../images/webemr/floor plan.gif' border=0 valign='bottom'></a><input type=""hidden"" name=""isEMLoc"" value="""_isEMLoc_"""><DIV  class='Messager' id=""Messager"" nowrap style=""background:#CCFFCC"" >"
+	}
+	w table
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="CalAge">
+<Description>
+qse add 2011.07.23</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>IBirth:%String,IToday:%String</FormalSpec>
+<Implementation><![CDATA[
+    s IBirth=$g(IBirth),IToday=$g(IToday)
+    i IBirth>2980000 s IBirth=""
+    i IBirth<0 s IBirth=""
+    q:'$g(IBirth) ""
+    s XBirth=$zd(IBirth)
+    s XToday=$zd(IToday)
+    s AgeMth=XToday-XBirth
+    s AgeDay=$p(XToday,"/",2)-$p(XBirth,"/",2)
+    s CurrYear=$p(XToday,"/",3) s:CurrYear<100 CurrYear=CurrYear+1900
+    s BirthYear=$p(XBirth,"/",3) s:BirthYear<100 BirthYear=BirthYear+1900
+    s AgeYear=CurrYear-BirthYear
+    i AgeDay<0 d
+        . s AgeMth=AgeMth-1
+	    . s AgeDay=AgeDay+$p("31,31,28,31,30,31,30,31,31,30,31,30,31",",",+XToday)
+	    . q:XToday'=2
+	    . s:((CurrYear#4)=0)&(((CurrYear#100)'=0)!((CurrYear#400)=0)) AgeDay=AgeDay+1
+	i AgeMth<0 s AgeMth=AgeMth+12,AgeYear=AgeYear-1
+	s $p(AgeYr,"|",12)=AgeYear
+	s reage=$p(AgeYr,"|",12)_"Y "_AgeMth_"M "_AgeDay_"D"
+	q reage
+]]></Implementation>
+</Method>
+
+<Method name="FPTitle">
+<Description>
+ab 10.03.04 - 42654 - defines the tooltip for the standard floorplan, from CO108^at84b</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[PatientID:%String="",EpisodeID:%String="",&ARY:%String]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="FPTitleR">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[PatientID:%String,&ARY:%String,rmQueryType:%String=""]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="GetImages">
+<Description>
+add by zhouzq 2011.11.08
+获得床位图上定的图标HTML</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ProfileID:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	//n iconArr->n iconArr,ind . 如果在iconobj.CondExpr中用到ind变量就会重写epr.floorplan.csp内的ind,床位异常.
+	n iconArr,ind
+
+	s profileHTML1="",profileHTML=""
+	s profileobj=##Class(epr.CTIconProfile).%OpenId(ProfileID)
+	if $IsObject(profileobj){
+		s count=profileobj.Items.Count()
+		for i=1:1:count {
+			s itemobj=profileobj.Items.GetAt(i)
+			s iconobj=itemobj.IconDR
+			if $IsObject(iconobj) {
+				s img=0
+				s title=""
+				continue:iconobj.CondExpr=""
+				d ##class(websys.Conversions).expressionExecute(iconobj.CondExpr)
+				continue:img'=1 
+				continue:iconobj.Icon=""
+				if $g(title)="" s title=iconobj.Description
+				;if iconobj.CondDescription'="" XECUTE iconobj.CondDescription  //add by wuqk 2011-07-14
+				s iconHTML="<IMG align='top' SRC='../images/"_iconobj.Icon_"' title='"_title_"' border=0></A>"
+				s LinkUrl=itemobj.LinkUrl
+				s LinkComponent=itemobj.LinkComponent
+				s LinkExpression=##class(websys.Conversions).expressionEvaluate(itemobj.LinkExpression)
+				s LinkChartBookDR=itemobj.LinkChartBookDR
+				s Sequence=itemobj.Sequence
+				if LinkUrl'="" {
+					s LinkUrl=LinkUrl_"?"
+					if LinkComponent'="" s LinkUrl=LinkUrl_"WEBSYS.TCOMPONENT="_LinkComponent
+					s LinkUrl=LinkUrl_"&FromIconProfile="_ProfileID_"&EpisodeID="_ARY("EpisodeID")_LinkExpression_"&CONTEXT="_$g(%session.Data("CONTEXT"))
+					;未实现chart
+					s iconHTML="<A HREF=""#"" onClick=""websys_lu('"_LinkUrl_"',false,'top=40,left=40,width=640,height=480');"">"_iconHTML_"</A>"
+				}
+				if Sequence="" {
+					s profileHTML=profileHTML_iconHTML
+				}else{
+					s iconArr(Sequence)=iconHTML
+				}
+			}
+		}
+		s seq=$O(iconArr(""))
+		while (seq'=""){
+			s profileHTML1=profileHTML1_iconArr(seq)
+			s seq=$O(iconArr(seq))
+			Q:seq=""
+		}
+	}
+	;加上profileHTML,没有定义顺序的图标也要显示
+	Q profileHTML1_profileHTML
+]]></Implementation>
+</Method>
+
+<Method name="FPWaitingRoomShow">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[EpisodeID:%Library.String,PARAMS:%Library.String,&ARY:%Library.String,&COL:%Library.String]]></FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	
+	s $ZT="Error1"
+
+	n t 
+	s ARY("EpisodeID")=EpisodeID
+	s components="websys.SYSTEM,epr.floorplan.Messages"
+	d ##Class(websys.Component).GetComponentMessages(.t,components)
+	
+	s ProfileId=$P(PARAMS,"$",4)
+	;s id="76444^110243^76444^毛镕。基 MY , 53   , 女, 0000110243^^^^^^^^^^^^^^^^^^1"
+	s id=$P(PARAMS,"$",3)
+	s tabletitle=$P($P(PARAMS,"$",3),"^",4)
+	;s text="&nbsp;毛镕。基 M, 53"
+	;s text="&nbsp;"_$P(tabletitle,",",1,4)
+	s text="&nbsp;"_$P(tabletitle,",",1,2)
+	s adm=$P(id,"^",1)
+	;s html="<TABLE title="""_tabletitle_""" moveEnabled=1 selectEnabled=1  class="""" style=""width:100%;"" selected=0 id="""_id_""">"
+	;s html=html_"<TR><TD id="""_adm_""">"_$$getImages(ProfileId)_text
+	;s html=html_"</TD></TR></TABLE>"
+	
+	s top=($p(PARAMS,"$",1)*1.5)_"em"
+	s html="<DIV class=""waitingPat"" style=""top:"_top_"""><TABLE title="""_tabletitle_""" moveEnabled=1 selectEnabled=1  class="""" style=""width:100%;"" selected=0 id="""_id_""">"
+	;s html=html_"<TR><TD id="""_adm_""">"_$$getImages2(ProfileId)_text
+	s html=html_"<TR><TD id="""_adm_""">"_..GetImages(ProfileId)_text
+	s html=html_"</TD></TR></TABLE></DIV>"
+	
+	
+	//<DIV class="waitingPat" style="top:1.5em"><TABLE title="毛镕。基 MY , 53   , 女, 0000110243&#13;FK-妇科" moveEnabled=1 selectEnabled=1  class="" style="width:100%;" selected=0 title="毛镕。基 MY , 53   , 女, 0000110243" id="76444^110243^76444^毛镕。基 MY , 53   , 女, 0000110243^^^^^^^^^^^^^^^^^^1"><TR><TD id="76444"><A HREF="#" onClick="websys_lu('websys.default.csp?WEBSYS.TCOMPONENT=DHCNurPatDetail&FromIconProfile=1&EpisodeID=76444&CONTEXT=W50001',false,'top=40,left=40,width=640,height=480');"><IMG align='top' SRC='../images//webemr/regalert.gif' title='病人基本信息' border=0></A>&nbsp;毛镕。基 M, 53   , 女 </TD></TR></TABLE></DIV>
+	Q html
+Error1
+	s ^Temp("Upgrade","FPWaitingRoomShow")=$ZE_iconobj.CondExpr
+	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="GetCTIcons">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[EpisodeID:%Library.String,&count:%Library.String,&ARY:%Library.String,&imgLIST:%Library.String,ProfileID:%String]]></FormalSpec>
+</Method>
+
+<Method name="GetIconList">
+<Description>
+returns a list of the icons and there priorities
+"codes" is a comma delimited string with of the codes to retrieve</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&list:%Library.String,codes:%Library.String]]></FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	n (list,codes)
+	s len=$length(codes,",")
+	for i=1:1:len {
+		s code=$P(codes,",",i)
+		&SQL(Select Icon,Description into :icon,:desc From epr.CTIconAssociation where Code=:code)
+		s code=$ZCVT(code,"U")
+		s list(code,"image")=icon
+		s list(code,"desc")=desc
+	}
+]]></Implementation>
+</Method>
+
+<Method name="GetImageFromCode">
+<Description>
+KM 24-Sept-2001: Called from component web.PAPerson.Banner</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Code:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	&SQL(SELECT  Icon into :image 
+		   FROM  epr.CTIconAssociation
+    WHERE Code= :Code)
+    if 'SQLCODE Q image
+    Quit ""
+]]></Implementation>
+</Method>
+
+<Method name="GetPatientType">
+<Description>
+ab 16.06.03 32081 - returns patient type(s) based on patientid or episodeid
+I,E,O,B (booked inpatient),D (recently discharged)
+definitions from 30968</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>PatientID:%String="",EpisodeID:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="GetEpisodeForIcon">
+<Description>
+ab - 5.11.03 40435 - gets the latest episode for the patient type icons when they are displayed on patient list</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>PatientID:%String="",EpisodeID:%String="",PatType:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="websysDeleteProcedure">
+<Description>
+by wuqk 2011-05-27 </Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+<Implementation><![CDATA[
+	//if in epr.CTIconProfile
+	set ProfileID=$o(^epr.CTIconProfileD(0))
+	while ProfileID'="" {
+		set sub=$o(^epr.CTIconProfileD(ProfileID,"Items",0))
+		while sub'="" {
+			set objItem=##class(epr.CTIconProfileItem).%OpenId(ProfileID_"||"_sub)
+			if $IsObject(objItem){
+				set iconId=objItem.IconDR.%Id()
+				if id=iconId do ##class(epr.CTIconProfileItem).%DeleteId(ProfileID_"||"_sub)
+			}
+			set sub=$o(^epr.CTIconProfileD(ProfileID,"Items",sub))
+		}
+		set ProfileID=$o(^epr.CTIconProfileD(ProfileID))
+	}
+	do ##class(epr.CTIconAssociation).%DeleteId(id)
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveAll">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.
+by wuqk 2011-05-27 ]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+<Implementation><![CDATA[
+	set IdKey=$o(%request.Data("IDz"))
+	while (IdKey'="")&($e(IdKey,1,3)="IDz") {
+		set Icon="",Description=""
+		set IconId=$g(%request.Data(IdKey,1))
+		set objIconAss=##class(epr.CTIconAssociation).%OpenId(IconId)
+		set index=$p(IdKey,"IDz",2)
+		set:$d(%request.Data("Iconz"_index)) Icon=%request.Data("Iconz"_index,1)
+		set:$d(%request.Data("Descriptionz"_index)) Description=%request.Data("Descriptionz"_index,1)
+		set:Icon'="" objIconAss.Icon=Icon
+		set:Description'="" objIconAss.Description=Description
+		do objIconAss.%Save()
+		kill objIconAss
+		set IdKey=$o(%request.Data(IdKey))
+	}
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="NextMostUrgentPatient">
+<Description>
+ab 10.09.03 - 35675 - compare patients to find which is the next most urgent
+most urgent patient is:
+1. patient without care provider
+2. patient with highest triage catagory
+3. patient waiting the longest (based on triage date/time)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>MostUrgent:%String="",EpisodeID:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Query name="Find">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Code:%String,Description:%String</FormalSpec>
+<SqlQuery>SELECT  ID,Code,Icon,Description
+FROM     epr.CTIconAssociation
+WHERE (Code %STARTSWITH :Code)
+AND ((%ALPHAUP Description [ %ALPHAUP :Description) OR (:Description IS NULL))</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Code,Icon,Description"/>
+</Query>
+
+<Query name="LookUpCustom">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%String</FormalSpec>
+<SqlQuery>SELECT CODE, ID, DESCRIPTION, Icon
+FROM epr.CTIconAssociation
+WHERE (%ALPHAUP CODE %STARTSWITH %ALPHAUP :desc)</SqlQuery>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Code:%String,HIDDEN:%String,Description:%String,Icon:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTIconAssociationD</DataLocation>
+<DefaultData>CTIconAssociationDefaultData</DefaultData>
+<IdLocation>^epr.CTIconAssociationD</IdLocation>
+<IndexLocation>^epr.CTIconAssociationI</IndexLocation>
+<StreamLocation>^epr.CTIconAssociationS</StreamLocation>
+<Data name="CTIconAssociationClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="CTIconAssociationDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Code</Value>
+</Value>
+<Value name="2">
+<Value>Icon</Value>
+</Value>
+<Value name="3">
+<Value>Sequence</Value>
+</Value>
+<Value name="4">
+<Value>Description</Value>
+</Value>
+<Value name="5">
+<Value>CondExpr</Value>
+</Value>
+<Value name="6">
+<Value>CondDescription</Value>
+</Value>
+<Value name="7">
+<Value>IsDirty</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

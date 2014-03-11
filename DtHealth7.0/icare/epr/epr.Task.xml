@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.Task">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>60702,36305.910994</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>8</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Code">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LinkComponent">
+<Type>websys.Component</Type>
+</Property>
+
+<Property name="LinkExpression">
+<Type>websys.Expression</Type>
+</Property>
+
+<Query name="TaskList">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Code:%Library.String="",Description:%Library.String=""</FormalSpec>
+<SqlQuery><![CDATA[SELECT ID, Description, Code, LinkComponent->Name, LinkExpression
+FROM epr.Task
+WHERE ((Description %STARTSWITH :Description) OR (:Description IS NULL))
+AND ((Code %STARTSWITH :Code) OR (:Code IS NULL))]]></SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description,Code,LinkComponent,LinkExpression"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.TaskD</DataLocation>
+<DefaultData>TaskDefaultData</DefaultData>
+<IdLocation>^epr.TaskD</IdLocation>
+<IndexLocation>^epr.TaskI</IndexLocation>
+<StreamLocation>^epr.TaskS</StreamLocation>
+<Data name="TaskDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Code</Value>
+</Value>
+<Value name="3">
+<Value>Description</Value>
+</Value>
+<Value name="4">
+<Value>LinkComponent</Value>
+</Value>
+<Value name="5">
+<Value>LinkExpression</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

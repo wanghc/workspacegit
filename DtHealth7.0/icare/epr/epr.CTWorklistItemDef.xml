@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTWorklistItemDef">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>59798,58677.635819</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>82</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>WITName</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>WITDesc</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="WITComponentDR">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WITDefaultParamsDR">
+<Type>epr.WorklistItemParams</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WITDesc">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WITName">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WITParamComponentDR">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WITUrl">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="WITDescIndex">
+<Description>
+Index for property WITDesc</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>WITDesc</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Index name="WITNameIndex">
+<Description>
+Index for property WITName</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>WITName</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="LookUpBrokerByName">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+/*///没发现组件中用到
+Method WITUrlSet(val As %Library.String) As %Library.Status
+{
+	i val="" s %this.WITUrl="websys.default.csp"
+	e  s %this.WITUrl=val
+}*/
+]]></Content>
+</UDLText>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+/*
+ClassMethod websysDelete(id As %Library.String)
+{
+}
+ClassMethod websysSave(compref As %String,id As %Library.String)
+{
+}
+*/
+]]></Content>
+</UDLText>
+
+<Query name="Find">
+<Description>
+KM 26-Apr-2001: Called From epr.Chart.websysSave</Description>
+<Type>%Library.SQLQuery</Type>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, WITName, WITDesc, WITUrl, WITComponentDR
+FROM CTWorklistItemDef</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,WITName:%Library.String,WITDesc:%Library.String,WITUrl:%Library.String,WITComponentDR:%String"/>
+</Query>
+
+<Query name="LookUpByName">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[SELECT WITName,ID,WITDesc,WITComponentDR->Name
+FROM epr.CTWorklistItemDef
+WHERE %ALPHAUP WITName %STARTSWITH %ALPHAUP :name]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Description:%String,HIDDEN:%String,Code:%String,Component:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTWorklistItemDefD</DataLocation>
+<DefaultData>CTWorklistItemDefDefaultData</DefaultData>
+<IdLocation>^epr.CTWorklistItemDefD</IdLocation>
+<IndexLocation>^epr.CTWorklistItemDefI</IndexLocation>
+<StreamLocation>^epr.CTWorklistItemDefS</StreamLocation>
+<Data name="CTWorklistItemDefClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="CTWorklistItemDefDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>ComponentDR</Value>
+</Value>
+<Value name="2">
+<Value>Description</Value>
+</Value>
+<Value name="3">
+<Value>Name</Value>
+</Value>
+<Value name="4">
+<Value>Url</Value>
+</Value>
+<Value name="5">
+<Value>WITComponentDR</Value>
+</Value>
+<Value name="6">
+<Value>WITDesc</Value>
+</Value>
+<Value name="7">
+<Value>WITName</Value>
+</Value>
+<Value name="8">
+<Value>WITUrl</Value>
+</Value>
+<Value name="9">
+<Value>WITClass</Value>
+</Value>
+<Value name="10">
+<Value>WITDefaultParamsDR</Value>
+</Value>
+<Value name="11">
+<Value>WITParamType</Value>
+</Value>
+<Value name="12">
+<Value>WITParamComponentDR</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

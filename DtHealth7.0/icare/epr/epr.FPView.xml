@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.FPView">
+<Description>
+Floorplan view</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62886,42400.968151</TimeChanged>
+<TimeCreated>59798,58677.694782</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>134</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>FPVCode</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="FPVCode">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="FPVDesc">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="FPVItem">
+<Type>epr.FPViewItem</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="FPVViewLinkedRooms">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="FPVViewNextMostUrgent">
+<Type>%Boolean</Type>
+</Property>
+
+<Property name="FPVWard">
+<Type>User.PACWard</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Index name="FPVWardIndex">
+<Description>
+Index for property FPVWard</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>FPVWard</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="FindItemByID">
+<Description>
+returns the position of an item in the serialobject which has the bed/room id passed in
+
+called by FindForFloorplan query, and PACBed.List component ("pos")
+by wuqk 2011-07-09</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[ViewID:%Library.String="",id:%Library.String="",roomid:%Library.String="",&positions:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	new objFP,list,len,i,pos
+	set pos="",ViewID=$g(ViewID),id=$g(id),roomid=$g(roomid),positions=$g(positions)
+	set objFP=##class(epr.FPView).%OpenId(ViewID)
+	set list=objFP.FPVItem
+	set len=list.Count()
+	set objFP=""
+	for i=1:1:len {
+		set objItem=list.GetAt(i)
+		if $IsObject(objItem.FPIBedDR){
+			set sID=objItem.FPIBedDR.%Id()
+			continue:sID'=id
+			set pos=i
+		}
+		if $IsObject(objItem.FPIWardRoomDR){
+			//set ROOMDesc="等候区"
+			set sID=objItem.FPIWardRoomDR.%Id()
+			continue:sID'=roomid
+			set pos=i
+		}
+		quit:pos'=""
+	}
+	quit pos
+]]></Implementation>
+</Method>
+
+<Method name="GetLinkedRooms">
+<Description>
+by wuqk 2011-07-09</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>WardID:%Library.String="",ViewID:%Library.String="",page:%Library.String="",LinkedWardID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n obj,linkRooms
+	quit:ViewID="" 0
+	quit:ViewID="_new" 0
+	set obj=##class(epr.FPView).%OpenId(ViewID)
+	set linkRooms=obj.FPVViewLinkedRooms
+	do obj.%Close()
+	set obj=""
+	quit linkRooms
+]]></Implementation>
+</Method>
+
+<Method name="ShowNextMostUrgent">
+<Description>
+by wuqk 2011-07-09</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>WardID:%Library.String="",ViewID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[
+	n obj,NextMostUrgent
+	quit:ViewID="" 0
+	quit:ViewID="_new" 0
+	set obj=##class(epr.FPView).%OpenId(ViewID)
+	set NextMostUrgent=obj.FPVViewNextMostUrgent
+	do obj.%Close()
+	set obj=""
+	quit NextMostUrgent
+]]></Implementation>
+</Method>
+
+<Method name="GetOtherViews">
+<Description>
+returns a list of view id's for a ward
+also writes the links for the floorplan if 'page' is passed</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>WardID:%Library.String="",page:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean,ViewID:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysSavePositions">
+<Description>
+by wuqk 2011-07-09</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String,id:%Library.String,ViewID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n objFP,objBed,objWardRoom,rowIndex,WardID,i,objItem,objBed,objWardRoom,save
+	;k ^Temp
+	;m ^Temp("Upgrade",$j,"websysSavePositions","%req")=%request.Data
+	;s ^Temp("Upgrade",$j,"websysSavePositions","Para")=ViewID
+	set WardID=$g(%request.Data("WardID",1))
+	
+	if ViewID'=""{
+		if ViewID="_new" {set objFP=##class(epr.FPView).%New() }
+		else {set objFP=##class(epr.FPView).%OpenId(ViewID)}
+		set list=objFP.FPVItem
+		set len=list.Count()
+	}elseif WardID'=""{
+		//set WardID=id
+	}else{
+		quit 0
+	}
+	
+ 	//update Items
+ 	for rowIndex=1:1:100{
+		 s bedRowID="IDz"_rowIndex
+		 q:'$d(%request.Data(bedRowID,1))
+		 s bedid=$g(%request.Data(bedRowID,1))
+		 s WardRoomID="WardRoomIDz"_rowIndex
+		 s wardroomid=$g(%request.Data(WardRoomID,1))
+		 s PositionHeight=$g(%request.Data("PositionHeightz"_rowIndex,1))
+		 s PositionLeft=$g(%request.Data("PositionLeftz"_rowIndex,1))
+		 s PositionTop=$g(%request.Data("PositionTopz"_rowIndex,1))
+		 s PositionWidth=$g(%request.Data("PositionWidthz"_rowIndex,1))
+		
+		 if ViewID'="" {do setFPViewItem(bedid,wardroomid)}
+		 else{do saveBedPos(bedid,wardroomid)}
+ 	}
+ 	
+	if ViewID'="" {do saveFPView}
+	quit $$$OK
+	/*
+	"FPSetup",1)=""
+	"IDz1",1)="15||27"
+	"IDz10",1)=""
+	"IDz2",1)="15||28"
+	"IDz3",1)="15||29"
+	"IDz4",1)="15||30"
+	"IDz5",1)="15||31"
+	"IDz6",1)="15||32"
+	"IDz7",1)="15||33"
+	"IDz8",1)="15||35"
+	"IDz9",1)="15||36"
+	"PositionHeightz1",1)=""
+	"PositionHeightz10",1)=""
+	"PositionLeftz1",1)=1
+	"PositionLeftz10",1)=99
+	"PositionLeftz2",1)=2
+	"PositionLeftz3",1)=3
+	"PositionLeftz4",1)=4
+	"PositionLeftz5",1)=5
+	"PositionLeftz6",1)=""
+	"PositionTopz1",1)=""
+	"PositionTopz10",1)=""
+	"PositionWidthz1",1)=""
+	"PositionWidthz10",1)=""
+	"UnavailReasonz1",1)=""
+	"UnavailReasonz10",1)=""
+	"ViewID",1)="_new"
+	"WardID",1)=15
+	"WardRoomIDz1",1)=""
+	"WardRoomIDz10",1)="15||1"
+	*/
+	
+setFPViewItem(bedid,wardroomid)   //检查已有的itemlist中是否有匹配项目，如果有则更新，如果没有则插入
+	set matching=0
+	;s ^Temp("Upgrade",$j,"websysSavePositions",rowIndex)=bedid_"/"_wardroomid
+	for i=1:1:len{
+		set objItem=list.GetAt(i)
+		continue:'$IsObject(objItem)
+		if $IsObject(objItem.FPIBedDR){
+			set sID=objItem.FPIBedDR.%Id()
+			;s ^Temp("Upgrade",$j,"websysSavePositions",rowIndex,i)="bed/"_bedid_"/"_wardroomid_"/"_sID
+			continue:sID'=bedid
+		}
+		if $IsObject(objItem.FPIWardRoomDR){
+			set sID=objItem.FPIWardRoomDR.%Id()
+			;s ^Temp("Upgrade",$j,"websysSavePositions",rowIndex,i)="room/"_bedid_"/"_wardroomid_"/"_sID
+			continue:sID'=wardroomid
+		}
+		set matching=1
+		quit
+	}
+	
+	if (matching=0){
+		set objItem=##class(epr.FPViewItem).%New()
+		//????? set:id'="" objItem.FPIBedDR=##class(User.PACBed).%OpenId(id)
+		set:bedid'="" objItem.FPIBedDR=##class(User.PACBed).%OpenId(bedid)
+		set:wardroomid'="" objItem.FPIWardRoomDR=##class(User.PACWardRoom).%OpenId(wardroomid)
+	}
+	;s ^Temp("Upgrade",$j,"websysSavePositions",rowIndex,"0m")=matching
+	set objItem.FPIPositionHeight=PositionHeight
+	set objItem.FPIPositionLeft=PositionLeft
+	set objItem.FPIPositionTop=PositionTop
+	set objItem.FPIPositionWidth=PositionWidth
+	if matching=0 {
+		do list.Insert(objItem)
+		set len=list.Count()
+	}
+	quit
+saveBedPos(bedid,wardroomid)
+	if bedid'=""{
+		set objBed=##class(User.PACBed).%OpenId(bedid)
+		set objBed.BEDPositionHeight=PositionHeight
+		set objBed.BEDPositionLeft=PositionLeft
+		set objBed.BEDPositionTop=PositionTop
+		set objBed.BEDPositionWidth=PositionWidth
+		set save=objBed.%Save()
+		d objBed.%Close()
+		set objBed=""
+	}elseif wardroomid'=""{
+		set objWardRoom=##class(User.PACWardRoom).%OpenId(wardroomid)
+		set objWardRoom.ROOMPositionHeight=PositionHeight
+		set objWardRoom.ROOMPositionLeft=PositionLeft
+		set objWardRoom.ROOMPositionTop=PositionTop
+		set objWardRoom.ROOMPositionWidth=PositionWidth
+		set save=objWardRoom.%Save()
+		d objWardRoom.%Close()
+		set objWardRoom=""
+	}
+	;s ^Temp("Upgrade",$j,"websysSavePositions",rowIndex)="room/"_bedid_"/"_wardroomid	
+	if $$$ISERR(save) do Err
+	quit
+saveFPView
+	//set objFP.FPVCode=$g(%request.Data("FPVCode",1))
+	set objFP.FPVDesc=$g(%request.Data("FPVDesc",1))
+	set objFP.FPVWard=##class(User.PACWard).%OpenId(WardID)
+	set objFP.FPVViewLinkedRooms=##class(websys.Conversions).BooleanHtmlToLogical($g(%request.Data("WARDViewLinkedRooms",1)))
+	set objFP.FPVViewNextMostUrgent=##class(websys.Conversions).BooleanHtmlToLogical($g(%request.Data("WARDViewNextMostUrgent",1)))
+	set objFP.FPVItem=list
+	set save=objFP.%Save(0)
+	set:save ViewID=objFP.%Id()	
+	if $$$ISERR(save) do Err
+	do objFP.%Close()  set objFP=""
+	set %request.Data("ViewID",1)=ViewID
+	
+	/*if tempViewID="_new" 
+	if tempViewID="_new"
+	{
+		set %request.Data("ViewID",1)=ViewID
+	}
+	*/
+	quit
+Err
+	s ^Temp("Upgrade","websysSavePositions.err1")=$ZE
+	s ^Temp("Upgrade","websysSavePositions.err2")=$System.Status.GetErrorText(save)
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="GetNextMostUrgentFP">
+<Description>
+ab 27.02.06  58179</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>LocID:%String="",QueryType:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	quit ""
+]]></Implementation>
+</Method>
+
+<Method name="FindForFloorplanExecute">
+<Description>
+d ##class(%ResultSet).RunQuery("epr.FPView","FindForFloorplan",5,"")</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&qHandle:%Binary,WardID,ViewID]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n (qHandle,WardID, ViewID)
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s qHandle=$lb(0,repid,0)
+	if WardID="" Quit $$$OK
+	
+	set len=0
+	if (ViewID'="")&&(ViewID'="_new"){
+		set objFP=##class(epr.FPView).%OpenId(ViewID)
+		set list=objFP.FPVItem
+		set len=list.Count() 
+		do objFP.%Close()
+		set objFP=""
+	}
+   
+	if WardID'=""{
+		&sql(declare CurFromWard cursor for 
+			 select BED_RowID,BED_Code,BED_RcFlag,
+			        BED_Room_DR->ROOM_Desc,
+			        BED_PositionLeft,
+			        BED_PositionTop,
+			        BED_PositionWidth,
+			        BED_PositionHeight,
+			        BED_BedType_DR->BEDTP_Desc,
+			        BED_Room_DR->ROOM_RoomType_DR->ROOMT_Desc,BED_BedType_DR->BEDTP_IconName,BED_ROOM_DR
+			        into :ID,:BEDCode,:ActiveFlag,:ROOMDesc,
+			        :PositionLeft,:PositionTop,:PositionWidth,:PositionHeight,
+			        :BEDTypeDesc,:RoomType,:BEDIcon,:bedRoomDr
+			  from SQLUser.PAC_Bed where BED_WARD_ParRef=:WardID)
+		&sql(open CurFromWard)
+		&sql(fetch CurFromWard)
+		while (SQLCODE=0){
+			set data=$lb()
+		
+			i ViewID'=""
+		    {
+			   do GetFPValues(ID,"")
+		    }
+		   
+			set $li(data,1)=ID
+			set $li(data,2)=BEDCode
+			set $li(data,3)=ROOMDesc
+			set $li(data,4)=""        			//WardRoomID
+			set $li(data,5)=PositionLeft
+			set $li(data,6)=PositionTop
+			set $li(data,7)=PositionWidth
+			set $li(data,8)=PositionHeight
+			set $li(data,9)=ActiveFlag
+			set $li(data,10)=""       			//QueryType,床位的querytype为空,6.9上验证过了
+			set $li(data,11)=""       			//Rows
+			set $li(data,12)=""      			//UnavailReason
+			set $li(data,13)=$g(BEDIcon)       	//BEDIcon
+			set $li(data,14)=$g(BEDTypeDesc)    //BEDTypeDesc
+			set $li(data,15)=""       			//Incompletes
+			set $li(data,16)=$g(RoomType)       //RoomType
+			set ^CacheTemp(repid,ind)=data			
+
+			set ind=ind+1
+			&sql(fetch CurFromWard)
+		}
+		&sql(close CurFromWard)
+		if (ind>1){            //等候区
+			//^PAWARD(WARD,"ROOM",sub)
+			set roomID=0
+			if $d(^PAWARD(WardID,"ROOM"))
+			do
+			{
+				s roomID=$o(^PAWARD(WardID,"ROOM",roomID))
+				
+				if roomID="" quit
+				
+				//set sub=$o(^PAWARD(WardID,"ROOM",0))
+				//set tmpData=$g(^PAWARD(WardID,"ROOM",sub))
+				set tmpData=$g(^PAWARD(WardID,"ROOM",roomID))
+				set WardRoomID=$p(tmpData,"^",1)				
+			
+				
+				//如果此房间已经分配了床位,则不再单独显示为区域(如等候区)
+				s childsub=$O(^PAWARD("BED_Room_DR",WardRoomID,WardID,0))
+				continue:childsub'=""
+		        ;&sql(select * from SQLUser.PAC_BED where bed_room_dr=:roomID)
+		        ;continue:SQLCODE=0
+		        
+				set PositionLeft=$p(tmpData,"^",2) 
+				set PositionTop=$p(tmpData,"^",3) 
+				set PositionWidth=$p(tmpData,"^",4) 
+				set PositionHeight=$p(tmpData,"^",5) 
+			  
+			    if ViewID'=""
+				{
+					do GetFPValues("",WardID_"||"_roomID)
+				}
+				
+				set ROOMDesc=$p($g(^PAROOM(WardRoomID)),"^",2)
+				set QueryType=$p($g(^PAROOM(WardRoomID)),"^",5)
+				set RoomTypeDR=$p($g(^PAROOM(WardRoomID)),"^",3)
+				set RoooType=$p($g(^PAC("ROOMT",RoomTypeDR)),"^",1)
+				set Rows=$p($g(^PAROOM(WardRoomID)),"^",6)
+				set Incompletes=$p($g(^PAROOM(WardRoomID)),"^",7)
+				set data=$lb()
+				set $li(data,1)=""        //ID
+				set $li(data,2)=""        //BEDCode							
+				set $li(data,3)=ROOMDesc				
+				set $li(data,4)=WardID_"||"_roomID  //WardRoomID
+				set $li(data,5)=PositionLeft //PositionLeft
+				set $li(data,6)=PositionTop //PositionTop
+				set $li(data,7)=PositionWidth //PositionWidth
+				set $li(data,8)=PositionHeight //PositionHeight				
+				set $li(data,9)=""       //ActiveFlag
+				//set $li(data,10)="BA"       //QueryType 
+				set $li(data,10)=QueryType
+				set $li(data,11)=Rows       //Rows
+				set $li(data,12)=""       //UnavailReason
+				set $li(data,13)=""       //BEDIcon
+			    set $li(data,14)=""       //BEDTypeDesc
+				set $li(data,15)=Incompletes       //Incompletes
+				set $li(data,16)=RoomType       //RoomType
+				set ^CacheTemp(repid,ind)=data			
+				set ind=ind+1
+			}
+			while (roomID'="")
+		}
+		//select * from PAC_WardRoom
+		/*"ID,BEDCode,ROOMDesc,WardRoomID,
+		PositionLeft,PositionTop,PositionWidth,
+		PositionHeight,
+		ActiveFlag, //QueryType,Rows,UnavailReason,
+		BEDIcon,BEDTypeDesc,Incompletes,RoomType")*/
+	}
+
+	
+	quit $$$OK
+GetFPValues(chkBedID,chkWardRoomID)
+	if (ViewID="_new"){
+		set (PositionLeft,PositionTop,PositionWidth,PositionHeight)=""
+	}
+	quit:(ViewID="_new")
+	//w !,"-------------"
+	
+	if len>0{
+		set (PositionLeft,PositionTop,PositionWidth,PositionHeight)=""		
+		for i=1:1:len {
+			set objItem=list.GetAt(i)
+			if $IsObject(objItem.FPIBedDR){
+				set sID=objItem.FPIBedDR.%Id()
+				//w !,"	Bed:"_sID_"/"_chkBedID
+				continue:sID'=chkBedID
+			}
+			if $IsObject(objItem.FPIWardRoomDR){
+				//set ROOMDesc="等候区"
+				set sID=objItem.FPIWardRoomDR.%Id()
+				//w !,"	Room:"_sID_"/"_chkWardRoomID
+				continue:sID'=chkWardRoomID
+			}
+			//w !,"	--matching"
+			set PositionHeight=objItem.FPIPositionHeight
+			set PositionLeft=objItem.FPIPositionLeft
+			set PositionTop=objItem.FPIPositionTop
+			set PositionWidth=objItem.FPIPositionWidth
+			//bed 属性
+			if chkBedID'=""
+	       {
+        	set BEDIcon=objItem.FPIBedDR.BEDBedTypeDR.BEDTPIconName
+	        set BEDTypeDesc=objItem.FPIBedDR.BEDBedTypeDR.BEDTPDesc
+	        //set ActiveFlag=objItem.FPIBedDR.BEDRcFlag
+	       }
+	        //room 属性
+	        if chkWardRoomID'=""
+			{
+			  set (ROOMDesc,QueryType,RoomType)=""
+			  set ROOMDesc=objItem.FPIWardRoomDR.ROOMRoomDR.ROOMDesc
+			  set QueryType=objItem.FPIWardRoomDR.ROOMRoomDR.ROOMQuery			
+	          set RoomType=objItem.FPIWardRoomDR.ROOMRoomDR.ROOMRoomTypeDR.ROOMTDesc	     			
+	        
+			}
+			do list.RemoveAt(i)
+			set len=list.Count() 		
+			quit
+		}
+	}
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="FindForFloorplanFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&qHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>FindForFloorplanExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n repid
+	Set AtEnd=$LIST(qHandle,1)
+ 	Set repid=$LIST(qHandle,2)
+ 	Set ind=$LIST(qHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {			
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	s qHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindForFloorplanClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>FindForFloorplanExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n repid
+	Set repid=$LIST(qHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="FindForFloorplan">
+<Type>%Library.Query</Type>
+<FormalSpec>WardID,ViewID</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,BEDCode,ROOMDesc,WardRoomID,PositionLeft,PositionTop,PositionWidth,PositionHeight,ActiveFlag,QueryType,Rows,UnavailReason,BEDIcon,BEDTypeDesc,Incompletes,RoomType"/>
+</Query>
+
+<Method name="getFPViewItems">
+<Description>
+自定义测试数据用
+d ##class(epr.FPView).getFPViewItems(WardID, ViewID)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>WardID,ViewID</FormalSpec>
+<Implementation><![CDATA[
+	set obj=##class(epr.FPView).%OpenId(ViewID)
+	set list=obj.FPVItem
+	set len=list.Count() 
+	for i=1:1:len {
+		set objItem=list.GetAt(i)
+		set bed=objItem.FPIBedDR.BEDCode
+		set room=objItem.FPIWardRoomDR
+		set h=objItem.FPIPositionHeight
+		set l=objItem.FPIPositionLeft
+		set t=objItem.FPIPositionTop
+		set w=objItem.FPIPositionWidth
+		w !,bed_"/"_room_"/"_h_"/"_l_"/"_t_"/"_w
+	}
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="getbed">
+<Description>
+自定义测试数据用
+s a=##class(epr.FPView).getbed(93)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ward</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	  s i=1
+	  s chl="0" f  s chl=$O(^PAWARD(ward,"BED",chl)) q:chl=""  d
+	  .s a=##class(User.PACBed).%OpenId(ward_"||"_chl)
+	  .s BedID=ward_"||"_chl
+	  .s bedcode=a.BEDCode
+      .s bedicon=a.BEDBedTypeDR.BEDTPIconName
+	  .s bedtypedesc=a.BEDBedTypeDR.BEDTPDesc
+	  .s wpos=a.BEDPositionWidth
+	  .s lpos=a.BEDPositionLeft
+	  .s tpos=a.BEDPositionTop
+	  .s hpos=a.BEDPositionHeight
+	  .s isActive=a.BEDAvailable
+	  .s Incompletes="N"
+	  .s ROOMDesc=a.BEDRoomDR.ROOMDesc
+	  .s QueryType=a.BEDRoomDR.ROOMQuery
+	  .s rmid=a.BEDRoomDR.%Id()
+	  .s wr=$O(^PAWARD(ward,"ROOM",0,"Room",rmid,""))  
+	  .s WardRoomID=BedID
+	  .s Rows=i
+	  .s i=i+1
+	  .//w !,QueryType_"---"_WardRoomID_"---"_isActive
+	  .//UnavailReason
+	  s WardID=ward
+	  s chl="0" f  s chl=$O(^PAWARD(WardID,"ROOM",chl)) q:chl=""  d
+      .s WardRoomID=WardID_"||"_chl
+      .s a=##class(User.PACWardRoom).%OpenId(WardRoomID)
+      .s QueryType=a.ROOMRoomDR.ROOMQuery
+	  .s ROOMDesc=a.ROOMRoomDR.ROOMDesc
+      .s PositionWidth=a.ROOMPositionWidth
+	  .s PositionLeft=a.ROOMPositionLeft
+	  .s PositionTop=a.ROOMPositionTop
+	  .s PositionHeight=a.ROOMPositionHeight
+	  .s ActiveFlag="Y"
+	  .w !,QueryType
+
+	 q 0
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.FPViewD</DataLocation>
+<DefaultData>FPViewDefaultData</DefaultData>
+<IdLocation>^epr.FPViewD</IdLocation>
+<IndexLocation>^epr.FPViewI</IndexLocation>
+<StreamLocation>^epr.FPViewS</StreamLocation>
+<Data name="FPViewClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="FPViewDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>FPVCode</Value>
+</Value>
+<Value name="2">
+<Value>FPVDesc</Value>
+</Value>
+<Value name="3">
+<Value>FPVWard</Value>
+</Value>
+<Value name="4">
+<Value>FPVItem</Value>
+</Value>
+<Value name="5"/>
+<Value name="6">
+<Value>FPVViewLinkedRooms</Value>
+</Value>
+<Value name="7">
+<Value>FPVViewNextMostUrgent</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

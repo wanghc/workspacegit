@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.SocialHistFav">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>60551,44462.106243</TimeCreated>
+
+<Query name="LookUpSocHistList">
+<Type>%Library.Query</Type>
+<FormalSpec>PrefID:%String,UserID:%String,LocID:%String,GroupID:%String,SiteCode:%String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Code:%String,Description:%String"/>
+</Query>
+
+<Method name="LookUpSocHistListClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpSocHistListFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpSocHistListExecute">
+<Description>
+PJC - 13/10/2006 - 60087</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,PrefID:%String="",UserID:%String="",LocID:%String="",GroupID:%String="",SiteCode:%String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpSocHistListFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpDiagListExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GetPrefs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ID:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="SavePrefs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compid:%Library.String,level:%String=""</FormalSpec>
+</Method>
+
+<Method name="DeletePrefs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String,level:%String=""</FormalSpec>
+</Method>
+
+<Method name="SaveMultiHabits">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String="",HabitIds:%String="",PatientID:%String=""</FormalSpec>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.SocialHistFavD</DataLocation>
+<DefaultData>SocialHistFavDefaultData</DefaultData>
+<IdLocation>^epr.SocialHistFavD</IdLocation>
+<IndexLocation>^epr.SocialHistFavI</IndexLocation>
+<StreamLocation>^epr.SocialHistFavS</StreamLocation>
+<Data name="SocialHistFavDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

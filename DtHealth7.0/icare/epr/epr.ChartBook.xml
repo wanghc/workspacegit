@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.ChartBook">
+<Description>
+A group (collection list) of charts</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62247,41371.066771</TimeChanged>
+<TimeCreated>59798,58677.670852</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>120</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Description><![CDATA[
+Used to control sql fields to be used in generated queries.<br>
+Applies to LookupExecute,Fetch,Close.<br>
+Applies to GetIdFromCodeOrDescription.<br>]]></Description>
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Final>0</Final>
+<Default>ID</Default>
+</Parameter>
+
+<Property name="ChartList">
+<Type>epr.Chart</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="AlphaUp"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LeftChartList">
+<Type>epr.Chart</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ShowTimeline">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Index name="UniqueDescriptionIndex">
+<Description>
+Uniqueness index for property Description</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Description</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="CopyChartbook">
+<Description>
+ab 24.03.06 58654
+by wuqk 2011-06-05</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ID:%String="",Name:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	set objChartBookOld=##class(epr.ChartBook).%OpenId(ID)
+	quit:'$IsObject(objChartBookOld)
+	set msg=##class(websys.Message).%New()
+	set objChartBook=##class(epr.ChartBook).%New()
+	set objChartBook.Description=Name
+	set objChartBook.ChartList=objChartBookOld.ChartList
+	set objChartBook.LeftChartList=objChartBookOld.LeftChartList
+	set objChartBook.ShowTimeline=objChartBookOld.ShowTimeline
+	set sc=objChartBook.%Save()
+	quit sc
+]]></Implementation>
+</Method>
+
+<Method name="LookUpItemsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpItemsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpItemsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,ID:%String,List:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	
+	set objChart=##class(epr.ChartBook).%OpenId(ID)
+	quit:'$IsObject(objChart) $$$OK
+	set chartList=objChart.ChartList
+	set:List="L" chartList=objChart.LeftChartList
+	quit:'chartList $$$OK
+	for index=1:1:chartList.Count() {
+		set chart=chartList.GetAt(index)
+		continue:'$IsObject(chart)
+		set ^CacheTemp(repid,ind)=$lb(chart.%Id(),chart.Name)
+		set ind=ind+1
+	}
+	
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpItemsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpItemsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ShowSideBar">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ChartBookID:%Library.String,PatientID:%Library.String,EpisodeID:%Library.String,mradm:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ShowTopBar">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ChartBookID:%Library.String,PatientID:%Library.String,EpisodeID:%Library.String,mradm:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysSave">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.
+by wuqk 2011-06-05]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%String,ChartBookID:%String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ s $ZT="saveerr"
+ n compid,status,new,j,oktosave,save,value,parref,oldval
+ s compid=$e($p(compref,"i",1),2,999),oktosave=1,save=0
+ //s compid=$e($p(compref,"i",1),2,999)
+ //s itmname=$p(TEVENT,"i",2,99)
+ m ^Temp("Upgrade",$zn,"%req")=%request.Data
+ s lstChartList=$g(%request.Data("ChartList",1))
+ s lstLeftChartList=$g(%request.Data("LeftChartList",1))
+ i ChartBookID'="",'##Class(websys.Lock).Lock($lb(ChartBookID,"epr.ChartBook"),%session.SessionId,%session.Get("LOGON.USERID"),.status) d  q 0
+ . d msg.AddItem("E","LOCKED",status,compid) s oktosave=0
+ i '##Class(epr.ChartBook).websysBeforeSave(compref,.ChartBookID) q 0
+ s new=ChartBookID=""
+ s:ChartBookID'="" obj=##Class(epr.ChartBook).%OpenId(ChartBookID)
+ if ChartBookID="" d
+ . s parref=$g(%request.Data("PARREF",1))
+ . i parref="" s obj=##Class(epr.ChartBook).%New()
+ . i parref'="" s obj=##Class(epr.ChartBook).%New(parref)
+ i $d(%request.Data("Description",1)) d
+ . s (val,oldval)=$g(%request.Data("Description",1)) s obj.Description=$g(val)
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("Description"),"描述"),oldval_" "_$g(t("XINVALID")," is invalid"),538,"Description") s oktosave=0
+ d
+ . s (val,oldval)=$g(%request.Data("ShowTimeline",1)) s obj.ShowTimeline=##Class(websys.Conversions).BooleanHtmlToLogical($g(val))
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("ShowTimeline"),"ShowTimeline"),oldval_" "_$g(t("XINVALID")," is invalid"),538,"ShowTimeline") s oktosave=0
+ do obj.ChartList.Clear()
+ do obj.LeftChartList.Clear()
+ //s ^Temp("Upgrade",$zn,"M-l")=lstChartList_"/"_$l(lstChartList,$c(1))
+ //s ^Temp("Upgrade",$zn,"L-l")=lstLeftChartList_"/"_$l(lstLeftChartList,$c(1))
+ for index=1:1:$l(lstChartList,$c(1)){
+	set objChart=##class(epr.Chart).%OpenId($p(lstChartList,$c(1),index))
+	if $IsObject(objChart) do obj.ChartList.Insert(objChart)
+	//s ^Temp("Upgrade",$zn,"M-l",index)=objChart
+ }
+ for index=1:1:$l(lstLeftChartList,$c(1)){
+	set objChart=##class(epr.Chart).%OpenId($p(lstLeftChartList,$c(1),index))
+	if $IsObject(objChart) do obj.LeftChartList.Insert(objChart)
+	//s ^Temp("Upgrade",$zn,"L-l",index)=objChart
+ }
+ i 'oktosave,'$g(msg.Count("E")),$g(%request.Data("TOVERRIDE",1)) s oktosave=1
+ //s ^Temp("Upgrade",$zn,1)=oktosave
+ i oktosave d
+ . s save=obj.%Save(0)
+ . s ^Temp("Upgrade",$zn,2)=$system.Status.GetErrorText(save)
+ . i $d(msg) d msg.Status(save,538)
+ s:save ChartBookID=obj.%Id()
+ d obj.%Close()  s obj=""
+ d:save ##Class(epr.ChartBook).websysAfterSave(compref,ChartBookID,new)
+ i 'new d ##Class(websys.Lock).LockClear($lb(ChartBookID,"epr.ChartBook"),%session.SessionId)
+ q save
+saveerr
+ d ##Class(websys.Lock).LockClear($lb(ChartBookID,"epr.ChartBook"),%session.SessionId)
+ s ^Temp("Upgrade",$zn,"saveerr")=$ZE
+ q 1
+]]></Implementation>
+</Method>
+
+<Query name="LookUpItems">
+<Description>
+by wuqk 2011-06-01</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>ID:%Library.String,List:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ChartID:%Library.String,ChartName:%Library.String"/>
+</Query>
+
+<Query name="VBFindLE">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlQuery>SELECT	ID, Description
+FROM	epr.ChartBook
+WHERE	(Description %STARTSWITH :desc)
+ORDER	BY Description</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.ChartBookD</DataLocation>
+<DefaultData>ChartBookDefaultData</DefaultData>
+<IdLocation>^epr.ChartBookD</IdLocation>
+<IndexLocation>^epr.ChartBookI</IndexLocation>
+<StreamLocation>^epr.ChartBookS</StreamLocation>
+<Data name="ChartBookClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="ChartBookDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Description</Value>
+</Value>
+<Value name="2">
+<Value>ChartList</Value>
+</Value>
+<Value name="3">
+<Value>LeftChartList</Value>
+</Value>
+<Value name="4">
+<Value>ShowTimeline</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

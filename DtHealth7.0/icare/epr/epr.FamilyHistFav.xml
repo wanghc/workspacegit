@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.FamilyHistFav">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>60557,51467.081185</TimeCreated>
+
+<Method name="GetPrefs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ID:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="SavePrefs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compid:%Library.String,level:%String=""</FormalSpec>
+</Method>
+
+<Method name="DeletePrefs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String,level:%String=""</FormalSpec>
+</Method>
+
+<Method name="SaveMultiDiagnosis">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String="",DiagCodes:%String="",FamilyList:%String="",PatientID:%String=""</FormalSpec>
+</Method>
+
+<Query name="LookUpDiagList">
+<Type>%Library.Query</Type>
+<FormalSpec>PrefID:%String,List:%String,UserID:%String,LocID:%String,GroupID:%String,SiteCode:%String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Code:%String,Description:%String"/>
+</Query>
+
+<Method name="LookUpDiagListClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpDiagListFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpDiagListExecute">
+<Description>
+ab 21.07.06 59776</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,PrefID:%String="",List:%String="",UserID:%String="",LocID:%String="",GroupID:%String="",SiteCode:%String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpDiagListFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpDiagListExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.FamilyHistFavD</DataLocation>
+<DefaultData>FamilyHistFavDefaultData</DefaultData>
+<IdLocation>^epr.FamilyHistFavD</IdLocation>
+<IndexLocation>^epr.FamilyHistFavI</IndexLocation>
+<StreamLocation>^epr.FamilyHistFavS</StreamLocation>
+<Data name="FamilyHistFavDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

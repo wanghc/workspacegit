@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.LabGraphTestSets">
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>61079,43958.004989</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>2958</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Description><![CDATA[
+Used to control sql fields to be used in generated queries.<br>
+Applies to LookupExecute,Fetch,Close.<br>
+Applies to GetIdFromCodeOrDescription.<br>]]></Description>
+<Final>0</Final>
+<Default>LGPHCode</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>LGPHDesc</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="LGPHCode">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LGPHDesc">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LGPHLabItemCount">
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LGPHLabItemList">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="UniqueLGPHCodeIndex">
+<Description>
+Uniqueness index for property LGPHCode</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>LGPHCode</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="GetTestSetItemsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>GetTestSetItemsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetTestSetItemsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,ID:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetTestSetItemsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>GetTestSetItemsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="DisplayCumulative">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>CanRead:%String</FormalSpec>
+</Method>
+
+<Method name="LabCummResultsGet">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[PatientID:%Library.String,TestCodeIDs:%Library.String,stdate:%Library.Date,enddate:%Library.Date,TimeFrom:%Library.Time,TimeTo:%Library.Time,&dtmLIST:%Library.String,&chLIST:%Library.String,refLIST:%Library.String,EpisodesAll:%String="",EpisodeIDs:%String="",Start:%String="",Columns:%String=""]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 66071 - DAH - This will sort result according to Parameters setting
+
+]]></Content>
+</UDLText>
+
+<Method name="Sort">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&refLIST,params]]></FormalSpec>
+</Method>
+
+<Method name="GetCol">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&column,&ColValid,&chLIST,&dtmLIST,&arrLabEpisode,date,time,lab,ts,&TSLayout,TestCodeIDs,Start,&Reas,&Display]]></FormalSpec>
+</Method>
+
+<Method name="LabCummResultsShow">
+<Description>
+KM: 21May2001: Called from epr.Chart.csp</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&dtmLIST:%Library.String,&chLIST:%Library.String,&refLIST:%Library.String,minslots:%Library.String=60,heading:%Library.String="",ChartID:%Library.String="",ItemID:%Library.String="",Type:%Library.String="",Context:%Library.String="",Columns:%Library.String="",Start:%Library.String="",IncludeRPrefix:%Library.String="",ColumnID:%Library.String="",RefRangePosition:%Library.String="",CanRead:%String,ColumnWidth:%Library.String="",ResultJustification:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LabCummResultsGetOLD1">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[PatientID:%Library.String,TestCodeIDs:%Library.String,stdate:%Library.Date,enddate:%Library.Date,TimeFrom:%Library.Time,TimeTo:%Library.Time,&dtmLIST:%Library.String,&chLIST:%Library.String,refLIST:%Library.String,EpisodesAll:%String="",EpisodeIDs:%String="",Start:%String="",Columns:%String=""]]></FormalSpec>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+/*
+ClassMethod LabCummResultsGetOLD(PatientID As %Library.String, TestCodeIDs As %Library.String, stdate As %Library.Date, enddate As %Library.Date, TimeFrom As %Library.Time, TimeTo As %Library.Time, ByRef dtmLIST As %Library.String, ByRef chLIST As %Library.String, refLIST As %Library.String, EpisodesAll As %Library.String = "")
+{
+ n items,itm,id,obj,dt,tm,nextobj,episodeid,QuitFlag,OrderID,FLLRobj,ORDobj,DoNotDisplay,labobj
+ n LabEpisodeNo,TestSet,Counter,strTEPI,LabStatusCode,ExternalSystemCode,IconLocation,ShwVerified
+ n UserGroup,CanViewSensitive,prefix,Units,tmp,numtype,tmp,IsUnRead,donetests,GroupID,numtype,objGroup,CanRead
+ s (ShwVerified,obj,IsUnRead,numtype)=""
+ s GroupID=##Class(epr.GroupSettings).GetIdFromGroupId(%session.Get("LOGON.GROUPID"))
+ i GroupID'="" s objGroup=##Class(epr.GroupSettings).%OpenId(GroupID) i objGroup d
+ . s numtype=objGroup.LabNoDisplayType
+ . d objGroup.%Close()
+ i numtype="" s numtype="Medtrak"
+ s UserGroup=##Class(User.SSGroup).%OpenId(%session.Data("LOGON.GROUPID"))
+ s CanViewSensitive=0
+ i UserGroup d
+ . i UserGroup.SSGRPAllowedSeeSEnsitRes="Y" s CanViewSensitive=1
+ . d UserGroup.%Close()
+ ;
+ ;
+ s episodeid=%request.Get("EpisodeID")
+ ; check for organisms as:
+ ; ORG - this will return ALL results "ORG_1", "ORG_2", etc
+ f items=1:1:$l(TestCodeIDs,"^") d
+ . s itm=$p(TestCodeIDs,"^",items)
+ . i itm'="" s obj=##Class(%Library.ResultSet).%New("epr.LabGraphTestSets:PatResultsForGraph")
+ . i obj d
+ . . d obj.Execute(PatientID,itm,stdate,enddate,TimeFrom,TimeTo)
+ . . f  s nextobj=obj.Next()  q:'nextobj  d
+ . . . ; Log 30558 - AI - 11-03-2003 : Also returned from PatResultsForGraph are RecDate and RecTime.
+ . . . ; Logic from PatResultsForGraph: Use Coll Date/Time, or if blank use Rec Date/Time, or if blank use Start Date/Time.
+ . . . s (OrderID,dt,tm,prefix)=""
+ . . . s prefix=obj.Data("Prefix")
+ . . . s OrderID=obj.Data("OrderID") q:OrderID=""
+ . . . s %request.Data("OrderID",1)=OrderID
+ . . . s dt=obj.Data("Date")
+ . . . s tm=obj.Data("Time")
+ . . . ; 
+ . . . s LabEpisodeNo=$p(obj.Data("ID"),"||",1)
+ . . . s %request.Data("LabEpisodeNo",1)=LabEpisodeNo
+ . . . s TestSet=$p(obj.Data("ID"),"||",2)
+ . . . s Counter=$p(obj.Data("ID"),"||",3)
+ . . . s TestItem=$p(obj.Data("ID"),"||",4)
+ . . . s (id,rowid)=LabEpisodeNo_"||"_TestSet_"||"_Counter
+ . . . s strTEPI=$g(^TEPI(LabEpisodeNo,1,TestSet,Counter))
+ . . . ; Log 27734 - AI - 11-10-2002 : Get the LabStatusCode and the ExternalSystemCode
+ . . . s LabStatusCode=$p(strTEPI,"\",31)
+ . . . s ExternalSystemCode=##class(web.OEOrdItem).GetExternalSystem(OrderID)
+ . . . s IconLocation=##class(web.EPVisitNumber).GetExtraValue(LabStatusCode,ExternalSystemCode)
+ . . . s Comments=obj.Data("Comments")
+ . . . s QuitFlag=0,IsRead=0,UnSignedSensitivities=0,IsUnRead=0,arcim=0,orderdesc=""
+ . . . i OrderID'="" d
+ . . . . s tmp=$s(numtype="Medtrak":$p($g(^OEORD(+OrderID,"I",+$p(OrderID,"||",2),3)),"^",20),1:$p($g(^OEORD(+OrderID,"I",+$p(OrderID,"||",2),9)),"^",12))
+ . . . . i tmp'="" s id=tmp  ;_"||"_TestSet_"||"_Counter
+ . . . . s IsUnRead=($p($g(^OEORD(+OrderID,"I",+$p(OrderID,"||",2),9)),"^",5)="")
+ . . . . s arcim=$p($g(^OEORD(+OrderID,"I",+$p(OrderID,"||",2),1)),"^",2)
+ . . . . i arcim,$p($g(^ARCIM(+arcim,+$p(arcim,"||",2),9)),"^",18)="Y",'CanViewSensitive s QuitFlag=1
+ . . . . s orderdesc=$p($g(^ARCIM(+arcim,+$p(arcim,"||",2),1)),"^",2)
+ . . . . ;s subcat=$p($g(^ARCIM(+arcim,1,1)),"^",10)
+ . . . . ;s ResultFormat=$p($g(^ARC("IC",+subcat)),"^",18)
+ . . . . ; unsigned sensitivities?
+ . . . . k AntiLIST
+ . . . . d ##class(web.EPVisitTestSet).AntiBioSensGet(LabEpisodeNo,.AntiLIST,OrderID,1)
+ . . . . q:'$d(AntiLIST) 
+ . . . . i $p($g(^OEORD(+OrderID,"I",+$p(OrderID,"||",2),11)),"^",49)'="Y" s UnSignedSensitivities=1
+ . . . q:QuitFlag
+ . . . q:((EpisodesAll'=1)&(obj.Data("EpisodeID")'=episodeid))
+ . . . s Display=##Class(web.EPVisitNumber).GetResultDisplayStatus(LabStatusCode,OrderID)
+ . . . ;s Display=##Class(web.MRAdm).CheckAllResultRestrictions(OrderID,LabStatusCode)
+ . . . s DoNotDisplay=$p(Display,"^")
+ . . . s CanRead=##Class(epr.Chart).CanMarkItemAsRead(OrderID,$g(%session.Data("LOGON.GROUPID")))
+ . . . s CanRead=(CanRead&&($p(Display,"^",4)="Y"))
+ . . . ; Log 26925 - AI - 02-08-2002 : Get Episode details if Visit Status is "A" or "P" or "D" or "C".
+ . . . s objPAAdm=##Class(User.PAAdm).%OpenId(obj.Data("EpisodeID"))
+ . . . s QuitFlag=0 i (objPAAdm) d
+ . . . . i EpisodesAll'=1 d
+ . . . . . i ((objPAAdm.PAADMVisitStatus'="A")&(objPAAdm.PAADMVisitStatus'="P")&(objPAAdm.PAADMVisitStatus'="D")&(objPAAdm.PAADMVisitStatus'="C")) s QuitFlag=1
+ . . . . i EpisodesAll=1 d
+ . . . . . i ((objPAAdm.PAADMVisitStatus'="A")&(objPAAdm.PAADMVisitStatus'="P")&(objPAAdm.PAADMVisitStatus'="D")) s QuitFlag=1
+ . . . . . i (objPAAdm.PAADMVisitStatus="C"),(objPAAdm.PAADMCancelReasonDR),(objPAAdm.PAADMCancelReasonDR.ADMCRAllowShowResultsEPR="Y") s QuitFlag=0
+ . . . . d objPAAdm.%Close()
+ . . . q:QuitFlag
+ . . . ;s ^zPhil("cumquitflag",itm,obj.Data("ID"))=OrderID	
+ . . . ; end Log 26925
+ . . . i ('DoNotDisplay) d
+ . . . . s dtmLIST(dt,tm,id)=obj.Data("EpisodeID")
+ . . . . ; if a test item comment - the value is held in 'comments' field
+ . . . . s val=$tr(obj.Data("ResultValue"),"^",$c(16))
+ . . . . i $d(^OEC("TICOM",0,"Code",##class(%Collation).AlphaUp(itm))) s val=obj.Data("Comments")
+ . . . . s Sensitive = obj.Data("Sensitive")
+ . . . . i Sensitive = "Y",'CanViewSensitive d
+ . . . . . ; check if user settings allow sensitive viewing...
+ . . . . . s Sensitive = ""
+ . . . . . s ant="" f  s ant=$O(^TEPI(LabEpisodeNo,1,TestSet,Counter,"DATA",TestItem,"ANT",ant)) q:ant=""  i $p(^(ant),"\",6)'="S" s Sensitive="Y"
+ . . . . s chLIST(items,TestItem,dt,tm,id)=obj.Data("ID")_"^"_$tr(val,"^",$c(16))_"^"_obj.Data("abnormal")_"^"_obj.Data("referencerange")_"^"_IconLocation_"^"_obj.Data("EpisodeID")_"^"_OrderID_"^"_$tr(obj.Data("Units"),"^",$c(16))_"^"_obj.Data("ResStatus")_"^"_Sensitive_"^"_obj.Data("CollDate")_"^"_obj.Data("CollTime")_"^"_IsUnRead_"^"_prefix_"^"_LabEpisodeNo_"^"_UnSignedSensitivities_"^"_obj.Data("OtherFlags")_"^"_orderdesc_"^"_CanRead
+ . . . . ; Log 35751 - AI - 21-05-2003 : Removed redundant code - next 2 code lines.
+ . . . . ;i '$d(refLIST(itm)) s refLIST(itm)=obj.Data("referencerange")
+ . . . . ; set the display range for this item, if ref ranges for the same item differ, do not display
+ . . . . ;i (refLIST(itm)'=obj.Data("referencerange")),(obj.Data("ResultValue")) s refLIST(itm)=""
+ . . d obj.%Close()
+ n idx
+ s idx=0
+ s a="" f  s a=$o(chLIST(a)) q:a=""  d
+ . s itm="" f  s itm=$o(chLIST(a,itm)) q:itm=""  d
+ . . s idx=idx+1
+ . . i $d(^OEC("TICOM",0,"Code",##class(%Collation).AlphaUp(itm))) d
+ . . . s refLIST("Comments",idx,itm,"Description")=$p($$TestItem^HL7OEI(itm),$c(1),2)
+ . . . ; if find no description it may be an ORG and therefore only the first piece before the _ will have an entry
+ . . . i $p($$TestItem^HL7OEI(itm),$c(1),2) s refLIST("Comments",idx,itm,"Description")=$p($$TestItem^HL7OEI($p(itm,"_")),$c(1),2)
+ . . e  d
+ . . . s refLIST("Data",idx,itm,"Description")=$p($$TestItem^HL7OEI(itm),$c(1),2)
+ . . . ; if find no description it may be an ORG and therefore only the first piece before the _ will have an entry
+ . . . i $p($$TestItem^HL7OEI(itm),$c(1),2)="" s refLIST("Data",idx,itm,"Description")=$p($$TestItem^HL7OEI($p(itm,"_")),$c(1),2)
+ . . s column=0
+ . . s d="" f  s d=$o(dtmLIST(d),-1) q:d=""  d
+ . . . s t="" f  s t=$o(dtmLIST(d,t),-1) q:t=""  d
+ . . . . s ID="" f  s ID=$o(dtmLIST(d,t,ID),-1) q:ID=""  d
+ . . . . . ; Log 40388 - AI - 11-11-2003 : No longer need to quit when a Comment is found.
+ . . . . . i $d(^OEC("TICOM",0,"Code",##class(%Collation).AlphaUp(itm))) d
+ . . . . . . i $d(chLIST(a,itm,d,t,ID)) d
+ . . . . . . . ; Log 40388 - AI - 07-11-2003 : Change Comments-Cols logic to include column as the first index.
+ . . . . . . . s refLIST("Comments",column,idx,itm,"Cols",column)=chLIST(a,itm,d,t,ID)
+ . . . . . . . ;s refLIST("Columns",column,"ItemData")=$g(refLIST("Columns",column,"ItemData"))_$s($l($g(refLIST("Columns",column,"ItemData"))):"~",1:"")_$p($g(chLIST(a,itm,d,t,ID)),"^")
+ . . . . . . . ; Log 40388 - AI - 11-11-2003 : No longer need to quit when a Comment is found.
+ . . . . . . . ;s column=column+1
+ . . . . . ; Only get the most recent Reference Range value (ie. don't blank it out if there's a match) - log 42682
+ . . . . . ; Note - only get reference range if result is not equal to blank
+ . . . . . i '$d(refLIST("Data",idx,itm,"Units")),$p($g(chLIST(a,itm,d,t,ID)),"^",2)'="" s refLIST("Data",idx,itm,"Units")=$p($g(chLIST(a,itm,d,t,ID)),"^",8)
+ . . . . . i '$d(refLIST("Data",idx,itm,"Ref Range")),$p($g(chLIST(a,itm,d,t,ID)),"^",2)'="" s refLIST("Data",idx,itm,"Ref Range")=$p($g(chLIST(a,itm,d,t,ID)),"^",4)
+ . . . . . ; QLD want the reference range displayed to be the latest item ... - log 42682
+ . . . . . ;i $p($g(chLIST(a,itm,d,t,ID)),"^",4)'=$g(refLIST("Data",idx,itm,"Ref Range")),$g(refLIST("Data",idx,itm,"Ref Range"))'="" s refLIST("Data",idx,itm,"Ref Ranges Differ")=1,refLIST("Data",idx,itm,"Ref Range")=""
+ . . . . . ;i '$g(refLIST("Data",idx,itm,"Ref Ranges Differ")) s refLIST("Data",idx,itm,"Ref Range")=$p($g(chLIST(a,itm,d,t,ID)),"^",4)
+ . . . . . s refLIST("Columns",column)=$p($g(chLIST(a,itm,d,t,ID)),"^",14)_"||"_d_"||"_t_"||"_ID
+ . . . . . ;
+ . . . . . i '$d(refLIST("Columns",column,"ItemData")) d
+ . . . . . . s refLIST("Columns",column,"ItemData")=$p($g(chLIST(a,itm,d,t,ID)),"^",7)_"*L*AT*1*1*"_$p($g(chLIST(a,itm,d,t,ID)),"^",18)_"*1*0**"
+ . . . . . s refLIST("Columns",column,"ItemData")=$g(refLIST("Columns",column,"ItemData"))_$p($g(chLIST(a,itm,d,t,ID)),"^")_"~"
+ . . . . . ;
+ . . . . . ; mark the column as containing SOMETHING unread, ONLY if the status allows reading
+ . . . . . i $p($g(chLIST(a,itm,d,t,ID)),"^",13),$p($g(chLIST(a,itm,d,t,ID)),"^",19) s refLIST("Columns",column,"ColumnIsUnRead")=1
+ . . . . . ; mark the column as containing SOME unsigned sensitivities...
+ . . . . . i $p($g(chLIST(a,itm,d,t,ID)),"^",16) s refLIST("Columns",column,"ColumnUnsignedSensitivities")=1
+ . . . . . ;i $p($g(chLIST(a,itm,d,t,ID)),"^",7)'="" s refLIST("OrderID",$p($g(chLIST(a,itm,d,t,ID)),"^",7))=$p($g(chLIST(a,itm,d,t,ID)),"^",6)
+ . . . . . ;
+ . . . . . s refLIST("Data",idx,itm,"Cols",column)=$g(chLIST(a,itm,d,t,ID))
+ . . . . . ;
+ . . . . . s column=column+1
+ . . . . . ;
+ . . i '$d(refLIST("Data",idx,itm,"Ref Range")) s refLIST("Data",idx,itm,"Ref Range")=""
+ . . i '$d(refLIST("Data",idx,itm,"Units")) s refLIST("Data",idx,itm,"Units")=""
+ . . ;
+ ;
+ ; Log 50514 - AI - 08-03-2005 : Add the extra pieces that only occur once, after all columns have been built.
+ s column="" f  s column=$o(refLIST("Columns",column)) q:column=""  d
+ . ; Log 50514 - AI - 08-03-2005 : Add in pieces 11 (blank as not required), 12 (Loaded Date), 13 (Loaded Time)
+ . s refLIST("Columns",column,"ItemData")=refLIST("Columns",column,"ItemData")_"**"_+$h_"*"_$p($h,",",2)
+ ;
+ q
+}
+*/
+]]></Content>
+</UDLText>
+
+<Method name="LabOrdTestItemSet">
+<Description>
+KM: 21May2001: Called from epr.Chart.csp</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ID:%Library.String,EpisodeID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="PatResultsForGraphClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>PatResultsForGraphFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="PatResultsForGraphExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,PatientID:%Library.String,TestCode:%Library.String,DateFrom:%Library.Date,DateTo:%Library.Date,TimeFrom:%Library.Time,TimeTo:%Library.Time]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="PatResultsForGraphFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>PatResultsForGraphExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ResultsForGraphExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,PatientID:%Library.String,TestCode:%Library.String,DateFrom:%Library.Date,DateTo:%Library.Date,TimeFrom:%Library.Time,TimeTo:%Library.Time]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ResultsForGraphFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ResultsForGraphExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ResultsForGraphClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ResultsForGraphFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ResultItemListClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ResultItemListFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ResultItemListExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ResultItemListFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ResultItemListExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="TabularResultsGet">
+<Description>
+KM: 21May2001: Called from epr.Chart.csp
+Log 30556 - AI - 18-12-2002 : Added hospital list, and four new checkboxes to the Input List (Signature).
+Log 41352 - AI - 16-02-2004 : Add the new subcategories data. Only passed in IDs List.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[PatientID:%Library.String,EpisodeID:%Library.String,mradm:%Library.String,catgsID:%Library.String,dateto:%Library.Date="",datefrom:%Library.Date="",EpisodesAll:%Library.String="",markasread:%Library.String,userid:%Library.String,&dtmLIST:%Library.String,hospsID:%Library.String="",OnlyUnverifiedResults:%Library.String="",TagResultsOnly:%Library.String="",OnlyUnreadResults:%Library.String="",OrderSubcategories:%Library.String="",Context:%Library.String="",noCats:%Library.String="N",ResultStatusList:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="TabularResultsShow">
+<Description>
+KM: 21May2001: Called from epr.Chart.csp</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&dtmLIST:%Library.String,heading:%Library.String="",ChartID:%Library.String="",ItemID:%Library.String,Type:%Library.String,Context:%Library.String="",ShowVIcon:%Library.String="",HideTimeInLink:%Library.String="",Columns:%Library.String="",Start:%Library.String=1,IncludeRPrefix:%Library.String="",columnwidth:%Library.String="",PageNumber:%Library.String="",ResultStatusList:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysSaveAll">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindForGraphClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindForGraphFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="FindForGraphExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,PatientID:%Library.String,OEItemID:%Library.String,DateFrom:%Library.Date,DateTo:%Library.Date,TimeFrom:%Library.Time,TimeTo:%Library.Time]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="FindForGraphFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindForGraphExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookupLabRefBroker">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%String="",itmjsex:%String="",type:%String="",desc:%String=""</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Query name="FindForGraph">
+<Type>%Library.Query</Type>
+<FormalSpec>PatientID:%Library.String,OEItemID:%Library.String,DateFrom:%Date,DateTo:%Date,TimeFrom:%Time,TimeTo:%Time</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Date:%Date,Time:%Time,DoseQty:%String"/>
+</Query>
+
+<Query name="GetLabItemCount">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Code:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT LGPHLabItemCount
+FROM epr.LabGraphTestSets
+WHERE (LGPHCode = :Code) OR (LGPHDesc = :Code)</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="LGPHLabItemCount:%Library.Integer"/>
+</Query>
+
+<Query name="GetTestSetItems">
+<Description>
+SA: Implemented for Chart FX test
+Used by component epr.LabGraphTestSets.Edit to fill field "LabItemsList"
+and by epr.EMRGraph.asp to retrieve the codes required to fill the graph data
+Functionality -  to get the saved items for the table 
+property LGPHLabItemList list</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>ID:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Code:%String,Description:%String"/>
+</Query>
+
+<Query name="PatResultsForGraph">
+<Description>
+Log 30600 - AI - 14-05-2003 : Created query to look up all Standard Type Items
+within the "LabCumProfileRefRange" Standard Type.
+Query very similar to websys.StandardTypeItem.LookUpByTypeButRestrict, but
+we do not want to restrict the codelist, as further Items may be added in the future.
+No other queries returned Description in the first column AND checked that
+Description %STARTSWITH :desc.
+
+Log 56608 YC - This is now the same as websys.StandardTypeItem.LookUpByType - use that instead
+
+Query LookUpLabCum(type As %String, desc As %String) As %Library.SQLQuery(CONTAINID = 2, ROWSPEC = "Description:%String,Code:%String,HIDDEN:%String")
+{
+SELECT Description, Code, StoredValue
+FROM websys.StandardTypeItem
+WHERE (ParRef=:type) 
+AND (Description %STARTSWITH :desc)
+}
+old - should no longer be used...</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>PatientID:%String,TestCode:%String,DateFrom:%String,DateTo:%String,TimeFrom:%String,TimeTo:%String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="CollDate:%String,CollTime:%String,ResultValue:%String,Units:%String,abnormal:%String,ID:%String,EpisodeID:%String,referencerange:%String,OrderID:%String,RecDate:%String,RecTime:%String,Date,Time,Prefix,ResStatus,Sensitive:%String,Comments:%String,OtherFlags:%String"/>
+</Query>
+
+<Query name="ResultsForGraph">
+<Type>%Library.Query</Type>
+<FormalSpec>PatientID:%String,TestCode:%String,DateFrom:%String,DateTo:%String,TimeFrom:%String,TimeTo:%String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ResultValue,Date,Time"/>
+</Query>
+
+<Query name="ResultItemList">
+<Description>
+SA: Implemented for Chart FX test
+Used to get a list of valid lab results from which the user chooses to associate
+with a graphable test set.</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Code:%String,Description:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.LabGraphTestSetsD</DataLocation>
+<DefaultData>LabGraphTestSetsDefaultData</DefaultData>
+<IdLocation>^epr.LabGraphTestSetsD</IdLocation>
+<IndexLocation>^epr.LabGraphTestSetsI</IndexLocation>
+<StreamLocation>^epr.LabGraphTestSetsS</StreamLocation>
+<Data name="LabGraphTestSetsClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="LabGraphTestSetsDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>LGPHCode</Value>
+</Value>
+<Value name="2">
+<Value>LGPHDesc</Value>
+</Value>
+<Value name="3">
+<Value>LGPHLabItemCount</Value>
+</Value>
+<Value name="4">
+<Value>LGPHLabItemList</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

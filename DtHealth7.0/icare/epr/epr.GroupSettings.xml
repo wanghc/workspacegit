@@ -1,0 +1,2621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.GroupSettings">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62593,34176.184508</TimeChanged>
+<TimeCreated>61079,43958.004515</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>400</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="EXTENTSIZE">
+<Default>100</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="MENULENGTH">
+<Description>
+by wuqk 2011-06-08 for MenuSecurity initial length</Description>
+<Default>55000</Default>
+</Parameter>
+
+<Index name="GroupDRIndex">
+<Description>
+Index for property GroupDR</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>GroupDR</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Property name="AllergiesInactiveByDoctorOnly">
+<Description>
+THIS IS NO LONGER A "DOCTOR ONLY" FLAG.
+Log 39282: remove Doctor logic from Inactive checkbox.
+Due to the "Cannot change the name of a component item" rule, we are keeping the name.</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="AllowBedHistory">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="AllowXML">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="AppTimeout">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CarPrvTp">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CarPrvTpHideEps">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="DisableWardSumLink">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="DisplayWordFormat">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="GroupDR">
+<Type>User.SSGroup</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="MainChartBookDR">
+<Type>epr.ChartBook</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="MainChartDR">
+<Type>epr.Chart</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="MainMenuDR">
+<Type>websys.Menu</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="MenuSecurity">
+<Description>
+Web Menu Security Access</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="51000"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="MidApptFramePerc">
+<Description>
+Percentage size of the top Frame in the Multiple Appointment screen
+in Resource Booking</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="OEExecItemDetails">
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OEExecSubCatDetails">
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OEItemDetails">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OEItemItemDetails">
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OEItemSubCatDetails">
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OESetItems">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OESetSets">
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OESetSubCats">
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OrderProfileDR">
+<Type>epr.CTProfileParams</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PrevEpisChartDR">
+<Type>epr.Chart</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="RefreshTime">
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="PharmRefreshTime">
+<Type>%Library.Integer</Type>
+</Property>
+
+<Property name="PharmCanDispNonForm">
+<Description>
+Pharmacy - can dispense non-formulary items</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="LabNoDisplayType">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SideMenuGroupDR">
+<Description>
+reference to websys.MenuGroup to display security group's side menus</Description>
+<Type>websys.MenuGroup</Type>
+<Collection/>
+<Relationship>0</Relationship>
+</Property>
+
+<Property name="StartPageDR">
+<Type>websys.WorkFlow</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="StyleSheet">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TopApptFramePerc">
+<Description>
+Percentage size of the top Frame in the Multiple Appointment screen
+in Resource Booking</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="TransCspMidFrame">
+<Description>
+The height (in pixels) of the middle frame in paadmtrans.csp</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="TransCspTopFrame">
+<Description>
+The height (in pixels) of the top frame in paadmtrans.csp</Description>
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CumAcrossAllEpisodes">
+<Description>
+Cumulative View Across All Episodes</Description>
+<Type>%Library.String</Type>
+<Parameter name="DISPLAYLIST" value=",Yes,No"/>
+<Parameter name="MAXLEN" value="3"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",Y,N"/>
+</Property>
+
+<Property name="CumIncludeRPrefix">
+<Description>
+Cumulative View Include R Prefix</Description>
+<Type>%Library.String</Type>
+<Parameter name="DISPLAYLIST" value=",Yes,No"/>
+<Parameter name="MAXLEN" value="3"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",Y,N"/>
+</Property>
+
+<Property name="CumRefRangePosition">
+<Description>
+Cumulative View Reference Range Position</Description>
+<Type>%Library.String</Type>
+<Parameter name="DISPLAYLIST" value=",Before Test Item,After Test Item,After Test Data,Do Not Display"/>
+<Parameter name="MAXLEN" value="16"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",BT,AT,AD,DN"/>
+</Property>
+
+<Property name="CumAllowedSeeGraphLink">
+<Description>
+Cumulative View Allowed to See Graph Link</Description>
+<Type>%Library.String</Type>
+<Parameter name="DISPLAYLIST" value=",Yes,No"/>
+<Parameter name="MAXLEN" value="3"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",Y,N"/>
+</Property>
+
+<Property name="CumNoColumns">
+<Description>
+Cumulative View Number of Columns</Description>
+<Type>%Library.Integer</Type>
+</Property>
+
+<Property name="CumColumnWidth">
+<Description>
+Log 39287 - AI - 02-10-2003 : New field Cumulative View Column Width - applies to Result columns etc.</Description>
+<Type>%Integer</Type>
+</Property>
+
+<Property name="OnlyShowUncollectedOnCollection">
+<Description>
+Log 39459 - AI - 09-10-2003 : New field for "Only Show Uncollected Specimens On Collection Screen.</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="LastUpdateDate">
+<Description>
+KK 8/Jan/04 L:39835 - New fields Udate Date,Time,User and Hospital. </Description>
+<Type>%Date</Type>
+</Property>
+
+<Property name="LastUpdateTime">
+<Type>%Time</Type>
+</Property>
+
+<Property name="LastUpdateUserDR">
+<Type>User.SSUser</Type>
+</Property>
+
+<Property name="LastUpdateUserHospDR">
+<Type>User.CTHospital</Type>
+</Property>
+
+<Property name="DisSumDocTp">
+<Description>
+Log 42975 - AI - 24-03-2004 : New field for "Discharge Summary Document Type" - comma-separated list of epr.CTDischargeSummaryType IDs.</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DisSumEPRChartBookDR">
+<Description>
+Log 44164 - AI - 31-05-2004 : New field for "Discharge Summary EPR ChartBook" - ID of epr.ChartBook.</Description>
+<Type>epr.ChartBook</Type>
+</Property>
+
+<Property name="ShowAllRows">
+<Description>
+for use with RBAppointment</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="NoSelectMultiRow">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="IWRefreshTime">
+<Description>
+Log 45046 - AI - 17-09-2004 : New field for "Interface Workbench Refresh Time (min)" - IWRefreshTime.
+                              Used in SSInterfaceMonitor.List.js.</Description>
+<Type>%Library.Integer</Type>
+</Property>
+
+<Property name="RBDisplaySessionType">
+<Description>
+SB 29/09/04 (45587): This param allows user to switch on session type details in the calendar.</Description>
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EPRCTGraphGroupDR">
+<Description>
+Log 44734 - AI - 29-09-2004 : New field for "Graph Group" - DR to epr.CTGraphGroup.</Description>
+<Type>epr.CTGraphGroup</Type>
+</Property>
+
+<Property name="PharmQ">
+<Description>
+Log 46501 - MD - 19-10-2004 : New field for "Pharmacy Queue"  comma-separated list of Pharmacy Q IDS</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="IWNewRejectionsMessage">
+<Description>
+Log 46439 - AI - 22-10-2004 : New field for "Display message for new interface rejections" - Interface Wokbench.</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="IWNewErrorsMessage">
+<Description>
+Log 46439 - AI - 22-10-2004 : New field for "Display message for new interface errors" - Interface Workbench.</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="CanAddDSMedications">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="AllergySeverity">
+<Description>
+ab 21.02.05 48554</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DrugIntSeverity">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CanChangeBrand">
+<Description>
+SB 06/04/05 (50319)</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="CanOverpackPrescriptions">
+<Description>
+JW (54994)</Description>
+<Type>%Boolean</Type>
+</Property>
+
+<Property name="DisplayResultTypes">
+<Description>
+Log 51381 - BKJ - 09-05-2005 : New field for "Result Type" - comma-separated list of websys.StandardTypeItems - ResultType</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OTDiaryDisplay">
+<Description>
+Log 53079 - RC - 07-07-2005 : Change for OT Diary to display Operation, Procedure, or Free Text.</Description>
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="EPRClinEncounter">
+<Description>
+display an episode selection frame on EPR?</Description>
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CanEditClosedAss">
+<Description>
+ab 22.02.06 57855 - Able to edit Authoised Questionnaires</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="CanEditResQues">
+<Description>
+ab 17.11.06 61465 - Able to edit authorised Result Questionnaires</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="AuditTables">
+<Description>
+ab 16.03.06 50671</Description>
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="NoPubHolBook">
+<Description>
+Log 48106 - RC - 05-04-2006 : New field for "Do not allow to overbook into Public Holiday" - Appointments.</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="ShowOrderListFrame">
+<Description>
+Log 54852 - JD</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="ResultRangeSep">
+<Description>
+Result Range Separator - 59655</Description>
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="HL7OutboundQueueDel">
+<Description>
+Log 58574 - ML - 21/06/2006 - HL7 Outbound Queue Deletion</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="AllowPrescOverride">
+<Description>
+Log 59215 - JD</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="AllowChangeAdminStatus">
+<Description>
+ab 15.08.06 60192
+Allow to Change Admin Status</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="OEQuesCatDetails">
+<Description>
+Log 58162 BoC 04/09/2006
+New field for "Show questionnaire for orders of category"</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OEQuesSubCatDetails">
+<Description>
+Log 58162 BoC 04/09/2006
+New field for "Show questionnaire for orders of Subcategory"</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="RequireCheckOnPack">
+<Description>
+48863</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="DisplaySessEditIcon">
+<Description>
+SB 06/05/06 (58637) - Display Session Edit Icon on OT Diary</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="DisplayDayEditIcon">
+<Description>
+SB 06/05/06 (58637) - Display Day Edit Icon on OT Diary</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="ViewEpisodeAlertFlag">
+<Description>
+EZ 07/12/06 (49183) - View Episode Alert Active (yes/no)</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="AllowOverbookNA">
+<Description>
+MD 11/12/06  - Allow overbooking when session unavailable (yes/no)</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="XXNotUsed">
+<Description>
+MD 12/12/2006 -Display message when adding/replacing an item/s on the Bulk Preferences screen
+Log 65339 Kb Disable this parameter</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="UseAuthClinGrpPhoneOrders">
+<Description>
+60317</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="ViewPAAdmTreeOnOTWorkflow">
+<Description>
+EZ 26/03/07 (62758) - View PAAdm.Tree when using quick OT booking workflow (yes/no)</Description>
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="PatientTypeRestrict">
+<Description>
+65700</Description>
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="99999"/>
+</Property>
+
+<Method name="AllergiesInactiveByDoctorOnly">
+<Description>
+zhouzq 2011.07.15
+w ##class(epr.GroupSettings).AllergiesInactiveByDoctorOnly(1) </Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n objgrp,id,val
+	q:(GrpID="") 0
+	s id=$o(^ooGroupSettingsI("GroupDRIndex",GrpID,0))
+	Q:id="" 0
+	s objgrp=##class(epr.GroupSettings).%OpenId(id)
+	s val=objgrp.AllergiesInactiveByDoctorOnly
+	d objgrp.%Close()
+	Q val
+]]></Implementation>
+</Method>
+
+<Method name="CanOverPack">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GroupID:%Library.String</FormalSpec>
+</Method>
+
+<Method name="EnableAllMenuAccess">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GroupID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetAllowBedHistory">
+<Description>
+by wuqk 2011-07-09</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n grpsetID,objGrpSetting
+	set grpsetID=..GetIdFromGroupId(GrpID)
+	quit:grpsetID="" 0
+	set objGrpSetting=##class(epr.GroupSettings).%OpenId(grpsetID)
+	set AllowBedHistory=objGrpSetting.AllowBedHistory
+	set objGrpSetting=""
+	quit AllowBedHistory
+	//quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetApptFramePerc">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>grpID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetDescForCarPrvTp">
+<Description>
+KM 25-Jun-2001: This method is called by the CarPrvTpDesc component item from 
+the epr.GroupSettings.EditCarPrvTp component.
+定义医护人员类型
+websysSaveCP
+zhaocz 2011-06-18</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>CarPrvTpID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n CPTdesc, CPTCount, CPTID, Idx
+	n DelimStr
+	s DelimStr=","
+	s CPTdesc=""
+	;^CT("CPT", CPTID)
+	;'ResultType',DisplayResultTypeLookUp
+	
+	s CPTCount = $l(CarPrvTpID,DelimStr)
+	f Idx=1:1:CPTCount {
+		s CPTID = $p(CarPrvTpID,DelimStr,Idx)
+		if (CPTID'=""){
+			s $p(CPTdesc,"|", Idx) = $s($d(^CT("CPT", CPTID)):$p(^CT("CPT", CPTID),"^",2),1:"")
+		}else{
+			s $p(CPTdesc,"|", Idx) =""
+		}
+	}
+	q CPTdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDescForDisSumDocTp">
+<Description>
+Log 42975 - AI - 24-03-2004 : This method is called by the DisSumDocTpDesc component item
+  from the epr.GroupSettings.EditDisSumDocTp component. copied from GetDescForCarPrvTp method.
+websysSaveDSD
+zhaocz 2011-06-18</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DisSumDocTpID:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	n DSDTpdesc, DSDTpCount, DSDTpID, Idx
+	n DelimStr
+	s DelimStr=","
+	s DSDTpdesc=""
+	;$li(^epr.CTDischargeSummaryTypeD(DSDTpID),6)
+	;^CT("CPT", DSDTpID)
+	;'ResultType',DisplayResultTypeLookUp
+	
+	s DSDTpCount = $l(DisSumDocTpID,DelimStr)
+	f Idx=1:1:DSDTpCount {
+		s DSDTpID = $p(DisSumDocTpID,DelimStr,Idx)
+		if (DSDTpID'=""){
+			s $p(DSDTpdesc,"|", Idx) = $s($d(^epr.CTDischargeSummaryTypeD(DSDTpID)):$li(^epr.CTDischargeSummaryTypeD(DSDTpID),6),1:"")
+		}else{
+			s $p(DSDTpdesc,"|", Idx) =""
+		}
+	}
+	q DSDTpdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDescForDisResTp">
+<Description>
+Log 51381 - BKJ - 10-05-2005 : This method is called by the DisplayResultTypeDesc component item
+  from the epr.GroupSettings.EditDisResTp component. copied from GetDescForCarPrvTp method.
+websysSaveDRT
+zhaocz 2011-06-18</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DisResTpID:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	n DRTdesc, DRTCount, DRTID, Idx
+	n DelimStr
+	s DelimStr=","
+	s DRTdesc=""
+	;^PAC("ALRGSEV", ASID)
+	;'ResultType',DisplayResultTypeLookUp
+	
+	s DRTCount = $l(DisResTpID,DelimStr)
+	f Idx=1:1:DRTCount {
+		s DRTID = $p(DisResTpID,DelimStr,Idx)
+		if (DRTID'=""){
+			s $p(DRTdesc,"|", Idx) = ##class(websys.StandardTypeItem).GetDescription("ResultType", DRTID)
+		}else{
+			s $p(DRTdesc,"|", Idx) =""
+		}
+	}
+	q DRTdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDescForOECat">
+<Description>
+KM 16-Feb-2001: This method is called by the OESetItemsDesc component item from 
+the epr.GroupSettings.EditOEDetails component.
+zhaocz 2011-06-18</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>OECatID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;w ##Class(epr.GroupSettings).GetDescForOECat("1,2,31")
+	
+	n OECdesc, OECCount, OECID, Counter, Idx
+	n DelimStr
+	s DelimStr=","
+	s OECdesc=""
+	;^OEC("ORCAT", OECID)
+	;'ResultType',DisplayResultTypeLookUp
+	
+	s Counter=0
+	s OECCount = $l(OECatID,DelimStr)
+	f Idx=1:1:OECCount {
+		s OECID = $p(OECatID,DelimStr,Idx)
+		if (OECID'=""){
+			if ($d(^OEC("ORCAT", OECID))){
+				s $p(OECdesc,DelimStr, $i(Counter)) = $s($d(^OEC("ORCAT", OECID)):$p(^OEC("ORCAT", OECID),"^",2),1:"")
+			}
+		}
+	}
+	q OECdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDescForOEItem">
+<Description>
+s val=##class(epr.GroupSettings).GetDescForOEItem($g(%request.Data("OEItemItemID",1))) 
+zhaocz 2011-06-18</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>OEItemID:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	;s val=##Class(epr.GroupSettings).GetDescForOEItem(%request.Get("OEItemItemID")) 
+	
+	n OEIdesc, OEICount, OEIID, Counter, Idx
+	n DelimStr
+	s DelimStr=","
+	s OEIdesc=""
+	;^ARCIM($p(OEIID,"||"),$p(OEIID,"||",2),1)
+	;'ResultType',DisplayResultTypeLookUp
+	s Counter= 0
+	s OEICount = $l(OEItemID,DelimStr)
+	f Idx=1:1:OEICount {
+		s OEIID = $p(OEItemID,DelimStr,Idx)
+		if (OEIID'=""){
+			if $d(^ARCIM($p(OEIID,"||"),$p(OEIID,"||",2),1)){
+				s $p(OEIdesc,"||", $i(Counter)) = $s($d(^ARCIM($p(OEIID,"||"),$p(OEIID,"||",2),1)):$p(^ARCIM($p(OEIID,"||"),$p(OEIID,"||",2),1), "^",2),1:"")
+			}
+		}
+	}
+	
+	q OEIdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDescForOESubCat">
+<Description>
+s val=##class(epr.GroupSettings).GetDescForOESubCat($g(%request.Data("OEItemSubcatID",1))) 
+zhaocz 2011-06-18</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>OESubCatID:%Library.String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	
+	;w ##Class(epr.GroupSettings).GetDescForOESubCat("1,2,3")
+	
+	n OESCdesc, OESCCount, OESCID, Counter, Idx
+	n DelimStr
+	s DelimStr=","
+	s OESCdesc=""
+	;^ARC("IC", OESCID)
+	;'ResultType',DisplayResultTypeLookUp
+	
+	s Counter = 0
+	s OESCCount = $l(OESubCatID,DelimStr)
+	f Idx=1:1:OESCCount {
+		s OESCID = $p(OESubCatID,DelimStr,Idx)
+		if (OESCID'=""){
+			if ($d(^ARC("IC", OESCID))){
+				s $p(OESCdesc,DelimStr, $i(Counter)) = $s($d(^ARC("IC", OESCID)):$p(^ARC("IC", OESCID), "^",2),1:"")
+			}
+		}
+	}
+	q OESCdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDescForPharmQ">
+<Description>
+zhaocz 2011-06-18</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>PharmQID:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	n PQdesc, PQCount, PQID, Idx
+	n DelimStr
+	s DelimStr=","
+	s PQdesc=""
+	;^PAC("ALRGSEV", ASID)
+	;'Pharmacy Queue',PharmQLookUp
+	
+	s PQCount = $l(PharmQID,DelimStr)
+	f Idx=1:1:PQCount {
+		s PQID = $p(PharmQID,DelimStr,Idx)
+		if (PQID'=""){
+			s $p(PQdesc,"|", Idx) = ##class(websys.StandardTypeItem).GetDescription("Pharmacy Queue", PQID)
+		}else{
+			s $p(PQdesc,"|", Idx) =""
+		}
+	}
+	q PQdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDescForAllergySev">
+<Description>
+对应表  PAC_AllergySeverity
+zhaocz 2011-06-18</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>AllergyID:%String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	
+	;w ##class(epr.GroupSettings).GetDescForAuditTab("1^")
+	; in  : AllergyID = RowID^RowID    User.SSAuditRules	
+	; out : Desc^Desc^
+	n ASdesc, ASCount, ASID, Idx
+	s ASdesc=""
+	;^PAC("ALRGSEV", ASID)
+	
+	s ASCount = $l(AllergyID,"^")
+	f Idx=1:1:ASCount {
+		s ASID = $p(AllergyID,"^",Idx)
+		if (ASID'=""){
+			s $p(ASdesc,"^", Idx) = $s($d(^PAC("ALRGSEV", ASID)):$p(^PAC("ALRGSEV", ASID),"^",2),1:"")
+		}else{
+			s $p(ASdesc,"^", Idx) =""
+		}
+	}
+	q ASdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDescForDrugInt">
+<Description>
+对应 表 PHC_DrugInteractSeverity   药品的药剂配伍， 药品相互作用的严重程度
+zhaocz 2011-06-18</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>DrugInt:%String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	; in  : AuditTabID = RowID^RowID    User.SSAuditRules	
+	; out : Desc^Desc^
+	n DrugIntdesc, DrugIntCount, DrugIntID, Idx
+	s DrugIntdesc=""
+	;^PHC("DRGINTS", DrugIntID)
+	
+	s DrugIntCount = $l(DrugInt,"^")
+	f Idx=1:1:DrugIntCount {
+		s DrugIntID = $p(DrugInt,"^",Idx)
+		if (DrugIntID'=""){
+			s $p(DrugIntdesc,"^", Idx) = $s($d(^PHC("DRGINTS", DrugIntID)):$p(^PHC("DRGINTS", DrugIntID),"^",2),1:"")
+		}else{
+			s $p(DrugIntdesc,"^", Idx) =""
+		}
+	}
+	q DrugIntdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDescForAuditTab">
+<Description>
+对应表 SS_AuditRules  重新写了lookup
+zhaocz 2011-06-18</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>AuditTab:%String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	
+	;w ##class(epr.GroupSettings).GetDescForAuditTab("1^")
+	; in  : AuditTabID = RowID^RowID    User.SSAuditRules	
+	; out : Desc^Desc^
+	n Tabdesc, TabCount, TabID, Idx
+	s Tabdesc=""
+	;^CT("AUDR", RowID)
+	
+	s TabCount = $l(AuditTab,"^")
+	f Idx=1:1:TabCount {
+		s TabID = $p(AuditTab,"^",Idx)
+		if (TabID'=""){
+			s $p(Tabdesc,"^", Idx) = $s($d(^CT("AUDR", TabID)):$p(^CT("AUDR", TabID),"^",5),1:"")
+		}else{
+			s $p(Tabdesc,"^", Idx) =""
+		}
+	}
+	q Tabdesc
+]]></Implementation>
+</Method>
+
+<Method name="GetDetails">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GroupID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetDisplayWordFormat">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>grpID:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetDisSumChartBook">
+<Description>
+Log 44164 - AI - 02-06-2004 : Called from epr.chartbook.csp. Get the Discharge Summary ChartBook for the given Group.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GroupID:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="GetIdFromGroupId">
+<Description>
+by wuqk 2011-05-25</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>groupid:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n myeprrowid
+	q:(groupid="") ""
+	s myeprrowid=$o(^ooGroupSettingsI("GroupDRIndex",groupid,0))
+	
+	q myeprrowid
+]]></Implementation>
+</Method>
+
+<Method name="GetIWRefreshTime">
+<Description>
+Log 45046 - AI - 17-09-2004 : Return the IWRefreshTime for the logon GroupID.</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+<Implementation><![CDATA[
+	n obj,groupid,IWRefreshTime
+	s groupid=$g(%session.Data("LOGON.GROUPID"))
+	set obj = ##class(epr.GroupSettings).%OpenId(groupid)
+	if $IsObject(obj) {
+		s IWRefreshTime=obj.IWRefreshTime
+		d obj.%Close()
+		s obj=""
+		Q IWRefreshTime
+	}
+	Q 0
+]]></Implementation>
+</Method>
+
+<Method name="GetEPRCTGraphGroupDR">
+<Description>
+Log 44734 - AI - 29-09-2004 : Return the EPRCTGraphGroupDR for the logon GroupID.</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.Integer</ReturnType>
+</Method>
+
+<Method name="GetMainChart">
+<Description>
+by wuqk 2011-06-09</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>grpID:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	set MainChartId=""
+	set eprGroupID=..GetIdFromGroupId(grpID)
+	quit:eprGroupID="" MainChartId
+	set objEprGroupSettings=##class(epr.GroupSettings).%OpenId(eprGroupID)
+	quit:'$IsObject(objEprGroupSettings) MainChartId
+	if $IsObject(objEprGroupSettings.MainChartDR){
+		set MainChartId=objEprGroupSettings.MainChartDR.%Id()
+	}
+	do objEprGroupSettings.%Close()
+	set objEprGroupSettings=""
+	quit MainChartId
+]]></Implementation>
+</Method>
+
+<Method name="GetMainChartBook">
+<Description>
+by wuqk 2011-06-09</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>grpID:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set MainChartBookId=""
+	set eprGroupID=..GetIdFromGroupId(grpID)
+	quit:eprGroupID="" MainChartBookId
+	set objEprGroupSettings=##class(epr.GroupSettings).%OpenId(eprGroupID)
+	quit:'$IsObject(objEprGroupSettings) MainChartBookId
+	if $IsObject(objEprGroupSettings.MainChartBookDR){
+		set MainChartBookId=objEprGroupSettings.MainChartBookDR.%Id()
+	}
+	do objEprGroupSettings.%Close()
+	set objEprGroupSettings=""
+	quit MainChartBookId
+]]></Implementation>
+</Method>
+
+<Method name="GetMainMenu">
+<Description>
+zhaocz 2011-05-26
+zhaocz 2011-06-17 修正</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[grpID:%Library.String,&swf:%String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s swf=""
+	q:(grpID="") ""
+	
+	n myeprRID
+	s myeprRID=..GetIdFromGroupId(grpID)
+	q:(myeprRID="")
+	n myMainMenuRID,myeprobj
+	
+	s myMainMenuRID=""
+	s myeprobj=##class(epr.GroupSettings).%OpenId(myeprRID)
+	i ($IsObject(myeprobj)){
+		if ($IsObject(myeprobj.MainMenuDR)){
+			s myMainMenuRID=myeprobj.MainMenuDR.%Id()
+		}
+		d myeprobj.%Close()
+		s myeprobj=""
+	}
+	
+	q myMainMenuRID
+]]></Implementation>
+</Method>
+
+<Method name="GetMenuSecurity">
+<Description>
+by wuqk 2011-06-09
+/ zhaocz 2011-06-17 edit</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>grpID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n security, eprGroupID, objEprGroupSettings
+	
+	set security=""
+	set eprGroupID=..GetIdFromGroupId(grpID)
+	quit:eprGroupID="" security
+	set objEprGroupSettings=##class(epr.GroupSettings).%OpenId(eprGroupID)
+	quit:'$IsObject(objEprGroupSettings) security
+	set security=objEprGroupSettings.MenuSecurity
+	do objEprGroupSettings.%Close()
+	set objEprGroupSettings=""
+	quit security
+]]></Implementation>
+</Method>
+
+<Method name="GetPrevEpisChart">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>grpID:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetRefreshTime">
+<Description>
+2011.07.06  zhouzq</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>grpID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Integer</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n objgrp
+	s objgrp=##class(epr.GroupSettings).%OpenId(grpID)
+	if $IsObject(objgrp) {
+		Q objgrp.RefreshTime
+	}
+	Q 0
+]]></Implementation>
+</Method>
+
+<Method name="GetPharmCanDispNonForm">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>grpID:%Library.String</FormalSpec>
+<ReturnType>%Library.Integer</ReturnType>
+</Method>
+
+<Method name="GetPharmRefreshTime">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>grpID:%Library.String</FormalSpec>
+<ReturnType>%Library.Integer</ReturnType>
+</Method>
+
+<Method name="GetStartPage">
+<Description>
+增加本安全组的开始页
+zhaocz 2009-05-18
+Group RowID
+zhaocz 2011-06-17 edit</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>grpID:%String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;##Class(epr.GroupSettings).GetStartPage(
+	q:(grpID="") 0
+	
+	n myeprRID, myStartMenuRID, myeprobj
+	
+	s myeprRID=..GetIdFromGroupId(grpID)
+	q:(myeprRID="") ""
+	s myStartMenuRID=""
+
+	s myeprobj=##class(epr.GroupSettings).%OpenId(myeprRID)
+	i ($IsObject(myeprobj)){
+		if ($IsObject(myeprobj.StartPageDR)){
+			s myStartMenuRID=myeprobj.StartPageDR.%Id()
+		}
+		d myeprobj.%Close()
+		s myeprobj = ""
+	}
+	
+	q myStartMenuRID
+]]></Implementation>
+</Method>
+
+<Method name="GetStyleSheet">
+<Description>
+zhouzq 2011.11.15
+w ##class(epr.GroupSettings).GetStyleSheet(307)</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>grpID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n StyleShee,grpobj
+	s StyleShee=""
+	s grpobj=##class(epr.GroupSettings).%OpenId(grpID)
+	i ($IsObject(grpobj)){
+		s StyleShee=grpobj.StyleSheet
+		d myeprobj.%Close()
+		s myeprobj = ""
+	}
+	
+	q StyleShee
+]]></Implementation>
+</Method>
+
+<Method name="GetTransFramePixels">
+<Description>
+zhouzq 2011.11.15
+w ##class(epr.GroupSettings).GetTransFramePixels(307)</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>grpID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	q "^"
+]]></Implementation>
+</Method>
+
+<Method name="GetWardSummaryLink">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetShowAllRows">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetNoSelectMultiRow">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetOTDiaryDisplay">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetViewEpisodeAlertFlag">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="GetNoPubHolBook">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetShowOrderListFrame">
+<Description>
+54852</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetRequireCheckOnPack">
+<Description>
+48863</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetUseAuthClinGrpPhoneOrders">
+<Description>
+60317</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetAllowPrescOverride">
+<Description>
+59215</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetAllowChangeAdminStatus">
+<Description>
+AllowChangeAdminStatus</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetAllowOverbookNA">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="GetViewPAAdmTreeOnOTWorkflow">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GrpID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="HideEpisodesForCPT">
+<Description>
+returns whether episodes/appts should be hidden for care prov types other than those defined
+
+returns flag^hide (1/0)^types (list of types defined)</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GroupID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	quit "0^0^"
+]]></Implementation>
+</Method>
+
+<Method name="GetHL7OutboundQueueDel">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>grpID:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="SaveMenuSecurity">
+<Description>
+by wuqk 2011-06-08
+zhaocz 2011-06-17 修正</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ID:%Library.String,GroupID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n obj, MaxMenuId, index, menuId, save
+	n security
+	
+	s obj=##Class(epr.GroupSettings).%OpenId(+ID,0)
+	quit:'$IsObject(obj)
+	; zhaocz 获取最大的ID 修正, 固定长度，？Menu的ID
+	s MaxMenuId=$o(^websys.MenuD(""),-1)
+	;set security=$zbitstr(..#MENULENGTH,0)
+	set security=$zbitstr(MaxMenuId,0)
+	
+	if $d(%request.Data("MenuHeaders")){
+		set index=$o(%request.Data("MenuHeaders",0))
+		while index'=""{
+			set menuId=+$g(%request.Data("MenuHeaders",index))
+			set:menuId>0 security=$zbitset(security,menuId,1)
+			set index=$o(%request.Data("MenuHeaders",index))
+		}
+	}
+	if $d(%request.Data("MenuSecurity")){
+		set index=$o(%request.Data("MenuSecurity",0))
+		while index'=""{
+			set menuId=+$g(%request.Data("MenuSecurity",index))
+			set:menuId>0 security=$zbitset(security,menuId,1)
+			set index=$o(%request.Data("MenuSecurity",index))
+		}
+	}
+	if $d(%request.Data("MenuComponents")){
+		set index=$o(%request.Data("MenuComponents",0))
+		while index'=""{
+			set menuId=+$g(%request.Data("MenuComponents",index))
+			set:menuId>0 security=$zbitset(security,menuId,1)
+			set index=$o(%request.Data("MenuComponents",index))
+		}
+	}
+	//s ^Temp("Upgrade","epr.GroupSettings.SaveMenuSecurity","len")=$zbitlen(security)
+	//s ^Temp("Upgrade","epr.GroupSettings.SaveMenuSecurity","security")=security
+	s obj.MenuSecurity= security
+	s save=obj.%Save(0)
+ 	d obj.%Close() s obj=""
+ 	q save
+]]></Implementation>
+</Method>
+
+<Method name="SaveMenuAccessGroups">
+<Description>
+save access for checked groups for one particular menu, called on update of component websys.Menu.EditGroupSecurity
+by wuqk 2011-06-08
+zhaocz 2011-06-17 edit</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>MenuID:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[
+	//m ^Temp("Upgrade","epr.GroupSettings.SaveMenuAccessGroups","%req")=%request.Data
+	//HasMenuAccessz1
+	//SSGroupIDz1
+	// zhaocz add 
+	n groupDelim, menuAccessDelim, groupRow, rowIndex, menuAccess
+	n ssGroupID, eprGroupID
+	
+	n objEprGroupSetting
+	n sc
+	
+	set groupDelim="SSGroupIDz",menuAccessDelim="HasMenuAccessz"
+	set groupRow=$o(%request.Data(groupDelim))
+	while (groupRow'="")&(groupRow[groupDelim){
+		set rowIndex=$p(groupRow,groupDelim,2)
+		set menuAccessRow=menuAccessDelim_rowIndex
+		set ssGroupID=+$g(%request.Data(groupRow,1))
+		set menuAccess=$s($g(%request.Data(menuAccessRow,1))="on":1,1:0)		
+		
+		set eprGroupID=..GetIdFromGroupId(ssGroupID)
+		if eprGroupID=""{   //在epr.GroupSettings中还没有记录，先保存
+			set objEprGroupSetting=##class(epr.GroupSettings).%New()
+			set objEprGroupSetting.GroupDR=##class(User.SSGroup).%OpenId(ssGroupID)
+			set sc=objEprGroupSetting.%Save()
+			if $$$ISOK(sc){
+				set eprGroupID=objEprGroupSetting.%Id()
+			}
+			else{
+				//s ^Temp("Upgrade","epr.GroupSettings.SaveMenuAccessGroups1",ssGroupID)=$system.Status.GetErrorText(sc)
+			}
+			do objEprGroupSetting.%Close()
+			set objEprGroupSetting="" 
+		}
+		; zhaocz 2011-06-17 修正 Menu Max ID
+		n MaxMenuId, security
+		
+		s MaxMenuId=$o(^websys.MenuD(""),-1)
+		if eprGroupID'=""{
+			set objEprGroupSetting=##class(epr.GroupSettings).%OpenId(eprGroupID)
+			set security=objEprGroupSetting.MenuSecurity
+			//s ^Temp("Upgrade","epr.GroupSettings.SaveMenuAccessGroups",ssGroupID,eprGroupID,MenuID)=menuAccess
+			;set:security="" security=$zbitstr(..#MENULENGTH,0)
+			set:security="" security=$zbitstr(MaxMenuId,0)
+			set:$zbitlen(security)<MenuID security=$zbitor(security,$zbitstr(MaxMenuId,0))
+			//s ^Temp("Upgrade","epr.GroupSettings.SaveMenuAccessGroups",ssGroupID,eprGroupID,"len")=$zbitlen(security)
+			set security=$zbitset(security,MenuID,menuAccess)
+			set objEprGroupSetting.MenuSecurity=security
+			set sc=objEprGroupSetting.%Save()
+			if $$$ISERR(sc){
+				;s ^Temp("Upgrade","epr.GroupSettings.SaveMenuAccessGroups2",eprGroupID)=$system.Status.GetErrorText(sc)
+			}
+			do objEprGroupSetting.%Close()
+			set objEprGroupSetting=""
+		}
+		set groupRow=$o(%request.Data(groupRow))
+	}
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="FindMenuAccessGroups">
+<Description>
+by wuqk 2011-06-08</Description>
+<Type>%Query</Type>
+<FormalSpec>MenuID:%String=""</FormalSpec>
+<Parameter name="ROWSPEC" value="SSGroupID:%String,SSGroupDesc:%String,SSGroupSecurityLevel:%String,HasMenuAccess:%Boolean"/>
+</Query>
+
+<Method name="FindMenuAccessGroupsExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,MenuID:%String=""]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s qHandle=$lb(0,repid,0)
+	&sql(DECLARE cSSGroup CURSOR FOR SELECT SSGRP_Rowid, SSGRP_Desc,SSGRP_SecurityLevel INTO :SSGroupID,:SSGroupDesc,:SSGroupSecurityLevel FROM SQLUser.SS_Group order by SSGRP_Desc)
+	&sql(open cSSGroup)
+	while (SQLCODE=0){
+		&sql(fetch  cSSGroup)
+		set ms=0
+		set eprGroupID=..GetIdFromGroupId(SSGroupID)
+		//测试原版本发现对于未定义epr.GroupSettings的安全组也可以查询此数据，并可对菜单授权
+		if eprGroupID'=""{
+			set objEprGroup=##Class(epr.GroupSettings).%OpenId(+eprGroupID,0)
+			if $IsObject(objEprGroup){
+				set security=objEprGroup.MenuSecurity
+				if security="" {set ms=0}
+				elseif $zbitlen(security)>=+MenuID{set ms=$zbitget(security,+MenuID)}
+				//set len=$zbitlen(security)
+				//w !,"len="_len_",MenuID="_MenuID
+				//if len>=MenuID {set ms=$zbitget(security,+MenuID)}
+				//set:$zbitlen(security)>=+MenuID ms=$zbitget(security,+MenuID)
+				do objEprGroup.%Close()
+				set objEprGroup=""
+			}
+		}
+		set data=$LB(SSGroupID,SSGroupDesc,SSGroupSecurityLevel,ms)
+		set ^CacheTemp(repid,ind)=data
+		set ind=ind+1
+	}
+	&sql(close cSSGroup)
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindMenuAccessGroupsFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>FindMenuAccessGroupsExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(qHandle,1)
+ 	Set repid=$LIST(qHandle,2)
+ 	Set ind=$LIST(qHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s qHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindMenuAccessGroupsClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>FindMenuAccessGroupsExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$LIST(qHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="SetGroupSessionTimeout">
+<Description>
+Reset the applications timeout value to be that stored against the group.
+Only reset if there is a value.
+Usergroup's timeout value stored as minutes... need to convert to seconds.
+zhaocz 2011-05-26</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GroupID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n myeprobj
+	q:(GroupID="")
+	
+	;Index GroupDRIndex On GroupDR;
+	s myeprRID=$o(^ooGroupSettingsI("GroupDRIndex",GroupID,0))
+	q:(myeprRID="")
+	
+	s myeprobj=##class(epr.GroupSettings).%OpenId(myeprRID)
+	i ($IsObject(myeprobj)){
+		s:(+myeprobj.AppTimeout>0) %session.Data("LOGON.TIMEOUT") = myeprobj.AppTimeout*60
+		
+		d myeprobj.%Close()
+		s myeprobj=""
+	}
+]]></Implementation>
+</Method>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.
+zhaocz  2011-06-16  add</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	i ##class(websys.UserDefinedFunctions).Evaluate("epr.GroupSettings","OnAfterSave")
+	do ##class(websys.DSSActionType).doSomething(id,"C",compref,"OnAfterSave")
+	
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysBeforeSave">
+<Description>
+Invoked before websysSave - can be used to cancel the save
+zhaocz  2011-06-16  add</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	;w ##class(epr.GroupSettings).websysBeforeSave("d263iupdate1","")
+	; zhaocz  2011-06-16
+	
+	new blnUDF,blnDSS
+	set blnUDF=##class(websys.UserDefinedFunctions).Evaluate("epr.GroupSettings","OnBeforeSave")
+	s blnDSS = ##class(websys.DSSActionType).doSomething(id,"C",compref,"OnBeforeSave")
+	
+	n mycompid
+	s mycompid=$e($p(compref,"i",1),2,999)
+	
+	; 判断 名称是否有重叠
+	n blnEF
+	; 可能要执行的函数
+	;websys.Component. LoadTrans
+	n myobjssg
+	d ##Class(websys.Component).GetComponentMessages(.t,"websys.SYSTEM")
+	s myobjssg = ##class(websys.Component).%OpenId(mycompid)
+	d myobjssg.LoadTrans()
+	d myobjssg.%Close() 
+	s myobjssg=""
+	
+	s blnEF=1
+	; 取出本组件和websys.SYSTEM的消息
+	; 防止SS_Gruop ID多次Insert  如果已经有 了 返回ID
+	; 原版有个Bug, 在此修正
+	n groupdr
+	;^ooGroupSettingsI("GroupDRIndex",1,1)
+	s groupdr=%request.Get("GroupDR")
+	if (($g(id)="")&&(groupdr'="")){
+		; 两种解决方案
+		; 1. 直接更新 原来的数据 数据
+		;s id = $o(^ooGroupSettingsI("GroupDRIndex", groupdr,0))
+		; 2. 提示用户需要
+		n myid
+		s myid = $o(^ooGroupSettingsI("GroupDRIndex", groupdr,0))
+		if (myid'=""){
+			s blnEF = 0
+			i (msg) {
+				d msg.AddItem("E","epr.GroupSettings ","安全组已经存在, 请重新查询安全组", mycompid)
+			}
+		}
+	}
+	
+	;w ##clas(web.SSUser).ValidatePIN()
+	; 待写, 验证修改是否正规的用户， 如果不是， 
+	; 需要 本组件的用户 错误提示
+	n usercode, userpin, validate
+	
+	;UserCode, PIN, compid, fieldname , ChangeSessionData
+	;w ##class(web.SSUser).ValidatePIN("demo", "", "263", "",1)
+	s usercode=%request.Get("UserCode")
+	s userpin = %request.Get("PIN")
+	; zhaocz 2011-06-20 edit
+	; 签字用户非本人，需要验证用户和密码
+	if usercode'=%session.Data("LOGON.USERCODE") {
+		s validate = ##class(web.SSUser).ValidatePIN(usercode, userpin,mycompid, "PIN^UserCode", 0)
+		s:('validate) blnEF = 0
+	}
+	
+	
+	if 'blnUDF quit 0
+	if 'blnDSS quit 0
+	i 'blnEF q 0
+	
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveCP">
+<Description>
+KM 25-Jun-2001: Called from component epr.GroupSettings.EditCarPrvTp
+医护人员类型定义
+zhaocz 2011-06-18 add</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:(id="") ""
+	
+	n objGroupSet, CPIDs, CPTHEps
+	n mystatus
+	
+	s objGroupSet = ##class(epr.GroupSettings).%OpenId(id)
+	if $IsObject(objGroupSet){
+		;" AuditTabID ",1)="1^2"
+		s CPIDs = %request.Get("CarPrvTpID")
+		s CPTHEps = %request.Get("CarPrvTpHideEps")
+		
+		s objGroupSet.CarPrvTp = CPIDs
+		s objGroupSet.CarPrvTpHideEps = ##class(websys.Conversions).BooleanHtmlToLogical(CPTHEps)
+		s mystatus = objGroupSet.%Save(0)
+		if (msg) {
+			;",1)="d2170iupdate1"
+			n compref, mycompid
+			s compref = %request.Get("TEVENT")
+			s mycompid=$e($p(compref,"i",1),2,999)
+			i $d(msg) d msg.Status(mystatus,mycompid)
+		}
+		s objGroupSet=""
+	}
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveDSD">
+<Description>
+Log 42975 - AI - 24-03-2004 : Called from component epr.GroupSettings.EditDisSumDocTp. copied from websysSaveCP.
+zhaocz 2011-06-18</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	q:(id="") ""
+	
+	n objGroupSet, DSDTpIDs
+	n mystatus
+	
+	s objGroupSet = ##class(epr.GroupSettings).%OpenId(id)
+	if $IsObject(objGroupSet){
+		;" AuditTabID ",1)="1^2"
+		s DSDTpIDs = %request.Get("DisSumDocTpID")
+		s objGroupSet.DisSumDocTp = DSDTpIDs
+		s mystatus = objGroupSet.%Save(0)
+		if (msg) {
+			;",1)="d2170iupdate1"
+			n compref, mycompid
+			s compref = %request.Get("TEVENT")
+			s mycompid=$e($p(compref,"i",1),2,999)
+			i $d(msg) d msg.Status(mystatus,mycompid)
+		}
+		s objGroupSet=""
+	}
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveDRT">
+<Description>
+Log 51381 - BKJ - 10-05-2005 : Called from component epr.GroupSettings.EditDisResTp. copied from websysSaveCP.
+GetDescForDisResTp
+zhaocz 2011-06-18</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	q:(id="") ""
+	
+	n objGroupSet, DRTIDs
+	n mystatus
+	
+	s objGroupSet = ##class(epr.GroupSettings).%OpenId(id)
+	if $IsObject(objGroupSet){
+		;" AuditTabID ",1)="1^2"
+		s DRTIDs = %request.Get("DisplayResultTypeID")
+		s objGroupSet.DisplayResultTypes = DRTIDs
+		s mystatus = objGroupSet.%Save(0)
+		if (msg) {
+			;",1)="d2170iupdate1"
+			n compref, mycompid
+			s compref = %request.Get("TEVENT")
+			s mycompid=$e($p(compref,"i",1),2,999)
+			i $d(msg) d msg.Status(mystatus,mycompid)
+		}
+		s objGroupSet=""
+	}
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveGroupandSettings">
+<Description>
+KK 29/Mar/2004 L:34299</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&id:%String,&gid:%String]]></FormalSpec>
+</Method>
+
+<Method name="websysSaveOE">
+<Description>
+KM 12-Mar-2001: Called from component epr.GroupSettings.EditOEDetails.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:(id="") ""
+	
+	n objGroupSet
+	n mystatus
+	
+	s objGroupSet = ##class(epr.GroupSettings).%OpenId(id)
+	if $IsObject(objGroupSet){
+		;
+		s objGroupSet.OEExecItemDetails = %request.Get("OEExecItemID")
+		s objGroupSet.OEExecSubCatDetails = %request.Get("OEExecSubcatID")
+		s objGroupSet.OEItemDetails = %request.Get("OEItemDetailsID")
+		s objGroupSet.OEItemItemDetails = %request.Get("OEItemItemID")
+		s objGroupSet.OEItemSubCatDetails = %request.Get("OEItemSubcatID")
+		s objGroupSet.OEQuesCatDetails = %request.Get("OEQuesCatID")
+		s objGroupSet.OEQuesSubCatDetails = %request.Get("OEQuesSubcatID")
+		s objGroupSet.OESetItems = %request.Get("OESetItemsID")
+		s objGroupSet.OESetSubCats = %request.Get("OESetSubcatID")
+		s objGroupSet.OESetSets = %request.Get("OESetSetID")
+		
+		s mystatus = objGroupSet.%Save(0)
+		if (msg) {
+			;",1)="d2170iupdate1"
+			n compref, mycompid
+			s compref = %request.Get("TEVENT")
+			s mycompid=$e($p(compref,"i",1),2,999)
+			i $d(msg) d msg.Status(mystatus,mycompid)
+		}
+		s objGroupSet=""
+	}
+]]></Implementation>
+</Method>
+
+<Method name="websysSavePHQ">
+<Description>
+对应的字段是 PharmQ
+药品队列
+zhaocz 2011-06-18 add</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	q:(id="") ""
+	
+	n objGroupSet, PHQIDs
+	n mystatus
+	
+	s objGroupSet = ##class(epr.GroupSettings).%OpenId(id)
+	if $IsObject(objGroupSet){
+		;" AuditTabID ",1)="1^2"
+		s PHQIDs = %request.Get("PharmQID")
+		s objGroupSet.PharmQ = PHQIDs
+		s mystatus = objGroupSet.%Save(0)
+		if (msg) {
+			;",1)="d2170iupdate1"
+			n compref, mycompid
+			s compref = %request.Get("TEVENT")
+			s mycompid=$e($p(compref,"i",1),2,999)
+			i $d(msg) d msg.Status(mystatus,mycompid)
+		}
+		s objGroupSet=""
+	}
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveAllergySev">
+<Description>
+zhaocz 2011-06-18 add</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	q:(id="") ""
+	
+	n objGroupSet, ASevIDs
+	n mystatus
+	
+	s objGroupSet = ##class(epr.GroupSettings).%OpenId(id)
+	if $IsObject(objGroupSet){
+		;" AuditTabID ",1)="1^2"
+		s ASevIDs = %request.Get("AllergyID")
+		s objGroupSet.AllergySeverity = ASevIDs
+		s mystatus = objGroupSet.%Save(0)
+		if (msg) {
+			;",1)="d2170iupdate1"
+			n compref, mycompid
+			s compref = %request.Get("TEVENT")
+			s mycompid=$e($p(compref,"i",1),2,999)
+			i $d(msg) d msg.Status(mystatus,mycompid)
+		}
+		s objGroupSet=""
+	}
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveDrugInt">
+<Description>
+zhaocz 2011-06-18 add</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	q:(id="") ""
+	
+	n objGroupSet, DrugIntIDs
+	n mystatus
+	
+	s objGroupSet = ##class(epr.GroupSettings).%OpenId(id)
+	if $IsObject(objGroupSet){
+		;" DrugIntID ",1)="1^2"
+		s DrugIntIDs = %request.Get("DrugIntID")
+		s objGroupSet.DrugIntSeverity = DrugIntIDs
+		s mystatus = objGroupSet.%Save(0)
+		if (msg) {
+			;",1)="d2170iupdate1"
+			n compref, mycompid
+			s compref = %request.Get("TEVENT")
+			s mycompid=$e($p(compref,"i",1),2,999)
+			i $d(msg) d msg.Status(mystatus,mycompid)
+		}
+		s objGroupSet=""
+	}
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveAuditTab">
+<Description>
+zhaocz 2011-06-18 add</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	;AuditTabID = RowID^RowID    User.SSAuditRules
+	q:(id="") ""
+	
+	n objGroupSet, AuditTabIDs
+	n mystatus
+	
+	s objGroupSet = ##class(epr.GroupSettings).%OpenId(id)
+	if $IsObject(objGroupSet){
+		;" AuditTabID ",1)="1^2"
+		s AuditTabIDs = %request.Get("AuditTabID")
+		s objGroupSet.AuditTables = AuditTabIDs
+		s mystatus = objGroupSet.%Save(0)
+		if (msg) {
+			;",1)="d2170iupdate1"
+			n compref, mycompid
+			s compref = %request.Get("TEVENT")
+			s mycompid=$e($p(compref,"i",1),2,999)
+			i $d(msg) d msg.Status(mystatus,mycompid)
+		}
+		s objGroupSet=""
+	}
+	;AuditTables
+]]></Implementation>
+</Method>
+
+<Method name="websysSavePatientTypeRST">
+<Description>
+保存患者类型限制
+zhaocz 2011-06-18 add</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	q:(id="") ""
+	
+	n objGroupSet, PatTpRSTIDs
+	n mystatus
+	
+	s objGroupSet = ##class(epr.GroupSettings).%OpenId(id)
+	if $IsObject(objGroupSet){
+		;" AuditTabID ",1)="1^2"
+		s PatTpRSTIDs = %request.Get("PatTypeRstID")
+		s objGroupSet.PatientTypeRestrict = PatTpRSTIDs
+		s mystatus = objGroupSet.%Save(0)
+		if (msg) {
+			;",1)="d2170iupdate1"
+			n compref, mycompid
+			s compref = %request.Get("TEVENT")
+			s mycompid=$e($p(compref,"i",1),2,999)
+			i $d(msg) d msg.Status(mystatus,mycompid)
+		}
+		s objGroupSet=""
+	}
+	;AuditTables
+]]></Implementation>
+</Method>
+
+<Method name="GetDescForPatTypeRST">
+<Description>
+患者类型限制
+s val=##class(epr.GroupSettings).GetDescForPatTypeRST($g(%request.Data("PatTypeRstID",1)))
+zhaocz 2011-06-18 add</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>PatTypeRstID:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	n PatTpRSTdesc, PatTpRSTCount, PatTpRSTID, Idx
+	n DelimStr
+	s DelimStr=","
+	s PatTpRSTdesc=""
+	;^PAC("PTYPE", PatTpRSTID)
+	;'ResultType',DisplayResultTypeLookUp
+	
+	s PatTpRSTCount = $l(PatTypeRstID,DelimStr)
+	f Idx=1:1:PatTpRSTCount {
+		s PatTpRSTID = $p(PatTypeRstID,DelimStr,Idx)
+		if (PatTpRSTID'=""){
+			s $p(PatTpRSTdesc,"|", Idx) = $s($d(^PAC("PTYPE", PatTpRSTID)):$p(^PAC("PTYPE", PatTpRSTID),"^",2),1:"")
+		}else{
+			s $p(PatTpRSTdesc,"|", Idx) =""
+		}
+	}
+	q PatTpRSTdesc
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%CacheStorage</Type>
+<DataLocation>^ooGroupSettingsD</DataLocation>
+<DefaultData>GroupSettingsDefaultData</DefaultData>
+<IdLocation>^ooGroupSettingsD</IdLocation>
+<IndexLocation>^ooGroupSettingsI</IndexLocation>
+<StreamLocation>^epr.GroupSettingsS</StreamLocation>
+<Data name="GroupSettingsDefaultData">
+<Attribute>listnode</Attribute>
+<Value name="1">
+<Value>SideMenuGroupDR</Value>
+</Value>
+<Value name="2">
+<Value>deleted</Value>
+</Value>
+<Value name="3">
+<Value>deleted</Value>
+</Value>
+<Value name="4">
+<Value>GroupDR</Value>
+</Value>
+<Value name="5">
+<Value>deleted</Value>
+</Value>
+<Value name="6">
+<Value>deleted</Value>
+</Value>
+<Value name="7">
+<Value>deleted</Value>
+</Value>
+<Value name="8">
+<Value>deleted</Value>
+</Value>
+<Value name="9">
+<Value>deleted</Value>
+</Value>
+<Value name="10">
+<Value>deleted</Value>
+</Value>
+<Value name="11">
+<Value>deleted</Value>
+</Value>
+<Value name="12">
+<Value>deleted</Value>
+</Value>
+<Value name="13">
+<Value>MainChartDR</Value>
+</Value>
+<Value name="14">
+<Value>MainMenuDR</Value>
+</Value>
+<Value name="15">
+<Value>PrevEpisChartDR</Value>
+</Value>
+<Value name="16">
+<Value>StartPageDR</Value>
+</Value>
+<Value name="17">
+<Value>deleted</Value>
+</Value>
+<Value name="18">
+<Value>deleted</Value>
+</Value>
+<Value name="19">
+<Value>OESetItems</Value>
+</Value>
+<Value name="20">
+<Value>OEItemDetails</Value>
+</Value>
+<Value name="21">
+<Value>deleted</Value>
+</Value>
+<Value name="22">
+<Value>deleted</Value>
+</Value>
+<Value name="23">
+<Value>RefreshTime</Value>
+</Value>
+<Value name="24">
+<Value>MenuSecurity</Value>
+</Value>
+<Value name="25">
+<Value>CarPrvTp</Value>
+</Value>
+<Value name="26">
+<Value>AppTimeout</Value>
+</Value>
+<Value name="27">
+<Value>AllowBedHistory</Value>
+</Value>
+<Value name="28">
+<Value>OrderProfileDR</Value>
+</Value>
+<Value name="29">
+<Value>DisableWardSumLink</Value>
+</Value>
+<Value name="30">
+<Value>StyleSheet</Value>
+</Value>
+<Value name="31">
+<Value>CarPrvTpHideEps</Value>
+</Value>
+<Value name="32">
+<Value>MidApptFramePerc</Value>
+</Value>
+<Value name="33">
+<Value>TopApptFramePerc</Value>
+</Value>
+<Value name="34">
+<Value>AllowXML</Value>
+</Value>
+<Value name="35">
+<Value>TransCspMidFrame</Value>
+</Value>
+<Value name="36">
+<Value>TransCspTopFrame</Value>
+</Value>
+<Value name="37">
+<Value>DisplayWordFormat</Value>
+</Value>
+<Value name="38">
+<Value>AllergiesInactiveByDoctorOnly</Value>
+</Value>
+<Value name="39">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="40">
+<Value>OEItemItemDetails</Value>
+</Value>
+<Value name="41">
+<Value>OEItemSubCatDetails</Value>
+</Value>
+<Value name="42">
+<Value>OESetSets</Value>
+</Value>
+<Value name="43">
+<Value>OESetSubCats</Value>
+</Value>
+<Value name="44">
+<Value>OEExecItemDetails</Value>
+</Value>
+<Value name="45">
+<Value>OEExecSubCatDetails</Value>
+</Value>
+<Value name="46">
+<Value>MainChartBookDR</Value>
+</Value>
+<Value name="47">
+<Value>SSGRPCumAcrossAllEpisodes</Value>
+</Value>
+<Value name="48">
+<Value>SSGRPCumAllowedSeeGraphLink</Value>
+</Value>
+<Value name="49">
+<Value>SSGRPCumIncludeRPrefix</Value>
+</Value>
+<Value name="50">
+<Value>SSGRPCumNoColumns</Value>
+</Value>
+<Value name="51">
+<Value>SSGRPCumRefRangePosition</Value>
+</Value>
+<Value name="52">
+<Value>ResultDisplay</Value>
+</Value>
+<Value name="53">
+<Value>CumAcrossAllEpisodes</Value>
+</Value>
+<Value name="54">
+<Value>CumAllowedSeeGraphLink</Value>
+</Value>
+<Value name="55">
+<Value>CumIncludeRPrefix</Value>
+</Value>
+<Value name="56">
+<Value>CumNoColumns</Value>
+</Value>
+<Value name="57">
+<Value>CumRefRangePosition</Value>
+</Value>
+<Value name="58">
+<Value>LabNoDisplayType</Value>
+</Value>
+<Value name="59">
+<Value>CumColumnWidth</Value>
+</Value>
+<Value name="60">
+<Value>OnlyShowUncollectedOnCollection</Value>
+</Value>
+<Value name="61">
+<Value>LastUpdateDate</Value>
+</Value>
+<Value name="62">
+<Value>LastUpdateTime</Value>
+</Value>
+<Value name="63">
+<Value>LastUpdateUserDR</Value>
+</Value>
+<Value name="64">
+<Value>LastUpdateUserHospDR</Value>
+</Value>
+<Value name="65">
+<Value>DisSumDocTp</Value>
+</Value>
+<Value name="66">
+<Value>DisSumEPRChart</Value>
+</Value>
+<Value name="67">
+<Value>DisSumEPRChartBook</Value>
+</Value>
+<Value name="68">
+<Value>DisSumEPRChartBookDR</Value>
+</Value>
+<Value name="69">
+<Value>ShowAllRows</Value>
+</Value>
+<Value name="70">
+<Value>IWRefreshTime</Value>
+</Value>
+<Value name="71">
+<Value>RBDisplaySessionType</Value>
+</Value>
+<Value name="72">
+<Value>EPRCTGraphGroupDR</Value>
+</Value>
+<Value name="73">
+<Value>PharmQ</Value>
+</Value>
+<Value name="74">
+<Value>IWNewErrorsMessage</Value>
+</Value>
+<Value name="75">
+<Value>IWNewRejectionsMessage</Value>
+</Value>
+<Value name="76">
+<Value>NoSelectMultiRow</Value>
+</Value>
+<Value name="77">
+<Value>PharmRefreshTime</Value>
+</Value>
+<Value name="78">
+<Value>PharmCanDispNonForm</Value>
+</Value>
+<Value name="79">
+<Value>AllowCancelExeOrders</Value>
+</Value>
+<Value name="80">
+<Value>AllergySeverity</Value>
+</Value>
+<Value name="81">
+<Value>DrugIntSeverity</Value>
+</Value>
+<Value name="82">
+<Value>xxxNotUsed</Value>
+</Value>
+<Value name="83">
+<Value>AllowCancelExeOrder</Value>
+</Value>
+<Value name="84">
+<Value>CanAddDSMedications</Value>
+</Value>
+<Value name="85">
+<Value>CanChangeBrand</Value>
+</Value>
+<Value name="86">
+<Value>DisplayResultTypes</Value>
+</Value>
+<Value name="87">
+<Value>OTDiaryDisplay</Value>
+</Value>
+<Value name="88">
+<Value>EPRClinEncounter</Value>
+</Value>
+<Value name="89">
+<Value>CanOverpackPrescriptions</Value>
+</Value>
+<Value name="90">
+<Value>CumResultJustification</Value>
+</Value>
+<Value name="91">
+<Value>CanAmendAuthStatus</Value>
+</Value>
+<Value name="92">
+<Value>CanEditClosedAss</Value>
+</Value>
+<Value name="93">
+<Value>AuditTables</Value>
+</Value>
+<Value name="94">
+<Value>NoPubHolBook</Value>
+</Value>
+<Value name="95">
+<Value>ShowOrderListFrame</Value>
+</Value>
+<Value name="96">
+<Value>ResultRangeSep</Value>
+</Value>
+<Value name="97">
+<Value>HL7OutboundQueueDel</Value>
+</Value>
+<Value name="98">
+<Value>FaveStock</Value>
+</Value>
+<Value name="99">
+<Value>AllowPrescOverride</Value>
+</Value>
+<Value name="100">
+<Value>AllowChangeAdminStatus</Value>
+</Value>
+<Value name="101">
+<Value>OEQuesCatDetails</Value>
+</Value>
+<Value name="102">
+<Value>OEQuesSubCatDetails</Value>
+</Value>
+<Value name="103">
+<Value>RequireCheckOnPack</Value>
+</Value>
+<Value name="104">
+<Value>CanEditResQues</Value>
+</Value>
+<Value name="105">
+<Value>DisplayDayEditIcon</Value>
+</Value>
+<Value name="106">
+<Value>DisplaySessEditIcon</Value>
+</Value>
+<Value name="107">
+<Value>ViewEpisodeAlertFlag</Value>
+</Value>
+<Value name="108">
+<Value>AllowOverbookNA</Value>
+</Value>
+<Value name="109">
+<Value>DisplayMsgForBulkPref</Value>
+</Value>
+<Value name="110">
+<Value>UseAuthClinGrpPhoneOrders</Value>
+</Value>
+<Value name="111">
+<Value>ViewPAAdmTreeOnOTWorkflow</Value>
+</Value>
+<Value name="112">
+<Value>PatientTypeRestrict</Value>
+</Value>
+<Value name="113">
+<Value>XXNotUsed</Value>
+</Value>
+</Data>
+<Property name="AllergiesInactiveByDoctorOnly">
+</Property>
+<Property name="AllowBedHistory">
+</Property>
+<Property name="AllowXML">
+</Property>
+<Property name="AppTimeout">
+</Property>
+<Property name="CarPrvTp">
+</Property>
+<Property name="CarPrvTpHideEps">
+</Property>
+<Property name="DisableWardSumLink">
+</Property>
+<Property name="DisplayWordFormat">
+</Property>
+<Property name="GroupDR">
+</Property>
+<Property name="MainChartBookDR">
+</Property>
+<Property name="MainChartDR">
+</Property>
+<Property name="MainMenuDR">
+</Property>
+<Property name="MenuSecurity">
+</Property>
+<Property name="MidApptFramePerc">
+</Property>
+<Property name="OEItemDetails">
+</Property>
+<Property name="OESetItems">
+</Property>
+<Property name="OrderProfileDR">
+</Property>
+<Property name="PrevEpisChartDR">
+</Property>
+<Property name="RefreshTime">
+</Property>
+<Property name="SideMenuGroupDR">
+</Property>
+<Property name="StartPageDR">
+</Property>
+<Property name="StyleSheet">
+</Property>
+<Property name="TopApptFramePerc">
+</Property>
+<Property name="TransCspMidFrame">
+</Property>
+<Property name="TransCspTopFrame">
+</Property>
+</Storage>
+</Class>
+</Export>

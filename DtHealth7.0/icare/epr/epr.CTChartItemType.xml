@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTChartItemType">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy>default</StorageStrategy>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62243,58009.878739</TimeChanged>
+<TimeCreated>59798,58677.495789</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>109</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Property name="CITClass">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CITCode">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CITDesc">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CITEditEPRComponentDR">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CITListEPRComponentDR">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CITListProfileComponentDR">
+<Type>websys.Component</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CITURL">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="UniqueCITCodeIndex">
+<Description>
+Uniqueness index for property CITCode</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>CITCode</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="CITURLSet">
+<Description>
+by wuqk 2011-06-01</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	set i%CITURL=val
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>CITCode</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>CITDesc</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Query name="Find">
+<Description>
+KM 26-Apr-2001: Called From epr.Chart.websysSave</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec/>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, CITCode, CITDesc, CITClass
+FROM CTChartItemType</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,CITCode:%Library.String,CITDesc:%Library.String,CITClass:%Library.String"/>
+</Query>
+
+<Query name="FindByCode">
+<Description>
+KM 2Apr2001: Used by epr.Chart.chartSettingsSelect</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Code:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[SELECT ID, CITCode, CITDesc, CITListProfileComponentDR, CITListEPRComponentDR->Name,CITEditEPRComponentDR->Name, CITClass
+FROM epr.CTChartItemType
+WHERE CITCode=:Code]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,CITCode,CITDesc,CITListProfileComponentDR,CITListEPRComponentDR,CITEditEPRComponentDR,CITClass"/>
+</Query>
+
+<Storage name="default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTChartItemTypeD</DataLocation>
+<DefaultData>CTChartItemTypeDefaultData</DefaultData>
+<IdLocation>^epr.CTChartItemTypeD</IdLocation>
+<IndexLocation>^epr.CTChartItemTypeI</IndexLocation>
+<StreamLocation>^epr.CTChartItemTypeS</StreamLocation>
+<Data name="CTChartItemTypeClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="CTChartItemTypeDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>CITCode</Value>
+</Value>
+<Value name="2">
+<Value>CITParametersCode</Value>
+</Value>
+<Value name="3">
+<Value>CITDesc</Value>
+</Value>
+<Value name="4">
+<Value>CITClass</Value>
+</Value>
+<Value name="5"/>
+<Value name="6"/>
+<Value name="7"/>
+<Value name="8"/>
+<Value name="9"/>
+<Value name="10">
+<Value>CITListProfileComponentDR</Value>
+</Value>
+<Value name="11"/>
+<Value name="12">
+<Value>CITURL</Value>
+</Value>
+<Value name="13"/>
+<Value name="14">
+<Value>CITblah</Value>
+</Value>
+<Value name="15">
+<Value>CITEditEPRComponentDR</Value>
+</Value>
+<Value name="16">
+<Value>CITListEPRComponentDR</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

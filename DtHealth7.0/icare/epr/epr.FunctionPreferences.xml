@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.FunctionPreferences">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Persistent,websys.Abstract</Super>
+<TimeChanged>62274,64206.884503</TimeChanged>
+<TimeCreated>60536,52863.061134</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>82</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Internal>0</Internal>
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Internal>0</Internal>
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Internal>0</Internal>
+<Default>ID</Default>
+</Parameter>
+
+<Property name="appKey">
+<Type>%String</Type>
+</Property>
+
+<Property name="appSubKey">
+<Type>%String</Type>
+</Property>
+
+<Property name="Description">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Index name="appKeyIndex">
+<Properties>appKey</Properties>
+</Index>
+
+<Index name="appSubKeyIndex">
+<Properties>appSubKey</Properties>
+</Index>
+
+<Method name="Generate">
+<Description>
+no longer called from epr.FunctionPreferences.List, Generate field
+Now run at SSWCONVERT
+new preferences should have appKey = FUNCTION</Description>
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="AddItem">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>appKey:%String,appSubKey:%String,Description:%String</FormalSpec>
+</Method>
+
+<Method name="AllItem">
+<Description>
+returns a listbuild containing the fields associated with the preference
+allitems needs to stay in this order... new items should be appended</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>appKey:%String,appSubKey:%String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="ComponentMessages">
+<Description>
+get the captions from the relevant component so they display on the list</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>appKey:%String,appSubKey:%String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="ReturnSelected">
+<Description>
+cjb 16/02/2007 61903</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>appKey:%String,appSubKey:%String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="Save">
+<ClassMethod>1</ClassMethod>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+</Method>
+
+<Method name="ListClose">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ListFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ListExecute">
+<Description>
+Default implementation of LookUp Query.
+ClassMethod ListExecute(ByRef QHandle As %Library.Binary, desc As %String) As %Library.Status 
+[ PlaceAfter = GetIdFromCodeOrDescription ]</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%String]]></FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ListFetch">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ListExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="List">
+<Type>%Library.Query</Type>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="code:%String,caption:%String,selected:%Boolean"/>
+</Query>
+
+<Query name="FindFunctionPreferences">
+<Type>%SQLQuery</Type>
+<SqlQuery>SELECT ID,appKey,appSubKey,Description FROM epr.FunctionPreferences
+ORDER BY Description</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,appKey:%String,appSubKey:%String,Description:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.FunctionPreferencesD</DataLocation>
+<DefaultData>FunctionPreferencesDefaultData</DefaultData>
+<IdLocation>^epr.FunctionPreferencesD</IdLocation>
+<IndexLocation>^epr.FunctionPreferencesI</IndexLocation>
+<StreamLocation>^epr.FunctionPreferencesS</StreamLocation>
+<Data name="FunctionPreferencesDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>appKey</Value>
+</Value>
+<Value name="3">
+<Value>appSubKey</Value>
+</Value>
+<Value name="4">
+<Value>Description</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

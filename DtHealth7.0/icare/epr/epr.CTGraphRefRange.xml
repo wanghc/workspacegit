@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTGraphRefRange">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>60646,48346.843433</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>24</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>GREFCode</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>GREFDesc</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="GREFCode">
+<Type>%Library.String</Type>
+<Required>1</Required>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GREFDesc">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GREFXAxisIncrement">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="UniqueCodeIndex">
+<Properties>GREFCode</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="UniqueDescriptionIndex">
+<Properties>GREFDesc</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="websysDelete">
+<Description>
+Delete an instance - this is provided as a wrapper for %DeleteId functionality.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String=""</FormalSpec>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTGraphRefRangeD</DataLocation>
+<DefaultData>CTGraphRefRangeDefaultData</DefaultData>
+<IdLocation>^epr.CTGraphRefRangeD</IdLocation>
+<IndexLocation>^epr.CTGraphRefRangeI</IndexLocation>
+<StreamLocation>^epr.CTGraphRefRangeS</StreamLocation>
+<Data name="CTGraphRefRangeDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>GREFCode</Value>
+</Value>
+<Value name="3">
+<Value>GREFDesc</Value>
+</Value>
+<Value name="4">
+<Value>GREFXCoordinate</Value>
+</Value>
+<Value name="5">
+<Value>GREFYCoordinate</Value>
+</Value>
+<Value name="6">
+<Value>RefRanges</Value>
+</Value>
+<Value name="7">
+<Value>GREFXAxisIncrement</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

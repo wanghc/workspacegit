@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CannedText">
+<Description>
+similar to MRCNursingNoteCodes table
+quick code substitution for long text
+but ability to save against site/user/group etc</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>60241,46186.587809</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>41</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>Text</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Index name="IndexReference">
+<Properties>ReferenceType,ReferenceID,Code</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="IndexCode">
+<Properties>Code,ReferenceType,ReferenceID</Properties>
+</Index>
+
+<Property name="Code">
+<Type>%String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ReferenceID">
+<Description>
+this code is saved against referenced rowid for corresponding ReferenceType
+if Reference Type ="User.SSUser" then ReferenceID is the SSUser rowid</Description>
+<Type>%String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ReferenceType">
+<Description>
+this code is saved against type of: user/group/site etc</Description>
+<Type>%String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Text">
+<Description>
+the long text</Description>
+<Type>%String</Type>
+<Collection>list</Collection>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="0"/>
+</Property>
+
+<Method name="%OnBeforeSave">
+<Description><![CDATA[
+This callback method is invoked by the <METHOD>%Save</METHOD> method to 
+provide notification that the object is being saved. It is called before 
+any data is written to disk.
+
+<P><VAR>insert</VAR> will be set to 1 if this object is being saved for the first time.
+
+<P>If this method returns an error then the call to <METHOD>%Save</METHOD> will fail.]]></Description>
+<FormalSpec>insert:%Boolean</FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="CodeSet">
+<Description>
+remove all spaces from code</Description>
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GetData">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[Code:%String="",UsrID:%String="",GrpID:%String="",HosID:%String="",TrsID:%String="",Site:%String="",&RefType:%String="",&RefID:%String=""]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="SetData">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Code:%String,ReferenceType:%String,ReferenceID:%String,Data:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="KillData">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Code:%String,ReferenceType:%String,ReferenceID:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="websysSaveSetup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref</FormalSpec>
+<ProcedureBlock>0</ProcedureBlock>
+</Method>
+
+<Method name="websysDeleteSetup">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref</FormalSpec>
+<ProcedureBlock>0</ProcedureBlock>
+</Method>
+
+<Method name="FindExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="FindFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>FindExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="FindClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>FindExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Query name="Find">
+<Type>%Query</Type>
+<Parameter name="ROWSPEC" value="ID:%String:ID,Code:%String:Code,Text:%String:Text,ReferenceType:%String,ReferenceID:%String,ReferenceIDDesc:%String"/>
+</Query>
+
+<Method name="LookUpCodeExecute">
+<Description>
+fldName is not used in the query, only in the broker, but pass anyway so params are matched</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,val:%String="",fldName:%String=""]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="LookUpCodeFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpCodeExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="LookUpCodeClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>LookUpCodeExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Query name="LookUpCode">
+<Type>%Query</Type>
+<FormalSpec>val:%String,fldName:%String</FormalSpec>
+<Parameter name="ROWSPEC" value="Code:%String,Desc:%String"/>
+</Query>
+
+<Method name="LookUpCodeBroker">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>val:%Library.String="",fldName:%String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CannedTextD</DataLocation>
+<DefaultData>CannedTextDefaultData</DefaultData>
+<IdLocation>^epr.CannedTextD</IdLocation>
+<IndexLocation>^epr.CannedTextI</IndexLocation>
+<StreamLocation>^epr.CannedTextS</StreamLocation>
+<Data name="CannedTextDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Code</Value>
+</Value>
+<Value name="3">
+<Value>Text</Value>
+</Value>
+<Value name="4">
+<Value>ReferenceID</Value>
+</Value>
+<Value name="5">
+<Value>ReferenceType</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

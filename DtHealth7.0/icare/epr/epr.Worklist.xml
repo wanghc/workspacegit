@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.Worklist">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62362,42368.1565</TimeChanged>
+<TimeCreated>59798,58677.895976</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>258</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Border">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="FrameSize1">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="FrameSize2">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="FrameSize3">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Resizeable">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Script">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Style">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"LR"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Left Right,Top Bottom,Top Left Right,Bottom Left Right,All,QUAD"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",LR,TB,TLR,BLR,ALL,QUAD"/>
+</Property>
+
+<Property name="WorklistSettings">
+<Type>epr.WorklistItem</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Index name="NameIndex">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Name</Properties>
+<Unique>0</Unique>
+</Index>
+
+<Method name="CopyWorklist">
+<Description>
+wanghc
+copies an entire worklist to a new worklist specified by the name</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String,WorkID:%Library.String="",NewWorkName:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	k PLIST
+	&SQL(SELECT * INTO :PLIST() FROM epr.Worklist WHERE id=:WorkID)
+	k PLIST(1)
+	S PLIST(6)=NewWorkName
+	&SQL(INSERT INTO epr.Worklist VALUES PLIST())
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ItemsFindClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ItemsFindFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ItemsFindExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,WorkID:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;wid,Frame:%String,DisplayHeader:%Boolean,Sequence:%String,Rows:%Integer,HideMenus:%Boolean,LinkOnly:%Boolean,wdid:%String,wdcomp:%String,wdname:%String,wddesc:%String,wdurl:%String,wpid:%String,wdpcomp:%String,LinkNewWindow:%Boolean,Sequence2:%String
+	
+	
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	i WorkID="" Q $$$OK
+	s (wid,Frame,DisplayHeader,Sequence,Rows,HideMenus,LinkOnly,wdid,wdcomp,wdname,wddesc,wdurl,wpid,wdpcomp,LinkNewWindow,Sequence2)=""
+	s WorkObj = ##class(epr.Worklist).%OpenId(WorkID)
+	s WorklistSettings = WorkObj.WorklistSettings
+	s len= WorklistSettings.Size
+	f i=1:1:len d
+	.s obj=WorklistSettings.GetAt(i)		;epr.WorklistItem
+	.s wid=i
+	.s Frame=obj.Frame
+	.s DisplayHeader=obj.DisplayHeader
+	.s Sequence = obj.Sequence
+	.s Rows=obj.Rows
+	.s HideMenus=obj.HideMenus
+	.s LinkOnly=obj.LinkOnly
+	.s LinkNewWindow= obj.LinkNewWindow
+	.s wpid=""
+	.s wpobj=obj.ItemParams		;epr.WorklistItemParams
+	.s:$IsObject(wpobj) wpid=wpobj.%Id()
+	.s wdobj=obj.Item ;epr.CTWorklistItemDef
+	.s wdid=wdobj.%Id()	;前台没用到
+	.s wdcomp=wdobj.WITComponentDR.Name
+	.s wdname=wdobj.WITName
+	.s wddesc=wdobj.WITDesc
+	.s wdurl=wdobj.WITUrl
+	.s wdpcomp=wdobj.WITParamComponentDR.Name
+	.s Sequence2=$s(Sequence'="":Sequence, 1:"A"_i)  ;对比得到
+	.s ^CacheTemp(repid,ind)=$lb(wid,Frame,DisplayHeader,Sequence,Rows,HideMenus,LinkOnly,wdid,wdcomp,wdname,wddesc,wdurl,wpid,wdpcomp,LinkNewWindow,Sequence2)
+	.s ind=ind+1
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ItemsFindFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ItemsFindExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}Else{				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="getStyleValueList">
+<Description>
+wanghc 自己加的</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>style</FormalSpec>
+<Implementation><![CDATA[
+	
+	q:style="" "LR"
+	k plistStyle	;记录-->style字符在valuelist中相同字符个数
+	s valueList="LR,TB,TLR,BLR"
+	s listlen=$l(valueList,","),len = $l(style)
+	f i=1:1:listlen d
+	.s plistStyle(i)=0 	;初始化	
+	.f j=1:1:len  i $p(valueList,",",i)[$e(style,j) s plistStyle(i)=plistStyle(i)+1
+	;再去取重合最大的
+	s value=0 ,relen=0
+	f ind=1:1:listlen d 
+	.i plistStyle(ind)>value d
+	..s value=plistStyle(ind) ;value是重合字符个数 
+	..s relen=ind	
+	i len>value q "ALL"
+	q $p(valueList,",",relen)
+]]></Implementation>
+</Method>
+
+<Method name="UpdateStyle">
+<Description>
+ab 28.06.02
+build frame array from worklist items to determine which style (frame layout) to use
+by wanghc 通过WorklistSettings的布局改变style的值
+通过相关度来写style</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>WorkID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s updateStyleObj = ##class(epr.Worklist).%OpenId(WorkID)
+	i $IsObject(updateStyleObj) d
+	.;LR,TB,TLR,BLR,ALL,QUAD
+	.s style=""
+	.s WorklistSettings = updateStyleObj.WorklistSettings
+	.s len= WorklistSettings.Size
+	.f i=1:1:len d
+	..s iObj=WorklistSettings.GetAt(i)
+	..s frame=iObj.Frame
+	..i style'[frame s style=style_frame 
+	.s style= ..getStyleValueList(style)
+	.s updateStyleObj.Style=style
+	.s sc=updateStyleObj.%Save(0)
+	q
+]]></Implementation>
+</Method>
+
+<Method name="websysSave">
+<Description>
+wanghc</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,WorkID:%String</FormalSpec>
+<Implementation><![CDATA[
+	s $ZT="ERR"
+	k ^Temp("epr.Worklist","websysSave")
+	i +WorkID'=0 s obj = ##class(epr.Worklist).%OpenId(WorkID)
+	e  s obj=##class(epr.Worklist).%New()
+	s obj.Border=##class(websys.Conversions).BooleanHtmlToLogical(%request.Get("Border"))
+	s obj.Name=%request.Get("name")
+	s obj.Resizeable=##class(websys.Conversions).BooleanHtmlToLogical(%request.Get("Resizeable"))
+	s obj.Script=%request.Get("Script")
+	s obj.FrameSize1=%request.Get("FrameSize1")
+	s obj.FrameSize2=%request.Get("FrameSize2")
+	s obj.FrameSize3=%request.Get("FrameSize3")
+	s quad=##class(websys.Conversions).BooleanHtmlToLogical(%request.Get("Quad"))
+	s:quad obj.Style="QUAD"
+	;写worklistsettings属性
+	s itemDefName=$ZCVT(%request.Get("AddItem"),"U")
+	s itemRow=+%request.Get("ItemIDz1")
+	if itemRow||(itemDefName'="") d
+	.s worklistset=obj.WorklistSettings
+	.s:'worklistset worklistset=##class(%Collection.ListOfObj).%New()
+	.;更新itemDef
+	.i itemRow d
+	..s i=1
+	..f  Q:'$d(%request.Data("ItemIDz"_i,1))  d
+	...s Frame=$s(%request.Get("FrameLeftz"_i)="on":"L",%request.Get("FrameRightz"_i)="on":"R",%request.Get("FrameTopz"_i)="on":"T",%request.Get("FrameBottomz"_i)="on":"B",1:"L")
+	...d ..workSettingsInsert(.worklistset,%request.Get("ItemIDz"_i),Frame,%request.Get("Sequencez"_i),%request.Get("LinkOnly"_i),%request.Get("unused2z"_i),%request.Get("DisplayHeaderz"_i),%request.Get("LinkNewWindow"_i))
+	...s i=i+1
+	.;新加的itemDef
+	.i (itemDefName'="") d 
+	..s itemObj=##class(epr.WorklistItem).%New()
+	..s itemDefId=$o(^epr.CTWorklistItemDefI("WITNameIndex"," "_itemDefName,""))
+	..d itemObj.ItemSetObjectId(itemDefId)
+	..s frame=%request.Get("AddItemFrame")
+	..s itemObj.Frame=$s(frame'="":$e(frame,1),1:"L")	;default Left
+	..d worklistset.Insert(itemObj)	
+	.s obj.WorklistSettings=worklistset
+	S sc=obj.%Save(0)
+	s ^Temp("epr.Worklist","websysSave","sc")=$system.Status.GetErrorText(sc)
+	s:sc WorkID=obj.%Id()
+	d obj.%Close() s obj=""	
+	d:'quad ..UpdateStyle(WorkID)	;不是四方格布局
+	q WorkID
+ERR
+	s ^Temp("epr.Worklist","websysSave")=$Ze
+	q
+]]></Implementation>
+</Method>
+
+<Method name="workSettingsDelete">
+<Description>
+style 传进来没用到
+wanghc </Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>WorkID:%String,itemIdx:%String,quad:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s obj = ##class(epr.Worklist).%OpenId(WorkID)
+	i $IsObject(obj) d
+	.s itemDelObj= obj.WorklistSettings.GetAt(itemIdx)
+	.d ##class(epr.WorklistItemParams).%DeleteId(itemDelObj.ItemParamsGetObjectId())	;同时要删除 相关的params
+	.d obj.WorklistSettings.RemoveAt(itemIdx)	
+	.d obj.%Save()
+	d obj.%Close()
+	q
+]]></Implementation>
+</Method>
+
+<Method name="workSettingsInsert">
+<Description>
+wanghc</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&ws:%Library.List,ItemID:%Library.String,Frame:%Library.String,Seq:%Library.String="",LinkOnly:%Library.String="",HideMenus:%Library.String="",DisplayHeader:%Library.String="",LinkNewWindow:%String=""]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	q:+ItemID=0 ""
+	s workListItemObj=ws.GetAt(ItemID)
+	s workListItemObj.Frame=Frame
+	s workListItemObj.Sequence=Seq
+	s workListItemObj.LinkOnly=LinkOnly
+	s workListItemObj.LinkNewWindow=LinkNewWindow
+	s workListItemObj.HideMenus=HideMenus
+	s workListItemObj.DisplayHeader=DisplayHeader
+]]></Implementation>
+</Method>
+
+<Method name="workSettingsSelect">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&itmLIST:%Library.List,ws:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="workSettingsSelectByFrame">
+<Description>
+wanghc 
+2011-09-28 医生坐诊信息调整--》wroklist.name=排班记录维护
+worklist.frame.csp用到
+ab 1.7.02
+selects all the components of a frame for a worklist, in sequence order
+@param: ws  As epr.Worklist.WorklistSettings
+@param: frame = "T | B | R | L"
+itmLIST("A1")="28^^20^DHCApptSchedule.List^websys.default.csp^DHCPAT.WorkItem.ApptScheduleList^排班记录列表^^^^"
+paramLIST("A1")="^^^^^^^^^^^^^^^^D^^^^^1^^1^^^^^^^^^^^^^^^^^^^^^^^"</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&itmLIST:%Library.List,ws:%Library.String,frame:%Library.String="L",&paramLIST:%Library.List]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s cnt=ws.Size
+	f i=1:1:cnt	 d
+	.s unitlist =ws.GetAt(i)
+	.q:frame'=unitlist.Frame
+	.s def=unitlist.Item
+	.;20先写死 %session.Get("LOGON.LANGID")
+	.s itmLIST("A"_i)=def.%Id()_"^^20^"_def.WITComponentDR.Name_"^"_def.WITUrl_"^"_def.WITName_"^"_def.WITDesc_"^^"_unitlist.LinkOnly_"^^"_unitlist.LinkNewWindow
+	.;不知道paramLIST内容是什么,运行172.21.21.66得到的结果
+	.s paramLIST("A"_i)="^^^^^^^^^^^^^^^^D^^^^^1^^1^^^^^^^^^^^^^^^^^^^^^^^"
+]]></Implementation>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+// gets all parameters for a given frame in a given worklist
+
+]]></Content>
+</UDLText>
+
+<Method name="GetParams">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>WorkID:%String="",frame:%Library.String="L",SeqNum:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="workSettingsSort">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&obj:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="ItemsFind">
+<Type>%Library.Query</Type>
+<FormalSpec>WorkID:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="wid,Frame:%String,DisplayHeader:%Boolean,Sequence:%String,Rows:%Integer,HideMenus:%Boolean,LinkOnly:%Boolean,wdid:%String,wdcomp:%String,wdname:%String,wddesc:%String,wdurl:%String,wpid:%String,wdpcomp:%String,LinkNewWindow:%Boolean,Sequence2:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.WorklistD</DataLocation>
+<DefaultData>WorklistDefaultData</DefaultData>
+<IdLocation>^epr.WorklistD</IdLocation>
+<IndexLocation>^epr.WorklistI</IndexLocation>
+<StreamLocation>^epr.WorklistS</StreamLocation>
+<Data name="WorklistClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="WorklistDefaultData">
+<Value name="1">
+<Value>Name</Value>
+</Value>
+<Value name="2">
+<Value>Resizable</Value>
+</Value>
+<Value name="3">
+<Value>Style</Value>
+</Value>
+<Value name="4">
+<Value>Border</Value>
+</Value>
+<Value name="5">
+<Value>WorklistSettings</Value>
+</Value>
+<Value name="6">
+<Value>Resizeable</Value>
+</Value>
+<Value name="7">
+<Value>BottomHeight</Value>
+</Value>
+<Value name="8">
+<Value>LeftWidth</Value>
+</Value>
+<Value name="9">
+<Value>TopHeight</Value>
+</Value>
+<Value name="10">
+<Value>Script</Value>
+</Value>
+<Value name="11">
+<Value>FrameSize1</Value>
+</Value>
+<Value name="12">
+<Value>FrameSize2</Value>
+</Value>
+<Value name="13">
+<Value>FrameSize3</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

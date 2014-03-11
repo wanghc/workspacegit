@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.Palm">
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>59319,57456</TimeCreated>
+
+<Method name="FindApptsForUserClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindApptsForUserFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindApptsForUserExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,UserId:%Library.String="",ApptDays:%Library.String="",LocId:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindApptsForUserFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindApptsForUserExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindObservationItemsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindObservationItemsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindObservationItemsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,WardRowId:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindObservationItemsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindObservationItemsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindOrderExecStatusClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindOrderExecStatusFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindOrderExecStatusExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindOrderExecStatusFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindOrderExecStatusExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindOrdersForApptsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindOrdersForApptsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindOrdersForApptsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,UserId:%Library.String="",DayCounter:%Library.String="",LocId:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindOrdersForApptsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindOrdersForApptsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindOrdersForWardClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindOrdersForWardFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindOrdersForWardExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,WardRowId:%Library.String,RoomRowIds:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindOrdersForWardFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindOrdersForWardExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatExtraForApptsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindPatExtraForApptsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatExtraForApptsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,UserId:%Library.String="",DayCounter:%Library.String="",LocId:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatExtraForApptsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindPatExtraForApptsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatExtraForWardClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindPatExtraForWardFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatExtraForWardExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,WardRowId:%Library.String="",RoomRowIds:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatExtraForWardFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindPatExtraForWardExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatientForApptsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindPatientForApptsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatientForApptsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,UserId:%Library.String="",DayCounter:%Library.String="",LocId:%Library.String="",ClinNotesDayCounter:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatientForApptsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindPatientForApptsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatientForWardClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindPatientForWardFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatientForWardExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,WardRowId:%Library.String="",RoomRowIds:%Library.String="",ClinNotesDayCounter:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindPatientForWardFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindPatientForWardExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindQuestionnaireItemsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindQuestionnaireItemsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindQuestionnaireItemsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindQuestionnaireItemsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindQuestionnaireItemsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindRoomsByWardClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindRoomsByWardFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindRoomsByWardExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,WardRowId:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindRoomsByWardFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindRoomsByWardExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindTranslationsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindTranslationsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindTranslationsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,userid:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="FindTranslationsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindTranslationsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetAllWards">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>LocType:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetCTLoc">
+<Description>
+returns location locid_"^"_loctype</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetCTUOMIdFromCode">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>UOMCode:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetFileName">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>type:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetPACWardId">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>val:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetUserCareProvider">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>UserID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="IsFileExtensionExists">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ext:%Library.String="",type:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="IsValidUser">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>username:%String="",password:%String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="palmDeductExecutedfromStock">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>Barcode:%Library.String,OrderExecRowId:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="palmSaveApptArrive">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>sApptID:%Library.String="",sStartDate:%Library.String="",sStartTime:%Library.String="",sEndDate:%Library.String="",sEndTime:%Library.String="",sUserID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="palmSaveObservations">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>AdmRowID:%Library.String="",ObsRowDR:%Library.String="",Result:%Library.String="",Comment:%Library.String="",Date:%Library.String="",Time:%Library.String="",User:%Library.String="",OEExecID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="palmSaveOrdExec">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&sOrderExecRowId:%Library.String="",sOrderRowID:%Library.String="",sDosage:%Library.String="",sUOM:%Library.String="",sFilePath:%Library.String="",sUserCareProv:%Library.String="",sExecutedStatus:%Library.String="",sDateExecuted:%Library.String="",sTimeExecuted:%Library.String="",gUserRowID:%Library.String="",sIsPrimary:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="palmSaveQuestionnaires">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>qid:%Library.String="",papmiid:%Library.String="",paadmid:%Library.String="",oeexecid:%Library.String="",date:%Library.String="",timestr:%Library.String="",userid:%Library.String="",numval:%Library.String="",vals:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="palmSignatureStore">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>signature:%Library.String="",oeexe:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="FindApptsForUser">
+<Type>%Library.Query</Type>
+<FormalSpec>UserId:%String,ApptDays:%String,LocId:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="FindFilePath">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>ID:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT PATH_RowID,PATH_Path
+FROM SQLUser.CF_SystemFilePath
+WHERE PATH_ParRef=:ID</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,PATHPath:%String"/>
+</Query>
+
+<Query name="FindFilePathByExtension">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>FileExt:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery><![CDATA[SELECT PATH_Path
+FROM SQLUser.CF_SystemFilePath
+WHERE PATH_ParRef->FILE_FileExtension=:FileExt]]></SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Path:%Library.String"/>
+</Query>
+
+<Query name="FindObservationItems">
+<Type>%Library.Query</Type>
+<FormalSpec>WardRowId:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="FindOrderExecStatus">
+<Type>%Library.Query</Type>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="FindOrdersForAppts">
+<Type>%Library.Query</Type>
+<FormalSpec>UserId:%String,DayCounter:%String,LocId:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="FindOrdersForWard">
+<Type>%Library.Query</Type>
+<FormalSpec>WardRowId:%String,RoomRowIds:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="FindPatExtraForAppts">
+<Type>%Library.Query</Type>
+<FormalSpec>UserId:%String,DayCounter:%String,LocId:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="FindPatExtraForWard">
+<Type>%Library.Query</Type>
+<FormalSpec>WardRowId:%String,RoomRowIds:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="FindPatientForAppts">
+<Type>%Library.Query</Type>
+<FormalSpec>UserId:%String,DayCounter:%String,LocId:%Library.String,ClinNotesDayCounter:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="FindPatientForWard">
+<Type>%Library.Query</Type>
+<FormalSpec>WardRowId:%String,RoomRowIds:%String,ClinNotesDayCounter:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="FindQuestionnaireItems">
+<Type>%Library.Query</Type>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="FindRoomsByWard">
+<Type>%Library.Query</Type>
+<FormalSpec>WardRowId:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,PACRMCode:%String,Code:%String"/>
+</Query>
+
+<Query name="FindTranslations">
+<Type>%Library.Query</Type>
+<FormalSpec>userid:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery/>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,Buffer:%String,Code:%String"/>
+</Query>
+
+<Query name="Edit">
+<Type>%SQLQuery</Type>
+<FormalSpec>ID:%String</FormalSpec>
+<SqlQuery><![CDATA[ SELECT ARRCP_RowID, ARRCP_DiscAmt, ARRCP_Discount_DR->ARCDI_Desc, ARRCP_DiscRate, ARRCP_Remarks
+ FROM SQLUser.AR_Receipts
+ WHERE ARRCP_RowID = :ID]]></SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,ARRCPDiscAmt:%Float,ARCDIDesc:%String,ARRCPDiscRate:%Float,ARRCPRemarks:%List"/>
+</Query>
+</Class>
+</Export>

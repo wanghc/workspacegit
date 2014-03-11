@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTIconProfile">
+<Description>
+A list of icons</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62568,72113.89198</TimeChanged>
+<TimeCreated>59021,36842</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>649</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Code">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="MAXLEN" value="300"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CodeTableIcons">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Description">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Items">
+<Type>epr.CTIconProfileItem</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Method name="BuildGlobal">
+<Description>
+ab 14.05.03 - 32393 - Builds the ^epr.CTIconProfileG global
+the global contains the code needed to get the data items
+using globals based on item name,used by CTIconProfile.Gather</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="Gather">
+<Description>
+ab 14.05.03 - 32393
+gathers ARY data for icon profiles, only gets the data that is needed
+will replace CTIconAssociation.FPGatheringData for most components that use icon profiles.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compid:%Library.String="",compitmid:%Library.String="",ProfileID:%Library.String="",pstring:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetField">
+<Description>
+by wuqk 2011-06-29</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ProfileID:%Library.String,Field:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n val,exp
+	q:ProfileID="" ""
+	s exp="s objIconProfile=##class(epr.CTIconProfile).%OpenId("_ProfileID_") s val=objIconProfile."_Field
+	x exp
+	k objIconProfile
+	Q val
+]]></Implementation>
+</Method>
+
+<Method name="ItemsFindClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ItemsFindFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ItemsFindExecute">
+<Description>
+by wuqk 2011-06-29</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,ProfileID:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	quit:ProfileID="" $$$OK
+	quit:'$d(^epr.CTIconProfileD(ProfileID,"Items")) $$$OK
+	//ID,IconID,Code,Description,Icon,Sequence
+	//^epr.CTIconProfileD(1,"Items",1)
+	set sub=$o(^epr.CTIconProfileD(ProfileID,"Items",0))
+	while sub'="" {
+		set ID=ProfileID_"||"_sub
+		set objItem=##class(epr.CTIconProfileItem).%OpenId(ID)
+		set data=$lb(ID,objItem.IconDR.%Id(),objItem.IconDR.Code,objItem.IconDR.Description,objItem.IconDR.Icon,objItem.Sequence)
+		set ^CacheTemp(repid,ind)=data
+		set ind=ind+1
+		set sub=$o(^epr.CTIconProfileD(ProfileID,"Items",sub))
+	}
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ItemsFindFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ItemsFindExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="PreAdmissionDesc">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>EpisodeID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="Show">
+<Description>
+Created for Log 26756
+组件展现会调用d ##class(epr.CTIconProfile).Show("50307","t50307iIconProfile1","1",val)
+zhouzq 2011.06.05</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compid:%Library.String,ItemID:%Library.String,ProfileID:%Library.String,val:%Library.String,ImageReturnType:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;s $ZT="err"
+	n (compid,ItemID,ProfileID,val,ImageReturnType,%session,%request)
+	;s ^Temp("Upgrade",$j,"iconprofile.Show","val")=val
+	s PAADMDepType="",mradm=""
+	s EpisodeID=$P(val,"^",1)
+	s PatientID=$P(val,"^",4)
+	;Q:EpisodeID=""
+	if EpisodeID'="" {
+		s PatientID=$P(^PAADM(EpisodeID),"^",1)
+		s mradm=$P(^PAADM(EpisodeID),"^",61)
+		s WardID=$P(^PAADM(EpisodeID),"^",70)
+		s AdmDepDR=$P(^PAADM(EpisodeID),"^",4)
+		if AdmDepDR'="" s PAADMDepType=$P(^CTLOC(AdmDepDR),"^",13)
+	}
+	s WardID=$P(val,"^",5)
+	s ApptID=$P(val,"^",2)
+	s SchedDate=$P(val,"^",3)
+	
+	k ARY
+    s ARY("AllergyActive")=##class(web.PAAllergy).FindIfPatientHasAllergy(PatientID)
+	s ARY("AllergyInd")=##class(web.PAAllergy).FindIfPatientHasIndAllergy(PatientID)
+	s ARY("AllergyTBC")=##class(web.PAAllergy).GotTBCAllergy(PatientID)
+	s ARY("ApptID")=ApptID
+	s ARY("EpisodeID")=EpisodeID
+	s ARY("MRADMDischClassifID")=""
+	s ARY("MRADMDischDestinID")=""
+	s ARY("MRADMDischTransportID")=""
+	s ARY("MRADMPatCondID")=""
+	s ARY("PAADMDepType")="E"
+	s ARY("PAADMLikelyTransICUID")=""
+	s ARY("PAADMPriorityID")=""
+	s ARY("PAADMRefStatCode")=""
+	s ARY("PAADMSeenDate")=""
+	s ARY("PatientID")=PatientID
+	s ARY("PriorityWaitingTime")=""
+	s ARY("SchedDate")=SchedDate
+	s ARY("VIPStatus")=""
+	s ARY("WardID")=WardID
+	s ARY("isEMLoc")=""
+	s ARY("mradm")=mradm
+	s profileHTML=""
+	s profileobj=##Class(epr.CTIconProfile).%OpenId(ProfileID)
+	if $IsObject(profileobj){
+		s count=profileobj.Items.Count()
+		for i=1:1:count {
+			s itemobj=profileobj.Items.GetAt(i)
+			;可能是调用epr.CTIconProfileItem.Get产生imgLIST
+			s iconobj=itemobj.IconDR
+			if $IsObject(iconobj) {
+				s img=0,title=""
+				continue:iconobj.CondExpr=""
+				d ##class(websys.Conversions).expressionExecute(iconobj.CondExpr)
+				continue:img'=1 
+				continue:iconobj.Icon=""
+				if $g(title)="" s title=iconobj.Description
+				;if iconobj.CondDescription'="" XECUTE iconobj.CondDescription  //add by wuqk 2011-07-14
+				s iconHTML="<IMG align='top' SRC='../images/"_iconobj.Icon_"' title='"_title_"' border=0></A>"
+				s LinkUrl=itemobj.LinkUrl
+				s LinkComponent=itemobj.LinkComponent
+				s LinkExpression=##class(websys.Conversions).expressionEvaluate(itemobj.LinkExpression)
+				s LinkChartBookDR=itemobj.LinkChartBookDR
+				s Sequence=itemobj.Sequence
+				if LinkUrl'="" {
+					s LinkUrl=LinkUrl_"?"
+					if LinkComponent'="" s LinkUrl=LinkUrl_"WEBSYS.TCOMPONENT="_LinkComponent
+					s LinkUrl=LinkUrl_"&FromIconProfile="_ProfileID_"&EpisodeID="_ARY("EpisodeID")_LinkExpression_"&CONTEXT="_$g(%session.Data("CONTEXT"))
+					;未实现chart
+					s iconHTML="<A HREF=""#"" onClick=""websys_lu('"_LinkUrl_"',false,'top=40,left=40,width=640,height=480');"">"_iconHTML_"</A>"
+				}
+				if Sequence="" {
+					s profileHTML=profileHTML_iconHTML
+				}else{
+					s iconArr(Sequence)=iconHTML
+				}
+			}
+		}
+		s profileHTML1=""
+		s seq=$O(iconArr(""))
+		while (seq'=""){
+			s profileHTML1=profileHTML1_iconArr(seq)
+			s seq=$O(iconArr(seq))
+			Q:seq=""
+		}
+		k iconArr
+		w profileHTML1_profileHTML
+	}
+	
+	/*
+imgLIST("ifadmit","image")="/webemr/regalert.gif"
+imgLIST("ifadmit","lnkcomp")="DHCNurPatDetail"
+imgLIST("ifadmit","lnkexp")=""&EpisodeID="_EpisodeID"
+imgLIST("ifadmit","lnkurl")="websys.default.csp"
+imgLIST("ifadmit","priority")="1"
+imgLIST("ifadmit","title")="病人基本信息"
+	*/
+	q 
+err
+	s ^TEMP("Error","epr.CTIconProfile.Show")=$ZE_","_iconobj.CondExpr_","_EpisodeID
+	q
+]]></Implementation>
+</Method>
+
+<Method name="websysSave">
+<Description>
+Created for Log 26756
+by wuqk 2011-06-29 </Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+<Implementation><![CDATA[
+	 //m ^Temp("Upgrade","Icon.websysSave","%req")=%request.Data
+	 n compid,status,new,j,oktosave,save,value,parref,oldval
+	 s compid=$e($p(compref,"i",1),2,999),oktosave=1,save=0
+	 i id'="",'##Class(websys.Lock).Lock($lb(id,"epr.CTIconProfile"),%session.SessionId,%session.Get("LOGON.USERID"),.status) d  q 0
+	 . d msg.AddItem("E","LOCKED",status,compid) s oktosave=0
+	 i '##Class(epr.CTIconProfile).websysBeforeSave(compref,.id) q 0
+	 s new=id=""
+	 s:id'="" obj=##Class(epr.CTIconProfile).%OpenId(id)
+	 if id="" d
+	 . s obj=##Class(epr.CTIconProfile).%New()
+	 . //s parref=$g(%request.Data("PARREF",1))
+	 . //i parref="" s obj=##Class(epr.CTIconProfile).%New()
+	 . //i parref'="" s obj=##Class(epr.CTIconProfile).%New(parref)
+	 i 'oktosave,'$g(msg.Count("E")),$g(%request.Data("TOVERRIDE",1)) s oktosave=1
+	 
+	 i $d(%request.Data("ProfileCode",1)) d
+	 . s (val,oldval)=$g(%request.Data("ProfileCode",1)) s obj.Code=$g(val)
+	 . i oldval'="",val="" d msg.AddItem("E",$g(t("Code"),"代码"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"Code") s oktosave=0
+	 
+	 i $d(%request.Data("ProfileName",1)) d
+	 . s (val,oldval)=$g(%request.Data("ProfileName",1)) s obj.Description=$g(val)
+	 . i oldval'="",val="" d msg.AddItem("E",$g(t("Description"),"名称"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"Description") s oktosave=0
+ 
+	 i $d(%request.Data("ProfileCTIcons",1)) d
+	 . s (val,oldval)=##class(websys.Conversions).BooleanHtmlToLogical($g(%request.Data("ProfileCTIcons",1))) s obj.CodeTableIcons=$g(val)
+	 . i oldval'="",val="" d msg.AddItem("E",$g(t("ProfileCTIcons"),"执行代码表图标"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"ProfileCTIcons") s oktosave=0
+ 	 e  d
+ 	 . s obj.CodeTableIcons=0
+ 	 
+	 i oktosave d
+	 . s save=obj.%Save(0)
+	 . i $d(msg) d msg.Status(save,compid)
+	 s:save id=obj.%Id()
+	 d obj.%Close()  s obj=""
+	 s idnew=id
+	 d:save ##Class(epr.CTIconProfile).websysAfterSave(compref,id,new)
+	 i 'new d ##Class(websys.Lock).LockClear($lb(id,"epr.CTIconProfile"),%session.SessionId)
+ 	 i new s %request.Data("ProfileID",1)=id
+ 	 
+ 	 //add Item Icon
+ 	 i $d(%request.Data("Icon",1)) d
+ 	 .s icon=%request.Data("Icon",1),icon=$zu(28,icon,6)
+ 	 .q:icon=""
+ 	 .d ##class(epr.CTIconProfileItem).InsertItem(compref,id,icon)
+ 	 
+ 	 //update Items
+ 	 for rowIndex=1:1:100{
+		 s rowID="IDz"_rowIndex
+		 q:'$d(%request.Data(rowID,1))
+		 s rowIDVal=%request.Data(rowID,1)
+		 s rowSeq="IconSequencez"_rowIndex
+		 s rowSeqVal=%request.Data(rowSeq,1)
+		 //s ^Temp("Upgrade","Icon.websysSave","sItm",rowIndex)=rowIDVal
+		 s objItem=##class(epr.CTIconProfileItem).%OpenId(rowIDVal)
+		 s objItem.Sequence=rowSeqVal
+		 s save=objItem.%Save(0)
+		 d objItem.%Close()  s objItem=""
+ 	 }
+		/*
+		^Temp("Upgrade","Icon.websysSave","%req","ProfileCode",1)=1
+	^Temp("Upgrade","Icon.websysSave","%req","ProfileID",1)=1
+	^Temp("Upgrade","Icon.websysSave","%req","ProfileName",1)="MAP"
+
+	^Temp("Upgrade","Icon.websysSave","%req","IconSequencez3",1)=3
+	^Temp("Upgrade","Icon.websysSave","%req","IconIDz2",1)=113
+	^Temp("Upgrade","Icon.websysSave","%req","IDz3",1)="1||3"
+	^Temp("Upgrade","Icon.websysSave","%req","Icon",1)="EpidemicN"
+	*/
+	 quit
+]]></Implementation>
+</Method>
+
+<Method name="websysSaveLinks">
+<Description>
+by wuqk 2011-0-30</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String,id:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	 m ^Temp("Upgrade","Icon.websysSaveLinks","%req")=%request.Data
+	 n compid,status,new,j,oktosave,save,value,parref,oldval
+	 s compid=$e($p(compref,"i",1),2,999),oktosave=1,save=0
+	 quit:id=""
+	 i id'="",'##Class(websys.Lock).Lock($lb(id,"epr.CTIconProfileItem"),%session.SessionId,%session.Get("LOGON.USERID"),.status) d  q 0
+	 . d msg.AddItem("E","LOCKED",status,compid) s oktosave=0
+	 s new=id=""
+	 
+	 s obj=##Class(epr.CTIconProfileItem).%OpenId(id)
+	 
+	 i $d(%request.Data("LinkChartBookDR",1)) d
+	 . s (val,oldval)=$g(%request.Data("LinkChartBookDR",1)) 
+	 . q:val=""
+	 . s val=$zu(28,val,6)
+	 . q:'$d(^epr.ChartBookI("UniqueDescriptionIndex",val))
+	 . s valId=$o(^epr.ChartBookI("UniqueDescriptionIndex",val,0))
+	 . s obj.LinkChartBookDR=##class(epr.ChartBook).%OpenId(valId)
+	 . i oldval'="",val="" d msg.AddItem("E",$g(t("LinkChartBookDR"),"图表定义"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"LinkChartBookDR") s oktosave=0
+	 
+	 i $d(%request.Data("LinkComponent",1)) d
+	 . s (val,oldval)=$g(%request.Data("LinkComponent",1)) s obj.LinkComponent=$g(val)
+	 . i oldval'="",val="" d msg.AddItem("E",$g(t("LinkComponent"),"连接组件 "),oldval_" "_$g(t("XINVALID")," is invalid"),4,"LinkComponent") s oktosave=0
+	 
+	 i $d(%request.Data("LinkExpression",1)) d
+	 . s (val,oldval)=$g(%request.Data("LinkExpression",1)) s obj.LinkExpression=$g(val)
+	 . i oldval'="",val="" d msg.AddItem("E",$g(t("LinkExpression"),"连接表达式 "),oldval_" "_$g(t("XINVALID")," is invalid"),4,"LinkExpression") s oktosave=0
+	 
+	 
+	 i $d(%request.Data("LinkUrl",1)) d
+	 . s (val,oldval)=$g(%request.Data("LinkUrl",1)) s obj.LinkUrl=$g(val)
+	 . i oldval'="",val="" d msg.AddItem("E",$g(t("LinkUrl"),"连接CSP或组件"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"LinkUrl") s oktosave=0
+	 
+	 i oktosave d
+	 . s save=obj.%Save(0)
+	 . i $d(msg) d msg.Status(save,compid)
+	 s:save id=obj.%Id()
+	 d obj.%Close()  s obj=""
+	 i 'new d ##Class(websys.Lock).LockClear($lb(id,"epr.CTIconProfileItem"),%session.SessionId)
+ 	 quit 
+	 /*
+		 "LinkChartBookDR",1)="DHCPE-内科"
+		^Temp("Upgrade","Icon.websysSaveLinks","%req","LinkComponent",1)=2222222
+		^Temp("Upgrade","Icon.websysSaveLinks","%req","LinkExpression",1)=333333
+		^Temp("Upgrade","Icon.websysSaveLinks","%req","LinkUrl",1)="websys.default.csp"
+	 */
+ 	 quit
+]]></Implementation>
+</Method>
+
+<Method name="CodeTableIconItems">
+<Description>
+ab 7.03.07 61960</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Query name="Find">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%Library.String</FormalSpec>
+<SqlQuery>SELECT ID, Description, Code
+FROM epr.CTIconProfile
+WHERE (Description %STARTSWITH :name)</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description,Code"/>
+</Query>
+
+<Query name="ItemsFind">
+<Type>%Library.Query</Type>
+<FormalSpec>ProfileID:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,IconID,Code,Description,Icon,Sequence"/>
+</Query>
+
+<Index name="UDESC">
+<Properties>Description</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="UCODE">
+<Properties>Code</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTIconProfileD</DataLocation>
+<DefaultData>CTIconProfileDefaultData</DefaultData>
+<IdLocation>^epr.CTIconProfileD</IdLocation>
+<IndexLocation>^epr.CTIconProfileI</IndexLocation>
+<StreamLocation>^epr.CTIconProfileS</StreamLocation>
+<Data name="CTIconProfileClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="CTIconProfileDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Code</Value>
+</Value>
+<Value name="2">
+<Value>Description</Value>
+</Value>
+<Value name="3">
+<Value>IncludeCTIcons</Value>
+</Value>
+<Value name="4">
+<Value>CodeTableIcons</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

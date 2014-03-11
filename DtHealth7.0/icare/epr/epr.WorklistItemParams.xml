@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.WorklistItemParams">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62362,41275.570034</TimeChanged>
+<TimeCreated>61079,43958.011676</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>365</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Default>WIPDateFrom</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Default>WIPDateTo</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Index name="WIPWorklistItemDefDRIndex">
+<Description>
+Index for property WIPWorklistItemDefDR</Description>
+<Properties>WIPWorklistItemDefDR</Properties>
+</Index>
+
+<Property name="WIPAccessionNo">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPAdmType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",In Patient,Out Patient,Emergency,New Born,Health Promotion"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",I,O,E,N,H"/>
+</Property>
+
+<Property name="WIPCareProvDR">
+<Type>User.CTCareProv</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPDateFrom">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPDateFromToday">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPDateTo">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPDateToToday">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPEQDR">
+<Type>User.RBCEquipment</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPEventStatus">
+<Description>
+$$ delimited string of (event status*show) for care provider list</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="300"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPHospitalDR">
+<Type>User.CTHospital</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPInqReqStatus">
+<Description>
+$$ delimited string of (referral status*show) for care provider list</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="300"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPLocationDR">
+<Type>User.CTLoc</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPLogonCP">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>1</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPLogonLoc">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>1</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPLogonRoundCP">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>0</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPLogonRoundRR">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>0</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPNoAppts">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPOutpatLoc">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>1</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPPatientNo">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPRadStatus">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="300"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPReferralStatus">
+<Description>
+$$ delimited string of (referral status*show) for care provider list</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="300"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPResourceDR">
+<Type>User.RBResource</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPSortDirection">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"D"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPSortOrder">
+<Description>
+$$ delimited string of (referral status*show) for care provider list</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPViewAdm">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPViewAll">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>1</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPViewDisch">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPViewPread">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPVisitNo">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPVisitStatus">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="300"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPWLI">
+<Description>
+custom parameter worklist item</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPWorklistItemDefDR">
+<Type>epr.CTWorklistItemDef</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="WIPDtFromOffset">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPDtToOffset">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPClinicListType">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPLogonHosp">
+<Type>%Library.Boolean</Type>
+<InitialExpression>1</InitialExpression>
+</Property>
+
+<Property name="WIPHospitalList">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPLogonSpecialty">
+<Type>%Library.Boolean</Type>
+<InitialExpression>1</InitialExpression>
+</Property>
+
+<Property name="WIPSpecialtyList">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPCPList">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPEpisodeTypeList">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPOrderCatList">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPOrderSubCatList">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPLocList">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPWardList">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPResultStatus">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPOrderStatus">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPInpatAdmTypeDR">
+<Type>User.PACInPatAdmissionType</Type>
+</Property>
+
+<Property name="WIPUnitList">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPNurseTabList">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPOnlyEpsOutstandingDS">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="WIPReceivingLoc">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WIPCaseManager">
+<Type>User.CTCareProv</Type>
+</Property>
+
+<Property name="WIPLogonCaseMan">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="WIPARCIMDR">
+<Type>User.ARCItmMast</Type>
+</Property>
+
+<Method name="ConvertToIDString">
+<Description><![CDATA[
+ab 21.01.04 - 41754 - converts a list of hosps/locs to a string of id's, used on CPEpisode and PAAdm.ListDocCurrent
+select WIPHospitalList,* from epr.WorklistItemParams
+WIPHospitalList是空的
+s val=##class(epr.WorklistItemParams).ConvertToIDString(val,"loc","^") ;->DTGCOM1911.1.mac]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>val:%String="",class:%String="",delim:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;obj.WIPHospitalList,"hosp",$c(1)
+	q ""
+]]></Implementation>
+</Method>
+
+<Method name="ReadParams">
+<Description>
+read params from default for item definition or get custom params from worklist item</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&itm:epr.WorklistItem]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="SetParams">
+<Description><![CDATA[
+worklist.frame.csp用到
+epr.WorklistItem->workSettingsSelectByFrame()中写了params,但不知道params中是什么顺序
+set params in request object]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>params:%Library.String,link:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysAfterSave">
+<Description>
+wanghc
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	;这时去写epr.Worklist的WorklistSettings字段
+	s ^Temp("wanghc","websysafterSave")=compref_" "_id_" "_new
+	q:%request.Get("ID") $$$OK
+	;新建时才调
+	s WorkID=%request.Get("WorkID")
+	s ItemID=%request.Get("ItemID")
+	s obj = ##class(epr.Worklist).%OpenId(WorkID)
+	i $IsObject(obj) d
+	.s itemAfterSaveObj= obj.WorklistSettings.GetAt(ItemID)
+	.d itemAfterSaveObj.ItemParamsSetObjectId(id)	;更新itemparams	
+	.d obj.%Save()
+	d obj.%Close()
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="websysDelete">
+<Description>
+wanghc
+Delete an instance - this is provided as a wrapper for %DeleteId functionality.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s WorkID=%request.Get("WorkID")
+	s ItemID=%request.Get("ItemID")
+	s obj = ##class(epr.Worklist).%OpenId(WorkID)
+	i $IsObject(obj) d
+	.s itemAfterSaveObj= obj.WorklistSettings.GetAt(ItemID)
+	.d itemAfterSaveObj.ItemParamsSetObjectId("")	;同时要删除的itemparams	
+	.d obj.%Save()
+	d obj.%Close()
+	&SQL(DELETE FROM epr.WorklistItemParams WHERE ID=:id)
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="FindVisStatForList">
+<Type>%Library.SQLQuery</Type>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT StoredValue,Description
+FROM websys.StandardTypeItem
+WHERE ParRef='AdmStatus'</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="hidden,desc"/>
+</Query>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* ab 10.02.06 - removed as no longer used
+/
+Query FindNurseTabs() As %Library.Query(CONTAINID = 0, ROWSPEC = "code,desc")
+{
+
+
+}
+
+ClassMethod FindNurseTabsClose(QHandle As %Library.Binary) As %Library.Status [ PlaceAfter = FindNurseTabsFetch ]
+{
+ ;
+ k ^TMP("web",$J)
+ s QHandle=""
+ Quit $$$OK
+}
+
+/// Given a OEOrdItem rowid (and it's sequence),
+/// lists it's linked order items and displays the first non-administered execution time
+ClassMethod FindNurseTabsExecute(ByRef QHandle As %Library.Binary) As %Library.Status
+{
+ k ^TMP("web",$J)
+ s ^TMP("web",$J,1)=$lb("EXE","Execute")
+ s ^TMP("web",$J,2)=$lb("SPEC","Specimens")
+ s QHandle=$lb("")
+ q $$$OK
+}
+
+/// given an OEOrdItem rowid and it's seqno
+ClassMethod FindNurseTabsFetch(ByRef QHandle As %Library.Binary, ByRef Row As %Library.List, ByRef AtEnd As %Library.Integer = 0) As %Library.Status [ PlaceAfter = FindNurseTabsExecute ]
+{
+ n ix 
+ s ix=$li(QHandle,1)
+ 
+ s ix=$o(^TMP("web",$j,ix))
+ i ix="" s AtEnd=1,Row="" Q $$$OK
+ 
+ s Row=^TMP("web",$j,ix)
+ s QHandle=$lb(ix)
+ q $$$OK
+}
+*/
+]]></Content>
+</UDLText>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.WorklistItemParamsD</DataLocation>
+<DefaultData>WorklistItemParamsDefaultData</DefaultData>
+<IdLocation>^epr.WorklistItemParamsD</IdLocation>
+<IndexLocation>^epr.WorklistItemParamsI</IndexLocation>
+<StreamLocation>^epr.WorklistItemParamsS</StreamLocation>
+<Data name="WorklistItemParamsClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="WorklistItemParamsDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>WIPDateFrom</Value>
+</Value>
+<Value name="2">
+<Value>WIPDateTo</Value>
+</Value>
+<Value name="3">
+<Value>WIPLogonCP</Value>
+</Value>
+<Value name="4">
+<Value>WIPLogonLoc</Value>
+</Value>
+<Value name="5">
+<Value>WIPWorklistItemDR</Value>
+</Value>
+<Value name="6">
+<Value>WIPWorklistItemDefDR</Value>
+</Value>
+<Value name="7">
+<Value>WIPDateFromToday</Value>
+</Value>
+<Value name="8">
+<Value>WIPDateToToday</Value>
+</Value>
+<Value name="9">
+<Value>WIPCareProvDR</Value>
+</Value>
+<Value name="10">
+<Value>WIPLocationDR</Value>
+</Value>
+<Value name="11">
+<Value>WIPHospitalDR</Value>
+</Value>
+<Value name="12">
+<Value>WIPAdmType</Value>
+</Value>
+<Value name="13">
+<Value>WIPWLI</Value>
+</Value>
+<Value name="14">
+<Value>WIPViewAdm</Value>
+</Value>
+<Value name="15">
+<Value>WIPViewAll</Value>
+</Value>
+<Value name="16">
+<Value>WIPViewDisch</Value>
+</Value>
+<Value name="17">
+<Value>WIPViewPread</Value>
+</Value>
+<Value name="18">
+<Value>WIPEQDR</Value>
+</Value>
+<Value name="19">
+<Value>WIPOutpatLoc</Value>
+</Value>
+<Value name="20">
+<Value>WIPReferralStatus</Value>
+</Value>
+<Value name="21">
+<Value>WIPResourceDR</Value>
+</Value>
+<Value name="22">
+<Value>WIPLogonRoundCP</Value>
+</Value>
+<Value name="23">
+<Value>WIPLogonRoundRR</Value>
+</Value>
+<Value name="24">
+<Value>WIPNoAppts</Value>
+</Value>
+<Value name="25">
+<Value>WIPInqReqStatus</Value>
+</Value>
+<Value name="26">
+<Value>WIPSortOrder</Value>
+</Value>
+<Value name="27">
+<Value>WIPRadStatus</Value>
+</Value>
+<Value name="28">
+<Value>WIPPatientNo</Value>
+</Value>
+<Value name="29">
+<Value>WIPVisitNo</Value>
+</Value>
+<Value name="30">
+<Value>AccessionNo</Value>
+</Value>
+<Value name="31">
+<Value>WIPAccessionNo</Value>
+</Value>
+<Value name="32">
+<Value>WIPSortDirection</Value>
+</Value>
+<Value name="33">
+<Value>WIPEventStatus</Value>
+</Value>
+<Value name="34">
+<Value>WIPVisitStatus</Value>
+</Value>
+<Value name="35">
+<Value>WIPDtFromOffset</Value>
+</Value>
+<Value name="36">
+<Value>WIPDtToOffset</Value>
+</Value>
+<Value name="37">
+<Value>WIPCPList</Value>
+</Value>
+<Value name="38">
+<Value>WIPClinicListType</Value>
+</Value>
+<Value name="39">
+<Value>WIPEpisodeTypeList</Value>
+</Value>
+<Value name="40">
+<Value>WIPHospitalList</Value>
+</Value>
+<Value name="41">
+<Value>WIPLocList</Value>
+</Value>
+<Value name="42">
+<Value>WIPLogonHosp</Value>
+</Value>
+<Value name="43">
+<Value>WIPLogonSpecialty</Value>
+</Value>
+<Value name="44">
+<Value>WIPOrderCatList</Value>
+</Value>
+<Value name="45">
+<Value>WIPOrderSubCatList</Value>
+</Value>
+<Value name="46">
+<Value>WIPSpecialtyList</Value>
+</Value>
+<Value name="47">
+<Value>WIPOrderStatus</Value>
+</Value>
+<Value name="48">
+<Value>WIPResultStatus</Value>
+</Value>
+<Value name="49">
+<Value>WIPCareTypeDR</Value>
+</Value>
+<Value name="50">
+<Value>WIPInpatAdmTypeDR</Value>
+</Value>
+<Value name="51">
+<Value>WIPUnitList</Value>
+</Value>
+<Value name="52">
+<Value>WIPWardList</Value>
+</Value>
+<Value name="53">
+<Value>WIPNurseTabList</Value>
+</Value>
+<Value name="54">
+<Value>WIPOnlyEpsOutstandingDS</Value>
+</Value>
+<Value name="55">
+<Value>WIPReceivingLoc</Value>
+</Value>
+<Value name="56">
+<Value>WIPCaseManager</Value>
+</Value>
+<Value name="57">
+<Value>WIPLogonCaseMan</Value>
+</Value>
+<Value name="58">
+<Value>WIPARCIMDR</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

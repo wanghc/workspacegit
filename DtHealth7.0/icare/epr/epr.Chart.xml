@@ -1,0 +1,2131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.Chart">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62841,46763.663824</TimeChanged>
+<TimeCreated>61079,43957.988628</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>1684</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="ChartSettings">
+<Description>
+This field stores the information, in the following format in a List.
+itemID,itemType,Rows,Sequence</Description>
+<Type>epr.ChartItem</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Student">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="IsHistoryPage">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="DisplayConsultBanner">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="ChartColour">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TextColour">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SELChartColour">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="SELTextColour">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="NameIndex">
+<Description>
+Index for property Name</Description>
+<Properties>Name</Properties>
+</Index>
+
+<Method name="CopyChart">
+<Description>
+ab 24.03.06 58654
+by wuqk 2011-06-05</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ID:%String="",Name:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	quit:Name=""
+	set objChartOld=##class(epr.Chart).%OpenId(ID)
+	quit:'$IsObject(objChartOld)
+	set objChart=##class(epr.Chart).%New()      
+	set objChart.Name=Name
+	set objChart.ChartSettings=objChartOld.ChartSettings   
+	set objChart.Student=objChartOld.Student               
+	set objChart.IsHistoryPage=objChartOld.IsHistoryPage         
+	set objChart.DisplayConsultBanner=objChartOld.DisplayConsultBanner  
+	set objChart.ChartColour=objChartOld.ChartColour           
+	set objChart.TextColour=objChartOld.TextColour            
+	set objChart.SELChartColour=objChartOld.SELChartColour        
+	set objChart.SELTextColour=objChartOld.SELTextColour
+	set sc=objChart.%Save()
+	quit sc
+]]></Implementation>
+</Method>
+
+<Method name="CanMarkAsRead">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>EpisodeID:%Library.String,userid:%Library.String,OrderID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="CanMarkItemAsRead">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>OrderID:%Library.String="",GroupID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ItemsFindClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ItemsFindFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ItemsFindExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,ChartID:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	//ROWSPEC = "index,ItemID,ItemType,ItemDesc,DisplayHeader,
+	//DisplayAddButton,Sequence,Rows,graph,heading,HeadingDisplay,
+	//Collapse,ColumnWidth,AcrossEpisodes,OnlyMarkedForDSReport
+	
+	set objChart=##class(epr.Chart).%OpenId(ChartID)
+	quit:'$IsObject(objChart) $$$OK
+	set cs=objChart.ChartSettings
+	quit:'cs $$$OK
+	for index=1:1:cs.Count() {
+		set itm=cs.GetAt(index)
+		//set itm=##class(epr.ChartItem).%New()
+		set itemData=..GetItemData(itm.ItemType,itm.Item)
+		set data=$lb()		
+		set $li(data,1)=index            //index	
+		set $li(data,2)=itm.Item            //ItemID	
+		set $li(data,3)=itm.ItemType            //ItemType	
+		set $li(data,4)=$lg(itemData,3)            //ItemDesc	
+		set $li(data,5)=itm.DisplayHeader            //DisplayHeader	
+		set $li(data,6)=itm.DisplayAddButton            //DisplayAddButton	
+		set $li(data,7)=itm.Sequence            //Sequence	
+		set $li(data,8)=itm.Rows            //Rows	
+		set $li(data,9)=itm.GraphDR            //graph	
+		set $li(data,10)=itm.Heading            //heading	
+		//set $li(data,11)=itm            //HeadingDisplay	
+		set $li(data,12)=itm.Collapse            //Collapse	
+		set $li(data,13)=itm.ColumnWidth            //ColumnWidth	
+		set $li(data,14)=itm.AcrossEpisodes            //AcrossEpisodes	
+		set $li(data,15)=itm.OnlyMarkedForDSReport            //OnlyMarkedForDSReport
+		
+		set ^CacheTemp(repid,ind)=data
+		set ind=ind+1
+	}
+	
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ItemsFindFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ItemsFindExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="UnreadResults">
+<Description>
+by wuqk 2011-05-31</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[episodeid:%Library.String,mradm:%Library.String,&unread:%Library.List]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s FileExtension=""
+	s FileNameLength=""
+	s RESChildsub=""
+	s RESResStatCode=""
+	s Word=""
+	s found=0
+	s quitMe=""
+	quit ""
+]]></Implementation>
+</Method>
+
+<Method name="UnreadResultsInChart">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[ChartID:%Library.String,&unread:%Library.List]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="chartSettingsDelete">
+<Description>
+KM Feb-2001
+by wuqk 2011-06-01</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ChartID:%String,itemIdx:%String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	set objChart=##class(epr.Chart).%OpenId(ChartID)
+	quit:'$IsObject(objChart)
+	set cs=objChart.ChartSettings
+	quit:'cs
+	if cs.Count()>=+itemIdx do objChart.ChartSettings.RemoveAt(+itemIdx)
+	set sc=objChart.%Save()
+	if $system.Status.IsError(sc) {d $system.OBJ.DisplayError(sc)}
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="chartSettingsInsert">
+<Description>
+KM 20-Feb-2001</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&cs:%Library.List,ItemID:%Library.String,ItemType:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="chartSettingsSelect">
+<Description>
+KM 7-Mar-2001: Called from both epr.chart.csp AND epr.eprgraph.csp</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&itmLIST:%Library.List,&params:%Library.String,cs:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	do ..ChartItemParas()
+	k itmLIST,params
+	n objPara
+	
+	;set css=chart.ChartSettings    //根据上下文重新从chart获取ChartSettings
+	set css=cs
+	for index=1:1:css.Count() {
+		set itm=css.GetAt(index)
+		//w !,itm
+		//d $System.OBJ.Dump(itm)
+		set itmId=itm.Item
+		set type=itm.ItemType
+		set Sequence=itm.Sequence
+		set:Sequence="" Sequence="Z00"_index
+		set paraId=$g(para(type,1))
+		set paras=$g(para(type,2))
+		;set:type'="EP" params(type,itmId)=paras
+		if type'="EP" {
+			set objPara=##class(epr.CTProfileParams).%OpenId(itmId)
+			if $isobject(objPara) s params(type,itmId)=objPara.PPParameters
+		}
+		
+		//  4 16 17/// 9 10????
+		set itemData=..GetItemData(type,itmId)
+		set itmString=""
+		set $p(itmString,"^",1)=itmId
+		set $p(itmString,"^",2)=type
+		set $p(itmString,"^",3)=itm.DisplayHeader
+		set $p(itmString,"^",4)=itm.DisplayAddButton   
+		set $p(itmString,"^",5)=$lg(itemData,1)
+		set $p(itmString,"^",6)=$lg(itemData,2)
+		set $p(itmString,"^",7)=itm.Rows
+		set $p(itmString,"^",8)=$lg(itemData,3)
+		//set $p(itmString,"^",9)=itm.Graphs
+		//set $p(itmString,"^",10)=itm.Heading
+		set $p(itmString,"^",11)=itm.Collapse
+		set $p(itmString,"^",12)=itm.ColumnWidth
+		set $p(itmString,"^",13)=itm.AdHocGraphLink
+		set $p(itmString,"^",14)=itm.ConditionalExpression
+		
+		//? 15 --> 16 //原P5 csp代码 从第15位读取
+		//但是P8上epr.Chart).chartSettingsSelect方法再第16位传出此字段
+		//故修改位第16位
+		set $p(itmString,"^",16)=itm.AcrossEpisodes   
+		set $p(itmString,"^",18)=$lg(itemData,4)
+		
+		set itmLIST(Sequence)=itmString
+	}
+	quit
+]]></Implementation>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[/**/
+]]></Content>
+</UDLText>
+
+<Method name="TestChartSetting">
+<Description>
+d ##class(epr.Chart).TestChartSetting()</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	//set para=..ChartItemParas()
+	//zw para
+	do ..ChartItemParas()
+	//set chartid=$o(^ooChartD(0))
+	set chartid=142
+	while chartid'="" {
+		s chart=##Class(epr.Chart).%OpenId(chartid,0)
+		//w !,chart.Name
+		//do $System.OBJ.Dump(chart)
+		continue:'chart
+		s cs=chart.ChartSettings 
+		i cs {
+			d ##Class(epr.Chart).chartSettingsSelect(.itmLIST,.params,cs)
+			//s ^TempWuqk(chartid)=chart.Name
+ 			//s ^TempWuqk(chartid,"cs")=cs.Count()
+ 			//s ^TempWuqk(chartid,"csString")=cs
+ 			//m ^TempWuqk(chartid,"itmLIST")=itmLIST
+ 			//m ^TempWuqk(chartid,"params")=params
+ 			k itmLIST,params
+ 			for index=1:1:cs.Count() {
+	 			set itm=cs.GetAt(index)
+	 			//d $System.OBJ.Dump(itm)
+	 			set itmId=itm.Item
+	 			set type=itm.ItemType
+	 			set Sequence=itm.Sequence
+				set:Sequence="" Sequence="Z00"_index
+	 			set paraId=$g(para(type,1))
+	 			set paras=$g(para(type,2))
+ 				//set:type'="EP" ^TempWuqk(chartid,"params",type,itmId,"mine")=paras
+ 				//w !,Sequence
+	 			//w !,itmId_"/"_type_"/"_paraId_"/"_$g(paras)
+	 			//w !,chartid_"/"_itmId_"/"_type_"/"_itm.Heading,!
+	 			//For i=1:1:itm.Heading.Count()  Write "--"_itm.Heading.GetAt(i),!
+	 			//b
+	 			//  4 16 17/// 9 10????
+	 			set itemData=..GetItemData(type,itmId)
+	 			set itmString=""
+	 			set $p(itmString,"^",1)=itmId
+	 			set $p(itmString,"^",2)=type
+	 			set $p(itmString,"^",3)=itm.DisplayHeader
+	 			set $p(itmString,"^",4)=itm.DisplayAddButton   
+	 			set $p(itmString,"^",5)=$lg(itemData,1)
+	 			set $p(itmString,"^",6)=$lg(itemData,2)
+	 			set $p(itmString,"^",7)=itm.Rows
+	 			set $p(itmString,"^",8)=$lg(itemData,3)
+	 			//set $p(itmString,"^",9)=itm.Graphs
+	 			//set $p(itmString,"^",10)=itm.Heading
+	 			set $p(itmString,"^",11)=itm.Collapse
+	 			set $p(itmString,"^",12)=itm.ColumnWidth
+	 			set $p(itmString,"^",13)=itm.AdHocGraphLink
+	 			set $p(itmString,"^",14)=itm.ConditionalExpression
+	 			
+	 			//? 15 --> 16 //原P5 csp代码 从第15位读取
+	 			//但是P8上epr.Chart).chartSettingsSelect方法再第16位传出此字段
+	 			//故修改位第16位
+	 			set $p(itmString,"^",16)=itm.AcrossEpisodes   
+	 			set $p(itmString,"^",18)=$lg(itemData,4)
+	 			
+ 				//set ^TempWuqk(chartid,"itmLIST",Sequence,"mine")=itmString
+	 		}
+		}
+ 		d chart.%Close()
+ 		//set chartid=$o(^ooChartD(chartid))
+ 		quit
+	}
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="ChartItemParas">
+<Description>
+set para=""
+d ##class(epr.Chart).ChartItemParas(para)</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	//^epr.CTProfileParamsD
+	set paraId=$o(^epr.CTProfileParamsD(0))
+	while paraId'=""{
+		//w !,paraId
+		set objPara=##class(epr.CTProfileParams).%OpenId(paraId)
+		if objPara{
+			//d $System.OBJ.Dump(objPara)
+			//set objType=objPara.PPTypeDR
+			set type=$lg($g(^epr.CTProfileParamsD(paraId)),4)
+			//w "--2"_type
+			if $d(para(type)) {
+				set paraId=$o(^epr.CTProfileParamsD(paraId))
+				continue
+			}
+			if (type'=""){
+				set para(type,1)=paraId
+				set para(type,2)=objPara.PPParameters
+			}
+		}
+		set paraId=$o(^epr.CTProfileParamsD(paraId))
+	}
+	
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="GetItemData">
+<Description>
+d ##class(ext.epr.Chart).GetItemData("OP",1)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>type,id</FormalSpec>
+<Implementation><![CDATA[
+	k ret
+	k listCompName,editCompName
+	set ret=""
+	set typeid=##class(epr.CTChartItemType).GetIdFromCodeOrDescription(type)
+	set objType=##class(epr.CTChartItemType).%OpenId(typeid)
+	if type="EP"{
+		set className=objType.CITClass   //epr.CTEPRPages
+		set objItm=##class(epr.CTEPRPages).%OpenId(id)
+		if (objItm){
+			set listComp=objItm.ListComponentDR
+			set editComp=objItm.EditComponentDR
+			set:listComp listCompName=listComp.Name
+			set:editComp editCompName=editComp.Name
+			set desc=objItm.Description
+			set url=objItm.URL
+		}
+	}
+	else{
+		set listComp=objType.CITListEPRComponentDR
+		set editComp=objType.CITEditEPRComponentDR
+		set typedesc=objType.CITDesc
+		set:listComp listCompName=listComp.Name
+		set:editComp editCompName=editComp.Name
+		set desc=typedesc_": "_##class(epr.CTProfileParams).%OpenId(id).PPDesc
+		set url=objType.CITURL
+	}
+	
+	set ret=$lb($g(listCompName),$g(editCompName),$g(desc),$g(url))
+	quit ret
+]]></Implementation>
+</Method>
+
+<Method name="chartSettingsSort">
+<Description>
+KM 13-Mar-2001</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&obj:%Library.String,ChartID:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="testShowItem">
+<Description>
+do ##class(epr.Chart).testShowItem()</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	s id=$o(^ooChartD(0))
+	while id'=""{
+		s objChart=##class(epr.Chart).%OpenId(id)
+		continue:'objChart
+		set cs=objChart.ChartSettings
+		for index=1:1:cs.Count() {
+			set itm=cs.GetAt(index)
+			s GraphDR=itm.GraphDR
+			if GraphDR do $System.OBJ.Dump(GraphDR)
+			/*
+			w !,itm.Heading.Count()
+			for t=1:1:itm.Heading.Count(){
+				s s=itm.Heading.GetAt(t)
+				w !,"   --"_t_":"_s
+			}*/
+		}
+		s id=$o(^ooChartD(id))
+	}
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="ChartDisplay7">
+<Description><![CDATA[
+chartSettingsSelect->ChartDisplay7
+by wuqk 2011-06-02]]></Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	do ..ChartItemParas()
+	k itmLIST,params
+	set cs=chart.ChartSettings    //根据上下文重新从chart获取ChartSettings
+	for index=1:1:cs.Count() {
+		set itm=cs.GetAt(index)
+		//w !,itm
+		//d $System.OBJ.Dump(itm)
+		//ItemID
+		set itmId=itm.Item
+		//set itmType=itm.ItemType
+		set Sequence=itm.Sequence
+		set:Sequence="" Sequence="Z00"_index
+		set paraId=$g(para(type,1))
+		set paras=$g(para(type,2))
+		set:itm.ItemType'="EP" params(itm.ItemType,itmId)=paras
+		
+		
+		//  4 16 17/// 9 10????
+		set itemData=..GetItemData(itm.ItemType,itmId)
+		
+	    set ListComponent=$lg(itemData,1)
+	    set EditComponent=$lg(itemData,2)
+	    set itemDescription=$lg(itemData,3)
+	    
+	    d ..ChartItemDisplay()
+	    
+		/*
+		set itmString=""
+		set $p(itmString,"^",1)=itmId
+		set $p(itmString,"^",2)=type
+		set $p(itmString,"^",3)=itm.DisplayHeader
+		set $p(itmString,"^",4)=itm.DisplayAddButton   
+		set $p(itmString,"^",5)=$lg(itemData,1)
+		set $p(itmString,"^",6)=$lg(itemData,2)
+		set $p(itmString,"^",7)=itm.Rows
+		set $p(itmString,"^",8)=$lg(itemData,3)
+		//set $p(itmString,"^",9)=itm.Graphs
+		//set $p(itmString,"^",10)=itm.Heading
+		set $p(itmString,"^",11)=itm.Collapse
+		set $p(itmString,"^",12)=itm.ColumnWidth
+		set $p(itmString,"^",13)=itm.AdHocGraphLink
+		set $p(itmString,"^",14)=itm.ConditionalExpression
+		
+		//? 15 --> 16 //原P5 csp代码 从第15位读取
+		//但是P8上epr.Chart).chartSettingsSelect方法再第16位传出此字段
+		//故修改位第16位
+		set $p(itmString,"^",16)=itm.AcrossEpisodes   
+		set $p(itmString,"^",18)=$lg(itemData,4)
+		*/
+		//set ^TempWuqk1("itmLIST",Sequence,"mine")=itmString
+		//set itmLIST(Sequence)=itmString
+	}
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="ChartItemDisplay">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	//set itm=##class(epr.ChartItem).%New()
+	
+	s show=1 i itm.ConditionalExpression'="" d ##class(websys.Conversions).expressionExecute(itm.ConditionalExpression)
+	q:'show
+	s %request.Data("AcrossEpisodes",1)=$s(+itm.AcrossEpisodes=0:"N",1:"Y")
+	s eprcomponentCONTEXT=eprchartCONTEXT_itm.ItemType_itmId
+	d %request.Set("CONTEXT",eprcomponentCONTEXT)
+	
+	; if questionnaire Edit Profile - 
+	;get the required questionnaire, this is the component we shall open..
+	if itm.ItemType="QE" {
+		s QuestID=""
+		i $g(params("QE",itm.Item))'="" s QuestID=$p($g(params("QE",itm.Item)),"^")
+		q:QuestID=""
+		s Qclass=##Class(web.SSUserDefWindow).GetClassNameFromId(QuestID)
+		q:Qclass=""
+		q:'##Class(web.SSUserDefWindow).IsGeneratedQuestionnaire(Qclass)
+		;s QCode=$li(##Class(web.SSUserDefWindow).GetCodeDescriptionFromId(QuestID),3)
+		s ListComponent=Qclass_".Edit"
+		s %request.Data("QuestionnaireID",1)=QuestID
+		i questionnaireload {
+			; get the most recent version of this questionnaire - so we can display it in the EPR
+			s MostRecentID=""
+			/// removed by wuqk 2011-06-02
+			//d 
+			n rs, tmpdates, dt, tm
+			s rs=##Class(%Library.ResultSet).%New("web.MRAdm:Questionnaire")
+			q:'rs
+			d rs.Execute(EpisodeID)
+			f  q:'rs.Next()  d
+			. q:rs.Data("QuestionnaireID")'=QuestID
+			. s tmpdates(+rs.Data("Date"),+rs.Data("Time"))=rs.Data("ID")
+			d rs.%Close()
+			s dt=$o(tmpdates(""),-1) q:'dt
+			s tm=$o(tmpdates(dt,""),-1) q:'tm
+			s MostRecentID=$g(tmpdates(dt,tm))
+			s %request.Data("ID",1)=MostRecentID
+		}
+	}
+	
+	s frm=##Class(websys.Component).OpenName(ListComponent)
+	i $e(ListComponent,1,2)="PA" s parref=PatientID
+	i $e(ListComponent,1,2)="MR" s parref=mradm
+	i ListComponent="ORAnaesthesia.Tree" s parref=EpisodeID
+	quit:'frm
+	
+	s TPrint=%request.Get("TPRINT")
+	s (idesc,itmparams)=""
+	i $g(paras)'="" s itmparams=paras
+	s frm.HideHeadings=itm.DisplayHeader
+	s frm.ListRows=itm.Rows
+	//s Collapsed=itm.Collapse
+	s divID=index
+	i 'TPrint {
+		; These variables are to be reset within the Questionnaire profile
+		s (%request.Data("QuestionnaireGroups",1),%request.Data("EpisodesAll",1),%request.Data("ThisPreg",1))=""
+		;create the collapsable heading
+		w !,"<DIV nowrap style='margin-top:5px; margin-bottom:5px; width:100%;'><SPAN class='chartitemheading'>&nbsp;<IMG id='IMG"_divID_"' src='"_$s(itm.Collapse:"../images/websys/plus.gif",1:"../images/websys/minus.gif")_"' onclick='ExpandCollapse(""DIV"_divID_""",""IMG"_divID_""");' border=0>&nbsp;"
+		s frm.ShowNextInNewWindow="top=20,left=100,width=800"
+		//NB: Profiles form name and id (along with its corrisponding table name and id) are changed to be 'unique' in associated .js file
+		; Log 42221 - AI - 05-02-2004 : Display (Student) if the Chart is a Student Chart.
+		w "<B>"_itemDescription
+		i ($d(ListComponent)),(((($e(ListComponent,1,2)="MR")&&(ListComponent'="MRAdm.ListEMRQuestionnaire"))||(itm.ItemType="BP"))&&(studentMRADMID'="")) w " ("_t("student")_")"
+		w "</B>&nbsp;&nbsp;&nbsp;&nbsp;"
+		; end Log 42221
+		;
+		; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, use the stored Student MRADM instead of the Main MRADM and parref.
+		;   putting this here also caters for the graphing logic below.
+		i ((itm.ItemType="BP")||(itm.ItemType="EP")),($d(ListComponent)),($e(ListComponent,1,2)="MR"),(ListComponent'="MRAdm.ListEMRQuestionnaire"),(studentMRADMID'="") d
+		. s tmpmradm=mradm
+		. s %request.Data("mradm",1)=studentMRADMID
+		. s mradm=studentMRADMID
+		. s %request.Data("parref",1)=studentMRADMID
+		. s parref=studentMRADMID
+		s %request.Data("studentchart",1)=studentchart
+		; end Log 42221
+		;i (($p(itm,"^",2)'="EP")&&($p(itm,"^",2)'="TP")) d
+		; Log 43192 - AdHoc Graph link is now defined against the specific chart
+		i itm.AdHocGraphLink d
+		. n grph,graphnum
+		. ; Log 42221 - AI - 10-02-2004 : Make "Ad-Hoc Graphing" translatable.
+		. w "<A HREF=""#"" onclick=""graphHandler('',"_mradm_")""><img SRC=""../images/webemr/Graph.gif"" BORDER=0>"_t("adhocgraphing")_"</A>"_$c(13,10)
+		
+		//f graphnum=1:1:$ll(itm.Graphs) {
+		f graphnum=1:1:itm.Graphs.Count() {
+			s grph=$lg(itm.Graphs,graphnum) 
+			i grph'="" w "<A HREF=""#"" onclick=""graphHandler('"_##class(websys.Conversions).EscapeUrl(grph)_"',"_mradm_")""><img SRC=""../images/webemr/Graph.gif"" BORDER=0>"_grph_"</A>"_$c(13,10)
+		}
+		s complist=",PAAdmDischargeSummary.List,MRAdm.ListEMRPhyMeas,MRObservations.ListEMR,PAPatMas.ListEMRQuestionnaire,MRAdm.ListEMRQuestionnaire,ORAnaesthesia.Tree,"
+		i itm.DisplayAddButton=1, complist'[(","_ListComponent_",") d  ;Show Add Button if requested
+		. i (CanAddDSMedications'=""),(CanAddDSMedications=0),(ListComponent="MRMedication.List") q
+		. w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewPage('"_EditComponent_"','','"_$g(parref)_"','"_mradm_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+		i itm.DisplayAddButton=1,ListComponent="PAPatMas.ListEMRQuestionnaire" d  ;Show New Button if requested
+		. w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewPage('"_"SSUserDefWindow.FindByCodeOrDesc"_"','"_mradm_"','"_$g(parref)_"','"_mradm_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+		; Log 46197 - AI - 14-10-2004 : When component MRAdm.ListEMRQuestionnaire is used, use the Questionnaire Find page. From Log 30206 (see W642 epr.chart.csp).
+		i itm.DisplayAddButton=1,EditComponent="SSUserDefWindow.List" d  ;Show Add Button if requested
+		. w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewQuestionnairePage('"_EditComponent_"','','"_$g(parref)_"','"_$p(itmparams,"|",1)_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+		i itm.DisplayAddButton=1,EditComponent="SSUserDefWindow.FindByCodeOrDesc" d  ;Show Add Button if requested
+		. w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewQuestionnairePage('"_EditComponent_"','"_mradm_"','"_$g(parref)_"','"_mradm_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+		; end Log 46197
+		i itm.DisplayAddButton=1,ListComponent="MRAdm.ListEMRPhyMeas" d  ;Show Edit Button if requested
+		. w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewPage('"_EditComponent_"','"_mradm_"','"_$g(parref)_"','"_mradm_"');""><IMG SRC=""../images/websys/edit.gif""><u>"_t("edit")_"</u></LABEL>"
+		; anaesthetics
+		i itm.DisplayAddButton=1,ListComponent="ORAnaesthesia.Tree" d  ;Show Edit Button if requested
+		. w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewAnaestheticsPage('"_$g(parref)_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+		; Log 29736 - AI - 08-01-2004 : Observation Profile now, not Observation Group. Change ObsGrpID and itm to reflect this.
+		i itm.DisplayAddButton=1,ListComponent="MRObservations.ListEMR" d  ;Show Edit Button if requested
+		. n ObsGrpID,obsitm
+		. i itm.ItemType="BP" d
+		. . s ObsGrpID=$p(itmparams,"|",1)  ;##Class(web.MRCObservationGroup).GetIdFromCodeOrDescription($p(itmparams,"|",1))
+		. . s obsitm=ObsGrpID_"^"_"BP" //_"^"_$p(itm,"^",3,5)
+		. . s obsitm=ObsGrpID_"^"_itm.DisplayHeader
+		. . s obsitm=ObsGrpID_"^"_itm.DisplayAddButton
+		. . s obsitm=ObsGrpID_"^"_ListComponent
+		. . s obsitm=obsitm_"^"_"OEOrdExec.Edit"_"^"_itm.Rows_"^"_"Observation Group: "_$p(itmparams,"|",1) 
+		. . //s obsitm=obsitm_"^"_$p(itm,"^",9,12)
+		. . s obsitm=obsitm_"^^^"_itm.Collapse_"^"_itm.ColumnWidth
+		. ; Log 42221 - 10-02-2004 : Add studentchart to the list of passed parameters.
+		. w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewObsPage('"_PatientID_"','"_mradm_"','"_EpisodeID_"','"_ObsGrpID_"','"_studentchart_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+		. w "&nbsp;&nbsp;<A HREF=""#"" onclick=""searchHandler('"_PatientID_"','"_mradm_"','"_EpisodeID_"','"_ObsGrpID_"','"_$p(obsitm,"^",1,8)_"^"_$p(obsitm,"^",10)_"','"_$p(itmparams,"|",1)_"','"_$p(itmparams,"|",2)_"','"_$p(itmparams,"|",3)_"','"_$p(itmparams,"|",4)_"',"_studentchart_")"">"_t("search")_"</A>"_$c(13,10)
+		i ListComponent="PAAdm.List" d  ;Show Episode Contact Link if requested
+		. w "<LABEL style=""color:blue;cursor:hand"" onclick=""EpisodeContact('"_PatientID_"','"_EpisodeID_"','"_eprchartCONTEXT_"');""><img SRC=""../images/websys/Edit.gif"" BORDER=0><u>"_t("episodecontact")_"</u></LABEL>"
+		. ; Log 51327 - AI - 30-03-2005 : Make sure we are an actual saved DS. ie. not brand new, and also not a new version.
+		. i DischID'="",DischID'=CurrDischID w "&nbsp;&nbsp;<LABEL style=""color:blue;cursor:hand"" onclick=""LinkedEpisodes('"_PatientID_"','"_DischID_"','"_eprchartCONTEXT_"');""><img SRC=""../images/websys/Edit.gif"" BORDER=0><u>"_t("linkedepisodes")_"</u></LABEL>"
+		i itm.DisplayAddButton=1,ListComponent="PAAdmDischargeSummary.List" d  ;Show Episode Contact Link if requested
+		. w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewDischarge('"_PatientID_"','"_##class(websys.WorkFlow).GetIdFromCodeOrDescription("Trak.Discharge.Summary.Edit")_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+		i itm.ItemType="QE" d  ; for Questionnaire Edit - Allow clear and new questionnaire
+		. w "<LABEL style=""color:blue;cursor:hand"" id=""testme"" onclick=""ClearAndNewQuest('"_eprurl_"&clearquestion=1');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+		. ;w "<LABEL style=""color:blue;cursor:hand"" id=""testme"" onclick=""ClearAndNewQuest('"_$tr(ListComponent,".","_")_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+		; PACSSystem Viewer Link START - YC 46911
+		i ((ListComponent="MRAdm.ListEMRResults") || (ListComponent="OEOrdItem.ListTabularEMR")) d
+		. s OrderHeader=$o(^OEORD(0,"Adm",+EpisodeID,""))
+		. s dept="",randomnumber=""
+		. f  s dept = $o(^OEORDi(0,"RecDepOrd",+OrderHeader,dept))  q:dept=""  q:randomnumber'=""  d
+		. . s externalviewer=$p($g(^CTLOC(dept)),"^",77) q:externalviewer=""
+		. . s ViewerID = $o(^epr.CTExternalViewerI("UniqueCodeIndex"," "_externalviewer,"")) q:ViewerID=""
+		. . s ViewerGlobal = $g(^epr.CTExternalViewerD(ViewerID)) q:ViewerGlobal=""
+		. . s Code = $lg(ViewerGlobal,2)
+		. . s Description = $lg(ViewerGlobal,3)
+		. . s PACSSystem = $lg(ViewerGlobal,4)
+		. . s VirtualPath = $lg(ViewerGlobal,5)
+		. . i PACSSystem = "GE" d
+		. . . s randomnumber=$r(1000000)
+		. . . s MRN=##class(web.PAPatMas).GetRegistration(PatientID)
+		. . . s datetime=$e(##class(%Collation).AlphaUp($zdatetime($h,3)),1,12)
+		. . . w "<LABEL style=""color:blue;cursor:hand"" onclick='window.open("""_VirtualPath_"/cgi-bin/OAPIExamList.cgi?"_MRN_"+"_datetime_"+"_randomnumber_""")'><IMG SRC=""../images/webemr/Radiology.gif""><u>"_Description_"</u></LABEL>"
+		; PACSSystem Viewer Link END - YC 46911
+		w "</SPAN>"
+		; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, reset mradm and parref to be the Main MRADM.
+		i ((itm.ItemType="BP")||(itm.ItemType="EP")),($d(ListComponent)),($e(ListComponent,1,2)="MR"),(ListComponent'="MRAdm.ListEMRQuestionnaire"),(studentMRADMID'="") d
+		. s %request.Data("mradm",1)=tmpmradm
+		. s mradm=tmpmradm
+		. s %request.Data("parref",1)=tmpmradm
+		. s parref=tmpmradm
+		; end Log 42221
+	}
+	; Display heading when printing - without all the other stuff
+	i (TPrint),(TPrintComp=frm.Name),(TPrintContext=eprcomponentCONTEXT) d
+	. ; Log 42221 - AI - 05-02-2004 : Display (Student) if the Chart is a Student Chart.
+	. w !,"<DIV>",!,"<SPAN class='chartitemheading'><BR><B>"_itemDescription
+	. i ($d(ListComponent)),(((($e(ListComponent,1,2)="MR")&&(ListComponent'="MRAdm.ListEMRQuestionnaire"))||(itm.ItemType="BP"))&&(studentMRADMID'="")) w " ("_t("student")_")"
+	. w "</B><BR></SPAN>"
+	. ; end Log 42221
+	. s frm.HideMenus=1
+	; 55357 - don't show Lab Episode of Lab Profiles any more...
+	i ",OEOrdItem.ListLabEpisodeProfileEMR,OEOrdItem.ListLabEMR,"[(","_ListComponent_",") d  q
+	. w "</SPAN><P><B>Lab Episode Order and Lab Results Profile are no longer available - please configure Lab Cumulative Profile</B></P></DIV>"
+	;
+	;end of collapsable heading, and create main chartitem data block
+	i TPrint w !,"<DIV id='DIV"_divID_"' style='margin-left:15px;'>",!
+	i 'TPrint w !,"<DIV id='DIV"_divID_"' style='margin-left:15px; display:"_$s(itm.Collapse:"none",1:"")_"; '>",!
+	
+	;Create neccessary variables for calling the OrderProfile Query.
+	i itm.ItemType="OP" do ..setOP()
+	 
+	;Create neccessary variables for calling the ResultProfile Query.
+	e  i itm.ItemType="RP" do ..setRP()
+	 
+	;Create ALL neccessary variables for calling the Lab Profile Query.
+	e  i itm.ItemType="LP" do ..setLP()
+	 
+	;Lab Episode Profile Query.
+	e  i itm.ItemType="LG" do ..setLG()
+	 
+	;Lab Cumulative Profile Results.
+	e  i itm.ItemType="LC" do ..setLC()
+	 
+	; Log 29736 - AI - 08-01-2004 : Observation Group is now an Observation Profile, which contains/references an Observation Group.
+	; Observation Profile
+	e  i itm.ItemType="BP" do ..setBP()
+	 
+	; DHCEPR Profile
+	e  i itm.ItemType="DH" do ..setDH()
+	 
+	;Tabular Profile Results.
+	e  i itm.ItemType="LT" do ..setLT()
+	 
+	;Lab Profile Query.
+	e  i itm.ItemType="BT" do ..setBT()
+	 
+	;Questionnaire Profile
+	e  i itm.ItemType="QP" do ..setQP()
+	 
+	; Log 50669 YC - Time Line as Chart
+	;Time Line Profile
+	e  i itm.ItemType="TL" do ..setTL()
+	 
+	;Reset the questionnaire variables if calling from an EPR page (to distinguish from an 'QP' query)
+	e  i itm.ItemType="EP" do ..setEP()
+	 
+	; Log 41303 - AI - 15-12-2003 : New Theatre Profile.
+	; Theatre Profile
+	e  i itm.ItemType="TP" s %request.Data("EpisodesAll",1)=$p(itmparams,"|",1)
+	 
+	; Do NOT re-show the form if it was already shown for the specific Profiles.
+	;
+	i (itm.ItemType'="LT")&(itm.ItemType'="BG")&(itm.ItemType'="BP")&(itm.ItemType'="LC")&(itm.ItemType'="DH") do ..setElse()
+	 
+	d frm.%Close()
+	;
+	w !,"</DIV>" ;ends the actual chart item data block
+	w "</DIV>" ;ends the expand block
+	
+	
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="ChartDisplay">
+<Description>
+YC - epr.chart.csp got too big. Moved half the code to this method.
+by wuqk 2011-05-31 get grom P5 epr.chart.csp</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	 s ^Temp("Upgrade",$j,"ChartDisplay",ChartID,0)=""
+	 s jk=""  f  s jk=$o(itmLIST(jk))  q:jk=""  d
+	 . s itm=itmLIST(jk)
+	 . s ^Temp("Upgrade",$j,"ChartDisplay",ChartID,jk)=itm
+	 . s ItemID=$p(itm,"^",1)
+	 . s ListComponent=$p(itm,"^",5)
+	 . s EditComponent=$p(itm,"^",6)
+	 . ; Graph now contains a LIST of graphs...
+	 . s Graph=$p(itm,"^",9)
+	 . s Heading=$p(itm,"^",10)
+	 . s AdHocGraphLink=$p(itm,"^",13)
+	 . ; Allow EPR to show conditionally based on a conditional expression in the chart setup
+	 . ; Example Conditional Expression - s show=##class(Class).Method()
+	 . s ConditionalExpression=$p(itm,"^",14)
+	 . s show=1 i ConditionalExpression'="" d ##class(websys.Conversions).expressionExecute(ConditionalExpression)
+	 . q:'show
+	 . ; Log 52724 & 53953 YC - Across Episodes to determine if it is one episode or multiple
+ 	 . //by wuqk 2011-05-31 15 -> 16
+	 . ;s %request.Data("AcrossEpisodes",1)=$s(+$p(itm,"^",15)=0:"N",1:"Y")
+ 	 . s %request.Data("AcrossEpisodes",1)=$s(+$p(itm,"^",16)=0:"N",1:"Y")
+	 . s eprcomponentCONTEXT=eprchartCONTEXT_$p(itm,"^",2)_ItemID
+	 . d %request.Set("CONTEXT",eprcomponentCONTEXT)
+	 . ; if questionnaire Edit Profile - get the required questionnaire, this is the component we shall open..
+	 . i $p(itm,"^",2)="QE" d
+	 . . s QuestID=""
+	 . . i $g(params("QE",$p(itm,"^",1)))'="" s QuestID=$p($g(params("QE",$p(itm,"^",1))),"^")
+	 . . q:QuestID=""
+	 . . s Qclass=##Class(web.SSUserDefWindow).GetClassNameFromId(QuestID)
+	 . . q:Qclass=""
+	 . . q:'##Class(web.SSUserDefWindow).IsGeneratedQuestionnaire(Qclass)
+	 . . ;s QCode=$li(##Class(web.SSUserDefWindow).GetCodeDescriptionFromId(QuestID),3)
+	 . . s ListComponent=Qclass_".Edit"
+	 . . s %request.Data("QuestionnaireID",1)=QuestID
+	 . . i questionnaireload d
+	 . . . ; get the most recent version of this questionnaire - so we can display it in the EPR
+	 . . . s MostRecentID=""
+	 . . . d 
+	 . . . . n rs, tmpdates, dt, tm
+	 . . . . s rs=##Class(%Library.ResultSet).%New("web.MRAdm:Questionnaire")
+	 . . . . q:'rs
+	 . . . . d rs.Execute(EpisodeID)
+	 . . . . f  q:'rs.Next()  d
+	 . . . . . q:rs.Data("QuestionnaireID")'=QuestID
+	 . . . . . s tmpdates(+rs.Data("Date"),+rs.Data("Time"))=rs.Data("ID")
+	 . . . . d rs.%Close()
+	 . . . . s dt=$o(tmpdates(""),-1) q:'dt
+	 . . . . s tm=$o(tmpdates(dt,""),-1) q:'tm
+	 . . . . s MostRecentID=$g(tmpdates(dt,tm))
+	 . . . s %request.Data("ID",1)=MostRecentID
+	 . s frm=##Class(websys.Component).OpenName(ListComponent)
+	 . i $e(ListComponent,1,2)="PA" s parref=PatientID
+	 . i $e(ListComponent,1,2)="MR" s parref=mradm
+	 . i ListComponent="ORAnaesthesia.Tree" s parref=EpisodeID
+	 . i frm d
+	 . . s TPrint=%request.Get("TPRINT")
+	 . . s (idesc,itmparams)=""
+	 . . i $g(params($p(itm,"^",2),$p(itm,"^",1)))'="" s itmparams=params($p(itm,"^",2),$p(itm,"^",1))
+	 . . s frm.HideHeadings=$p(itm,"^",3)
+	 . . s frm.ListRows=$p(itm,"^",7)
+	 . . s Collapsed=$p(itm,"^",11)
+	 . . s divID=jk
+	 . . i 'TPrint d
+	 . . . ; These variables are to be reset within the Questionnaire profile
+	 . . . s (%request.Data("QuestionnaireGroups",1),%request.Data("EpisodesAll",1),%request.Data("ThisPreg",1))=""
+	 . . . ;create the collapsable heading
+	 . . . w !,"<DIV nowrap style='margin-top:5px; margin-bottom:5px; width:100%;'><SPAN class='chartitemheading'>&nbsp;<IMG id='IMG"_divID_"' src='"_$s(Collapsed:"../images/websys/plus.gif",1:"../images/websys/minus.gif")_"' onclick='ExpandCollapse(""DIV"_divID_""",""IMG"_divID_""");' border=0>&nbsp;"
+	 . . . s frm.ShowNextInNewWindow="top=20,left=100,width=800"
+	 . . . //NB: Profiles form name and id (along with its corrisponding table name and id) are changed to be 'unique' in associated .js file
+	 . . . ; Log 42221 - AI - 05-02-2004 : Display (Student) if the Chart is a Student Chart.
+	 . . . w "<B>"_$p(itm,"^",8)
+	 . . . i ($d(ListComponent)),(((($e(ListComponent,1,2)="MR")&&(ListComponent'="MRAdm.ListEMRQuestionnaire"))||($p(itm,"^",2)="BP"))&&(studentMRADMID'="")) w " ("_t("student")_")"
+	 . . . w "</B>&nbsp;&nbsp;&nbsp;&nbsp;"
+	 . . . ; end Log 42221
+	 . . . ;
+	 . . . ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, use the stored Student MRADM instead of the Main MRADM and parref.
+	 . . . ;   putting this here also caters for the graphing logic below.
+	 . . . i (($p(itm,"^",2)="BP")||($p(itm,"^",2)="EP")),($d(ListComponent)),($e(ListComponent,1,2)="MR"),(ListComponent'="MRAdm.ListEMRQuestionnaire"),(studentMRADMID'="") d
+	 . . . . s tmpmradm=mradm
+	 . . . . s %request.Data("mradm",1)=studentMRADMID
+	 . . . . s mradm=studentMRADMID
+	 . . . . s %request.Data("parref",1)=studentMRADMID
+	 . . . . s parref=studentMRADMID
+	 . . . s %request.Data("studentchart",1)=studentchart
+	 . . . ; end Log 42221
+	 . . . ;i (($p(itm,"^",2)'="EP")&&($p(itm,"^",2)'="TP")) d
+	 . . . ; Log 43192 - AdHoc Graph link is now defined against the specific chart
+	 . . . i AdHocGraphLink d
+	 . . . . n grph,graphnum
+	 . . . . ; Log 42221 - AI - 10-02-2004 : Make "Ad-Hoc Graphing" translatable.
+	 . . . . w "<A HREF=""#"" onclick=""graphHandler('',"_mradm_")""><img SRC=""../images/webemr/Graph.gif"" BORDER=0>"_t("adhocgraphing")_"</A>"_$c(13,10)
+	 . . . f graphnum=1:1:$ll(Graph) s grph=$lg(Graph,graphnum) i grph'="" w "<A HREF=""#"" onclick=""graphHandler('"_##class(websys.Conversions).EscapeUrl(grph)_"',"_mradm_")""><img SRC=""../images/webemr/Graph.gif"" BORDER=0>"_grph_"</A>"_$c(13,10)
+	 . . . s complist=",PAAdmDischargeSummary.List,MRAdm.ListEMRPhyMeas,MRObservations.ListEMR,PAPatMas.ListEMRQuestionnaire,MRAdm.ListEMRQuestionnaire,ORAnaesthesia.Tree,"
+	 . . . i $p(itm,"^",4)=1, complist'[(","_ListComponent_",") d  ;Show Add Button if requested
+	 . . . . i (CanAddDSMedications'=""),(CanAddDSMedications=0),(ListComponent="MRMedication.List") q
+	 . . . . w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewPage('"_$p(itm,"^",6)_"','','"_$g(parref)_"','"_mradm_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+	 . . . i $p(itm,"^",4)=1,ListComponent="PAPatMas.ListEMRQuestionnaire" d  ;Show New Button if requested
+	 . . . . w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewPage('"_"SSUserDefWindow.FindByCodeOrDesc"_"','"_mradm_"','"_$g(parref)_"','"_mradm_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+	 . . . ; Log 46197 - AI - 14-10-2004 : When component MRAdm.ListEMRQuestionnaire is used, use the Questionnaire Find page. From Log 30206 (see W642 epr.chart.csp).
+	 . . . i $p(itm,"^",4)=1,EditComponent="SSUserDefWindow.List" d  ;Show Add Button if requested
+	 . . . . w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewQuestionnairePage('"_$p(itm,"^",6)_"','','"_$g(parref)_"','"_$p(itmparams,"|",1)_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+	 . . . i $p(itm,"^",4)=1,EditComponent="SSUserDefWindow.FindByCodeOrDesc" d  ;Show Add Button if requested
+	 . . . . w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewQuestionnairePage('"_$p(itm,"^",6)_"','"_mradm_"','"_$g(parref)_"','"_mradm_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+	 . . . ; end Log 46197
+	 . . . i $p(itm,"^",4)=1,ListComponent="MRAdm.ListEMRPhyMeas" d  ;Show Edit Button if requested
+	 . . . . w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewPage('"_$p(itm,"^",6)_"','"_mradm_"','"_$g(parref)_"','"_mradm_"');""><IMG SRC=""../images/websys/edit.gif""><u>"_t("edit")_"</u></LABEL>"
+	 . . . ; anaesthetics
+	 . . . i $p(itm,"^",4)=1,ListComponent="ORAnaesthesia.Tree" d  ;Show Edit Button if requested
+	 . . . . w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewAnaestheticsPage('"_$g(parref)_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+	 . . . ; Log 29736 - AI - 08-01-2004 : Observation Profile now, not Observation Group. Change ObsGrpID and itm to reflect this.
+	 . . . i $p(itm,"^",4)=1,ListComponent="MRObservations.ListEMR" d  ;Show Edit Button if requested
+	 . . . . n ObsGrpID,obsitm
+	 . . . . i $p(itm,"^",2)="BP" d
+	 . . . . . s ObsGrpID=$p(itmparams,"|",1)  ;##Class(web.MRCObservationGroup).GetIdFromCodeOrDescription($p(itmparams,"|",1))
+	 . . . . . s obsitm=ObsGrpID_"^"_"BP"_"^"_$p(itm,"^",3,5)_"^"_"OEOrdExec.Edit"_"^"_$p(itm,"^",7)_"^"_"Observation Group: "_$p(itmparams,"|",1)_"^"_$p(itm,"^",9,12)
+	 . . . . ; Log 42221 - 10-02-2004 : Add studentchart to the list of passed parameters.
+	 . . . . w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewObsPage('"_PatientID_"','"_mradm_"','"_EpisodeID_"','"_ObsGrpID_"','"_studentchart_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+	 . . . . w "&nbsp;&nbsp;<A HREF=""#"" onclick=""searchHandler('"_PatientID_"','"_mradm_"','"_EpisodeID_"','"_ObsGrpID_"','"_$p(obsitm,"^",1,8)_"^"_$p(obsitm,"^",10)_"','"_$p(itmparams,"|",1)_"','"_$p(itmparams,"|",2)_"','"_$p(itmparams,"|",3)_"','"_$p(itmparams,"|",4)_"',"_studentchart_")"">"_t("search")_"</A>"_$c(13,10)
+	 . . . i ListComponent="PAAdm.List" d  ;Show Episode Contact Link if requested
+	 . . . . w "<LABEL style=""color:blue;cursor:hand"" onclick=""EpisodeContact('"_PatientID_"','"_EpisodeID_"','"_eprchartCONTEXT_"');""><img SRC=""../images/websys/Edit.gif"" BORDER=0><u>"_t("episodecontact")_"</u></LABEL>"
+	 . . . . ; Log 51327 - AI - 30-03-2005 : Make sure we are an actual saved DS. ie. not brand new, and also not a new version.
+	 . . . . i DischID'="",DischID'=CurrDischID w "&nbsp;&nbsp;<LABEL style=""color:blue;cursor:hand"" onclick=""LinkedEpisodes('"_PatientID_"','"_DischID_"','"_eprchartCONTEXT_"');""><img SRC=""../images/websys/Edit.gif"" BORDER=0><u>"_t("linkedepisodes")_"</u></LABEL>"
+	 . . . i $p(itm,"^",4)=1,ListComponent="PAAdmDischargeSummary.List" d  ;Show Episode Contact Link if requested
+	 . . . . w "<LABEL style=""color:blue;cursor:hand"" onclick=""NewDischarge('"_PatientID_"','"_##class(websys.WorkFlow).GetIdFromCodeOrDescription("Trak.Discharge.Summary.Edit")_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+	 . . . i $p(itm,"^",2)="QE" d  ; for Questionnaire Edit - Allow clear and new questionnaire
+	 . . . . w "<LABEL style=""color:blue;cursor:hand"" id=""testme"" onclick=""ClearAndNewQuest('"_eprurl_"&clearquestion=1');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+	 . . . . ;w "<LABEL style=""color:blue;cursor:hand"" id=""testme"" onclick=""ClearAndNewQuest('"_$tr(ListComponent,".","_")_"');""><IMG SRC=""../images/websys/new.gif""><u>"_t("new")_"</u></LABEL>"
+	 . . . ; PACSSystem Viewer Link START - YC 46911
+	 . . . i ((ListComponent="MRAdm.ListEMRResults") || (ListComponent="OEOrdItem.ListTabularEMR")) d
+	 . . . . s OrderHeader=$o(^OEORD(0,"Adm",+EpisodeID,""))
+	 . . . . s dept="",randomnumber=""
+	 . . . . f  s dept = $o(^OEORDi(0,"RecDepOrd",+OrderHeader,dept))  q:dept=""  q:randomnumber'=""  d
+	 . . . . . s externalviewer=$p($g(^CTLOC(dept)),"^",77) q:externalviewer=""
+	 . . . . . s ViewerID = $o(^epr.CTExternalViewerI("UniqueCodeIndex"," "_externalviewer,"")) q:ViewerID=""
+	 . . . . . s ViewerGlobal = $g(^epr.CTExternalViewerD(ViewerID)) q:ViewerGlobal=""
+	 . . . . . s Code = $lg(ViewerGlobal,2)
+	 . . . . . s Description = $lg(ViewerGlobal,3)
+	 . . . . . s PACSSystem = $lg(ViewerGlobal,4)
+	 . . . . . s VirtualPath = $lg(ViewerGlobal,5)
+	 . . . . . i PACSSystem = "GE" d
+	 . . . . . . s randomnumber=$r(1000000)
+	 . . . . . . s MRN=##class(web.PAPatMas).GetRegistration(PatientID)
+	 . . . . . . s datetime=$e(##class(%Collation).AlphaUp($zdatetime($h,3)),1,12)
+	 . . . . . . w "<LABEL style=""color:blue;cursor:hand"" onclick='window.open("""_VirtualPath_"/cgi-bin/OAPIExamList.cgi?"_MRN_"+"_datetime_"+"_randomnumber_""")'><IMG SRC=""../images/webemr/Radiology.gif""><u>"_Description_"</u></LABEL>"
+	 . . . ; PACSSystem Viewer Link END - YC 46911
+	 . . . w "</SPAN>"
+	 . . . ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, reset mradm and parref to be the Main MRADM.
+	 . . . i (($p(itm,"^",2)="BP")||($p(itm,"^",2)="EP")),($d(ListComponent)),($e(ListComponent,1,2)="MR"),(ListComponent'="MRAdm.ListEMRQuestionnaire"),(studentMRADMID'="") d
+	 . . . . s %request.Data("mradm",1)=tmpmradm
+	 . . . . s mradm=tmpmradm
+	 . . . . s %request.Data("parref",1)=tmpmradm
+	 . . . . s parref=tmpmradm
+	 . . . ; end Log 42221
+	 . . ; Display heading when printing - without all the other stuff
+	 . . i (TPrint),(TPrintComp=frm.Name),(TPrintContext=eprcomponentCONTEXT) d
+	 . . . ; Log 42221 - AI - 05-02-2004 : Display (Student) if the Chart is a Student Chart.
+	 . . . w !,"<DIV>",!,"<SPAN class='chartitemheading'><BR><B>"_$p(itm,"^",8)
+	 . . . i ($d(ListComponent)),(((($e(ListComponent,1,2)="MR")&&(ListComponent'="MRAdm.ListEMRQuestionnaire"))||($p(itm,"^",2)="BP"))&&(studentMRADMID'="")) w " ("_t("student")_")"
+	 . . . w "</B><BR></SPAN>"
+	 . . . ; end Log 42221
+	 . . . s frm.HideMenus=1
+	 . . ; 55357 - don't show Lab Episode of Lab Profiles any more...
+	 . . i ",OEOrdItem.ListLabEpisodeProfileEMR,OEOrdItem.ListLabEMR,"[(","_ListComponent_",") d  q
+	 . . . w "</SPAN><P><B>Lab Episode Order and Lab Results Profile are no longer available - please configure Lab Cumulative Profile</B></P></DIV>"
+	 . . ;
+	 . . ;end of collapsable heading, and create main chartitem data block
+	 . . i TPrint w !,"<DIV id='DIV"_divID_"' style='margin-left:15px;'>",!
+	 . . i 'TPrint w !,"<DIV id='DIV"_divID_"' style='margin-left:15px; display:"_$s(Collapsed:"none",1:"")_"; '>",!
+	 . . ;
+	 . . i $p(itm,"^",2)="OP" d   ;Create neccessary variables for calling the OrderProfile Query.
+	 . . . i itmparams'="",mradm'="" d
+	 . . . . s stat=$p(itmparams,"|",2)
+	 . . . . s stat=##Class(web.OECOrderStatus).getStatus(stat,"Incl")
+	 . . . . s %request.Data("par",1)=##Class(web.MRAdm).GetOrderId(mradm)_"^I"
+	 . . . . s %request.Data("dfrom",1)="||^"_$tr($p(itmparams,"|",1),",","^")_"^" ;categories
+	 . . . . s %request.Data("stat",1)="|^"_$tr($p(stat,"^",1),",","^")_"^" ;status(s)
+	 . . . . s %request.Data("hospitallist",1)=","_$p(itmparams,"|",3)_","
+	 . . . . s %request.Data("EpisodeAll",1)=$p(itmparams,"|",4)
+	 . . . . ; Log 41352 - AI - 16-02-2004 : Add the new subcategories data. Only need IDs List - $p($p(itmparams,"|",5),"*",2).
+	 . . . . s %request.Data("OrderSubcategories",1)=$p($p(itmparams,"|",5),"*",2)
+	 . . . . ; Log 43983 - AI - 22-06-2004 : Add the new "Exclude Orders from current Episode" checkbox.
+	 . . . . s %request.Data("ExcludeCurrentEpisode",1)=$p(itmparams,"|",6)
+	 . . ;
+	 . . i $p(itm,"^",2)="RP" d   ;Create neccessary variables for calling the ResultProfile Query.
+	 . . . s (%request.Data("dfrom",1),%request.Data("dto",1))=""
+	 . . . ;s %request.Data("markasread",1)=##Class(epr.Chart).CanMarkAsRead($g(EpisodeID),%session.Get("LOGON.USERID"))
+	 . . . s %request.Data("userid",1)=%session.Get("LOGON.USERID")
+	 . . . s %request.Data("ChartID",1)=ChartID
+	 . . . s %request.Data("ItemID",1)=ItemID
+	 . . . s %request.Data("Type",1)=$p(itm,"^",2)
+	 . . . ; Flags for result display: 1-Atomic,2-Dicom,3-Image,4-Text,5-Word
+	 . . . s resultAtomic=$s($p(itmparams,"|",3):"Y",1:"N")
+	 . . . s resultDicom=$s($p(itmparams,"|",4):"Y",1:"N")
+	 . . . s resultImage=$s($p(itmparams,"|",5):"Y",1:"N")
+	 . . . s resultText=$s($p(itmparams,"|",6):"Y",1:"N")
+	 . . . s resultWord=$s($p(itmparams,"|",7):"Y",1:"N")
+	 . . . ; Log 41352 - AI - 13-02-2004 : Add the new subcategories data - as the 9th piece. Only need IDs List - $p($p(itmparams,"|",8),"*",2).
+	 . . . s %request.Data("ResultDisplayFlags",1)=resultAtomic_"^"_resultDicom_"^"_resultImage_"^"_resultText_"^"_resultWord_"^^^^"_$p($p(itmparams,"|",8),"*",2)
+	 . . . ;s %request.Data("ResultDisplay",1)=$p(itmparams,"|",3)_"^"_$p(itmparams,"|",4)_"^"_$p(itmparams,"|",5)_"^"_$p(itmparams,"|",6)_"^"_$p(itmparams,"|",7)
+	 . . . s %request.Data("catgsID",1)=","_$p(itmparams,"|",1)_","
+	 . . . s %request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	 . . ;
+	 . . i $p(itm,"^",2)="LP" d   ;Create ALL neccessary variables for calling the Lab Profile Query.
+	 . . . n par,datefrom,dateto,category,test
+	 . . . s (%request.Data("dfrom",1),%request.Data("dto",1),%request.Data("category",1),%request.Data("test",1))=""
+	 . . . s %request.Data("patientid",1)=PatientID,%request.Data("episode",1)=EpisodeID,%request.Data("dateto",1)="",%request.Data("datefrom",1)=""
+	 . . . ;s %request.Data("markasread",1)=##Class(epr.Chart).CanMarkAsRead($g(EpisodeID),%session.Get("LOGON.USERID"))
+	 . . . s %request.Data("userid",1)=%session.Get("LOGON.USERID")
+	 . . . s %request.Data("ChartID",1)=ChartID
+	 . . . s %request.Data("ItemID",1)=ItemID
+	 . . . s %request.Data("Type",1)=$p(itm,"^",2)
+	 . . . i itmparams'="" s %request.Data("category",1)=","_$p(itmparams,"|",1)_",",%request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	 . . ;
+	 . . i $p(itm,"^",2)="LG" d   ;Lab Episode Profile Query.
+	 . . . n par,datefrom,dateto,category,test
+	 . . . s %request.Data("patientid",1)=PatientID,%request.Data("episode",1)=EpisodeID,%request.Data("dateto",1)="",%request.Data("datefrom",1)=""
+	 . . . s %request.Data("category",1)="",%request.Data("test",1)=""
+	 . . . ;s %request.Data("markasread",1)=##Class(epr.Chart).CanMarkAsRead($g(EpisodeID),%session.Get("LOGON.USERID"))
+	 . . . s %request.Data("userid",1)=%session.Get("LOGON.USERID")
+	 . . . s %request.Data("ChartID",1)=ChartID
+	 . . . s %request.Data("ItemID",1)=ItemID
+	 . . . s %request.Data("Type",1)=$p(itm,"^",2)
+	 . . . i itmparams'="" s %request.Data("category",1)=","_$p(itmparams,"|",1)_",",%request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	 . . ;
+	 . . i $p(itm,"^",2)="LC" d   ;Lab Cumulative Profile Results.
+	 . . . ; NOTE: ANY CHANGES HERE ALSO MAKE IN epr.Cumulative.csp
+	 . . . n dtmLIST,chLIST,refLIST,cols
+	 . . . i itmparams'="",'TPrint!(TPrint&&(TPrintComp=frm.Name)&&(TPrintContext=eprcomponentCONTEXT)) d
+	 . . . . s %request.Data("Cumulativeitm",1)=itm
+	 . . . . s %request.Data("Cumulativeitmparams",1)=itmparams
+	 . . . . ; Perform the frm.Show here, so the Menu Bar (when applicable - per Component) gets displayed first.
+	 . . . . ; store the required test items..
+	 . . . . s %request.Data("CumulativeItemIDs",1)=$p(itmparams,"|",1)
+	 . . . . s %request.Data("ScrollingPopupPage",1)=0
+	 . . . . s cols=$p(itm,"^",7) i TPrint s cols=9999
+	 . . . . s %request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	 . . . . s %request.Data("PatientID",1)=PatientID
+	 . . . . s %request.Data("Heading",1)=Heading
+	 . . . . s %request.Data("ChartID",1)=ChartID
+	 . . . . s %request.Data("OrderItemID",1)=""
+	 . . . . s %request.Data("ChartItemID",1)=ItemID
+	 . . . . s %request.Data("Type",1)=$p(itm,"^",2)
+	 . . . . s %request.Data("Context",1)=eprcomponentCONTEXT
+	 . . . . s %request.Data("Columns",1)=cols
+	 . . . . s %request.Data("IncludeRPrefix",1)=$p(itmparams,"|",3)
+	 . . . . s %request.Data("RefRangePosition",1)=$p(itmparams,"|",4)
+	 . . . . s %request.Data("TestDisplay",1)=$p(itmparams,"|",5)
+	 . . . . s %request.Data("ColumnWidth",1)=$p(itm,"^",12)
+	 . . . . ; Log 37905 - AI - 01-10-2003 : Send the value of AllowedSeeGraphLink to ##class(epr.LabGraphTestSets).DisplayCumulative().
+	 . . . . ;     We always want to see the Graph link if called from Cumulative Profile.
+	 . . . . s %request.Data("AllowedSeeGraphLink",1)=1
+	 . . . . d frm.Show()
+	 . . . . ;
+	 . . . . ;d ##class(epr.LabGraphTestSets).DisplayCumulative(0)
+	 . . . . ;d ##Class(epr.LabGraphTestSets).LabCummResultsGet(PatientID,$p(itmparams,"|",1),"","","","",.dtmLIST,.chLIST,.refLIST,$p(itmparams,"|",2))
+	 . . . . ;n compid s compid=##Class(websys.Component).GetIdFromCodeOrDescription("OEOrdItem.ListLabCummEMR")
+	 . . . . ;i $o(refLIST(""))'="" w "<A HREF='#' onclick='CumulativeGraph("""_ItemID_""","""_PatientID_""")'>Cumulative Graph</A>"_$c(13,10)
+	 . . . . ;d ##Class(epr.LabGraphTestSets).LabCummResultsShow(.dtmLIST,.chLIST,.refLIST,0,Heading,ChartID,ItemID,$p(itm,"^",2),eprcomponentCONTEXT,cols,"",$p(itmparams,"|",3),"",$p(itmparams,"|",4))
+	 . . ;
+	 . . ; Log 29736 - AI - 08-01-2004 : Observation Group is now an Observation Profile, which contains/references an Observation Group.
+	 . . i $p(itm,"^",2)="BP" d  ; Observation Profile
+	 . . . ; NOTE: ANY CHANGES HERE ALSO MAKE IN epr.Observations.csp
+	 . . . n dtmLIST,chLIST,cols,refLIST,ObsGroupID,ObsGroupIDs,obsitm,obsitmparams
+	 . . . s stdate="",enddate="",sttime="",endtime="",minslots=60
+	 . . . i 'TPrint!(TPrint&&(TPrintComp=frm.Name)&&(TPrintContext=eprcomponentCONTEXT)) d
+	 . . . . s cols=$p(itm,"^",7) i TPrint s cols=9999
+	 . . . . ; set data up for future csp pages...
+	 . . . . s %request.Data("ChartID",1)=ChartID
+	 . . . . s %request.Data("ChartItemID",1)=ItemID
+	 . . . . s %request.Data("ChartItemType",1)=$p(itm,"^",2)
+	 . . . . s %request.Data("Context",1)=eprcomponentCONTEXT
+	 . . . . s %request.Data("Columns",1)=cols
+	 . . . . s %request.Data("ColumnWidth",1)=$p(itm,"^",12)
+	 . . . . ;
+	 . . . . s %request.Data("ObservationGroup",1)=$p(itmparams,"|",1)
+	 . . . . s %request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	 . . . . s %request.Data("CurrentPregnancy",1)=$p(itmparams,"|",3)
+	 . . . . s %request.Data("ReverseDateOrder",1)=$p(itmparams,"|",4)
+	 . . . . s (%request.Data("ObsGrpID",1),ObsGrpID)=$p(itmparams,"|",1)  ;##Class(web.MRCObservationGroup).GetIdFromCodeOrDescription($p(itmparams,"|",1))
+	 . . . . s %request.Data("ObsGrpIDs",1)=##Class(web.MRCObservationGroup).getItemsForGroup(ObsGrpID)
+	 . . . . s %request.Data("obsitm",1)=ObsGrpID_"^"_"BP"_"^"_$p(itm,"^",3,5)_"^"_"OEOrdExec.Edit"_"^"_$p(itm,"^",7)_"^"_"Observation Group: "_$p(itmparams,"|",1)_"^"_$p(itm,"^",9,12)
+	 . . . . ;
+	 . . . . ; Perform the frm.Show here, so the Menu Bar (when applicable - per Component) gets displayed first.
+	 . . . . ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, use the stored Student MRADM instead of the Main MRADM and parref.
+	 . . . . i studentMRADMID'="" d
+	 . . . . . s tmpmradm=mradm
+	 . . . . . s %request.Data("mradm",1)=studentMRADMID
+	 . . . . . s mradm=studentMRADMID
+	 . . . . . s %request.Data("parref",1)=studentMRADMID
+	 . . . . . s parref=studentMRADMID
+	 . . . . s %request.Data("studentchart",1)=studentchart
+	 . . . . ; Set and Get observations is now done in a custon component item and not directly in this csp
+	 . . . . d frm.Show()
+	 . . . . ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, reset mradm and parref to be the Main MRADM.
+	 . . . . i studentMRADMID'="" d
+	 . . . . . s %request.Data("mradm",1)=tmpmradm
+	 . . . . . s mradm=tmpmradm
+	 . . . . . s %request.Data("parref",1)=tmpmradm
+	 . . . . . s parref=tmpmradm
+	 . . . . ; end Log 42221
+	 . . i $p(itm,"^",2)="DH" d  ; DHCEPR Profile
+	 . . . ; NOTE: ANY CHANGES HERE ALSO MAKE IN epr.Observations.csp
+	 . . . n dtmLIST,chLIST,cols,refLIST,ObsGroupID,ObsGroupIDs,obsitm,obsitmparams
+	 . . . s stdate="",enddate="",sttime="",endtime="",minslots=60
+	 . . . i 'TPrint!(TPrint&&(TPrintComp=frm.Name)&&(TPrintContext=eprcomponentCONTEXT)) d
+	 . . . . s cols=$p(itm,"^",7) i TPrint s cols=9999
+	 . . . . ; set data up for future csp pages...
+	 . . . . s %request.Data("ChartID",1)=ChartID
+	 . . . . s %request.Data("ChartItemID",1)=ItemID
+	 . . . . s %request.Data("ChartItemType",1)=$p(itm,"^",2)
+	 . . . . s %request.Data("Context",1)=eprcomponentCONTEXT
+	 . . . . s %request.Data("Columns",1)=cols
+	 . . . . s %request.Data("ColumnWidth",1)=$p(itm,"^",12)
+	 . . . . s %request.Data("CategoryID",1)=$p(itmparams,",",1) ; Add By DHCC Luqg
+	 . . . . s %request.Data("dtName",1)=$p(itmparams,",",2)
+	 . . . . s %request.Data("UpdateLink",1)=$p(itmparams,",",3)
+	 . . . . ;
+	 . . . . ; Perform the frm.Show here, so the Menu Bar (when applicable - per Component) gets displayed first.
+	 . . . . ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, use the stored Student MRADM instead of the Main MRADM and parref.
+	 . . . . i studentMRADMID'="" d
+	 . . . . . s tmpmradm=mradm
+	 . . . . . s %request.Data("mradm",1)=studentMRADMID
+	 . . . . . s mradm=studentMRADMID
+	 . . . . . s %request.Data("parref",1)=studentMRADMID
+	 . . . . . s parref=studentMRADMID
+	 . . . . s %request.Data("studentchart",1)=studentchart
+	 . . . . ; Set and Get observations is now done in a custon component item and not directly in this csp
+	 . . . . d frm.Show()
+	 . . . . ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, reset mradm and parref to be the Main MRADM.
+	 . . . . i studentMRADMID'="" d
+	 . . . . . s %request.Data("mradm",1)=tmpmradm
+	 . . . . . s mradm=tmpmradm
+	 . . . . . s %request.Data("parref",1)=tmpmradm
+	 . . . . . s parref=tmpmradm
+	 . . . . ; end Log 42221 
+	 . . i $p(itm,"^",2)="LT" d   ;Tabular Profile Results.
+	 . . . ; NOTE: ANY CHANGES HERE ALSO MAKE IN epr.Tabular.csp
+	 . . . n dtmLIST,cols,resultlist
+	 . . . i itmparams'="" d
+	 . . . . s %request.Data("catgsID",1)=","_$p(itmparams,"|",1)_",",%request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	 . . . . ;s %request.Data("markasread",1)=##Class(epr.Chart).CanMarkAsRead($g(EpisodeID),%session.Get("LOGON.USERID"))
+	 . . . . s %request.Data("userid",1)=%session.Get("LOGON.USERID")
+	 . . . . s %request.Data("categorylist",1)=","_$p(itmparams,"|",1)_","
+	 . . . . s %request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	 . . . . s %request.Data("hospitallist",1)=","_$p(itmparams,"|",3)_","
+	 . . . . s %request.Data("DisplayUnverifiedResults",1)=$p(itmparams,"|",4)
+	 . . . . s %request.Data("TagResultsOnly",1)=$p(itmparams,"|",5)
+	 . . . . s %request.Data("OnlyUnreadResults",1)=$p(itmparams,"|",6)
+	 . . . . s %request.Data("ShowVIcon",1)=$p(itmparams,"|",7)
+	 . . . . s %request.Data("HideTimeInLink",1)=$p(itmparams,"|",8)
+	 . . . . s %request.Data("IncludeRPrefix",1)=$p(itmparams,"|",9)
+	 . . . . ; Log 41352 - AI - 16-02-2004 : Add the new subcategories data. Only need IDs List - $p($p(itmparams,"|",10),"*",2).
+	 . . . . s %request.Data("OrderSubcategories",1)=$p($p(itmparams,"|",10),"*",2)
+	 . . . . s %request.Data("Tabularitm",1)=itm
+	 . . . . s %request.Data("Tabularitmparams",1)=itmparams
+	 . . . . s %request.Data("ScrollingPopupPage",1)=0
+	 . . . . i 'TPrint!(TPrint&&(TPrintComp=frm.Name)&&(TPrintContext=eprcomponentCONTEXT)) d
+	 . . . . . d frm.Show()
+	 . . . . . ; Log 41352 - AI - 16-02-2004 : Add the new subcategories data. Only need IDs List - $p($p(itmparams,"|",10),"*",2).
+	 . . . . . d ##Class(epr.LabGraphTestSets).TabularResultsGet(PatientID,EpisodeID,mradm,","_$p(itmparams,"|",1)_",","","",$p(itmparams,"|",2),0,%session.Get("LOGON.USERID"),.dtmLIST,","_$p(itmparams,"|",3)_",",$p(itmparams,"|",4),$p(itmparams,"|",5),$p(itmparams,"|",6),.resultlist,$p($p(itmparams,"|",10),"*",2))
+	 . . . . . ; (dtmLIST,minslots,heading,ChartID,ItemID,Type,Context,ShowVIcon,HideTime,Columns,ColumnStart)
+	 . . . . . s cols=$p(itm,"^",7) i TPrint s cols=9999
+	 . . . . . d ##Class(epr.LabGraphTestSets).TabularResultsShow(.dtmLIST,Heading,ChartID,ItemID,$p(itm,"^",2),eprcomponentCONTEXT,$p(itmparams,"|",7),$p(itmparams,"|",8),cols,1,$p(itmparams,"|",9),.resultlist,$p(itm,"^",12))
+	 . . ;
+	 . . i $p(itm,"^",2)="BT" d   ;Lab Profile Query.
+	 . . . s %request.Data("PatientID",1)=PatientID
+	 . . . i itmparams'="" d
+	 . . . . s %request.Data("bloodproductlist",1)=","_$p(itmparams,"|",3)_","
+	 . . . . s %request.Data("hospitallist",1)=","_$p(itmparams,"|",2)_","
+	 . . . . s %request.Data("statuslist",1)=","_$p(itmparams,"|",1)_","
+	 . . . . s %request.Data("ChartID",1)=ChartID
+	 . . . . s %request.Data("ItemID",1)=ItemID
+	 . . . . s %request.Data("Type",1)=$p(itm,"^",2)
+	 . . ;
+	 . . i $p(itm,"^",2)="QP" d   ;Questionnaire Profile
+	 . . . s %request.Data("QuestionnaireGroups",1)=$p(itmparams,"|",1)
+	 . . . s %request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	 . . . s %request.Data("ThisPreg",1)=$p(itmparams,"|",3)
+	 . . . s %request.Data("QuestionnaireProfile",1)=1
+	 . . ;
+	 . . ; Log 50669 YC - Time Line as Chart
+	 . . i $p(itm,"^",2)="TL" d   ;Time Line Profile
+	 . . . s %request.Data("PatientID",1)=PatientID
+	 . . . i itmparams'="" d
+	 . . . . s %request.Data("DateFrom",1)=$p(itmparams,"|",1)
+	 . . . . i $p(itmparams,"|",2)'="" s %request.Data("DateFrom",1)=##class(websys.Conversions).DateLogicalToHtml(+$h+$p(itmparams,"|",2))
+	 . . . . s %request.Data("DateTo",1)=$p(itmparams,"|",3)
+	 . . . . i $p(itmparams,"|",4)'="" s %request.Data("DateTo",1)=##class(websys.Conversions).DateLogicalToHtml(+$h+$p(itmparams,"|",4))
+	 . . . . s %request.Data("TimeFrom",1)=$p(itmparams,"|",5)
+	 . . . . s %request.Data("TimeTo",1)=$p(itmparams,"|",6)
+	 . . . . s %request.Data("SlotType",1)=$p(itmparams,"|",7)
+	 . . ;	
+	 . . i $p(itm,"^",2)="EP" d   ;Reset the questionnaire variables if calling from an EPR page (to distinguish from an 'QP' query)
+	 . . . s (%request.Data("QuestionnaireGroups",1),%request.Data("EpisodesAll",1),%request.Data("ThisPreg",1),%request.Data("QuestionnaireProfile",1))=""
+	 . . . ; Log 42980 - AI - 28-04-2004 : Get all details for PAAdmDischargeSummary component.
+	 . . . i $p(itm,"^",5)="PAAdmDischargeSummary.Edit" d ##Class(web.PAAdmDischargeSummary).GetEditDetails(%request.Get("DischEpisodes"),%request.Get("DischID"),%request.Get("CurrDischID"))
+	 . . ; Log 41303 - AI - 15-12-2003 : New Theatre Profile.
+	 . . i $p(itm,"^",2)="TP" d   ; Theatre Profile
+	 . . . s %request.Data("EpisodesAll",1)=$p(itmparams,"|",1)
+	 . . ; Do NOT re-show the form if it was already shown for the specific Profiles.
+	 . . ;
+	 . . i ($p(itm,"^",2)'="LT")&($p(itm,"^",2)'="BG")&($p(itm,"^",2)'="BP")&($p(itm,"^",2)'="LC")&($p(itm,"^",2)'="DH") d
+	 . . . ;TODO: find which run time variable is being destroyed and new this specifically rather than new everything but frm,%request and %session.
+	 . . . ; Log 42221 - AI - 05-02-2004 : Add variables I don't want cleared - ListComponent, studentMRADMID, mradm, tmpmradm, parref, and studentchart.
+	 . . . n (frm,%request,%session,params,itmLIST,TPrint,TPrintComp,TPrintContext,eprcomponentCONTEXT,ListComponent,studentMRADMID,mradm,tmpmradm,parref,studentchart,TRELOADID,TRELOADNEW)
+	 . . . i 'TPrint!(TPrint&&(TPrintComp=frm.Name)&&(TPrintContext=eprcomponentCONTEXT)) d
+	 . . . . ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, use the stored Student MRADM instead of the Main MRADM and parref.
+	 . . . . i ($d(ListComponent)),($e(ListComponent,1,2)="MR"),(ListComponent'="MRAdm.ListEMRQuestionnaire"),(studentMRADMID'="") d
+	 . . . . . s tmpmradm=mradm
+	 . . . . . s %request.Data("mradm",1)=studentMRADMID
+	 . . . . . s mradm=studentMRADMID
+	 . . . . . s %request.Data("parref",1)=studentMRADMID
+	 . . . . . s parref=studentMRADMID
+	 . . . . s %request.Data("studentchart",1)=studentchart
+	 . . . . ; end Log 42221
+	 . . . . ;
+	 . . . . d frm.Show()
+	 . . . . ;
+	 . . . . ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, reset mradm and parref to be the Main MRADM.
+	 . . . . i ($d(ListComponent)),($e(ListComponent,1,2)="MR"),(ListComponent'="MRAdm.ListEMRQuestionnaire"),(studentMRADMID'="") d
+	 . . . . . s %request.Data("mradm",1)=tmpmradm
+	 . . . . . s mradm=tmpmradm
+	 . . . . . s %request.Data("parref",1)=tmpmradm
+	 . . . . . s parref=tmpmradm
+	 . . . . ; end Log 42221
+	 . . d frm.%Close()
+	 . . ;
+	 . . w !,"</DIV>" ;ends the actual chart item data block
+	 . . w "</DIV>" ;ends the expand block
+	 
+	 s ^Temp("Upgrade",$j,"ChartDisplay",ChartID,99)=""
+	 quit
+]]></Implementation>
+</Method>
+
+<Method name="getEPRChartPage">
+<Description>
+KM 4-Oct-2001: Called from the class methods websysBeforeSave() for any saves which 
+may reload the EPR Chart Page after an update.
+by wuqk 2011-06-05 
+从原环境上测试发现所有chart均返回"epr.chart.csp"</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ChartID:%Library.String</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	quit "epr.chart.csp"
+]]></Implementation>
+</Method>
+
+<Method name="getGraph">
+<Description>
+KM 7-Nov-2001: Called From epr.ChartItem.Edit component
+by wuqk 2011-06-05 暂无数据，无法测试</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String,Type:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	quit "^^^"
+]]></Implementation>
+</Method>
+
+<Method name="getHeading">
+<Description>
+AI 01-Jul-2002: Called From epr.ChartHeading.Edit component
+by wuqk 2011-06-05</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String,Type:%Library.String,delim:%Library.String=$c(13,10)</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s heading=""
+	s chart=##Class(epr.Chart).%OpenId(ChartID,0)
+	quit:'$IsObject(chart) heading
+	s cs=chart.ChartSettings 
+	i cs {
+ 		for index=1:1:cs.Count() {
+			set itm=cs.GetAt(index)
+			set itmId=itm.Item
+	 		set itmType=itm.ItemType
+	 		continue:itmId'=ItemID
+	 		continue:itmType'=Type
+	 		set itmHeading=itm.Heading
+	 		For i=1:1:itmHeading.Count()  {
+		 		s heading=heading_itmHeading.GetAt(i)_delim
+	 		}
+ 		}
+	}
+	quit heading
+]]></Implementation>
+</Method>
+
+<Method name="getExpression">
+<Description>
+by wuqk 2011-06-05</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String,Type:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	s expresion=""
+	s chart=##Class(epr.Chart).%OpenId(ChartID,0)
+	quit:'$IsObject(chart) heading
+	s cs=chart.ChartSettings 
+	i cs {
+ 		for index=1:1:cs.Count() {
+			set itm=cs.GetAt(index)
+			set itmId=itm.Item
+	 		set itmType=itm.ItemType
+	 		continue:itmId'=ItemID
+	 		continue:itmType'=Type
+	 		set expresion=itm.ConditionalExpression
+ 		}
+	}
+	quit expresion
+]]></Implementation>
+</Method>
+
+<Method name="insertGraph">
+<Description>
+KM 7-Nov-2001: Called From epr.ChartItem.Edit component</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="insertHeading">
+<Description>
+AI 01-Jul-2002: Called From epr.ChartHeading.Edit component
+by wuqk 2011-06-07</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	//m ^Temp("Upgrade","eprChart.insertHeading","%req")=%request.Data 
+	set itemType=$g(%request.Data("ItemType",1))
+	set Heading=$g(%request.Data("Heading",1))
+	quit:Heading=""
+	set obj=##class(epr.Chart).%OpenId(ChartID)
+	quit:'$IsObject(obj)
+	set css=obj.ChartSettings
+ 	set csCount=css.Count()
+	set ^Temp("Upgrade","eprChart.insertHeading","csCount")=csCount
+	set matching=0
+	for modifyIndex=1:1:csCount{
+		 set objChartItem=css.GetAt(modifyIndex)
+		 set cssitmType=objChartItem.ItemType
+		 set cssitmID=objChartItem.Item
+		 if (cssitmID=ItemID)&(cssitmType=itemType){
+			 set matching=1
+			 do objChartItem.Heading.Clear()
+			 do objChartItem.Heading.Insert(Heading)
+			 set ^Temp("Upgrade","eprChart.insertHeading","matching")=Heading
+		 }
+		 quit:matching
+	}
+	set:matching save=obj.%Save()
+	s:save id=obj.%Id()
+    d obj.%Close() s obj=""
+    quit save
+]]></Implementation>
+</Method>
+
+<Method name="insertExpression">
+<Description>
+by wuqk 2011-06-07</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ChartID:%Library.String,ItemID:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	//m ^Temp("Upgrade","eprChart.insertExpression","%req")=%request.Data
+	//set ^Temp("Upgrade","eprChart.insertExpression","ChartID")=ChartID
+	//set ^Temp("Upgrade","eprChart.insertExpression","ItemID")=ItemID
+	set itemType=$g(%request.Data("ItemType",1))
+	set ConditionalExpression=$g(%request.Data("ConditionalExpression",1))
+	set obj=##class(epr.Chart).%OpenId(ChartID)
+	quit:'$IsObject(obj)
+	set css=obj.ChartSettings
+ 	set csCount=css.Count()
+	set ^Temp("Upgrade","eprChart.insertExpression","csCount")=csCount
+	set matching=0
+	for modifyIndex=1:1:csCount{
+		 set objChartItem=css.GetAt(modifyIndex)
+		 set cssitmType=objChartItem.ItemType
+		 set cssitmID=objChartItem.Item
+		 if (cssitmID=ItemID)&(cssitmType=itemType){
+			 set matching=1
+			 set objChartItem.ConditionalExpression=ConditionalExpression
+		 }
+		 quit:matching
+	}
+	set:matching save=obj.%Save()
+	s:save id=obj.%Id()
+    d obj.%Close() s obj=""
+    quit save
+]]></Implementation>
+</Method>
+
+<Method name="websysSave">
+<Description>
+KM 13-Mar-2001: Called From epr.Chart.Edit component
+by wuqk 2011-06-05</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String,ChartID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+ //n (compref,ChartID,%session,%request,msg)
+	/**/
+ n compid,status,new,j,oktosave,save,value,parref,oldval 
+ n rowIndex,ChartItemType,css,csCount,rowItemID,rowItemIDValue,rowChartItemType,rowChartItemTypeValue
+ n matching,modifyIndex,objChartItem,itmType,itmID
+ 
+ s compid=$e($p(compref,"i",1),2,999),oktosave=1,save=0
+ s id=ChartID
+ m ^Temp("Upgrade","eprChart.websysSave","%req")=%request.Data
+ 
+ i id'="",'##Class(websys.Lock).Lock($lb(id,"epr.Chart"),%session.SessionId,%session.Get("LOGON.USERID"),.status) d  q 0
+ . d msg.AddItem("E","LOCKED",status,compid) s oktosave=0
+ i '##Class(epr.Chart).websysBeforeSave(compref,.id) q 0
+ s new=id=""
+ s:id'="" obj=##Class(epr.Chart).%OpenId(id)
+ if id="" d
+ . s parref=$g(%request.Data("PARREF",1))
+ . i parref="" s obj=##Class(epr.Chart).%New()
+ . i parref'="" s obj=##Class(epr.Chart).%New(parref)
+ 
+ // d %request.Set("ChartID",id)
+ 
+ i $d(%request.Data("ChartID",1)) d
+ . s (val,oldval)=$g(%request.Data("ChartID",1)) s val=%request.Get("ChartID")
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("ChartID"),""),oldval_" "_$g(t("XINVALID")," is invalid"),218,"ChartID") s oktosave=0
+ 
+ i $d(%request.Data("name",1)) d
+ . s (val,oldval)=$g(%request.Data("name",1)) s obj.Name=$g(val)
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("Name"),"名称"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"Name") s oktosave=0
+ 
+ i $d(%request.Data("student",1)) d
+ . s (val,oldval)=$g(%request.Data("student",1)) s obj.Student=##Class(websys.Conversions).BooleanHtmlToLogical($g(val))
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("student"),"实习生图表"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"student") s oktosave=0
+ 
+ i $d(%request.Data("IsHistoryPage",1)) d
+ . s (val,oldval)=$g(%request.Data("IsHistoryPage",1)) s obj.Student=##Class(websys.Conversions).BooleanHtmlToLogical($g(val))
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("IsHistoryPage"),"临床既往史页"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"IsHistoryPage") s oktosave=0
+ 
+ i $d(%request.Data("DisplayConsultBanner",1)) d
+ . s (val,oldval)=$g(%request.Data("DisplayConsultBanner",1)) s obj.DisplayConsultBanner=##Class(websys.Conversions).BooleanHtmlToLogical($g(val))
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("DisplayConsultBanner"),"显示结果"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"DisplayConsultBanner") s oktosave=0
+ 
+ i $d(%request.Data("ChartColour",1)) d
+ . s (val,oldval)=$g(%request.Data("ChartColour",1)) s obj.ChartColour=$g(val)
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("ChartColour"),"图表颜色"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"ChartColour") s oktosave=0
+ 
+ i $d(%request.Data("TextColour",1)) d
+ . s (val,oldval)=$g(%request.Data("TextColour",1)) s obj.TextColour=$g(val)
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("TextColour"),"文本颜色"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"TextColour") s oktosave=0
+ 
+ i $d(%request.Data("SELChartColour",1)) d
+ . s (val,oldval)=$g(%request.Data("SELChartColour",1)) s obj.SELChartColour=$g(val)
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("SELChartColour"),"选择图表颜色"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"SELChartColour") s oktosave=0
+ 
+ i $d(%request.Data("SELTextColour",1)) d
+ . s (val,oldval)=$g(%request.Data("SELTextColour",1)) s obj.SELTextColour=$g(val)
+ . i oldval'="",val="" d msg.AddItem("E",$g(t("SELTextColour"),"选择文本颜色"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"SELTextColour") s oktosave=0
+ 
+ //取ChartItem类型
+ m ChartItemType=^epr.CTChartItemTypeI("UniqueCITCodeIndex")
+ 
+ ////处理对已存在的ChartItem的修改
+ set css=obj.ChartSettings
+ set csCount=css.Count()
+ set ^Temp("Upgrade","eprChart.websysSave","csCount")=csCount
+ for rowIndex=1:1:100{
+	 set rowItemID="ItemIDz"_rowIndex
+	 quit:'$d(%request.Data(rowItemID,1))
+	 set rowItemIDValue=$g(%request.Data(rowItemID,1))
+	 set rowChartItemType="ChartItemTypez"_rowIndex
+	 quit:'$d(%request.Data(rowChartItemType,1))
+	 set rowChartItemTypeValue=$g(%request.Data(rowChartItemType,1))
+	 set ^Temp("Upgrade","eprChart.websysSave","rowIndex",rowIndex)=rowItemIDValue_"^"_rowChartItemTypeValue
+	 set matching=0
+	 for modifyIndex=1:1:csCount{
+		 set objChartItem=css.GetAt(modifyIndex)
+		 //set objChartItem=##class(epr.ChartItem).%New()
+		 set cssitmType=objChartItem.ItemType
+		 set cssitmID=objChartItem.Item
+		 set ^Temp("Upgrade","eprChart.websysSave","rowIndex",rowIndex,modifyIndex)=cssitmID_"^"_cssitmType
+		 if (cssitmID=rowItemIDValue)&(cssitmType=rowChartItemTypeValue){
+			 set matching=1
+			 set objChartItem.AcrossEpisodes=$s($g(%request.Data("AcrossEpisodesz"_rowIndex,1))="on":1,1:0)
+			 set objChartItem.Collapse=$s($g(%request.Data("Collapsez"_rowIndex,1))="on":1,1:0)
+			 if $g(%request.Data("ColumnWidthz"_rowIndex,1))'=""{
+				 set objChartItem.ColumnWidth=+$g(%request.Data("ColumnWidthz"_rowIndex,1))
+			 }
+			 set objChartItem.DisplayAddButton=$s($g(%request.Data("DisplayAddz"_rowIndex,1))="on":1,1:0)
+			 set objChartItem.DisplayHeader=$s($g(%request.Data("Headerz"_rowIndex,1))="on":1,1:0)
+			 set objChartItem.OnlyMarkedForDSReport=$s($g(%request.Data("OnlyMarkedForDSReportz"_rowIndex,1))="on":1,1:0)
+			 if (",LC,LT,BG,BP,CT,"[","_cssitmType_","){set rows=+$g(%request.Data("Rowsz"_rowIndex,1))}
+			 else{set rows=+$g(%request.Data("Itemsz"_rowIndex,1))}
+			 set:rows>0 objChartItem.Rows=rows
+			 /*
+			 if $g(%request.Data("Rowsz"_rowIndex,1))'=""{
+				 set objChartItem.Rows=+$g(%request.Data("Rowsz"_rowIndex,1))
+			 }*/
+			 set objChartItem.Sequence=$g(%request.Data("Sequencez"_rowIndex,1))
+			 /*根据epr.Chart.Edit组件的 Rows和 Items元素，得出rows的赋值方法
+			 //Items的值如何赋？？
+			 //^Temp("Upgrade","eprChart.websysSave","%req","Itemsz4",1)=""
+			 Items:
+				s val=$s(((rs.Data("ItemType")="LC")!
+				(rs.Data("ItemType")="LT")!
+				(rs.Data("ItemType")="BG")!
+				(rs.Data("ItemType")="BP")!
+				(rs.Data("ItemType")="CT")):rs.GetDataByName("Rows"),
+				1:"")
+				Rows:
+				s val=$s(((rs.Data("ItemType")'="LC")
+				&(rs.Data("ItemType")'="LT")&
+				(rs.Data("ItemType")'="BG")&
+				(rs.Data("ItemType")'="BP")&
+				(rs.Data("ItemType")'="CT")):rs.GetDataByName("Rows"),1:"")
+			 */
+		 }
+		 quit:matching 
+	 }
+	 if matching=0 d msg.AddItem("E",$g(t("ItemDesc"),"修改ChartItem"),oldval_" "_$g(t("XINVALID")," is invalid"),4,"修改ChartItem") s oktosave=0
+	 
+ }
+ 
+ 
+ //do obj.ChartSettings.Clear()
+ 
+ ////处理新加入的内容
+ ////检查%request参数发现ID都未上传，在lookup时未处理
+ ////所以需要根据desc和type来获取itemId
+ ////直接区分为EP类型 和 非EP类型
+ s ParaName="" 
+ f {
+	 s ParaName=$O(%request.Data(ParaName))
+	 Q:ParaName=""
+	 /*
+	 if ParaName="EP_Desc"{
+		 s EPDesc=$g(%request.Data(ParaName,1))
+		 if EPDesc'="" {
+			 s itmId=##class(epr.CTEPRPages).GetIdFromCodeOrDescription(EPDesc)
+			 set objChartItem=##class(epr.ChartItem).%New()
+			 set objChartItem.Item=itmId
+			 set objChartItem.ItemType="EP"
+			 set objChartItem.Rows=20
+			 do obj.ChartSettings.Insert(objChartItem)
+		 }
+	 }
+	 */
+	 continue:$P(ParaName,"_",2)'="ID"
+	 s IDKey=$ZCVT(ParaName,"U")
+	 s itmType=$P(ParaName,"_",1)
+	 continue:$O(^epr.CTChartItemTypeI("UniqueCITCodeIndex",$ZCVT(itmType,"U")))="" 
+	 s itmId=$g(%request.Data(ParaName,1))
+	 if (itmId'=""){
+		 set ^Temp("Upgrade","eprChart.websysSave",itmType)=""
+		 set objChartItem=##class(epr.ChartItem).%New()
+		 set objChartItem.Item=itmId
+		 set objChartItem.ItemType=itmType
+		 set objChartItem.Rows=20
+		 set ^Temp("Upgrade","eprChart.websysSave",itmType,itmId)=""
+		 do obj.ChartSettings.Insert(objChartItem)
+	 }
+ }
+ 
+ /*
+ s itmType=$o(ChartItemType(0))
+ while itmType'=""{
+	 set IDKey=itmType_"_ID"
+	 set DescKey=itmType_"_Desc"
+	 set itmId=""
+	 //根据观察,判断是否存在好像是DescKey是否有值,根据IDKey判断不全面
+	 if $d(%request.Data(IDKey,1)) {
+		 set:$g(%request.Data(IDKey,1))'="" itmId=$g(%request.Data(IDKey,1))
+	 }
+	 if (itmId'=""){
+		 set objChartItem=##class(epr.ChartItem).%New()
+		 set objChartItem.Item=itmId
+		 set objChartItem.ItemType=itmType
+		 set objChartItem.Rows=20
+		 set ^Temp("Upgrade","eprChart.websysSave",itmType,itmId)=""
+		 do obj.ChartSettings.Insert(objChartItem)
+	 }
+	 s itmType=$o(ChartItemType(itmType))
+ }
+  */
+ 
+ i 'oktosave,'$g(msg.Count("E")),$g(%request.Data("TOVERRIDE",1)) s oktosave=1
+ i oktosave d
+ . s save=obj.%Save(0)
+ . i $d(msg) d msg.Status(save,218)
+ s:save id=obj.%Id()
+ d obj.%Close() s obj=""
+ d:save ##Class(epr.Chart).websysAfterSave(compref,id,new)
+ i 'new d ##Class(websys.Lock).LockClear($lb(id,"epr.Chart"),%session.SessionId)
+ q save
+ /**/
+ //quit
+]]></Implementation>
+</Method>
+
+<Query name="Find">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, Name
+FROM epr.Chart
+WHERE (Name %STARTSWITH :name)</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="id,name:%String"/>
+</Query>
+
+<Query name="ItemsFind">
+<Description>
+Log 55973 - PJC - 20-12-2005 : Add the "Only show entries marked for DS Report" checkbox.
+by wuqk 2011-06-01</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>ChartID:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="index,ItemID:%String,ItemType:%String,ItemDesc:%String,DisplayHeader:%Boolean,DisplayAddButton:%Boolean,Sequence:%String,Rows:%Integer,graph:%String,heading:%String,HeadingDisplay:%String,Collapse:%Library.Boolean,ColumnWidth:%Library.Integer,AcrossEpisodes:%Boolean,OnlyMarkedForDSReport:%Boolean"/>
+</Query>
+
+<Query name="VBFindLE">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%Library.String</FormalSpec>
+<SqlQuery>SELECT	ID, Name
+FROM	epr.Chart
+WHERE	(Name %STARTSWITH :desc)
+ORDER	BY Name</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Description:%Library.String"/>
+</Query>
+
+<Method name="setOP">
+<Description>
+by wuqk 2011-06-02
+;Create neccessary variables for calling the OrderProfile Query.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+ 	i itmparams'="",mradm'="" d
+	. s stat=$p(itmparams,"|",2)
+	. s stat=##Class(web.OECOrderStatus).getStatus(stat,"Incl")
+	. s %request.Data("par",1)=##Class(web.MRAdm).GetOrderId(mradm)_"^I"
+	. s %request.Data("dfrom",1)="||^"_$tr($p(itmparams,"|",1),",","^")_"^" ;categories
+	. s %request.Data("stat",1)="|^"_$tr($p(stat,"^",1),",","^")_"^" ;status(s)
+	. s %request.Data("hospitallist",1)=","_$p(itmparams,"|",3)_","
+	. s %request.Data("EpisodeAll",1)=$p(itmparams,"|",4)
+	. ; Log 41352 - AI - 16-02-2004 : Add the new subcategories data. Only need IDs List - $p($p(itmparams,"|",5),"*",2).
+	. s %request.Data("OrderSubcategories",1)=$p($p(itmparams,"|",5),"*",2)
+	. ; Log 43983 - AI - 22-06-2004 : Add the new "Exclude Orders from current Episode" checkbox.
+	. s %request.Data("ExcludeCurrentEpisode",1)=$p(itmparams,"|",6)
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setRP">
+<Description>
+by wuqk 2011-06-02
+;Create neccessary variables for calling the ResultProfile Query.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	s (%request.Data("dfrom",1),%request.Data("dto",1))=""
+	;s %request.Data("markasread",1)=##Class(epr.Chart).CanMarkAsRead($g(EpisodeID),%session.Get("LOGON.USERID"))
+	s %request.Data("userid",1)=%session.Get("LOGON.USERID")
+	s %request.Data("ChartID",1)=ChartID
+	s %request.Data("ItemID",1)=itmId
+	s %request.Data("Type",1)=itm.ItemType
+	; Flags for result display: 1-Atomic,2-Dicom,3-Image,4-Text,5-Word
+	s resultAtomic=$s($p(itmparams,"|",3):"Y",1:"N")
+	s resultDicom=$s($p(itmparams,"|",4):"Y",1:"N")
+	s resultImage=$s($p(itmparams,"|",5):"Y",1:"N")
+	s resultText=$s($p(itmparams,"|",6):"Y",1:"N")
+	s resultWord=$s($p(itmparams,"|",7):"Y",1:"N")
+	; Log 41352 - AI - 13-02-2004 : Add the new subcategories data - as the 9th piece. Only need IDs List - $p($p(itmparams,"|",8),"*",2).
+	s %request.Data("ResultDisplayFlags",1)=resultAtomic_"^"_resultDicom_"^"_resultImage_"^"_resultText_"^"_resultWord_"^^^^"_$p($p(itmparams,"|",8),"*",2)
+	;s %request.Data("ResultDisplay",1)=$p(itmparams,"|",3)_"^"_$p(itmparams,"|",4)_"^"_$p(itmparams,"|",5)_"^"_$p(itmparams,"|",6)_"^"_$p(itmparams,"|",7)
+	s %request.Data("catgsID",1)=","_$p(itmparams,"|",1)_","
+	s %request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setLP">
+<Description>
+by wuqk 2011-06-02
+;Create ALL neccessary variables for calling the Lab Profile Query.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	n par,datefrom,dateto,category,test
+	s (%request.Data("dfrom",1),%request.Data("dto",1),%request.Data("category",1),%request.Data("test",1))=""
+	s %request.Data("patientid",1)=PatientID,%request.Data("episode",1)=EpisodeID,%request.Data("dateto",1)="",%request.Data("datefrom",1)=""
+	;s %request.Data("markasread",1)=##Class(epr.Chart).CanMarkAsRead($g(EpisodeID),%session.Get("LOGON.USERID"))
+	s %request.Data("userid",1)=%session.Get("LOGON.USERID")
+	s %request.Data("ChartID",1)=ChartID
+	s %request.Data("ItemID",1)=itmId
+	s %request.Data("Type",1)=itm.ItemType
+	i itmparams'="" s %request.Data("category",1)=","_$p(itmparams,"|",1)_",",%request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setLG">
+<Description>
+by wuqk 2011-06-02
+;Lab Episode Profile Query.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	n par,datefrom,dateto,category,test
+	s %request.Data("patientid",1)=PatientID,%request.Data("episode",1)=EpisodeID,%request.Data("dateto",1)="",%request.Data("datefrom",1)=""
+	s %request.Data("category",1)="",%request.Data("test",1)=""
+	;s %request.Data("markasread",1)=##Class(epr.Chart).CanMarkAsRead($g(EpisodeID),%session.Get("LOGON.USERID"))
+	s %request.Data("userid",1)=%session.Get("LOGON.USERID")
+	s %request.Data("ChartID",1)=ChartID
+	s %request.Data("ItemID",1)=itmId
+	s %request.Data("Type",1)=itm.ItemType
+	i itmparams'="" s %request.Data("category",1)=","_$p(itmparams,"|",1)_",",%request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setLC">
+<Description>
+by wuqk 2011-06-02
+;Lab Cumulative Profile Results.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	; NOTE: ANY CHANGES HERE ALSO MAKE IN epr.Cumulative.csp
+	n dtmLIST,chLIST,refLIST,cols
+	i itmparams'="",'TPrint!(TPrint&&(TPrintComp=frm.Name)&&(TPrintContext=eprcomponentCONTEXT)) d
+	. s %request.Data("Cumulativeitm",1)=itm
+	. s %request.Data("Cumulativeitmparams",1)=itmparams
+	. ; Perform the frm.Show here, so the Menu Bar (when applicable - per Component) gets displayed first.
+	. ; store the required test items..
+	. s %request.Data("CumulativeItemIDs",1)=$p(itmparams,"|",1)
+	. s %request.Data("ScrollingPopupPage",1)=0
+	. s cols=itm.Rows i TPrint s cols=9999
+	. s %request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	. s %request.Data("PatientID",1)=PatientID
+	. s %request.Data("Heading",1)=Heading
+	. s %request.Data("ChartID",1)=ChartID
+	. s %request.Data("OrderItemID",1)=""
+	. s %request.Data("ChartItemID",1)=ItemID
+	. s %request.Data("Type",1)=itm.ItemType
+	. s %request.Data("Context",1)=eprcomponentCONTEXT
+	. s %request.Data("Columns",1)=cols
+	. s %request.Data("IncludeRPrefix",1)=$p(itmparams,"|",3)
+	. s %request.Data("RefRangePosition",1)=$p(itmparams,"|",4)
+	. s %request.Data("TestDisplay",1)=$p(itmparams,"|",5)
+	. s %request.Data("ColumnWidth",1)=itm.ColumnWidth
+	. ; Log 37905 - AI - 01-10-2003 : Send the value of AllowedSeeGraphLink to ##class(epr.LabGraphTestSets).DisplayCumulative().
+	. ;     We always want to see the Graph link if called from Cumulative Profile.
+	. s %request.Data("AllowedSeeGraphLink",1)=1
+	. d frm.Show()
+	. ;
+	. ;d ##class(epr.LabGraphTestSets).DisplayCumulative(0)
+	. ;d ##Class(epr.LabGraphTestSets).LabCummResultsGet(PatientID,$p(itmparams,"|",1),"","","","",.dtmLIST,.chLIST,.refLIST,$p(itmparams,"|",2))
+	. ;n compid s compid=##Class(websys.Component).GetIdFromCodeOrDescription("OEOrdItem.ListLabCummEMR")
+	. ;i $o(refLIST(""))'="" w "<A HREF='#' onclick='CumulativeGraph("""_ItemID_""","""_PatientID_""")'>Cumulative Graph</A>"_$c(13,10)
+	. ;d ##Class(epr.LabGraphTestSets).LabCummResultsShow(.dtmLIST,.chLIST,.refLIST,0,Heading,ChartID,ItemID,itm.ItemType,eprcomponentCONTEXT,cols,"",$p(itmparams,"|",3),"",$p(itmparams,"|",4))
+
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setBP">
+<Description>
+by wuqk 2011-06-02
+;Log 29736 - AI - 08-01-2004 : Observation Group is now an Observation Profile, which contains/references an Observation Group.
+; Observation Profile</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+
+	; NOTE: ANY CHANGES HERE ALSO MAKE IN epr.Observations.csp
+	n dtmLIST,chLIST,cols,refLIST,ObsGroupID,ObsGroupIDs,obsitm,obsitmparams
+	s stdate="",enddate="",sttime="",endtime="",minslots=60
+	i 'TPrint!(TPrint&&(TPrintComp=frm.Name)&&(TPrintContext=eprcomponentCONTEXT)) d
+	. s cols=itm.Rows i TPrint s cols=9999
+	. ; set data up for future csp pages...
+	. s %request.Data("ChartID",1)=ChartID
+	. s %request.Data("ChartItemID",1)=itmId
+	. s %request.Data("ChartItemType",1)=itm.ItemType
+	. s %request.Data("Context",1)=eprcomponentCONTEXT
+	. s %request.Data("Columns",1)=cols
+	. s %request.Data("ColumnWidth",1)=itm.ColumnWidth
+	. ;
+	. s %request.Data("ObservationGroup",1)=$p(itmparams,"|",1)
+	. s %request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	. s %request.Data("CurrentPregnancy",1)=$p(itmparams,"|",3)
+	. s %request.Data("ReverseDateOrder",1)=$p(itmparams,"|",4)
+	. s (%request.Data("ObsGrpID",1),ObsGrpID)=$p(itmparams,"|",1)  ;##Class(web.MRCObservationGroup).GetIdFromCodeOrDescription($p(itmparams,"|",1))
+	. s %request.Data("ObsGrpIDs",1)=##Class(web.MRCObservationGroup).getItemsForGroup(ObsGrpID)
+	. set obsitm=ObsGrpID_"^"_"BP"_"^"_itm.DisplayHeader_"^"_itm.DisplayAddButton_"^"_ListComponent
+	. set obsitm=obsitm_"^"_"OEOrdExec.Edit"_"^"_itm.Rows_"^"_"Observation Group: "_$p(itmparams,"|",1)
+	. set obsitm=obsitm_"^^^"_itm.Collapse_"^"_itm.ColumnWidth
+  . s %request.Data("obsitm",1)=obsitm
+	. ;s %request.Data("obsitm",1)=ObsGrpID_"^"_"BP"_"^"_$p(itm,"^",3,5)_"^"_"OEOrdExec.Edit"_"^"_itm.Rows_"^"_"Observation Group: "_$p(itmparams,"|",1)_"^"_$p(itm,"^",9,12)
+	. ;
+	. ; Perform the frm.Show here, so the Menu Bar (when applicable - per Component) gets displayed first.
+	. ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, use the stored Student MRADM instead of the Main MRADM and parref.
+	. i studentMRADMID'="" d
+	. . s tmpmradm=mradm
+	. . s %request.Data("mradm",1)=studentMRADMID
+	. . s mradm=studentMRADMID
+	. . s %request.Data("parref",1)=studentMRADMID
+	. . s parref=studentMRADMID
+	. s %request.Data("studentchart",1)=studentchart
+	. ; Set and Get observations is now done in a custon component item and not directly in this csp
+	. d frm.Show()
+	. ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, reset mradm and parref to be the Main MRADM.
+	. i studentMRADMID'="" d
+	. . s %request.Data("mradm",1)=tmpmradm
+	. . s mradm=tmpmradm
+	. . s %request.Data("parref",1)=tmpmradm
+	. . s parref=tmpmradm
+	. ; end Log 42221
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setDH">
+<Description>
+by wuqk 2011-06-02
+;DHCEPR Profile</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+  
+	; NOTE: ANY CHANGES HERE ALSO MAKE IN epr.Observations.csp
+	n dtmLIST,chLIST,cols,refLIST,ObsGroupID,ObsGroupIDs,obsitm,obsitmparams
+	s stdate="",enddate="",sttime="",endtime="",minslots=60
+	i 'TPrint!(TPrint&&(TPrintComp=frm.Name)&&(TPrintContext=eprcomponentCONTEXT)) d
+	. s cols=itm.Rows i TPrint s cols=9999
+	. ; set data up for future csp pages...
+	. s %request.Data("ChartID",1)=ChartID
+	. s %request.Data("ChartItemID",1)=itmId
+	. s %request.Data("ChartItemType",1)=itm.ItemType
+	. s %request.Data("Context",1)=eprcomponentCONTEXT
+	. s %request.Data("Columns",1)=cols
+	. s %request.Data("ColumnWidth",1)=itm.ColumnWidth
+	. s %request.Data("CategoryID",1)=$p(itmparams,",",1) ; Add By DHCC Luqg
+	. s %request.Data("dtName",1)=$p(itmparams,",",2)
+	. s %request.Data("UpdateLink",1)=$p(itmparams,",",3)
+	. ;
+	. ; Perform the frm.Show here, so the Menu Bar (when applicable - per Component) gets displayed first.
+	. ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, use the stored Student MRADM instead of the Main MRADM and parref.
+	. i studentMRADMID'="" d
+	. . s tmpmradm=mradm
+	. . s %request.Data("mradm",1)=studentMRADMID
+	. . s mradm=studentMRADMID
+	. . s %request.Data("parref",1)=studentMRADMID
+	. . s parref=studentMRADMID
+	. s %request.Data("studentchart",1)=studentchart
+	. ; Set and Get observations is now done in a custon component item and not directly in this csp
+	. d frm.Show()
+	. ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, reset mradm and parref to be the Main MRADM.
+	. i studentMRADMID'="" d
+	. . s %request.Data("mradm",1)=tmpmradm
+	. . s mradm=tmpmradm
+	. . s %request.Data("parref",1)=tmpmradm
+	. . s parref=tmpmradm
+	. ; end Log 42221 
+
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setLT">
+<Description>
+by wuqk 2011-06-02
+;Tabular Profile Results.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+
+	; NOTE: ANY CHANGES HERE ALSO MAKE IN epr.Tabular.csp
+	n dtmLIST,cols,resultlist
+	i itmparams'="" d
+	. s %request.Data("catgsID",1)=","_$p(itmparams,"|",1)_",",%request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	. ;s %request.Data("markasread",1)=##Class(epr.Chart).CanMarkAsRead($g(EpisodeID),%session.Get("LOGON.USERID"))
+	. s %request.Data("userid",1)=%session.Get("LOGON.USERID")
+	. s %request.Data("categorylist",1)=","_$p(itmparams,"|",1)_","
+	. s %request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	. s %request.Data("hospitallist",1)=","_$p(itmparams,"|",3)_","
+	. s %request.Data("DisplayUnverifiedResults",1)=$p(itmparams,"|",4)
+	. s %request.Data("TagResultsOnly",1)=$p(itmparams,"|",5)
+	. s %request.Data("OnlyUnreadResults",1)=$p(itmparams,"|",6)
+	. s %request.Data("ShowVIcon",1)=$p(itmparams,"|",7)
+	. s %request.Data("HideTimeInLink",1)=$p(itmparams,"|",8)
+	. s %request.Data("IncludeRPrefix",1)=$p(itmparams,"|",9)
+	. ; Log 41352 - AI - 16-02-2004 : Add the new subcategories data. Only need IDs List - $p($p(itmparams,"|",10),"*",2).
+	. s %request.Data("OrderSubcategories",1)=$p($p(itmparams,"|",10),"*",2)
+	. s %request.Data("Tabularitm",1)=itm
+	. s %request.Data("Tabularitmparams",1)=itmparams
+	. s %request.Data("ScrollingPopupPage",1)=0
+	. i 'TPrint!(TPrint&&(TPrintComp=frm.Name)&&(TPrintContext=eprcomponentCONTEXT)) d
+	. . d frm.Show()
+	. . ; Log 41352 - AI - 16-02-2004 : Add the new subcategories data. Only need IDs List - $p($p(itmparams,"|",10),"*",2).
+	. . d ##Class(epr.LabGraphTestSets).TabularResultsGet(PatientID,EpisodeID,mradm,","_$p(itmparams,"|",1)_",","","",$p(itmparams,"|",2),0,%session.Get("LOGON.USERID"),.dtmLIST,","_$p(itmparams,"|",3)_",",$p(itmparams,"|",4),$p(itmparams,"|",5),$p(itmparams,"|",6),.resultlist,$p($p(itmparams,"|",10),"*",2))
+	. . ; (dtmLIST,minslots,heading,ChartID,ItemID,Type,Context,ShowVIcon,HideTime,Columns,ColumnStart)
+	. . s cols=itm.Rows i TPrint s cols=9999
+	. . d ##Class(epr.LabGraphTestSets).TabularResultsShow(.dtmLIST,$g(Heading),ChartID,$g(ItemID),itm.ItemType,eprcomponentCONTEXT,$p(itmparams,"|",7),$p(itmparams,"|",8),cols,1,$p(itmparams,"|",9),.resultlist,itm.ColumnWidth)
+
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setBT">
+<Description>
+by wuqk 2011-06-02
+;Lab Profile Query.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	s %request.Data("PatientID",1)=PatientID
+	i itmparams'="" d
+	. s %request.Data("bloodproductlist",1)=","_$p(itmparams,"|",3)_","
+	. s %request.Data("hospitallist",1)=","_$p(itmparams,"|",2)_","
+	. s %request.Data("statuslist",1)=","_$p(itmparams,"|",1)_","
+	. s %request.Data("ChartID",1)=ChartID
+	. s %request.Data("ItemID",1)=itmId
+	. s %request.Data("Type",1)=itm.ItemType
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setQP">
+<Description>
+by wuqk 2011-06-02
+;Questionnaire Profile</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+
+	s %request.Data("QuestionnaireGroups",1)=$p(itmparams,"|",1)
+	s %request.Data("EpisodesAll",1)=$p(itmparams,"|",2)
+	s %request.Data("ThisPreg",1)=$p(itmparams,"|",3)
+	s %request.Data("QuestionnaireProfile",1)=1
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setTL">
+<Description>
+by wuqk 2011-06-02
+;Log 50669 YC - Time Line as Chart
+;Time Line Profile</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	s %request.Data("PatientID",1)=PatientID
+	i itmparams'="" d
+	. s %request.Data("DateFrom",1)=$p(itmparams,"|",1)
+	. i $p(itmparams,"|",2)'="" s %request.Data("DateFrom",1)=##class(websys.Conversions).DateLogicalToHtml(+$h+$p(itmparams,"|",2))
+	. s %request.Data("DateTo",1)=$p(itmparams,"|",3)
+	. i $p(itmparams,"|",4)'="" s %request.Data("DateTo",1)=##class(websys.Conversions).DateLogicalToHtml(+$h+$p(itmparams,"|",4))
+	. s %request.Data("TimeFrom",1)=$p(itmparams,"|",5)
+	. s %request.Data("TimeTo",1)=$p(itmparams,"|",6)
+	. s %request.Data("SlotType",1)=$p(itmparams,"|",7)
+
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setEP">
+<Description>
+by wuqk 2011-06-02
+;Reset the questionnaire variables if calling from an EPR page (to distinguish from an 'QP' query)</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+
+	s (%request.Data("QuestionnaireGroups",1),%request.Data("EpisodesAll",1),%request.Data("ThisPreg",1),%request.Data("QuestionnaireProfile",1))=""
+	; Log 42980 - AI - 28-04-2004 : Get all details for PAAdmDischargeSummary component.
+	i ListComponent="PAAdmDischargeSummary.Edit" d ##Class(web.PAAdmDischargeSummary).GetEditDetails(%request.Get("DischEpisodes"),%request.Get("DischID"),%request.Get("CurrDischID"))
+
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="setElse">
+<Description>
+by wuqk 2011-06-02
+;Do NOT re-show the form if it was already shown for the specific Profiles.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	;TODO: find which run time variable is being destroyed and new this specifically rather than new everything but frm,%request and %session.
+	; Log 42221 - AI - 05-02-2004 : Add variables I don't want cleared - ListComponent, studentMRADMID, mradm, tmpmradm, parref, and studentchart.
+	n (frm,%request,%session,params,itmLIST,TPrint,TPrintComp,TPrintContext,eprcomponentCONTEXT,ListComponent,studentMRADMID,mradm,tmpmradm,parref,studentchart,TRELOADID,TRELOADNEW)
+	i 'TPrint!(TPrint&&(TPrintComp=frm.Name)&&(TPrintContext=eprcomponentCONTEXT)) d
+	. ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, use the stored Student MRADM instead of the Main MRADM and parref.
+	. i ($d(ListComponent)),($e(ListComponent,1,2)="MR"),(ListComponent'="MRAdm.ListEMRQuestionnaire"),(studentMRADMID'="") d
+	. . s tmpmradm=mradm
+	. . s %request.Data("mradm",1)=studentMRADMID
+	. . s mradm=studentMRADMID
+	. . s %request.Data("parref",1)=studentMRADMID
+	. . s parref=studentMRADMID
+	. s %request.Data("studentchart",1)=studentchart
+	. ; end Log 42221
+	. ;
+	. d frm.Show()
+	. ;
+	. ; Log 42221 - AI - 05-02-2004 : If this is a Student Chart, reset mradm and parref to be the Main MRADM.
+	. i ($d(ListComponent)),($e(ListComponent,1,2)="MR"),(ListComponent'="MRAdm.ListEMRQuestionnaire"),(studentMRADMID'="") d
+	. . s %request.Data("mradm",1)=tmpmradm
+	. . s mradm=tmpmradm
+	. . s %request.Data("parref",1)=tmpmradm
+	. . s parref=tmpmradm
+	. ; end Log 42221
+
+	quit
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%CacheStorage</Type>
+<DataLocation>^ooChartD</DataLocation>
+<DefaultData>ChartDefaultData</DefaultData>
+<IdLocation>^ooChartD</IdLocation>
+<IndexLocation>^ooChartI</IndexLocation>
+<StreamLocation>^epr.ChartS</StreamLocation>
+<Data name="ChartDefaultData">
+<Value name="1">
+<Value>Code</Value>
+</Value>
+<Value name="2">
+<Value>FramesList</Value>
+</Value>
+<Value name="3">
+<Value>ChartSettings</Value>
+</Value>
+<Value name="4">
+<Value>Name</Value>
+</Value>
+<Value name="5">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="6">
+<Value>Student</Value>
+</Value>
+<Value name="7">
+<Value>IsHistoryPage</Value>
+</Value>
+<Value name="8">
+<Value>TabColour</Value>
+</Value>
+<Value name="9">
+<Value>ChartColour</Value>
+</Value>
+<Value name="10">
+<Value>TextColour</Value>
+</Value>
+<Value name="11">
+<Value>SELChartColour</Value>
+</Value>
+<Value name="12">
+<Value>SELTextColour</Value>
+</Value>
+<Value name="13">
+<Value>DisplayConsultBanner</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

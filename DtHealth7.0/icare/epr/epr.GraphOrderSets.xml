@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.GraphOrderSets">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>59798,58677.727744</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>90</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>OGPHCode</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>OGPHDesc</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="OGPHCode">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OGPHDesc">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OGPHItemList">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN" value="99999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OGPHOrderItemCount">
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Index name="UniqueOGPHCodeIndex">
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>OGPHCode</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="DateLogicalToYMD">
+<Description>
+Used in epr.emrgraph.asp</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>dt:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="GetOrderItemsClose">
+<Description>
+Uniqueness index for property OGPHCode</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>GetOrderItemsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetOrderItemsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,ID:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetOrderItemsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>GetOrderItemsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetChartFXServer">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="websysSaveAll">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>id:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="GetOrderItemCount">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Code:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT OGPHOrderItemCount
+FROM epr.GraphOrderSets
+WHERE (OGPHCode = :Code) OR (OGPHDesc = :Code)</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="OGPHOrderItemCount:%Library.Integer"/>
+</Query>
+
+<Query name="GetOrderItems">
+<Description>
+SA: Implemented for Chart FX test
+Used by component epr.GraphOrderSets.Edit to fill field "LabItemsList"
+and by epr.EMRGraph.asp to retrieve the codes required to fill the graph data
+Functionality -  to get the saved items for the table 
+property OGPHItemList list</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>ID:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>
+</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Code:%String,Description:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.GraphOrderSetsD</DataLocation>
+<DefaultData>GraphOrderSetsDefaultData</DefaultData>
+<IdLocation>^epr.GraphOrderSetsD</IdLocation>
+<IndexLocation>^epr.GraphOrderSetsI</IndexLocation>
+<StreamLocation>^epr.GraphOrderSetsS</StreamLocation>
+<Data name="GraphOrderSetsClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="GraphOrderSetsDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>OGPHCode</Value>
+</Value>
+<Value name="2">
+<Value>OGPHDesc</Value>
+</Value>
+<Value name="3">
+<Value>OGPHItemList</Value>
+</Value>
+<Value name="4">
+<Value>OGPHOrderItemCount</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

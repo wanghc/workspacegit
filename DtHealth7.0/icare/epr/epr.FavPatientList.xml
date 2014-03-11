@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.FavPatientList">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>60506,62102</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>96</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Name">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DefaultList">
+<Type>%Boolean</Type>
+<InitialExpression>0</InitialExpression>
+</Property>
+
+<Property name="Patients">
+<Type>%String</Type>
+<Collection>array</Collection>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UserDR">
+<Type>User.SSUser</Type>
+</Property>
+
+<Index name="UserIndex">
+<Properties>UserDR</Properties>
+</Index>
+
+<Method name="GetDefaultList">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>UserID:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="CreateDefaultList">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>UserID:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Query name="LookUpByUserID">
+<Type>%SQLQuery</Type>
+<FormalSpec>desc:%String,UserID:%String</FormalSpec>
+<SqlQuery><![CDATA[SELECT Name,ID
+FROM epr.FavPatientList
+WHERE ((UserDR->SSUSR_RowId = :UserID)
+AND (%ALPHAUP Name %STARTSWITH %ALPHAUP :desc))]]></SqlQuery>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Description:%String,HIDDEN:%String"/>
+</Query>
+
+<Method name="LookUpBrokerByUserID">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%String="",UserID:%String=""</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="websysSaveList">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+</Method>
+
+<Method name="websysDelete">
+<Description>
+Delete an instance - this is provided as a wrapper for %DeleteId functionality.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String</FormalSpec>
+</Method>
+
+<Method name="AddEpsToList">
+<Description>
+ab 25.09.03 - adds a patient to a favourites list</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ListID:%String="",PatientIDs:%String=""</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="RemEpsFromList">
+<Description>
+ab 26.09.03 - removes a patient from a favourites list</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ListID:%String="",PatientID:%String=""</FormalSpec>
+</Method>
+
+<Method name="GetEpsList">
+<Description>
+ab 26.09.03 - returns a delimited string of patients from a favourites list</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ListID:%String="",delim:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.FavPatientListD</DataLocation>
+<DefaultData>FavPatientListDefaultData</DefaultData>
+<IdLocation>^epr.FavPatientListD</IdLocation>
+<IndexLocation>^epr.FavPatientListI</IndexLocation>
+<StreamLocation>^epr.FavPatientListS</StreamLocation>
+<Data name="FavPatientListDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>DefaultList</Value>
+</Value>
+<Value name="3">
+<Value>Name</Value>
+</Value>
+<Value name="4">
+<Value>UserDR</Value>
+</Value>
+</Data>
+<Data name="Patients">
+<Attribute>Patients</Attribute>
+<Structure>subnode</Structure>
+<Subscript>"Patients"</Subscript>
+</Data>
+</Storage>
+</Class>
+</Export>

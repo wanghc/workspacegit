@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.ClinicWorklist">
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>61079,43957.989039</TimeChanged>
+<TimeCreated>61079,43957.989039</TimeCreated>
+
+<Property name="dummy">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="GetPrefTabs">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="DisplayTabHeaders">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="ClinicworklistOK">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="ClinicWorklistExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,TSRTITM:%Library.String="",TSRTORD:%Library.String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GetCodes">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>str</FormalSpec>
+</Method>
+
+<Method name="ClinicWorklistFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ClinicWorklistExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="ClinicWorklistClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ClinicWorklistFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="SignPhoneOrders">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%Library.String="",OrderIds:%Library.String</FormalSpec>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+// note!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+]]></Content>
+</UDLText>
+
+<UDLText name="T">
+<Content><![CDATA[
+// please add any extra rows you include to this query to 'ProfileList' query, above, as it also uses 'GetOrderProfileRow'
+
+]]></Content>
+</UDLText>
+
+<UDLText name="T">
+<Content><![CDATA[
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+]]></Content>
+</UDLText>
+
+<UDLText name="T">
+<Content><![CDATA[
+// For counting purposes, from the Result, 51 pieces PLUS 1 hidden (built in the Fetch) = 52.
+
+]]></Content>
+</UDLText>
+
+<UDLText name="T">
+<Content><![CDATA[
+//   From the Order, comment says 82, code says 87, actual number could be 87 + new 3 = 90. Now 147
+
+]]></Content>
+</UDLText>
+
+<Query name="ClinicWorklist">
+<Type>%Library.Query</Type>
+<FormalSpec>TSRTITM,TSRTORD</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="RESID,RESDescription,RESDateCreated,RESTimeCreated,RESName,RESStatusCode,RESStatus,RESType,RESDateRead,RESOtherRowid,RESFileName,RESEpisodeNo,RESOEORIDateExecuted,RESCareProv,RESOEORILabEpisodeNo,RESaudittable,RESauditfieldno,RESauditid,RESorderid,REScomponentid,RESARCICHL7ResultType,RESCollectionDate,RESCollectionTime,RESOEORIEpisArriveDate,RESOEORIEpisArriveTime,RESOEORISttDat,RESOEORISttTim,RESResultDate,RESResultTime,RESFillerNo,RESLabStatusCode,RESExternalSystemCode,RESDicom,RESOEORILabAction,RESOSTATDesc,RESUserVerified,RESAbnormal,RESPreviousResult,RESUserCreated,RESAction,RESComment,RESOrderCategory,RESDisplayWordFormat,RESOEORICode,RESARCIMRowid,RESOEORISeriesNo,REFDDesc,RESCPReported,RESCPVerified,RESTaggedRowIDs,RESUnTaggedRowIDs,RESResultsLink,RESHiddenData,ID,Dosage,Duration,Frequency,FullDetails,OrderName,Instruction,Priority,SequenceNumber,Status,StatusCode,StartDate,Notes,UnitOfMeasure,Paid,PathwayStep,DCDate,DCTime,PatientShare,ExecutionTimes,Specimens,LabEpisNo,OrderType,OrderCat,OrderMsg,DefDurID,OEItemMstID,OrderDoc,ReceivLoc,Group,DateOrdered,TimeOrdered,SpecimenCDate,SpecimenCTime,LabRecDate,LabRecTime,LUUser,LUTime,LUDate,MealTime,Modifiers,RadStatus,RefDoctor:%String,MealType:%String,SpecimenADate,SpecimenATime,StartTime,DayBookAccNums,DayBookSpecs,EpisodeID,LinkedTo,LinkedToItmID,LinkedArcimID,OrdItmEpisodeID,RadSeriesNo:%String,VarianceReason:%String,OrdEndDate:%String,OrdEndTime:%String,Alerts:%String,ReasonForOverride:%String,AuthorisingClinician:%String, PAADMDEpisDate,PAADMEpisType, PAPMIName, PAPMIName2,PAPMIName3,PAPMIDOB,PAPMISex,PatRegNo,MRN,PAADMConsDR, PAADMUnit, PAADMWard, PAADMBed, OrderCode, OrderLink, intMRN, TotalDosage, Hospital, Specialty, CollectedBy, StartHour,ExeTime,ExeDate,DCUser,Quantity,PAADMRoom,DocumentList,mradmdr,ResultAvailableDate:%Date,Ingredients,PharmacyStatus,PrescriptionNo,ToothLocation,drugDESC,OrderNotes,OrderSet,PAADMEpisNo,DiscClasDesc,GenDrugDetails,Payor,Plan,Price,OverrideRowID,PrioColour,PAPMIName4,PAPMIName5,PAPMIName6,PAPMIName7,PAPMIName8,TestItemResult,DateExecuted,TimeExecuted,PRNMaxDose,PRNTotalDoses,PRNIndication,CollByPatRep,TIAnaOperationNo,TIAnaestNo,NoResultReas,MaxRep,QuestionnaireID,AdmRoute,DrugRoute,ShowDispChangeLink,ExecDoctor,OEORIBilled,OEORIDSReportFlag,Repeat,OEOrdExecID,VIPStatus,LastPRN,HasNotes,AdminFlowRate,MODesc,MOColor,SingleAdmin,UserAddHosp,DrugForm,DrugStrength,ObservationGroupDR,AdminQuestionnDR,STATCode,AnnotationLink,IVType,LinkedDiag,PrescriptionNoLink,OkToAdminister"/>
+</Query>
+</Class>
+</Export>

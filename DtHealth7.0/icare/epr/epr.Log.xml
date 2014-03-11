@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.Log">
+<Description>
+used to log routine data and calls
+can be switched on/off using ^zEPR("Control")</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>60506,62104</TimeChanged>
+<TimeCreated>59798,58677.822841</TimeCreated>
+
+<Method name="Add">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[ID1:%Library.String,ID2:%Library.String="",&Array:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Stream</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ViewLogClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>ViewLogFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ViewLogExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,LogClass:%Library.String="",LogSubClass:%Library.String="",DateFrom:%Library.String="",DateTo:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="ViewLogFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>ViewLogExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="ViewLog">
+<Type>%Library.Query</Type>
+<FormalSpec>LogClass:%String,LogSubClass,DateFrom,DateTo</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>
+</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="LogClass:%String,LogSubClass:%String,LogDate:%Date,LogTime:%Time,LogStrings:%List"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.LogD</DataLocation>
+<IdLocation>^epr.LogD</IdLocation>
+<IndexLocation>^epr.LogI</IndexLocation>
+<StreamLocation>^epr.LogS</StreamLocation>
+<Data name="LogClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+</Storage>
+</Class>
+</Export>

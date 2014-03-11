@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTProfileParams">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62258,53999.1261</TimeChanged>
+<TimeCreated>59183,43816</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>161</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>PPDesc</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>PPDesc</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="PPDesc">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="MAXLEN"/>
+<Parameter name="SELECTIVITY"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PPParameters">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="SELECTIVITY" value="1.5"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PPTypeDR">
+<Type>epr.CTChartItemType</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="SELECTIVITY" value="1.5"/>
+</Property>
+
+<Index name="UniquePPDescIndex">
+<Description>
+Uniqueness index for property PPDesc</Description>
+<Properties>PPDesc</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="BrokerGetParams">
+<Description>
+by wuqk 2011-06-16</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>itmjsex:%Library.String,id:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	//BrokerGetParams
+	set ^Temp("Upgrade","BrokerGetParams","itmjsex")=itmjsex
+	set ^Temp("Upgrade","BrokerGetParams","id")=id
+	set objPara=##class(epr.CTProfileParams).%OpenId(id)
+	quit:'$IsObject(objPara)
+	set val=objPara.PPParameters
+	set fn=itmjsex_"('"_val_"');"
+	&javascript<#(fn)#>
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="LookUpByTypeClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpByTypeFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpByTypeExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%Library.String,PPType:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	
+	;UniquePPDescIndex
+	;^epr.CTProfileParamsI
+	
+	set alias=$zu(28,desc,6)
+	set tmpAlias=alias
+	do GetByAlias
+	set tmpAlias=$o(^epr.CTProfileParamsI("UniquePPDescIndex",tmpAlias))
+	while (tmpAlias'="")&((tmpAlias[alias)||(alias="")) {
+		do GetByAlias
+		set tmpAlias=$o(^epr.CTProfileParamsI("UniquePPDescIndex",tmpAlias))
+	}
+	quit $$$OK
+GetByAlias
+	quit:tmpAlias=""
+	set paraid=$o(^epr.CTProfileParamsI("UniquePPDescIndex",tmpAlias,0))
+	while paraid'="" {
+		do BuildLookUpByType
+		set paraid=$o(^epr.CTProfileParamsI("UniquePPDescIndex",tmpAlias,paraid))
+	}
+	quit
+BuildLookUpByType
+	set objPara=##class(epr.CTProfileParams).%OpenId(paraid)
+	quit:'$IsObject(objPara)
+	set type=$lg($g(^epr.CTProfileParamsD(paraid)),4)
+	quit:type'=PPType
+	//quit:objPara.PPTypeDR.CITCode'=PPType
+	set data=$lb()
+	//ProfileName:%String,HIDDEN:%String,HIDDEN:%String,HIDDEN:%String
+	set $li(data,1)=objPara.PPDesc
+	set $li(data,2)=objPara.%Id()
+	set $li(data,3)=type  //objPara.PPTypeDR.CITCode
+	set $li(data,4)=objPara.PPParameters
+	set ^CacheTemp(repid,ind)=data
+	set ind=ind+1
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="LookUpByTypeFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpByTypeExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpParamsBroker">
+<Description>
+zhaocz 2011-06-16</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>itmjs:%Library.String,itmjsex:%Library.String,PPDesc:%Library.String,PPType:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n desc, id, ptype, params
+	;
+	s (desc, id, ptype, params)=""
+	;;PPDesc, ID, PPTypeDR, PPParameters
+	&sql(SELECT PPDesc, ID, PPTypeDR, PPParameters INTO :desc, :id, :ptype, :params FROM epr.CTProfileParams WHERE %ALPHAUP PPDesc = %ALPHAUP :PPDesc)
+	;
+	s ptype=$g(ptype)
+	i (('SQLCODE)&&(ptype=PPType)) {
+		s retval=itmjs_"('"_$ZCVT(desc,"O","JS")_"');"
+		n myval
+		s myval= $ZCVT(desc,"O","JS")_"^"_ $ZCVT(id,"O","JS")_"^"_ $ZCVT(ptype,"O","JS")_"^"_ $ZCVT(params,"O","JS")
+		i itmjsex'="""" s retval=retval_itmjsex_"('"_myval_"');"
+		&javascript<#(retval)#>
+	}
+	
+	i ((SQLCODE)||((ptype'=PPType))) q 0
+	q 1
+]]></Implementation>
+</Method>
+
+<Method name="LookUpParamsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpParamsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+	Kill ^CacheTemp(repid)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpParamsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,desc:%Library.String,PPType:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set repid=$I(^CacheTemp)
+	s ind=1
+	s ret=0
+	
+	n mydescription,myid,mytypedr, myparams
+	;WHERE ((%ALPHAUP PPDesc %STARTSWITH %ALPHAUP :desc)) AND ((PPTypeDR = :PPType))
+	&sql( DECLARE LOOKUP CURSOR FOR SELECT PPDesc, ID, PPTypeDR, PPParameters 
+		FROM epr.CTProfileParams 
+		WHERE ((%ALPHAUP PPDesc %STARTSWITH %ALPHAUP :desc)) 
+		  ORDER BY ID )
+	&sql(Open LOOKUP)
+	
+	&SQL(FETCH LOOKUP INTO :mydescription,:myid,:mytypedr, :myparams)
+	
+	while (SQLCODE=0){
+		if ((mytypedr=PPType)||(PPType="")){
+			d OutputRowLookUpParams
+		}
+		&SQL(FETCH LOOKUP INTO :mydescription,:myid,:mytypedr, :myparams)
+	}
+	&SQL(Close LOOKUP)
+	
+	;d ResetVariablesLookUpParams
+	
+	Set QHandle=$lb(0,repid,0)
+	Quit $$$OK
+OutputRowLookUpParams
+	set Data=$lb(mydescription,myid,mytypedr, myparams)
+	Set ^CacheTemp(repid,ind)=Data
+	Set ind=ind+1
+	quit
+]]></Implementation>
+</Method>
+
+<Method name="LookUpParamsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpParamsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+	Set repid=$LIST(QHandle,2)
+	Set ind=$LIST(QHandle,3)
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind="" {				// if there are no more rows, finish fetching
+		Set AtEnd=1
+		Set Row=""
+	}
+	Else{
+		Set Row=^CacheTemp(repid,ind)
+	}
+	
+	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="LookUpByType">
+<Description>
+KM: 21May2001: Called from epr.Chart.Edit component</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%Library.String,PPType:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="ProfileName:%String,HIDDEN:%String,HIDDEN:%String,HIDDEN:%String"/>
+</Query>
+
+<Query name="LookUpParams">
+<Description>
+KM: 21May2001: Called from epr.Chart.Edit component</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>desc:%Library.String,PPType:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="ProfileName:%String,HIDDEN:%String,HIDDEN:%String,HIDDEN:%String"/>
+</Query>
+
+<Query name="LookUpForListBox">
+<Description>
+ab 22.03.06 56897 - called from OEOrder.Edit.CytoProfile
+by wuqk 2011-06-14 未实现</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>type:%String,val:%String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Code:%String,Description:%String"/>
+</Query>
+
+<Method name="LookUpForListBoxClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpForListBoxFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set repid=$LIST(QHandle,2)
+ 	Kill ^CacheTemp(repid)
+ 	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpForListBoxExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,type:%String="",val:%String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	s repid=$I(^CacheTemp)
+	s ind=1
+	s QHandle=$lb(0,repid,0)
+	set ^Temp("Upgrade","LookUpForListBox",repid,"type")=type
+	set ^Temp("Upgrade","LookUpForListBox",repid,"val")=val
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookUpForListBoxFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpForListBoxExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+ 	Set repid=$LIST(QHandle,2)
+ 	Set ind=$LIST(QHandle,3)
+ 	Set ind=$o(^CacheTemp(repid,ind))
+ 	If ind="" {				// if there are no more rows, finish fetching
+ 		Set AtEnd=1
+ 		Set Row=""
+ 	}
+ 	Else      {				// fetch row
+ 		Set Row=^CacheTemp(repid,ind)
+ 	}
+ 	// Save QHandle
+ 	s QHandle=$lb(AtEnd,repid,ind)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTProfileParamsD</DataLocation>
+<DefaultData>CTProfileParamsDefaultData</DefaultData>
+<IdLocation>^epr.CTProfileParamsD</IdLocation>
+<IndexLocation>^epr.CTProfileParamsI</IndexLocation>
+<StreamLocation>^epr.CTProfileParamsS</StreamLocation>
+<Data name="CTProfileParamsClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="CTProfileParamsDefaultData">
+<Value name="1">
+<Value>PPDesc</Value>
+</Value>
+<Value name="2">
+<Value>PPParameters</Value>
+</Value>
+<Value name="3">
+<Value>deleted</Value>
+</Value>
+<Value name="4">
+<Value>PPTypeDR</Value>
+</Value>
+<Value name="5">
+<Value>PPGraphDefinitionDR</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

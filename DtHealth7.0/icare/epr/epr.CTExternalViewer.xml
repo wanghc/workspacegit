@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTExternalViewer">
+<Description>
+Code table defining external viewer types</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>61079,43957.975565</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>129</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Code">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Description">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PACSSystem">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="VirtualPath">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UserName">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UserValue">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Password">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PasswordValue">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ShowAlways">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CacheScript">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="height">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="width">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="topLeftX">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="topLeftY">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="UseLoginUsr">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DoNotDisplayInResBanner">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ExeOrdersOnly">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="StartingClass">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="AETitle">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="UniqueCodeIndex">
+<Properties>Code</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="ExternalViewerLink">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>OrderID:%Library.String="",PatientID:%Library.String,EpisodeID:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+</Method>
+
+<Method name="GetLink">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>EVID:%String,OrderID:%String,AccNo:%String,PatientID:%String,EpisodeID:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="GetUserDefinedLink">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ID:%String,EpisodeID:%String="",OrdItemID:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="websysDelete">
+<Description>
+Delete an instance - this is provided as a wrapper for %DeleteId functionality.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String=""</FormalSpec>
+</Method>
+
+<Method name="websysAfterSave">
+<Description>
+Invoked after websysSave - can be used to provide extra websysSave functionality while keeping the default websysSave behaviour.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&id:%String,new:%Boolean]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTExternalViewerD</DataLocation>
+<DefaultData>CTExternalViewerDefaultData</DefaultData>
+<IdLocation>^epr.CTExternalViewerD</IdLocation>
+<IndexLocation>^epr.CTExternalViewerI</IndexLocation>
+<StreamLocation>^epr.CTExternalViewerS</StreamLocation>
+<Data name="CTExternalViewerDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Code</Value>
+</Value>
+<Value name="3">
+<Value>Description</Value>
+</Value>
+<Value name="4">
+<Value>PACSSystem</Value>
+</Value>
+<Value name="5">
+<Value>VirtualPath</Value>
+</Value>
+<Value name="6">
+<Value>Password</Value>
+</Value>
+<Value name="7">
+<Value>UserName</Value>
+</Value>
+<Value name="8">
+<Value>ShowAlways</Value>
+</Value>
+<Value name="9">
+<Value>CacheScript</Value>
+</Value>
+<Value name="10">
+<Value>height</Value>
+</Value>
+<Value name="11">
+<Value>topLeftX</Value>
+</Value>
+<Value name="12">
+<Value>topLeftY</Value>
+</Value>
+<Value name="13">
+<Value>width</Value>
+</Value>
+<Value name="14">
+<Value>DoNotDisplayInResBanner</Value>
+</Value>
+<Value name="15">
+<Value>ExeOrdersOnly</Value>
+</Value>
+<Value name="16">
+<Value>PasswordValue</Value>
+</Value>
+<Value name="17">
+<Value>StartingClass</Value>
+</Value>
+<Value name="18">
+<Value>UseLoginUsr</Value>
+</Value>
+<Value name="19">
+<Value>UserValue</Value>
+</Value>
+<Value name="20">
+<Value>AETitle</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

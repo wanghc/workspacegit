@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.ChartItem">
+<Abstract>0</Abstract>
+<ClassType>serial</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.SerialObject</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>61079,43957.988956</TimeCreated>
+
+<Property name="AdHocGraphLink">
+<Type>%Boolean</Type>
+</Property>
+
+<Property name="Collapse">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="DisplayAddButton">
+<Type>%Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"0"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="DisplayHeader">
+<Type>%Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="GraphDR">
+<Type>epr.CTGraphDefinition</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Graphs">
+<Description>
+Bit of overkill, this one.... 
+GraphDR is a DR to a SINGLE graph value.
+If there are no 'Graphs' items, we will assume a single Graph item is available.
+Then I'll copy the single GraphDr into Graphs.GetAt(1), which we will use in the future...
+</Description>
+<Type>epr.CTGraphDefinition</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Heading">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Item">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ItemType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"EP"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Rows">
+<Type>%Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Sequence">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ColumnWidth">
+<Description>
+Log 39287 - AI - 02-10-2003 : New field Column Width - applies to Result columns and Order Item.</Description>
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ConditionalExpression">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="999"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="AcrossEpisodes">
+<Type>%Boolean</Type>
+<InitialExpression>"0"</InitialExpression>
+</Property>
+
+<Property name="OnlyMarkedForDSReport">
+<Description>
+Log 55973 - PJC - 20-12-2005 : Add the "Only show entries marked for DS Report" checkbox.</Description>
+<Type>%Boolean</Type>
+<InitialExpression>"0"</InitialExpression>
+</Property>
+
+<Storage name="Default">
+<Type>%CacheSerialState</Type>
+<State>ChartItemState</State>
+<StreamLocation>^epr.ChartItemS</StreamLocation>
+<Data name="ChartItemState">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>DisplayedRows</Value>
+</Value>
+<Value name="2">
+<Value>Header</Value>
+</Value>
+<Value name="3">
+<Value>Page</Value>
+</Value>
+<Value name="4">
+<Value>Sequence</Value>
+</Value>
+<Value name="5">
+<Value>ShowAddButton</Value>
+</Value>
+<Value name="6">
+<Value>PageType</Value>
+</Value>
+<Value name="7">
+<Value>Item</Value>
+</Value>
+<Value name="8">
+<Value>ItemType</Value>
+</Value>
+<Value name="9">
+<Value>DisplayAddButton</Value>
+</Value>
+<Value name="10">
+<Value>DisplayCaption</Value>
+</Value>
+<Value name="11">
+<Value>DisplayHeader</Value>
+</Value>
+<Value name="12">
+<Value>Rows</Value>
+</Value>
+<Value name="13">
+<Value>GraphDR</Value>
+</Value>
+<Value name="14">
+<Value>Heading</Value>
+</Value>
+<Value name="15">
+<Value>Collapse</Value>
+</Value>
+<Value name="16">
+<Value>Graphs</Value>
+</Value>
+<Value name="17">
+<Value>ColumnWidth</Value>
+</Value>
+<Value name="18">
+<Value>AdHocGraphLink</Value>
+</Value>
+<Value name="19">
+<Value>ConditionalExpression</Value>
+</Value>
+<Value name="20">
+<Value>AcrossEpisodes</Value>
+</Value>
+<Value name="21">
+<Value>TabColour</Value>
+</Value>
+<Value name="22">
+<Value>OnlyMarkedForDSReport</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

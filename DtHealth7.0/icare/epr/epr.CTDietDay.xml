@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTDietDay">
+<ClassType>serial</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.SerialObject</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>60506,62093</TimeCreated>
+
+<Property name="Meals">
+<Type>epr.CTDietMealType</Type>
+<Collection>list</Collection>
+</Property>
+
+<Property name="Description">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Code">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>CTDietDayState</State>
+<StreamLocation>^epr.CTDietDayS</StreamLocation>
+<Data name="CTDietDayState">
+<Structure>listnode</Structure>
+<Subscript>"epr.CTDietDay"</Subscript>
+<Value name="1">
+<Value>Code</Value>
+</Value>
+<Value name="2">
+<Value>Description</Value>
+</Value>
+<Value name="3">
+<Value>Meals</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

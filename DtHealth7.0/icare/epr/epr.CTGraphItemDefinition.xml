@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTGraphItemDefinition">
+<Description>
+graphing item definition, containing order items, observations and test set codes</Description>
+<ClassType>serial</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.SerialObject</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>59798,58677.555425</TimeCreated>
+
+<Property name="CTGIColour">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGILabItemDR">
+<Description>
+this is NOT strictly a DR we can use.
+It is simply the value of the lab.CTTestCode as a string.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGILegendSequence">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGILowerRange">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGIMarker">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGINormalLineType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGIObsItemDR">
+<Type>User.MRCObservationItem</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CTGIOrderItemDR">
+<Type>User.ARCItmMast</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CTGIRefLineColour">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGIUpperRange">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGIVariableLineType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGIYAxis">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGItemType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Order Item,Lab Item,Observation Item,"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",OR,LB,OB,"/>
+</Property>
+
+<Property name="CTGILinkedOrderItemDR">
+<Type>User.ARCItmMast</Type>
+</Property>
+
+<Property name="CTGILinkedLabItemDR">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGILinkedObsItemDR">
+<Type>User.MRCObservationItem</Type>
+</Property>
+
+<Property name="CTGINonLinearRefRanges">
+<Type>epr.CTGraphRefRange</Type>
+<Collection>list</Collection>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Log 51350 YC - Ability to change marker size
+
+]]></Content>
+</UDLText>
+
+<Property name="CTGIMarkerSize">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTGIObsOnly">
+<Description>
+Observation item only</Description>
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Method name="GetGraphItemDetails">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GraphID:%Library.String="",GraphItemID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GraphItemDelete">
+<Description>
+KM Feb-2001 </Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GraphID:%String,itemIdx:%String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpBroker">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Boolean</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysSave">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GraphItemID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpForListBoxClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpForListBoxFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpForListBoxExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,graphID:%String="",graphItemID:%String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpForListBoxFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpForListBoxExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Query name="LookUpForListBox">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>graphID:%String="",graphItemID:%String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Code:%String,Description:%String"/>
+</Query>
+
+<Method name="zLookUpLabItemClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="zLookUpLabItemExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,labdesc:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="zLookUpLabItemFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="LookUpLabItem">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>labitem:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT CTTC_Desc,CTTC_Code 
+FROM lab.CT_TestCode
+WHERE (%ALPHAUP CTTC_Desc %STARTSWITH %ALPHAUP :labitem)</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="description:%String,code:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>CTGraphItemDefinitionState</State>
+<StreamLocation>^epr.CTGraphItemDefinitionS</StreamLocation>
+<Data name="CTGraphItemDefinitionState">
+<Value name="1">
+<Value>CTGItemType</Value>
+</Value>
+<Value name="2">
+<Value>CTGIColour</Value>
+</Value>
+<Value name="3">
+<Value>CTGILabItemDR</Value>
+</Value>
+<Value name="4">
+<Value>CTGILegendSequence</Value>
+</Value>
+<Value name="5">
+<Value>CTGILowerRange</Value>
+</Value>
+<Value name="6">
+<Value>CTGIMarker</Value>
+</Value>
+<Value name="7">
+<Value>CTGINormalLineType</Value>
+</Value>
+<Value name="8">
+<Value>CTGIObsItemDR</Value>
+</Value>
+<Value name="9">
+<Value>CTGIOrderItemDR</Value>
+</Value>
+<Value name="10">
+<Value>CTGIUpperRange</Value>
+</Value>
+<Value name="11">
+<Value>CTGIVariableLineType</Value>
+</Value>
+<Value name="12">
+<Value>CTGIYAxis</Value>
+</Value>
+<Value name="13">
+<Value>CTGIRefLineColour</Value>
+</Value>
+<Value name="14">
+<Value>CTGIGroupType</Value>
+</Value>
+<Value name="15">
+<Value>CTGILinkedLabItemDR</Value>
+</Value>
+<Value name="16">
+<Value>CTGILinkedObsItemDR</Value>
+</Value>
+<Value name="17">
+<Value>CTGILinkedOrderItemDR</Value>
+</Value>
+<Value name="18">
+<Value>CTGIMarkerSize</Value>
+</Value>
+<Value name="19">
+<Value>CTGINonLinearLowerRange</Value>
+</Value>
+<Value name="20">
+<Value>CTGINonLinearUpperRange</Value>
+</Value>
+<Value name="21">
+<Value>CTGINonLinearRefRanges</Value>
+</Value>
+<Value name="22">
+<Value>CTGIObsOnly</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

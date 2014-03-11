@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTDietType">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>60506,62093</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>19</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+<Default>DateFrom</Default>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>Code</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>Description</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="Code">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Cycles">
+<Type>epr.CTDietCycle</Type>
+<Collection>list</Collection>
+</Property>
+
+<Property name="DateFrom">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Description">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="FirstCycleSttDate">
+<Type>%Date</Type>
+</Property>
+
+<Property name="LenOfCycle">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="NumOfCycles">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Active">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="OrigMealType">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CTLocDR">
+<Type>User.CTLoc</Type>
+</Property>
+
+<Property name="CTHospDR">
+<Type>User.CTHospital</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTDietTypeD</DataLocation>
+<DefaultData>CTDietTypeDefaultData</DefaultData>
+<IdLocation>^epr.CTDietTypeD</IdLocation>
+<IndexLocation>^epr.CTDietTypeI</IndexLocation>
+<StreamLocation>^epr.CTDietTypeS</StreamLocation>
+<Data name="CTDietTypeDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Code</Value>
+</Value>
+<Value name="3">
+<Value>Cycles</Value>
+</Value>
+<Value name="4">
+<Value>DateFrom</Value>
+</Value>
+<Value name="5">
+<Value>Description</Value>
+</Value>
+<Value name="6">
+<Value>FirstCycleSttDate</Value>
+</Value>
+<Value name="7">
+<Value>LenOfCycle</Value>
+</Value>
+<Value name="8">
+<Value>NumOfCycles</Value>
+</Value>
+<Value name="9">
+<Value>Active</Value>
+</Value>
+<Value name="10">
+<Value>OrigMealType</Value>
+</Value>
+<Value name="11">
+<Value>CTLocDR</Value>
+</Value>
+<Value name="12">
+<Value>CTHospDR</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

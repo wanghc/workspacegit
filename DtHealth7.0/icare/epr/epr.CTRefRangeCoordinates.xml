@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTRefRangeCoordinates">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>60646,50445.006125</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>34</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Internal>0</Internal>
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Internal>0</Internal>
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="GRCOParRef">
+<Type>epr.CTGraphRefRange</Type>
+</Property>
+
+<Property name="GRCOXCoordinate">
+<Type>%Library.Float</Type>
+</Property>
+
+<Property name="GRCOYCoordinate">
+<Type>%Library.Float</Type>
+</Property>
+
+<Method name="AddItem">
+<Description>
+Quick way to add an item.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Library.String,XCo:%Library.Integer,YCo:%Library.Integer</FormalSpec>
+</Method>
+
+<Method name="websysSave">
+<Description><![CDATA[
+Default save method used for updating the database for Components of type Edit.<br>
+<br>
+The compref is the  component reference which is the string from which we can deduce the instance of<BR>
+websysComponent<BR>
+websysComponentItem<BR>
+id is the id for the instance of class we wish to update.]]></Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>compref:%String,id:%String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="GetRefRangeCoordinates">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>ParRef:%Library.String</FormalSpec>
+<SqlQuery><![CDATA[	SELECT GRCOXCoordinate,GRCOYCoordinate,GRCOParRef->GREFDesc,GRCOParRef->GREFXAxisIncrement
+	FROM epr.CTRefRangeCoordinates 
+	WHERE GRCOParRef=:ParRef]]></SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="XCoord,YCoord,Description,XIncrement"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTRefRangeCoordinatesD</DataLocation>
+<DefaultData>CTRefRangeCoordinatesDefaultData</DefaultData>
+<IdLocation>^epr.CTRefRangeCoordinatesD</IdLocation>
+<IndexLocation>^epr.CTRefRangeCoordinatesI</IndexLocation>
+<StreamLocation>^epr.CTRefRangeCoordinatesS</StreamLocation>
+<Data name="CTRefRangeCoordinatesDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>GRCOParRef</Value>
+</Value>
+<Value name="3">
+<Value>GRCOXCoordinate</Value>
+</Value>
+<Value name="4">
+<Value>GRCOYCoordinate</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

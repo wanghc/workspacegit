@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.ClinicWorklistPreferences">
+<ClassType/>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.RegisteredObject</Super>
+<TimeChanged>62276,59089.791166</TimeChanged>
+<TimeCreated>60506,62100</TimeCreated>
+
+<Property name="dummy">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// returns the data 'ParamName' from the preference, else from the worklist
+
+]]></Content>
+</UDLText>
+
+<Method name="GetParam">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[component,context,worklistname,ReturnDescriptions=0,ParamName,&Ward]]></FormalSpec>
+<Implementation><![CDATA[
+	;"PAAdm.ListDocCurrent",,,1,"WIPLocList",null
+	;PAAdm.ListDocCurrent,W261,,1,WIPLocList
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetAllParams">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>component,context,worklistname,ReturnDescriptions=0</FormalSpec>
+<Implementation><![CDATA[	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetDefParams">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>comp</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="DeleteClinicalPrefs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ID,sub1,sub2</FormalSpec>
+</Method>
+
+<Method name="SaveClinicalPrefs">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>evnt,ID:%String,sub1,sub2</FormalSpec>
+</Method>
+
+<Method name="GetPrefData">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>workname,TheItem,subKey</FormalSpec>
+<ReturnType>%String</ReturnType>
+</Method>
+
+<Method name="GetPreferences">
+<Description>
+参数	DTGCOM1033.2.mac  </Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[WorkName:%String,OnlyReturnArray=0,&ReturnArray,subKey=""]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="AddRowIds">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>type,value</FormalSpec>
+</Method>
+</Class>
+</Export>

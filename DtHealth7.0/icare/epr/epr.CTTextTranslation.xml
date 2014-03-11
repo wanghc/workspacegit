@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTTextTranslation">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>59798,58677.6242</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>23</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Internal>0</Internal>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>TRNCode</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>TRNDesc</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="TRNCode">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TRNDesc">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TRNDesc2">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Query name="Find">
+<Type>%SQLQuery</Type>
+<FormalSpec>Desc1:%String,Desc2:%String</FormalSpec>
+<SqlQuery>SELECT ID,TRNCode,TRNDesc,TRNDesc2 FROM CTTextTranslation 
+WHERE (((%ALPHAUP TRNDesc %STARTSWITH %ALPHAUP :Desc1)OR(:Desc1 IS NULL)) AND ((%ALPHAUP TRNDesc2 %STARTSWITH %ALPHAUP :Desc2) OR (:Desc2 IS NULL)))</SqlQuery>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTTextTranslationD</DataLocation>
+<DefaultData>CTTextTranslationDefaultData</DefaultData>
+<IdLocation>^epr.CTTextTranslationD</IdLocation>
+<IndexLocation>^epr.CTTextTranslationI</IndexLocation>
+<StreamLocation>^epr.CTTextTranslationS</StreamLocation>
+<Data name="CTTextTranslationDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>TRNCode</Value>
+</Value>
+<Value name="3">
+<Value>TRNDesc</Value>
+</Value>
+<Value name="4">
+<Value>TRNDesc2</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTDischargeSummaryType">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>59798,58677.507119</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>71</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Default>DSTDateFrom</Default>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Default>DSTDateTo</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>DSTCode</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Default>DSTDesc</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="DSTCode">
+<Description>
+Code</Description>
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="COLLATION" value="AlphaUp"/>
+<Parameter name="MAXLEN" value="15"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DSTDesc">
+<Description>
+Description</Description>
+<Type>%String</Type>
+<Parameter name="COLLATION" value="AlphaUp"/>
+<Parameter name="MAXLEN" value="220"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DSTDocumentType">
+<Description>
+Document Type</Description>
+<Type>%String</Type>
+<Parameter name="DISPLAYLIST" value=",Word,Crystal Report,HTML"/>
+<Parameter name="MAXLEN" value="14"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",W,C,H"/>
+</Property>
+
+<Property name="DSTDocumentName">
+<Description>
+Document Name</Description>
+<Type>%String</Type>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DSTDateFrom">
+<Description>
+Date From</Description>
+<Type>%Date</Type>
+</Property>
+
+<Property name="DSTDateTo">
+<Description>
+Date To</Description>
+<Type>%Date</Type>
+</Property>
+
+<Property name="DSTMultipleVersions">
+<Description>
+Multiple Versions</Description>
+<Type>%String</Type>
+<Parameter name="DISPLAYLIST" value=",Yes,No"/>
+<Parameter name="MAXLEN" value="3"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",Y,N"/>
+</Property>
+
+<Property name="DSTEpisodeType">
+<Description>
+EpisodeType</Description>
+<Type>%String</Type>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DSTReportDR">
+<Description>
+websys.Report DR</Description>
+<Type>websys.Report</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="DSTEmailSubjectHeading">
+<Description>
+Email Subject Heading</Description>
+<Type>%String</Type>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DSTEmailBody">
+<Description>
+Email Body value</Description>
+<Type>%String</Type>
+<Collection>list</Collection>
+<SqlListType>SUBNODE</SqlListType>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="UniqueDSTCodeIndex">
+<Description>
+Uniqueness index for property DSTCode</Description>
+<Properties>DSTCode</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="DSTExcludeDoctor">
+<Description>
+Doctors To Exclude</Description>
+<Type>%String</Type>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DSTEPRChartBookDR">
+<Description>
+Chart book to use for this Discharge Summary Type</Description>
+<Type>epr.ChartBook</Type>
+</Property>
+
+<Query name="LookUpStdType">
+<Description>
+Used by both Document Type and Episode Type, as this query is rather generic of websys.StandardType</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>type:%String,desc:%String</FormalSpec>
+<SqlQuery>SELECT Description, Code, StoredValue
+FROM websys.StandardTypeItem
+WHERE (ParRef=:type) 
+AND (%ALPHAUP Description %STARTSWITH %ALPHAUP :desc)</SqlQuery>
+<Parameter name="CONTAINID" value="2"/>
+<Parameter name="ROWSPEC" value="Description:%String,Code:%String,HIDDEN:%String"/>
+</Query>
+
+<Method name="LookupStdTypeBroker">
+<Description>
+Used by both Document Type and Episode Type, as this method is rather generic of websys.StandardType</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%String="",itmjsex:%String="",type:%String="",desc:%String=""</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Query name="Find">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>Code:%String,Description:%String</FormalSpec>
+<SqlQuery><![CDATA[SELECT  ID,DSTCode,DSTDesc,DSTDocumentType,DSTDocumentName,DSTDateFrom,DSTDateTo,DSTMultipleVersions,DSTEpisodeType,DSTReportDR->Description,DSTExcludeDoctor
+FROM     epr.CTDischargeSummaryType
+WHERE (((%ALPHAUP DSTCode %STARTSWITH %ALPHAUP :Code) OR (:Code IS NULL)) AND ((%ALPHAUP DSTDesc %STARTSWITH %ALPHAUP :Description) OR (:Description IS NULL)))
+ORDER BY DSTCode]]></SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,DSTCode,DSTDesc,DSTDocumentType,DSTDocumentName,DSTDateFrom,DSTDateTo,DSTMultipleVersions,DSTEpisodeType,DSTReportDR,DSTExcludeDoctor"/>
+</Query>
+
+<Query name="LookUpDischSummType">
+<Description>
+Log 42975 - AI - 25-03-2004 : LookUp created to incorporate DateFrom and DateTo values in the CodeTable.</Description>
+<Type>%SQLQuery</Type>
+<FormalSpec>DocumentType:%String="",Date:%String=""</FormalSpec>
+<SqlQuery><![CDATA[SELECT DSTDesc,ID,DSTCode,DSTDocumentType,DSTDocumentName,DSTDateFrom,DSTDateTo 
+FROM epr.CTDischargeSummaryType
+WHERE ((%ALPHAUP DSTDesc %STARTSWITH %ALPHAUP :DocumentType OR :DocumentType IS NULL)
+AND ((DSTDateFrom <= :Date OR DSTDateFrom IS NULL) AND (DSTDateTo >= :Date OR DSTDateTo IS NULL)))
+ORDER BY DSTCode]]></SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="DSTDesc,HIDDEN,DSTCode,HIDDEN,HIDDEN,HIDDEN,HIDDEN"/>
+</Query>
+
+<Method name="LookUpDischSummTypeByGroupClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpDSTypeByGroupFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpDSTypeByGroupExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,DocumentType:%String="",Date:%String=""]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpDSTypeByGroupFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpDSTypeByGroupExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpDSTypeByGroupBroker">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",DocumentType:%String="",Date:%String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Query name="LookUpDSTypeByGroup">
+<Type>%Query</Type>
+<FormalSpec>DocumentType:%String="",Date:%String=""</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="DISCSTDesc,HIDDEN,DISCSTCode,HIDDEN,HIDDEN,HIDDEN,HIDDEN,HIDDEN"/>
+</Query>
+
+<Method name="LookUpBrokerDischSummType">
+<Description>
+Log 42975 - AI - 25-03-2004 : Broker created to incorporate DateFrom and DateTo values in the CodeTable.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",DocumentType:%String="",Date:%String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTDischargeSummaryTypeD</DataLocation>
+<DefaultData>CTDischargeSummaryTypeDefaultData</DefaultData>
+<IdLocation>^epr.CTDischargeSummaryTypeD</IdLocation>
+<IndexLocation>^epr.CTDischargeSummaryTypeI</IndexLocation>
+<StreamLocation>^epr.CTDischargeSummaryTypeS</StreamLocation>
+<Data name="CTDischargeSummaryTypeDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>DSTChart</Value>
+</Value>
+<Value name="3">
+<Value>DSTCode</Value>
+</Value>
+<Value name="4">
+<Value>DSTDateFrom</Value>
+</Value>
+<Value name="5">
+<Value>DSTDateTo</Value>
+</Value>
+<Value name="6">
+<Value>DSTDesc</Value>
+</Value>
+<Value name="7">
+<Value>DSTDocumentName</Value>
+</Value>
+<Value name="8">
+<Value>DSTDocumentType</Value>
+</Value>
+<Value name="9">
+<Value>DSTEpisodeType</Value>
+</Value>
+<Value name="10">
+<Value>DSTMultipleVersions</Value>
+</Value>
+<Value name="11">
+<Value>DSTReportDR</Value>
+</Value>
+<Value name="12">
+<Value>DSTEmailBody</Value>
+</Value>
+<Value name="13">
+<Value>DSTEmailSubjectHeading</Value>
+</Value>
+<Value name="14">
+<Value>DSTExcludeDoctor</Value>
+</Value>
+<Value name="15">
+<Value>DSTEPRChartBookDR</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

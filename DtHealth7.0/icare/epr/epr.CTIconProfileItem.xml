@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTIconProfileItem">
+<ClassType>persistent</ClassType>
+<CompileAfter>epr.CTIconProfile</CompileAfter>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent</Super>
+<TimeChanged>62272,38634.14741</TimeChanged>
+<TimeCreated>59021,36842</TimeCreated>
+
+<Property name="IconDR">
+<Type>epr.CTIconAssociation</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LinkComponent">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LinkExpression">
+<Type>websys.Expression</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LinkItemDR">
+<Type>websys.WorkFlowItemDefinition</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LinkUrl">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ParRef">
+<Type>epr.CTIconProfile</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>parent</Cardinality>
+<Collection/>
+<Inverse>Items</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Sequence">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LinkChartBookDR">
+<Type>epr.ChartBook</Type>
+</Property>
+
+<Method name="Get">
+<Description>
+Created for Log 26756</Description>
+<Final>0</Final>
+<ClassMethod>0</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[EpisodeID:%Library.String="",PARAMS:%Library.String,&ARY:%Library.String,&imgLIST:%Library.String]]></FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="InsertItem">
+<Description>
+Created for Log 26756
+by wuqk 2011-06-30</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%Library.String,ProfileID:%Library.String="",Icon:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[
+	n val,objItm,save
+	s val=$o(^epr.CTIconAssociationI("UniqueCodeIndex",icon,0))
+ 	q:val=""
+ 	s objItm=##class(epr.CTIconProfileItem).%New()
+ 	s objItm.ParRef=##class(epr.CTIconProfile).%OpenId(ProfileID)
+ 	s objItm.IconDR=##class(epr.CTIconAssociation).%OpenId($g(val))
+ 	s save=objItm.%Save(0)
+ 	d objItm.%Close()  s objItm=""
+ 	quit
+]]></Implementation>
+</Method>
+
+<Method name="websysDelete">
+<Description>
+Created for Log 26756
+by wuqk 2011-05-27</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>ID:%Library.String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+<Implementation><![CDATA[	do ##class(epr.CTIconProfileItem).%DeleteId(ID)
+]]></Implementation>
+</Method>
+
+<Query name="Find">
+<Type>%Library.SQLQuery</Type>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, IconDR, LinkItemDR
+FROM epr.CTIconProfileItem</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID, IconDR, LinkItemDR"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Items")</DataLocation>
+<DefaultData>CTIconProfileItemDefaultData</DefaultData>
+<IdLocation>{%%PARENT}("Items")</IdLocation>
+<IndexLocation>^epr.CTIconProfileItemI</IndexLocation>
+<StreamLocation>^epr.CTIconProfileItemS</StreamLocation>
+<Data name="CTIconProfileItemClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="CTIconProfileItemDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>Icon</Value>
+</Value>
+<Value name="2">
+<Value>LinkItem</Value>
+</Value>
+<Value name="3">
+<Value>IconDR</Value>
+</Value>
+<Value name="4">
+<Value>LinkItemDR</Value>
+</Value>
+<Value name="5">
+<Value>Sequence</Value>
+</Value>
+<Value name="6">
+<Value>LinkComponent</Value>
+</Value>
+<Value name="7">
+<Value>LinkExpression</Value>
+</Value>
+<Value name="8">
+<Value>LinkUrl</Value>
+</Value>
+<Value name="9">
+<Value>LinkNewWindow</Value>
+</Value>
+<Value name="10">
+<Value>LinkChartBookDR</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

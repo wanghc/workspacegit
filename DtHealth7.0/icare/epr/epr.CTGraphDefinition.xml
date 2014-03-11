@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.CTGraphDefinition">
+<ClassType>persistent</ClassType>
+<CompileAfter>epr.CTGraphItemDefinition</CompileAfter>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>58528,51746</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Internal>0</Internal>
+<Default>695</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Default>GRPHCode</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+<Default>GRPHDateFromCurrent</Default>
+</Parameter>
+
+<Parameter name="SQLDATETO">
+<Default>GRPHDateToCurrent</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>GRPHDesc</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Property name="GRPHAdHocGraph">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHUserGraph">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHCode">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHDesc">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="ALPHAUP"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHY1AxisMax">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHY1AxisMin">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHY1AxisProfile">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHY1AxisStep">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHY1AxisType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHY2AxisMax">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHY2AxisMin">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHY2AxisProfile">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHY2AxisStep">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHY2AxisType">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHGraphType">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHXAxisIncrement">
+<Type>%Library.Integer</Type>
+</Property>
+
+<Property name="GRPHXAxisIncrementUnit">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHXAxisIntervalType">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHDateFromCurrent">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHDateToCurrent">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHDateFromOffset">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GRPHDateToOffset">
+<Type>%Library.String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="GraphItems">
+<Type>epr.CTGraphItemDefinition</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection>list</Collection>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="GRPHUserCreatedDR">
+<Description>
+Log 44734 - 30-09-2004 : New field to store User that created the Graph. DR to SSUser.</Description>
+<Type>User.SSUser</Type>
+</Property>
+
+<Index name="UniqueGRPHCodeIndex">
+<Description>
+Uniqueness index for property GRPHCode</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>GRPHCode</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="UniqueGRPHDescIndex">
+<Properties>GRPHDesc</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="GRPHNoOfIntervals">
+<Description>
+Number of intervals for partogram</Description>
+<Type>%Library.Integer</Type>
+</Property>
+
+<Method name="Bin">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>HexValue:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="DeleteGraphByIDOrCode">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>GraphID:%Library.String="",GraphCode:%Library.String=""</FormalSpec>
+</Method>
+
+<Method name="GetAllGraphsForUserClose">
+<Description>
+Log 44734 - AI - 01-10-2004 : Get all graphs for the User - All within Graph Group, and adhoc graphs for the user.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>GetAllGraphsForUserFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GetAllGraphsForUserExecute">
+<Description>
+Log 44734 - AI - 01-10-2004 : Get all graphs for the User - All within Graph Group, and adhoc graphs for the user.
+Called from component epr.CTGraphDefinition.List.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GetAllGraphsForUserFetch">
+<Description>
+Log 44734 - AI - 01-10-2004 : Get all graphs for the User - All within Graph Group, and adhoc graphs for the user.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>GetAllGraphsForUserExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="GetCumulativeItemsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>GetCumulativeItemsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetCumulativeItemsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,CumProfile:%Library.String="",PatientID:%Library.String=""]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetCumulativeItemsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>GetCumulativeItemsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetGraphData">
+<Description>
+Runs to get graph (GRPH) data in epr.CTGraph.Edit</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GraphID:%Library.String="",GraphCode:%Library.String="",GraphDesc:%Library.String="",DontInitialise:%Library.String=0</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetGraphItemDetails">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>GraphID:%Library.String="",GraphItemID:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetGraphItemsClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>GetGraphItemsFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetGraphItemsExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,GraphCode:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetGraphItemsFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>GetGraphItemsExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GetRGB">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>HexColour:%Library.String=""</FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.String</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GraphCleanUp">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec/>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="GraphAvailableForUser">
+<Description>
+Log 44734 - AI - 30-09-2004 : Method to return if the Graph is available for modification by the logged on User.
+Called from component ChartFX.Link - GraphAvailableForUser item.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>graphdesc:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Method name="LookUpAllGraphsForUserClose">
+<Description>
+Log 44734 - AI - 01-10-2004 : Look Up all graphs for the User - All within Graph Group, and adhoc graphs for the user.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpAllGraphsForUserFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpAllGraphsForUserExecute">
+<Description>
+Log 44734 - AI - 01-10-2004 : Look Up all graphs for the User - All within Graph Group, and adhoc graphs for the user.
+Called from the "Graph" item of component ChartFX.Link.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,Desc:%Library.String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpAllGraphsForUserFetch">
+<Description>
+Log 44734 - AI - 01-10-2004 : Look Up all graphs for the User - All within Graph Group, and adhoc graphs for the user.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpAllGraphsForUserExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpByTypeClose">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpByTypeFetch</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpByTypeExecute">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,profiledesc:%String,type:%String]]></FormalSpec>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="LookUpByTypeFetch">
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpByTypeExecute</PlaceAfter>
+<Private>0</Private>
+<ReturnType>%Library.Status</ReturnType>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Method name="websysBeforeSave">
+<Description>
+Invoked before websysSave - can be used to cancel the save</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[compref:%String,&GraphID:%String]]></FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+</Method>
+
+<Method name="websysSave">
+<Description>
+Default save method used for updating the database for Components of type Edit.
+The compref is the component reference which is the string from which we can deduce the instance of
+websysComponent
+websysComponentItem
+id is the id for the instance of class we wish to update.</Description>
+<Final>0</Final>
+<ClassMethod>1</ClassMethod>
+<CodeMode>code</CodeMode>
+<FormalSpec>compref:%String,GraphID:%String,SystemFlag:%String</FormalSpec>
+<Private>0</Private>
+<SqlProc>0</SqlProc>
+</Method>
+
+<Query name="GetAllGraphsForUser">
+<Description>
+Log 44734 - AI - 01-10-2004 : Get all graphs for the User - All within Graph Group, and adhoc graphs for the user.
+Called from component epr.CTGraphDefinition.List.</Description>
+<Type>%Library.Query</Type>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ID:%String,GRPHCode:%String,GRPHDesc:%String,graphY1AxisProfile,graphY1AxisType,graphY2AxisProfile,graphY2AxisType,graphY1AxisMin,graphY1AxisMax,graphY1AxisStep,graphY2AxisMin,graphY2AxisMax,graphY2AxisStep,graphchk,GRPHGraphType,graphXAxisIncrement,graphXAxisIncrementUnit,GRPHDateFromCurrent,GRPHDateToCurrent,GRPHDateFromOffset,GRPHDateToOffset"/>
+</Query>
+
+<Query name="GetCumulativeItems">
+<Type>%Library.Query</Type>
+<FormalSpec>CumProfile:%Library.String,PatientID:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ItemCode:%Library.String,ItemDesc:%Library.String"/>
+</Query>
+
+<Query name="GetGraphDetailsByCodeOrDesc">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>graphid:%String,code:%Library.String,desc:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT ID, GRPHCode, GRPHDesc, 
+ GRPHY1AxisMax, GRPHY1AxisMin, GRPHY1AxisStep, 
+ GRPHY2AxisMax, GRPHY2AxisMin, GRPHY2AxisStep,
+ GRPHAdHocGraph, GRPHGraphType, GRPHXAxisIncrement,
+ GRPHXAxisIncrementUnit, GRPHXAxisIntervalType, GRPHDateFromCurrent, 
+ GRPHDateToCurrent, GRPHDateFromOffset, GRPHDateToOffset
+FROM epr.CTGraphDefinition
+WHERE (ID = :graphid) OR (GRPHCode = :code) OR (GRPHDesc = :desc)</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,GRPHCode,GRPHDesc,GRPHY1AxisMax,GRPHY1AxisMin,GRPHY1AxisStep,GRPHY2AxisMax,GRPHY2AxisMin,GRPHY2AxisStep,GRPHAdHocGraph,GRPHGraphType,GRPHXAxisIncrement,GRPHXAxisIncrementUnit,GRPHXAxisIntervalType,GRPHDateFromCurrent,GRPHDateToCurrent,GRPHDateFromOffset,GRPHDateToOffset"/>
+</Query>
+
+<Query name="GetGraphItems">
+<Type>%Library.Query</Type>
+<FormalSpec>GRPHCode:%Library.String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="ItemID,ItemName,Type,NormLine,VarLine,Colour,Marker,YAxis,UpRange,LowRange,Sequence,RefColour,itmDR,itmCode,RGBCol,RefRGBCol,normlineValue,varlineValue,markerValue,flags,lnkitmname,MarkerSize,lnkitmDR,NonLinearRefRanges,ObsOnly"/>
+</Query>
+
+<Query name="LookUpAllGraphsForUser">
+<Description>
+Log 44734 - AI - 01-10-2004 : Look Up all graphs for the User - All within Graph Group, and adhoc graphs for the user.
+Called from the "Graph" item of component ChartFX.Link.</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>Desc:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="GRPHDesc:%String,GRPHCode:%String,HIDDEN:%String,HIDDEN:%String,SystemGraph:%String,graphtype"/>
+</Query>
+
+<Query name="LookUpGraph">
+<Description>
+Basic query returning description from a partial description, ordered by description.
+Compiled will attempt to derive the 'description' property from available properties unless it is explicity
+set in the SQLDESCRIPTION parameter.
+SQLROWID may be used to specify the field name to be used as rowid.</Description>
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>desc:%String</FormalSpec>
+<SqlProc>0</SqlProc>
+<SqlQuery>SELECT GRPHDesc, GRPHCode, ID
+FROM epr.CTGraphDefinition
+WHERE (%ALPHAUP GRPHCode = %ALPHAUP :desc) OR (%ALPHAUP GRPHDesc %STARTSWITH %ALPHAUP :desc) 
+AND ((GRPHAdHocGraph = 'N') AND ((GRPHUserGraph = 'N') OR (GRPHUserGraph IS NULL)))</SqlQuery>
+<SqlView>0</SqlView>
+<Parameter name="CONTAINID" value="3"/>
+<Parameter name="ROWSPEC" value="Description:%String,Code:%String,HIDDEN:%String"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.CTGraphDefinitionD</DataLocation>
+<DefaultData>CTGraphDefinitionDefaultData</DefaultData>
+<IdLocation>^epr.CTGraphDefinitionD</IdLocation>
+<IndexLocation>^epr.CTGraphDefinitionI</IndexLocation>
+<StreamLocation>^epr.CTGraphDefinitionS</StreamLocation>
+<Data name="CTGraphDefinitionClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="CTGraphDefinitionDefaultData">
+<Structure>listnode</Structure>
+<Value name="1">
+<Value>GRPHCode</Value>
+</Value>
+<Value name="2">
+<Value>GRPHDesc</Value>
+</Value>
+<Value name="3">
+<Value>GRPHY1AxisProfile</Value>
+</Value>
+<Value name="4">
+<Value>GRPHY1AxisType</Value>
+</Value>
+<Value name="5">
+<Value>GRPHY2AxisProfile</Value>
+</Value>
+<Value name="6">
+<Value>GRPHY2AxisType</Value>
+</Value>
+<Value name="7">
+<Value>GRPHY1AxisMax</Value>
+</Value>
+<Value name="8">
+<Value>GRPHY1AxisMin</Value>
+</Value>
+<Value name="9">
+<Value>GRPHY1AxisStep</Value>
+</Value>
+<Value name="10">
+<Value>GRPHY2AxisMax</Value>
+</Value>
+<Value name="11">
+<Value>GRPHY2AxisMin</Value>
+</Value>
+<Value name="12">
+<Value>GRPHY2AxisStep</Value>
+</Value>
+<Value name="13">
+<Value>GraphItems</Value>
+</Value>
+<Value name="14">
+<Value>GRPHAdHocGraph</Value>
+</Value>
+<Value name="15">
+<Value>GRPHParRef</Value>
+</Value>
+<Value name="16">
+<Value>UserCreatedDR</Value>
+</Value>
+<Value name="17">
+<Value>GRPHUserCreatedDR</Value>
+</Value>
+<Value name="18">
+<Value>GRPHUserGraph</Value>
+</Value>
+<Value name="19">
+<Value>GRPHYGroupType</Value>
+</Value>
+<Value name="20">
+<Value>GRPHGroupType</Value>
+</Value>
+<Value name="21">
+<Value>GRPHGraphType</Value>
+</Value>
+<Value name="22">
+<Value>GRPHXAxisIncrementAmount</Value>
+</Value>
+<Value name="23">
+<Value>GRPHXAxisIncrementUnit</Value>
+</Value>
+<Value name="24">
+<Value>GRPHXAxisIncrement</Value>
+</Value>
+<Value name="25">
+<Value>GRPHDateFromCurrent</Value>
+</Value>
+<Value name="26">
+<Value>GRPHDateFromOffset</Value>
+</Value>
+<Value name="27">
+<Value>GRPHDateToCurrent</Value>
+</Value>
+<Value name="28">
+<Value>GRPHDateToOffset</Value>
+</Value>
+<Value name="29">
+<Value>GRPHXAxisIntervalType</Value>
+</Value>
+<Value name="30">
+<Value>GRPHNoOfIntervals</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

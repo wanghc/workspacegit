@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2014-03-11 16:42:08">
+<Class name="epr.WorklistItem">
+<ClassType>serial</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.SerialObject</Super>
+<TimeChanged>62271,50488</TimeChanged>
+<TimeCreated>59798,58677.905111</TimeCreated>
+
+<Property name="DisplayHeader">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Frame">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"L"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Left,Right,Top,Bottom"/>
+<Parameter name="MAXLEN" value="7"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",L,R,T,B"/>
+</Property>
+
+<Property name="HideMenus">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Item">
+<Type>epr.CTWorklistItemDef</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ItemParams">
+<Type>epr.WorklistItemParams</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LinkOnly">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Rows">
+<Type>%Library.Integer</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Sequence">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LinkNewWindow">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^epr.WorklistItemD</DataLocation>
+<IdLocation>^epr.WorklistItemD</IdLocation>
+<IndexLocation>^epr.WorklistItemI</IndexLocation>
+<State>WorklistItemState</State>
+<StreamLocation>^epr.WorklistItemS</StreamLocation>
+<Data name="WorklistItemState">
+<Value name="1">
+<Value>DisplayHeader</Value>
+</Value>
+<Value name="2">
+<Value>Frame</Value>
+</Value>
+<Value name="3">
+<Value>Item</Value>
+</Value>
+<Value name="4">
+<Value>Rows</Value>
+</Value>
+<Value name="5">
+<Value>Sequence</Value>
+</Value>
+<Value name="6">
+<Value>HideMenus</Value>
+</Value>
+<Value name="7">
+<Value>LinkOnly</Value>
+</Value>
+<Value name="8">
+<Value>ItemParams</Value>
+</Value>
+<Value name="9">
+<Value>LinkNewWindow</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>
