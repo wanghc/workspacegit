@@ -1,0 +1,2919 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.8 (Build 1104U)" ts="2015-06-12 17:18:33">
+<Class name="websys.Component">
+<Description>
+A re-usable server side component which may be used on one or more pages.
+An indivdual component may be used on one or more CSP pages, and a CSP page may contain zero or more components.
+A component consists of one or more components items (websys.ComponentItem), where a ComponentItem may be an items such as a data entry field or buttons, or a table item which is used to build a column in a table.
+
+There are four main categories of component.
+Find - Typically used to prompt the user for some search criteria.
+List - Typically used to display a list of search results, optionally based on user entered search criteria from a Find.
+Custom - A component which is not directly linked to any persistent objects, or which does not sensibly fall into one of the above categories.</Description>
+<Abstract>0</Abstract>
+<ClassType>persistent</ClassType>
+<IncludeCode>TRAK</IncludeCode>
+<IncludeGenerator>TRAK</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<Super>%Library.Persistent,websys.Abstract,XML.Abstract</Super>
+<TimeChanged>63715,61385.821618</TimeChanged>
+<TimeCreated>61079,43958.038839</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="BUILD">
+<Default>1279</Default>
+</Parameter>
+
+<Parameter name="SQLDATEFROM">
+</Parameter>
+
+<Parameter name="SQLDATETO">
+</Parameter>
+
+<Property name="TableDelimiters">
+<Description>
+System default delimiters for each table item for when displaying merged columns
+String separated by "^"</Description>
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Parameter name="EXTENTSIZE">
+<Default>961</Default>
+</Parameter>
+
+<Parameter name="MINORVERSION">
+<Final>0</Final>
+<Default>51</Default>
+</Parameter>
+
+<Parameter name="SQLCODE">
+<Final>0</Final>
+<Default>Name</Default>
+</Parameter>
+
+<Parameter name="SQLDESCRIPTION">
+<Final>0</Final>
+<Default>Caption</Default>
+</Parameter>
+
+<Parameter name="SQLROWID">
+<Default>ID</Default>
+</Parameter>
+
+<Parameter name="xmlTypeQuerySQLParsed">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmlidentifiedby">
+<Description>
+Used in conjunction with XMLId method to unqiuely identify a record.
+By default ..%Id() is used unless other properties are specified. A comma separated list may be provided and processed by overridding XMLId method</Description>
+<Final>0</Final>
+<Default>%Id()</Default>
+</Parameter>
+
+<Parameter name="xmltoclass">
+<Description>
+Mapping from XML to Class</Description>
+<Final>0</Final>
+<Default>component</Default>
+</Parameter>
+
+<Parameter name="xmltypeHelp">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeItems">
+<Final>0</Final>
+<Default>componentitems</Default>
+</Parameter>
+
+<Parameter name="xmltypeMessages">
+<Final>0</Final>
+<Default>componentmessages</Default>
+</Parameter>
+
+<Parameter name="xmltypeNotes">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeQuerySQL">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Parameter name="xmltypeQuerySQLNames">
+<Final>0</Final>
+<Default>IGNORE</Default>
+</Parameter>
+
+<Parameter name="xmltypeTableItems">
+<Final>0</Final>
+<Default>componenttableitems</Default>
+</Parameter>
+
+<Parameter name="xmltypeTemplate">
+<Final>0</Final>
+<Default>CDATA</Default>
+</Parameter>
+
+<Property name="Build">
+<Description>
+Saved version. Incremented on each save.
+Used in GetVersion.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>1</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="SELECTIVITY" value="0.9804%"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="BuildDate">
+<Type>%Library.Date</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>1</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="SELECTIVITY" value="3.8462%"/>
+</Property>
+
+<Property name="BuildTime">
+<Type>%Library.Time</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>1</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="SELECTIVITY" value="0.8065%"/>
+</Property>
+
+<Property name="Caption">
+<Description>
+The Default caption for a component. Used in the menu title bar. May be translated to foreigh languages.</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Caption1">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Caption2">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Caption3">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Caption4">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Caption5">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Caption6">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Caption7">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Caption8">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Caption9">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CenterForm">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ClassName">
+<Description><![CDATA[
+The class on which the component is based.<br>
+Applies to Find,List and Edit type components.]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="CodeTable">
+<Description>
+Identifies if a component is updating code table data.
+If this value it true then certain restrictions apply:
+The user must be connected to the code table server.
+The system configuration must have code table updates enabled.</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="CustomScript">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Disabled">
+<Description>
+If set all items within the component will be disabled and cannot be updated. This setting overrides per component item settings.
+Typically used for 'Edit' type components when a record is locked by another user to stop the possibility of multiple updates.
+This can be set explicity in code, or may automatically set within the component if a lock cannot be obtained.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="DisplayType">
+<Description><![CDATA[
+Type of component.<br>
+May be one of:<br>
+Find<br>
+List<br>
+Edit<br>
+Custom<br>]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"F"</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="DISPLAYLIST" value=",Find,List,Edit,Custom,Lookup,"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",F,L,E,C,K,"/>
+</Property>
+
+<Property name="FormSizeAndPosition">
+<Description>
+comma separated (pixels)
+top, left, height, width</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Help">
+<Description>
+HTML Help text.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="HideHeadings">
+<Description>
+Hide or Show headings in a table. Can be set a design time or run time.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="HideMenus">
+<Description>
+Hide or Show menus. Can be set a design time or run time.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Items">
+<Type>websys.ComponentItems</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="LastUpdateDate">
+<Type>%Library.Date</Type>
+</Property>
+
+<Property name="LastUpdateTime">
+<Type>%Library.Time</Type>
+</Property>
+
+<Property name="ListPrint">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ListRows">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LockExtraClass">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="LockExtraId">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Menus">
+<Description>
+Comma separated list of menu names</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Messages">
+<Type>websys.ComponentMessages</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="MultiPart">
+<Description>
+Identify HTML FORM as multipart</Description>
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="Name">
+<Description>
+A Name that unqiuely identifies a component</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"Component"_$I(^websys.Unique)</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>1</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="COLLATION" value="AlphaUp"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Notes">
+<Type>websys.ComponentNotes</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>1</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="OtherScripts">
+<Description>
+Comma separated list of scripts.
+Typically used to include standard utility scripts.
+The path to the script in not required.
+The referenced script is located in the scripts folder.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="PassThruParameters">
+<Description>
+Additional parameters to be passed through during pageing and sorting.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="QueryName">
+<Description><![CDATA[
+Name of a query which has been pre-defined in the object architect for the specified ClassName.<br>
+used to derive Search criteria for Find Components and search Results forList components .<br>
+Applies to Find and List type components.]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="QuerySQL">
+<Description><![CDATA[
+Dynamic SQL query used to derive Search criteria for Find Components and search Results forList components .<br>
+Applies to Find and List type components.]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="QuerySQLNames">
+<Description>
+Named parameters derived from SQLQuery</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>$LB()</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="QuerySQLParsed">
+<Description>
+The parsed version of the SQL query with :name replaced with ?, and names populated inot SQLQueryNames</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Script">
+<Description>
+If true component will include coded script file from the scripts folder. N.B. This flag has no effect on the scripts_gen generated scripts.
+The name of the script is the names of the component with ".js" appended to the end.</Description>
+<Type>%Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="ShowNextInNewWindow">
+<Description>
+Applies to List Components.
+Will open a new window when user clicks on next page.</Description>
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Style">
+<Description><![CDATA[
+CSS Style applied to the component.<br>
+Typically this will be set using the layout manager,<br>
+but may be edited manually where required.]]></Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="TableItems">
+<Type>websys.ComponentTableItems</Type>
+<Cardinality>children</Cardinality>
+<Collection/>
+<Inverse>ParRef</Inverse>
+<Relationship>1</Relationship>
+<Transient>0</Transient>
+</Property>
+
+<Property name="TableSequence">
+<Description>
+System default Sequence of table columns.
+If not specified then columns will be displayed in TableItems sequence.
+Sequence may be overridden with Site, Group, User and context setttings.</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Template">
+<Description>
+HTML describing the System default layout.
+Template may be overridden with Site, Group, User and context setttings.
+Typically manipulated using the web edit layout manager tool.</Description>
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<InitialExpression>"No Layout has been configured."</InitialExpression>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+<Parameter name="MAXLEN"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="UseFormSizeAndPosition">
+<Type>%Library.Boolean</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>0</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>0</Transient>
+</Property>
+
+<Property name="pNested">
+<Type>%Library.String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>1</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>1</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="pOutput">
+<Type>%String</Type>
+<Final>0</Final>
+<Calculated>0</Calculated>
+<Collection/>
+<MultiDimensional>0</MultiDimensional>
+<Private>1</Private>
+<Relationship>0</Relationship>
+<Required>0</Required>
+<SqlComputed>0</SqlComputed>
+<Transient>1</Transient>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="WrapColumns">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="FixedWidthColumns">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Property name="ExpandTree">
+<Type>%Library.Boolean</Type>
+</Property>
+
+<Index name="UniqueNameIndex">
+<Description>
+Uniqueness index for property Name</Description>
+<Extent>0</Extent>
+<IdKey>0</IdKey>
+<PrimaryKey>0</PrimaryKey>
+<Properties>Name</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="%OnAfterSave">
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	;是否要加,可以保证在修改组件属性后重新取得数据库里的值
+	;k tc,t
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="%OnBeforeSave">
+<Description>
+Update build information on save.</Description>
+<FormalSpec>insert:%Library.Boolean</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	n h1,h2
+	s h1=+$H
+	s h2=$P($H,",",2)
+	s i%LastUpdateDate=h1
+	s i%LastUpdateTime=h2
+	QUIT $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="%OnDelete">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>oid:%Library.ObjectIdentity</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="%OnNew">
+<FormalSpec><![CDATA[&initvalue:%Library.String]]></FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[	QUIT $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="AddDefaults">
+<Description><![CDATA[
+Add default items to a component.<br>
+This will only add items which are not already present in the component.<br>
+Name is used to determine if an item exists.<br>
+s obj1=##class(websys.Component).%OpenId(50974)
+d obj1.AddDefaults()]]></Description>
+<Implementation><![CDATA[
+	if i%DisplayType="E" {
+		d ..AddDefaultsEdit()
+	}
+	if i%DisplayType="F" {
+		d ..AddDefaultsFind()
+	}
+	if i%DisplayType="L" {
+		d ..AddDefaultsList()
+	}
+	s h1=+$H
+	s h2=$P($H,",",2)
+	s ..LastUpdateDate=h1
+	s ..LastUpdateTime=h2
+	d ..%Save()
+]]></Implementation>
+</Method>
+
+<Method name="AddDefaultsEdit">
+<Description><![CDATA[
+Add Default properties for an edit form.<br>
+Properties are based on the class definition.<br>
+Default UPDATE and DELETE buttons are added.<br>
+Invoked from AddDefaults().<br>
+d ##class(%Library.ResultSet).RunQuery("%Library.CompiledProperty","PropertyInfo","User.Test")]]></Description>
+<Private>1</Private>
+<Implementation><![CDATA[
+	;因为对象方式保存是stack，先进后出，会导致保存顺序和数据库存储顺序相反
+	n objquery,objitem,subid,i,count
+	
+  	s subid=$O(^websys.ComponentItemsI("Name",..%Id()," DELETE1",0))
+ 	if subid="" {
+	 	s objitem=##class(websys.ComponentItems).%New()
+	 	s objitem.Name="delete1"
+	 	s objitem.Caption="Delete"
+	 	s objitem.DisplayType="A"
+	 	s objitem.Image="websys/delete.gif"
+	 	s objitem.DataType="%String"
+	 	s objitem.ShortcutKey="D"
+	 	s objitem.ClassMethod=..ClassName_",websysDelete,%request.Get(""ID"")"
+	 	s objitem.LinkExpression="&ID=""_$s(obj:obj.%Id(),1:"""")"
+	 	d ..Items.Insert(objitem)
+ 	}
+
+  	s subid=$O(^websys.ComponentItemsI("Name",..%Id()," UPDATE1",0))
+ 	if subid="" {
+	 	s objitem=##class(websys.ComponentItems).%New()
+	 	s objitem.Name="update1"
+	 	s objitem.Caption="Update"
+	 	s objitem.DisplayType="B"
+	 	s objitem.Image="websys/update.gif"
+	 	s objitem.DataType="%String"
+	 	s objitem.ShortcutKey="U"
+	 	s objitem.ClassMethod=..ClassName_",websysSave,%request.Get(""TEVENT""),%request.Get(""ID"")"
+	 	d ..Items.Insert(objitem)
+ 	}
+	
+	s objclass=##class(%Dictionary.ClassDefinition).%OpenId(..ClassName)
+	set userclassName=..ClassName
+	if objclass.ClassType="persistent" {
+		set tableName=objclass.SqlTableName
+		if tableName="" s tableName=..ClassName
+	}else{
+		set $p(userclassName,".",1)="User"
+		set objclass=##class(%Dictionary.ClassDefinition).%OpenId(userclassName)
+		if (objclass){
+			set tableName=objclass.SqlTableName
+			if tableName="" s tableName=userclassName
+		}
+	}
+ 
+	s count=objclass.Properties.Count()	
+	for i=count:-1:1 {
+		s objpro=objclass.Properties.GetAt(i)
+	 	s name=objpro.Name
+	 	s datatype=objpro.Type
+	 	s sqlcolumn=objpro.SqlFieldName
+	 	if sqlcolumn="" s sqlcolumn=name
+	 	s subid=$O(^websys.ComponentItemsI("Name",..%Id()," "_$ZCVT(name,"U"),0))
+	 	if subid="" {
+		 	s objitem=##class(websys.ComponentItems).%New()
+		 	s objitem.Name=name
+		 	s objitem.Caption=name
+		 	s objitem.DataType=datatype
+		 	;s objitem.SQLExtendedReference=name
+		 	;s objitem.SQLColumn=sqlcolumn
+		 	;s objitem.SQLTable=tableName
+		 				 	
+		 	d objitem.AddDefaults("E")
+		 	d ..Items.Insert(objitem)
+		 	d objitem.%Close()
+		 	s objitem=""
+	 	}
+ 	}
+ 	d objclass.%Close()
+ 	s objclass=""
+ 	
+
+ 	s subid=$O(^websys.ComponentItemsI("Name",..%Id()," ID",0))
+ 	if subid="" {
+	 	s objitem=##class(websys.ComponentItems).%New()
+	 	s objitem.Name="ID"
+	 	s objitem.ValueGet="s val=$s(obj:obj.%Id(),1:""ERROR!"")"
+	 	s objitem.DisplayType="T"
+	 	s objitem.DataType="%String"
+	 	s objitem.Hidden=1
+	 	d ..Items.Insert(objitem)
+ 	}
+]]></Implementation>
+</Method>
+
+<Method name="AddDefaultsFind">
+<Description>
+Add Default properties for a seach criteria form.
+This will get the search parameters from the query definition, and add default NEW and FIND buttons.</Description>
+<Private>1</Private>
+<Implementation><![CDATA[
+	n objquerym,objitem,count,i,subid,name,datatype
+
+ 	s subid=$O(^websys.ComponentItemsI("Name",..%Id()," NEW1",0))
+ 	if subid="" {
+	 	s objitem=##class(websys.ComponentItems).%New()
+	 	s objitem.Name="new1"
+	 	s objitem.Caption="New"
+	 	s objitem.DisplayType="A"
+	 	s objitem.Image="websys/new.gif"
+	 	s objitem.DataType="%String"
+	 	s objitem.ShortcutKey="N"
+	 	s objitem.LinkUrl="websys.default.csp"
+	 	s objitem.LinkComponent=$p(..Name,"Find",1)_"Edit"
+	 	d ..Items.Insert(objitem)
+	 	
+ 	}
+  	s subid=$O(^websys.ComponentItemsI("Name",..%Id()," FIND",0))
+ 	if subid="" {
+	 	s objitem=##class(websys.ComponentItems).%New()
+	 	s objitem.Name="find1"
+	 	s objitem.Caption="Find"
+	 	s objitem.DisplayType="B"
+	 	s objitem.Image="websys/find.gif"
+	 	s objitem.DataType="%String"
+	 	s objitem.ShortcutKey="F"
+	 	s objitem.LinkUrl="websys.default.csp"
+	 	s objitem.LinkComponent=$p(..Name,"Find",1)_"List"
+	 	d ..Items.Insert(objitem)
+ 	}
+ 	
+ 	s objquery=##class(%Dictionary.QueryDefinition).%OpenId(..ClassName_"||"_..QueryName)
+ 	if $IsObject(objquery){
+	 	s FormalSpec=objquery.FormalSpec
+	 	s count=$length(FormalSpec,",")
+	 	for i=count:-1:1 {
+		 	s parameter=$P(FormalSpec,",",i)
+		 	s name=$P(parameter,":",1)
+		 	s datatype=$P(parameter,":",2)
+		 	s subid=$O(^websys.ComponentItemsI("Name",..%Id()," "_$ZCVT(name,"U"),0))
+		 	if subid="" {
+			 	s objitem=##class(websys.ComponentItems).%New()
+			 	s objitem.Name=name
+			 	s objitem.Caption=name
+			 	s objitem.DataType=datatype
+			 	
+			 	if (objitem.DataType="%Date")||(objitem.DataType="%Library.Date") {
+				 	s objitem.ValueGet="s val=##Class(websys.Conversions).DateLogicalToHtml("""")"
+			 	}
+			 	if (objitem.DataType="%Time")||(objitem.DataType="%Library.Time") {
+				 	s objitem.ValueGet="s val=##Class(websys.Conversions).TimeLogicalToHtml("""")"
+			 	}
+			 	if (objitem.DataType="%Boolean")||(objitem.DataType="%Library.Boolean") {
+				 	s objitem.ValueGet="s val=##Class(websys.Conversions).BooleanLogicalToHtml("""")"
+			 	}			 	
+			 	if (objitem.DataType="%Integer")||(objitem.DataType="%Library.Integer") {
+				 	s objitem.Style="TEXT-ALIGN:right;"
+			 	}			 	
+			 	if (objitem.DataType="%Float")||(objitem.DataType="%Library.Float") {
+				 	s objitem.Style="TEXT-ALIGN:right;"
+			 	}			 	
+			 	if (objitem.DataType="%Numeric")||(objitem.DataType="%Library.Numeric") {
+				 	s objitem.Style="TEXT-ALIGN:right;"
+			 	}			 	
+			 	
+			 	if (datatype="%Boolean")||(datatype="%Library.Boolean") {
+				 	s objitem.DisplayType="C"
+			 	}else{
+				 	s objitem.DisplayType="T"
+			 	}
+			 	d ..Items.Insert(objitem)
+		 	}
+		 	
+	 	}
+ 	}
+]]></Implementation>
+</Method>
+
+<Method name="AddDefaultsList">
+<Description>
+Add Default properties for a seach results table.
+This will get the search parameters from the query definition, and add default EDIT link.</Description>
+<Private>1</Private>
+<Implementation><![CDATA[
+	n objquery,objitem,subid,count,i,name,datatype,FormalSpec
+ 	s objquery=##class(%Dictionary.QueryDefinition).%OpenId(..ClassName_"||"_..QueryName)
+ 	if $IsObject(objquery){
+	 	s FormalSpec=objquery.Parameters.GetAt("ROWSPEC")
+	 	s count=$length(FormalSpec,",")
+	 	for i=count:-1:1  {
+		 	s parameter=$P(FormalSpec,",",i)
+		 	s name=$P(parameter,":",1)
+		 	s datatype=$P(parameter,":",2)
+		 	i datatype="" s datatype="%String"
+		 	s subid=$O(^websys.ComponentTableItemsI("Name",..%Id()," "_$ZCVT(name,"U"),0))
+		 	if subid="" {
+			 	s objitem=##class(websys.ComponentTableItems).%New()
+			 	s objitem.Name=name
+			 	s objitem.Caption=name
+			 	s objitem.DataType=datatype
+			 	d objitem.AddDefaults("L")
+			 	d ..TableItems.Insert(objitem)
+		 	}
+	 	}
+ 	}
+]]></Implementation>
+</Method>
+
+<Method name="Caption1Get">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	q i%Caption1
+]]></Implementation>
+</Method>
+
+<Method name="Caption2Get">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%Caption2
+]]></Implementation>
+</Method>
+
+<Method name="Caption3Get">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%Caption3
+]]></Implementation>
+</Method>
+
+<Method name="Caption4Get">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%Caption4
+]]></Implementation>
+</Method>
+
+<Method name="Caption5Get">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%Caption5
+]]></Implementation>
+</Method>
+
+<Method name="Caption6Get">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%Caption6
+]]></Implementation>
+</Method>
+
+<Method name="Caption7Get">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%Caption7
+]]></Implementation>
+</Method>
+
+<Method name="Caption8Get">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%Caption8
+]]></Implementation>
+</Method>
+
+<Method name="Caption9Get">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%Caption9
+]]></Implementation>
+</Method>
+
+<Method name="CaptionGet">
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q i%Caption
+]]></Implementation>
+</Method>
+
+<Method name="DeleteItems">
+<Implementation><![CDATA[
+	s sc= ..Items.Clear()
+	s sc=..TableItems.Clear()
+]]></Implementation>
+</Method>
+
+<Method name="FORM">
+<Private>1</Private>
+</Method>
+
+<Method name="FindSqlItemsClose">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>FindSqlItemsFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ 	Set repid=$LIST(QHandle,2) 
+ 	Kill ^CacheTemp(repid) Quit 1
+]]></Implementation>
+</Method>
+
+<Method name="FindSqlItemsExecute">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,compname:%String=""]]></FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	//Caption,Name,SQLReference,SQLTable,SQLColumn,VBCodeTable,Comment
+	s compid=""
+ 	s repid=$I(^CacheTemp) 
+ 	s ind=1 s QHandle=$lb(0,repid,0) 
+	&sql(declare CurFindSqlItems cursor for 
+		select Name,ID,Caption,SQLExtendedReference,SQLTable,SQLColumn,SQLToVBCodeTable,SQLComment
+		into :Zcode,:Zrowid,:Zdescription,:ZSQLReference,:ZSQLTable,:ZSQLColumn,:ZVBCodeTable,:ZComment
+		from websys.ComponentItems 
+		where ParRef=:compid)
+	&sql(open  CurFindSqlItems)
+	&sql(fetch  CurFindSqlItems)
+ 	while (SQLCODE=0){
+ 		set data=$LB(ZCaption,ZName,ZSQLReference,ZSQLTable,ZSQLColumn,ZVBCodeTable,ZCommen)
+ 		set ^CacheTemp(repid,ind)=data
+ 		set ind=ind+1
+ 		&sql(fetch  CurFindSqlItems)
+ 	}
+	&sql(close  CurFindSqlItems)
+	Quit 1
+]]></Implementation>
+</Method>
+
+<Method name="FindSqlItemsFetch">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>FindSqlItemsExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	Set AtEnd=$LIST(QHandle,1)
+	Set repid=$LIST(QHandle,2)
+	Set ind=$LIST(QHandle,3)
+	Set ind=$o(^CacheTemp(repid,ind))
+	If ind="" {
+		Set AtEnd=1 Set Row=""}
+	Else {
+		Set Row=^CacheTemp(repid,ind)
+	}
+	s QHandle=$lb(AtEnd,repid,ind)
+	Quit 1
+]]></Implementation>
+</Method>
+
+<Method name="GetActiveLayoutInfo">
+<Description>
+Determine which layout is active.</Description>
+<FormalSpec>UserID:%Library.String,GroupID:%Library.String,SiteCODE:%Library.String,context:%Library.String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s appkey="LAYOUT"_context
+	s CompID=..%Id()
+	;用户级别
+	i (UserID'=""){
+		&SQL(SELECT ObjectType into :objecttype FROM websys.Preferences
+		WHERE (ObjectType = 'User.SSUser' AND ObjectReference = :UserID) AND
+				(AppKey = :appkey) AND (AppSubKey =:CompID ))
+		if SQLCODE=0 Quit objecttype
+	}
+
+	;安全组
+	i (GroupID'=""){
+		&SQL(SELECT ObjectType into :objecttype FROM websys.Preferences
+		WHERE (ObjectType = 'User.SSGroup' AND ObjectReference = :GroupID) AND
+				(AppKey = :appkey) AND (AppSubKey =:CompID ))
+		if SQLCODE=0 Quit objecttype
+	}
+	
+	;站点
+	i (SiteCODE'=""){
+		&SQL(SELECT ObjectType into :objecttype FROM websys.Preferences
+		WHERE (ObjectType = 'SITE' AND ObjectReference = :SiteCODE) AND
+				(AppKey = :appkey) AND (AppSubKey =:CompID ))
+		if SQLCODE=0 Quit objecttype
+	}
+	
+	Quit "SYS"
+]]></Implementation>
+</Method>
+
+<Method name="GetComponentMessages">
+<Description>
+KM 24-Oct-2001: Adds Component Messages to the message array  i.e.t()
+zhaocz  2011-05-26  components  表示可以传入多个组件名称  分割符  ,</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&t:%Library.String,components:%Library.String]]></FormalSpec>
+<Implementation><![CDATA[
+	; d ##class(websys.Component).GetComponentMessages(.t,"websys.SYSTEM")
+	s $ZT="ERROR^DHCSSERR"
+	;组件上下文会用到,不能删除
+	;k t
+	;s t=""
+	q:(components="")
+	
+	; 定义变量  zhaocz 2011-06-15
+	n mydesc, mylangid, mycount, myIdx, mycompname
+	n mycomp
+	n myMsgount, myMsgIdx
+	n mycompmessage
+	
+	; 需要添加翻译
+	s mydesc=""
+	s mylangid=""
+	s:$d(%session) mylangid = %session.Data("LOGON.LANGID")
+	s:'mylangid mylangid=$lg($g(^websys.ConfigurationD(1)),15) 
+	s:'mylangid mylangid=$o(^SS("LAN",0))
+	
+	
+	s mycount=$l(components, ",")
+	for myIdx=1:1:mycount{
+		s mycompname=$p(components,",", myIdx)
+		if (mycompname'=""){
+			s mycomp=##class(websys.Component).OpenName(mycompname)
+			if ($IsObject(mycomp)){
+				s myMsgount = mycomp.Messages.Count()
+				for myMsgIdx=1:1:myMsgount {
+					s mycompmessage =mycomp.Messages.GetAt(myMsgIdx)
+					s mydesc=""
+					s:(mylangid'="") mydesc = ##class(websys.DictionaryTranslated).GetItemByPhrase(mylangid,mycompmessage.Description)
+					s:(mydesc="") mydesc=mycompmessage.Description
+					s t(mycompmessage.Code)=mydesc
+				}
+			}
+		}
+	}
+	q
+]]></Implementation>
+</Method>
+
+<Method name="GetIconProfileId">
+<Description>
+epr.floorplan.csp 床位图调用</Description>
+<FormalSpec>itemname:%Library.String=""</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	n IconProfileId
+	s IconProfileId=$G(tc(itemname,"IconProfile"))
+	Q IconProfileId
+]]></Implementation>
+</Method>
+
+<Method name="GetIdFromCodeOrDescription">
+<Description>
+Override generic GetIdFromCodeOrDescription as we want to check by Name first before caption</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	&SQL(Select %ID into :id From websys.Component Where Name=:val)
+	if SQLCODE {
+		&SQL(Select %ID into :id From websys.Component Where Caption=:val)
+		if SQLCODE Q ""
+	}
+	Q id
+]]></Implementation>
+</Method>
+
+<Method name="GetItemNames">
+<Description>
+Build an array of component item names
+s obj1=##class(websys.Component).%OpenId(4)
+d obj1.GetItemNames(names)</Description>
+<FormalSpec><![CDATA[&names:%String]]></FormalSpec>
+<Implementation><![CDATA[
+	n count,i
+	s count=%this.Items.Count()
+	for i=1:1:count {
+		s names(%this.Items.GetAt(i).Name)=""
+	}
+	s count=%this.TableItems.Count()
+	for i=1:1:count {
+		s names(%this.TableItems.GetAt(i).Name)=""
+	}
+]]></Implementation>
+</Method>
+
+<Method name="GetVersion">
+<Description>
+Return the version of the instance based on Build, BuildDate and BuildTime.
+zhouzq 2011.06.10</Description>
+<Final>1</Final>
+<CodeMode>objectgenerator</CodeMode>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	///为什么要找继承类而不是本类的MINORVERSION呢
+	d %code.WriteLine(" q """_$P(##class(websys.Abstract).GetCompiledVersion(),".",1,2)_".""_i%Build_"" on ""_$ZD(i%BuildDate,3)_"" ""_$ZT(i%BuildTime,3)")
+	;d %code.WriteLine(" q """_%parameter("MAJORVERSION")_"."_%parameter("MINORVERSION")_".""_i%Build_"" on ""_$ZD(i%BuildDate,3)_"" ""_$ZT(i%BuildTime,3)")
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="HelpDisplay">
+<Description>
+Used to show help text...
+Separate to helpExtended...
+zhouzq 2011.06.10  得到组件布局中定义的帮助的HTML内容</Description>
+<FormalSpec>langid:%Library.String,context:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	s hlp=""
+	if langid="" q ""
+	s hlp=$g(^websys.TranslationD("CONTEXT"_langid,..%Id()_context,"_COMPONENT","Help"))
+	i hlp="" Q i%Help
+	Q hlp
+]]></Implementation>
+</Method>
+
+<Method name="HelpExtended">
+<Description>
+This is a workaround to load context specific help into the help editor.</Description>
+<FormalSpec>langid:%Library.String,context:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	m tc=^websys.TranslationD("CONTEXT",..%Id()_context)
+	m tc=^websys.TranslationD("CONTEXT"_langid,..%Id()_context)
+	Q ..HelpDisplay(langid,context)
+]]></Implementation>
+</Method>
+
+<Method name="IsValidName">
+<Description>
+Validate if a component exists</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec>name:%Library.String</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+<Implementation><![CDATA[
+	d %code.WriteLine(" n id")
+	d %code.WriteLine(" s id=""""")
+	d %code.WriteLine(" &SQL(SELECT ID INTO :id FROM "_%class.Name_" WHERE Name=:name)")
+ 	d %code.WriteLine(" i 'SQLCODE,id'="""" q 1")
+ 	d %code.WriteLine(" q 0	")
+ 	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="JSBuild">
+<FormalSpec>template:%Library.String</FormalSpec>
+</Method>
+
+<Method name="JSBuildTableItems">
+</Method>
+
+<Method name="JSClose">
+<Private>1</Private>
+</Method>
+
+<Method name="JSOpen">
+<FormalSpec>extname:%Library.String=""</FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+</Method>
+
+<Method name="JSPublish">
+<FormalSpec>currcontext:%Library.String="ALL"</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	s isunix=0
+	s langid="20"
+	s template=""
+	s appkey="LAYOUT"
+	s appsubkey="2"
+	s context=""
+	s data=""
+	s fileext=""
+	s oreference="DHCHEALTH"
+	s otype="SITE"
+	s otypex=""
+	s prefid="2529"
+	s qry="websys.Preferences:FindByAppSubKey"
+	//s rs=<OBJECT REFERENCE>[12@%Library.ResultSet]
+]]></Implementation>
+</Method>
+
+<Method name="JSWriteCurrencyValidation">
+<Description>
+SA 1.4.03 - 32676/32817:
+Generate currency validation based on configuration settings for decimal places and decimal separator.</Description>
+</Method>
+
+<Method name="JSWriteDateValidation">
+<Description>
+Generate date validation based on configuration</Description>
+</Method>
+
+<Method name="JSWriteNumericValidation">
+<Description>
+Generate numeric validation based on configuration settingd</Description>
+</Method>
+
+<Method name="JSWriteTimeValidation">
+<Description>
+Generate javascript time validation based on configuration.</Description>
+</Method>
+
+<Method name="JSWriteLookupCodeValidation">
+<Description>
+Generate canned text lookup functions for textareas, called from JSBuild</Description>
+</Method>
+
+<Method name="JobPublishAll">
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="LoadTrans">
+<Description>
+zhaocz 2011-06-05 修正， 输出消息和元素名称
+zhaocz 2011-07-05 修正 1. 输出 tc 同时修正  2. 组件元素 t的输出</Description>
+<Implementation><![CDATA[
+	; 待写
+	;2043
+	;s obj=
+	n mylangid, itmName
+	s mylangid=0
+	if $d(%session) s mylangid = %session.Data("LOGON.LANGID")
+	s:('mylangid) mylangid = ##class(websys.Configuration).GetDefaultLanguage()
+	s itmName=0
+	s itmName = $o(^websys.TranslationD("COMP",mylangid,..%Id(), itmName))
+	while (itmName'="") {
+		;m t = $p(^websys.TranslationD("COMP",mylangid,..%Id()),"^",1)
+		s t(itmName) = $p(^websys.TranslationD("COMP",mylangid,..%Id(), itmName),"^",1)
+		s itmName = $o(^websys.TranslationD("COMP",mylangid,..%Id(), itmName))
+	}
+	
+	; 语言langid 可能是一个公用变量
+	d ..GetComponentMessages(.t, ..Name)
+	
+	;待加： 还要产生 tc变量
+	; 1 什么情况下生产tc呢？  websys.Preferences 表中有数据的项目 显示tc
+	; 使用之前先k
+	;  $d(^websys.TranslationD("CONTEXT",..%Id()))
+	k tc
+	if $d(^websys.TranslationD("CONTEXT",..%Id())) {
+		m tc = ^websys.TranslationD("CONTEXT",..%Id())
+	}
+	;^websys.TranslationD("CONTEXT20"
+	if $d(^websys.TranslationD("CONTEXT"_mylangid,..%Id())) {
+		m tc = ^websys.TranslationD("CONTEXT"_mylangid,..%Id())
+	}
+]]></Implementation>
+</Method>
+
+<Method name="LoadTransOld">
+<Implementation><![CDATA[
+	d ..GetComponentMessages(.t,i%Name)
+	
+	;把本组件的所有元素 转换成  t
+	;i%Items.Count
+	n myIdx, myCount
+	s myCount = ..Items.Count()
+	f myIdx = 1:1:myCount{
+		s t(..Items.GetAt(myIdx).Name) = ..Items.GetAt(myIdx).Caption
+	}
+	;table
+	;i%TableItems.Count
+	s myCount = ..TableItems.Count()
+	f myIdx = 1:1:myCount{
+		s t(..TableItems.GetAt(myIdx).Name) = ..TableItems.GetAt(myIdx).Caption
+	}
+]]></Implementation>
+</Method>
+
+<Method name="LookUpWithDisplayTypeClose">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>QHandle:%Library.Binary</FormalSpec>
+<PlaceAfter>LookUpWithDisplayTypeFetch</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpWithDisplayTypeExecute">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,name:%String=""]]></FormalSpec>
+<PlaceAfter>GetIdFromCodeOrDescription</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="LookUpWithDisplayTypeFetch">
+<Description>
+Default implementation of LookUp Query.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&QHandle:%Library.Binary,&Row:%Library.List,&AtEnd:%Library.Integer=0]]></FormalSpec>
+<PlaceAfter>LookUpWithDisplayTypeExecute</PlaceAfter>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="OpenName">
+<Description>
+Open an instance of the class by unique name
+zhaocz 2011-05-26</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>name:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	;s obj=##class(websys.Component).OpenName("SSUserLogon")
+	q:name="" ""
+	
+	n mycomobj, mycomid
+	s mycomobj=""
+	s name = $zu(28,name,6)    /// AlphaUp 规则
+	s mycomid=$o(^websys.ComponentI("UniqueNameIndex",name,0))
+	q:(mycomid="") ""
+	
+	s mycomobj=##class(websys.Component).%OpenId(mycomid,1)
+	
+	q mycomobj
+]]></Implementation>
+</Method>
+
+<Method name="OpenNameOld">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>name:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s name=$ZCONVERT(name,"U")
+	s name=$TR(name,".","")
+	s cmpid=$O(^websys.ComponentI("UniqueNameIndex",name,0))
+	if cmpid="" Q ""
+	s obj=##class(websys.Component).%OpenId(cmpid)
+	Q obj
+]]></Implementation>
+</Method>
+
+<Method name="PublishAll">
+<Description>
+Invoke JSPublish for each Component.</Description>
+<ClassMethod>1</ClassMethod>
+</Method>
+
+<Method name="QuerySQLNamesSet">
+<Description>
+Read only - property is set when QuerySQL is updated.</Description>
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="QuerySQLParsedSet">
+<Description>
+Read only - property is set when QuerySQL is updated.</Description>
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+</Method>
+
+<Method name="QuerySQLSet">
+<Description>
+by zhouzq , 更新QuerySQL时同时处理QuerySQLParsed,QuerySQLNames,不允许直接修改这两个属性</Description>
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+
+	s i%QuerySQL=val
+	s QuerySQLParsed="",parastr=""
+	d ..ParseQuerySQL(val,.QuerySQLParsed,.parastr)
+	s QuerySQLNames=$LISTFROMSTRING(parastr,",")
+	s i%QuerySQLParsed=QuerySQLParsed
+	s i%QuerySQLNames=QuerySQLNames
+	Q 1
+]]></Implementation>
+</Method>
+
+<Method name="ParseQuerySQL">
+<Description>
+Add By zhouzq 2011.0.10 
+do ##class(websys.Component).ParseQuerySQL(val,.a,.b)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[val:%Library.String,&QuerySQLParsed:%Library.String,&parastr:%Library.String]]></FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	s QuerySQL=$TRANSLATE(val,$c(10)," ")
+	s QuerySQL=$TRANSLATE(QuerySQL,$c(13)," ")
+	s tmpSql=QuerySQL
+	s parastr="",paramcn=0
+	while (tmpSql[":"){
+		set newSql=$p(tmpSql,":")
+		set location=$l(newSql)+1
+		set index=1
+		set para="",flag=1
+		s paramcn=paramcn+1
+		while flag {
+			set nextloc=$e(tmpSql,location+index)
+			if (nextloc=" ")||(nextloc=")"){
+				set flag=0
+			}else{
+				set para=para_nextloc
+			}
+			set:(location+index)>$l(tmpSql) flag=0
+			Q:flag=0
+			set index=index+1
+		}
+		
+		if parastr="" s parastr=para
+		e  s parastr=parastr_","_para
+		
+		set newSql=newSql_" ? "_$e(tmpSql,location+index,$l(tmpSql))
+		set tmpSql=newSql
+	}
+	s QuerySQLParsed=$ZCONVERT(tmpSql,"U")
+]]></Implementation>
+</Method>
+
+<Method name="ResetLayout">
+<Description>
+Reset layout to default.
+Warning: This will remove any customised layout !
+2011.07.02 zhouzq
+根据组件类型生成默认布局保存到websys.Component.Template中
+s obj1=##class(websys.Component).%OpenId(50213)
+d obj1.ResetLayout()</Description>
+<Implementation><![CDATA[
+	if ..DisplayType="C" {
+		d ..ResetLayoutCustom()
+	}
+	
+	if ..DisplayType="E" {
+		d ..ResetLayoutEdit()
+	}
+	
+	if ..DisplayType="F" {
+		d ..ResetLayoutFind()
+	}
+	
+	if ..DisplayType="L" {
+		d ..ResetLayoutList()
+	}
+]]></Implementation>
+</Method>
+
+<Method name="ResetLayoutCustom">
+<Private>1</Private>
+<Implementation><![CDATA[
+	n Template,TemplateLink
+	s TemplateLink=""
+	s Template="<TABLE>"_$c(13,10)_"<TBODY>"_$c(13,10)
+	s count=..Items.Count()
+	for i=1:1:count {
+		s objitem=..Items.GetAt(i)
+		if 'objitem.Hidden {
+			;只有button和link不输出caption元素
+			s captionid="{c"_..%Id()_"i"_objitem.Name_"}"
+			s itemid="{d"_..%Id()_"i"_objitem.Name_"}"
+			i (objitem.DisplayType'="A")&&(objitem.DisplayType'="B") {
+				s Template=Template_"<TR>"_$c(13,10)
+				;COMPONENT不输出元素
+				if objitem.DisplayType="CX" s itemid=""
+				s Template=Template_"<TD>"_captionid_"</TD>"_$c(13,10)_"<TD>"_itemid_"</TD>"_$c(13,10)
+				s Template=Template_"</TR>"_$c(13,10)
+			}else{
+				s TemplateLink=TemplateLink_"<TR>"_$c(13,10)
+				s TemplateLink=TemplateLink_"<TD></TD>"_$c(13,10)_"<TD>"_itemid_"</TD>"_$c(13,10)
+				s TemplateLink=TemplateLink_"</TR>"_$c(13,10)
+			}
+		}
+	}
+	s Template=Template_TemplateLink
+	if ..TableItems.Count()>0{
+		s Template=Template_"<TR>"_$c(13,10)_"<TD>{table}</TD></TR>"
+	}
+	s Template=Template_"</TBODY></TABLE>"
+	s ..Template=Template
+]]></Implementation>
+</Method>
+
+<Method name="ResetLayoutEdit">
+<Private>1</Private>
+<Implementation><![CDATA[	d ..ResetLayoutCustom()
+]]></Implementation>
+</Method>
+
+<Method name="ResetLayoutFind">
+<Private>1</Private>
+<Implementation><![CDATA[	d ..ResetLayoutCustom()
+]]></Implementation>
+</Method>
+
+<Method name="ResetLayoutList">
+<Private>1</Private>
+<Implementation><![CDATA[	d ..ResetLayoutCustom()
+]]></Implementation>
+</Method>
+
+<Method name="SaveCustomLayout">
+<Description>
+Saves from Column Editor screen</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>UpdateDelete:%Library.String</FormalSpec>
+<Implementation><![CDATA[
+	// wanghc 2011.07.05 
+	s $zt="SaveCustomLayoutError"
+	
+	n updateRefObj
+	
+	s ID=$g(%request.Data("ID",1))
+	S Page=##class(websys.Component).%OpenId(ID).Name
+	s HSAVEAS=$g(%request.Data("HSAVEAS",1))
+	s ObjectReference=$g(%session.Data("LOGON.USERID")), ObjectType="User.SSUser"
+	s:HSAVEAS="G" ObjectReference=$g(%session.Data("LOGON.GROUPID")), ObjectType="User.SSGroup"
+	s:HSAVEAS="T" ObjectReference=$g(%session.Data("LOGON.SITECODE")), ObjectType="SITE"
+	s:HSAVEAS="N" ObjectReference=$g(%session.Data("LOGON.REGION")), ObjectType="REGION"
+	s:HSAVEAS="H" ObjectReference=$g(%session.Data("LOGON.HOSPID")), ObjectType="User.CTHospital"
+	;S-系统,R-信任站点,H-医院,N-Region
+	s HCONTEXT=$g(%request.Data("HCONTEXT",1))
+	s UseContext2=$g(%request.Data("UseContext2",1)) 
+	s UseContext3=$g(%request.Data("UseContext3",1))
+	s UseContext= ##class(websys.Conversions).BooleanHtmlToLogical($g(%request.Data("UseContext",1)))
+	s HCAPTIONS=$g(%request.Data("HCAPTIONS",1))
+	s HCOLUMNS=$g(%request.Data("HCOLUMNS",1))
+	s HENABLESORT=$g(%request.Data("HENABLESORT",1))
+	s HWIDTHS=$g(%request.Data("HWIDTHS",1))
+	s HDELIMS=$g(%request.Data("HDELIMS",1))
+	s Wrap= ##class(websys.Conversions).BooleanHtmlToLogical($g(%request.Data("Wrap",1)))	;限制列
+	s FixedWidth= ##class(websys.Conversions).BooleanHtmlToLogical($g(%request.Data("FixedWidth",1)))	;固定列宽
+	s ExpandTree= ##class(websys.Conversions).BooleanHtmlToLogical($g(%request.Data("ExpandTree",1)))	;扩展树
+	s Rows = $g(%request.Data("Rows",1))
+	s Print= ##class(websys.Conversions).BooleanHtmlToLogical($g(%request.Data("Print",1)))
+	s FontSize = $g(%request.Data("FontSize",1))	;wanghc 2015-06-12 放大镜字体大小
+	s SortColumnDefault=$g(%request.Data("SortColumnDefault",1))
+	
+	s SortOrderDefault="",SortColumn2="",SortOrder2=""
+	i SortColumnDefault'="" {
+		s SortColumn2=$g(%request.Data("SortColumn2",1))
+		s SortOrderDefault=$e($g(%request.Data("SortOrderDefault",1)),1,1)
+		f i=1:1:$l(HCAPTIONS,"^") {
+			i SortColumnDefault=$p(HCAPTIONS,"^",i) {
+				s SortColumnDefault=i
+				s:SortOrderDefault="" SortOrderDefault="A"
+			}
+			if SortColumn2'="" {
+				i SortColumn2=$p(HCAPTIONS,"^",i) {
+					s SortColumn2=i
+					s SortOrder2=$e($g(%request.Data("SortOrder2",1)),1,1)
+					s:SortOrder2="" SortOrder2="A"
+				}
+			}
+		}
+	}
+	
+	;更新列编辑布局
+	i UpdateDelete="U" {
+		S AppKey="COLUMNS"
+		i UseContext s AppKey=AppKey_HCONTEXT
+		s len=$l(HCOLUMNS,","),Data="",NullColumnFlag=1
+		f i=1:1:len {
+			i $p(HCOLUMNS,",",i)'="" s NullColumnFlag=0
+		}
+		Quit:(NullColumnFlag=1) 1	;一列都不显示跳出
+		f i=1:1:len s item=$p(HCOLUMNS,",",i)_","_$p(HWIDTHS,",",i)_","_$p(HENABLESORT,",",i),Data=Data_item_$s(i=len:"",1:"|")
+		i $d(^websys.PreferencesI("Index",ObjectType,ObjectReference,AppKey,Page)) {
+			s rowid=$o(^websys.PreferencesI("Index",ObjectType,ObjectReference,AppKey, Page,""))
+			s updateRefObj=##class(websys.Preferences).%OpenId(rowid)
+		}else{
+			s updateRefObj=##class(websys.Preferences).%New()
+			s updateRefObj.AppKey=AppKey
+			s updateRefObj.AppSubKey=Page
+			s updateRefObj.ObjectType=ObjectType
+			s updateRefObj.ObjectReference=ObjectReference
+		}
+		s updateRefObj.Data = Data
+		d updateRefObj.%Save()
+		
+		;ROWS
+		S AppKey="ROWS"
+		i UseContext s AppKey=AppKey_HCONTEXT
+		S Date=""
+		i $d(^websys.PreferencesI("Index",ObjectType,ObjectReference,AppKey,Page)) {
+			s rowid=$o(^websys.PreferencesI("Index",ObjectType,ObjectReference,AppKey, Page,""))
+			s updateRefObj=##class(websys.Preferences).%OpenId(rowid)
+		}else{
+			s updateRefObj=##class(websys.Preferences).%New()	
+			s updateRefObj.AppKey=AppKey
+			s updateRefObj.AppSubKey=Page
+			s updateRefObj.ObjectType=ObjectType
+			s updateRefObj.ObjectReference=ObjectReference
+		}
+		;(行,打印,限制列,固定列宽,扩展树,"合并分隔符1^^^^^^^^^",默认列,默认医嘱,次级列,次要医嘱,字体大小)
+		s updateRefObj.Data=$lb(Rows,Print,Wrap,FixedWidth,ExpandTree,HDELIMS,SortColumnDefault,SortOrderDefault,SortColumn2,SortOrder2,FontSize)
+		d updateRefObj.%Save()
+	}
+	
+	;删除列编辑布局
+	i UpdateDelete="D" {
+		S AppKey="COLUMNS"
+		i UseContext s AppKey=AppKey_HCONTEXT
+		i $d(^websys.PreferencesI("Index",ObjectType,ObjectReference,AppKey,Page)) {
+			s rowid=$o(^websys.PreferencesI("Index",ObjectType,ObjectReference,AppKey, Page,""))
+		}
+		d:rowid'="" ##class(websys.Preferences).%DeleteId(rowid)
+		
+		S AppKey="ROWS"
+		i UseContext s AppKey=AppKey_HCONTEXT
+		i $d(^websys.PreferencesI("Index",ObjectType,ObjectReference,AppKey,Page)) {
+			s rowid=$o(^websys.PreferencesI("Index",ObjectType,ObjectReference,AppKey, Page,""))
+		}
+		d:rowid'="" ##class(websys.Preferences).%DeleteId(rowid)
+	}
+	q 1
+SaveCustomLayoutError
+	s ^Temp("websys.Component","SaveCustomLayoutError") = $ze
+	s $ze=""
+	q ""
+]]></Implementation>
+</Method>
+
+<Method name="SetDataWrapper">
+<Description>
+wrapper for websys.Preferences as at this time a list when send from VB appears blank on the server.
+Includes:
+Template
+Menus
+Columns
+zhouzq 2011.06.29
+ 保存执行顺序
+ websys.Component.SetDataWrapper
+ websys.Translation.AddContextItem("_ComponentHelp",
+ websys.Component.SetItemData
+ websys.ComponentXRef.MakeDirtyComponent
+ 删除执行顺序
+ websys.Preferences.KillData
+ websys.Translation.KillData</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>objectType:%String,objectReference:%String,appKey:%String,appSubKey:%String,template:%String,activedata:%String,add:%String</FormalSpec>
+<Implementation><![CDATA[
+	s $ZT="Err"
+	
+	n id,objpref
+	k ^Temp("SaveLayout")
+	s ^Temp("SaveLayout",$I(^Temp("SaveLayout")))="SetDataWrapper:"_objectType_","_objectReference_","_appKey_","_appSubKey_","_template_","_activedata_","_add
+
+	s HideMenus=$P(activedata,"^",2)
+	s HideHeadings=$P(activedata,"^",3)
+	s UseFormSizeAndPosition=$P(activedata,"^",4)
+	s FormSizeAndPosition=$P(activedata,"^",5)
+	s CenterForm=$P(activedata,"^",6)
+	&SQL(Select id into :id 
+		From websys.Preferences 
+	   Where ObjectType=:objectType and ObjectReference=:objectReference and
+		     AppKey=:appKey And AppSubKey=:appSubKey)
+	if SQLCODE {
+		s objpref=##class(websys.Preferences).%New()
+		s objpref.ObjectType=objectType
+		s objpref.ObjectReference=objectReference
+		s objpref.AppKey=appKey
+		s objpref.AppSubKey=appSubKey
+		
+	}else{
+		s objpref=##class(websys.Preferences).%OpenId(id)
+	}
+	s objpref.Data=$lb(template,HideMenus,HideHeadings,UseFormSizeAndPosition,FormSizeAndPosition,CenterForm)
+	s save1=objpref.%Save()
+	d objpref.%Close()
+	s objpref=""
+	Q
+Err
+	s ^Temp("SaveLayou","websys.Component.SetDataWrapper")=$ZE
+]]></Implementation>
+</Method>
+
+<Method name="SetItemData">
+<Description>
+Called from layout editor to set item properties
+布局编辑器保存是生成组件布局元素个性化设置,更新websys.Translation   zhouzq 2011.06.29
+s obj1=##class(websys.Component).%OpenId(51515)
+d obj1.SetItemData("caption","SITE","DHCHEALTH","c^^分类^^0^0^^N^0^^^^^~^^^^^^0","","20")
+d obj1.SetItemData("caption","SITE","DHCHEALTH","d^^分类^WIDTH: 180px; HEIGHT: 19px^0^0^^^0^ title=^^^0^~^^^^^^0","","20")
+d obj1.SetItemData("caption","User.SSGroup",1,"d^2^分类112^WIDTH: 180px; HEIGHT: 19px^^6^7^8^9^ title=^11^12^13^~^15^16^17^18^19^20","","20")
+d obj1.SetItemData("submenuof","SITE","DHCHEALTH","c^^菜单组1^^0^0^^^0^^^^0^~^^^^^^0","","20")
+d obj1.SetItemData("Sex","SYS","SYS","c^WIDTH: 180px; HEIGHT: 22px^Sex^WIDTH: 81px; HEIGHT: 251px^^^^^^^^^^~^^^^^^","",20)
+d obj1.SetItemData("WardName","SITE","DHCHEALTH","d^^病区^^0^0^^^0^^^$P(##class(web.DHCRisWardQuery).GetWardByLoc(%session.Get(""LOGON.CTLOCID"")),""~"",1)^0^~^^^^^^0","","20")</Description>
+<FormalSpec>itemname:%Library.String,ActiveObject:%Library.String,ActiveReference:%Library.String,ActiveData:%Library.String,context:%Library.String,langid:%Library.String</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+	s ^Temp("SaveLayout",$I(^Temp("SaveLayout")))="SetItemData:"_itemname_","_ActiveObject_","_ActiveReference_","_ActiveData_","_context_","_langid
+	
+	n compid,findItem,idx,objitem,ItemsID
+	s findItem=1
+	s compid=..%Id()
+	;先判断这个元素是否存在
+	&SQL(select DisplayType into :displaytype From websys.ComponentItems Where Name=:itemname and ParRef=:compid)
+	if SQLCODE {
+		s findItem=0
+		&SQL(select DisplayType into :displaytype From websys.ComponentTableItems Where Name=:itemname and ParRef=:compid)
+	}
+	if SQLCODE Q $$$OK
+	
+	s type=$P(ActiveData,"^",1)
+	
+	if ActiveObject="SYS" {
+		s objitem=""
+		s ItemsID=$O(^websys.ComponentItemsI("Name",compid," "_$ZCVT($g(itemname),"U"),0))
+		if ItemsID'="" {
+			s idx=..Items.FindObjectId(compid_"||"_ItemsID,"")
+			s objitem=..Items.GetAt(idx)
+		}else{
+			s ItemsID=$O(^websys.ComponentTableItemsI("Name",compid," "_$ZCVT($g(itemname),"U"),0))
+			if ItemsID'="" {
+				s idx=..TableItems.FindObjectId(compid_"||"_ItemsID,"")
+				s objitem=..TableItems.GetAt(idx)
+			}
+		}
+		if $IsObject(objitem) {	
+			s captionstyle=$P(ActiveData,"^",2)
+			s caption=$P(ActiveData,"^",3)
+			s style=$P(ActiveData,"^",4)
+			if type="c" {
+				s objitem.CaptionStyle=captionstyle
+				if findItem=0 {
+					s objitem.Style=style
+				}
+			}else{
+				s objitem.Style=style
+				if (displaytype'="B")&&(displaytype'="A"){
+					s objitem.Required=$P(ActiveData,"^",5)
+					s objitem.DisplayOnly=$P(ActiveData,"^",6)
+					s objitem.ReadOnly=$P(ActiveData,"^",20)
+					;为了防止分隔符冲突,从界面编辑器传过来时已经把DefaultValueExpression里的"^"转成了"~",所以保存时还要转换回来 fix on 2011.11.17 in XH
+					s objitem.DefaultValueExpression=$tr($P(ActiveData,"^",12),"~","^")
+					s objitem.DefaultValueAlways=$P(ActiveData,"^",13)
+				}
+				s objitem.Tooltip=$P(ActiveData,"^",7)
+				s objitem.ShortcutKey=$P(ActiveData,"^",8)
+				s objitem.TabSequence=$P(ActiveData,"^",9)
+				s objitem.IconProfile=##class(epr.CTIconProfile).GetIdFromCodeOrDescription($P(ActiveData,"^",11))
+				/*
+				s ..Items.GetAt(idx).CustomLookupClassName=$P(ActiveData,"^",16)
+				s ..Items.GetAt(idx).CustomLookupQueryName=$P(ActiveData,"^",17)
+				s ..Items.GetAt(idx).CustomLookupProperties=$P(ActiveData,"^",18)
+				s ..Items.GetAt(idx).CustomLookupBrokerMethod=$P(ActiveData,"^",19)
+				*/
+			}
+		}		
+		Q $$$OK
+	}
+	
+	if type="c" {
+		
+		;更新组件元素翻译记录
+		s captionstyle=$P(ActiveData,"^",2)
+		s caption=$P(ActiveData,"^",3)
+		s style=$P(ActiveData,"^",4)
+		
+		;s oldcaption=$P($g(^websys.TranslationD("COMP",langid,..%Id(),itemname)),"^",1)
+		;不能手工删掉^websys.TranslationD("COMP",langid,..%Id()),否则会导致无法重新生成
+		s oldcaption=$g(t(itemname))
+		if caption'=oldcaption {
+			d ##class(websys.Translation).AddItem("COMP",langid,..%Id(),itemname,$P(ActiveData,"^",3),1)
+		}
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"CaptionStyle",captionstyle,"",ActiveObject,ActiveReference)
+		;如果在ComponentItem不存在同名的Item,则代表这是TableItem,需要同时更新CaptionStyle和Style
+		;如果存在同名的列元素和普通元素,那么这两个元素的CaptionStyle总是会被更新为列元素的CaptionStyle
+		if findItem=0 {
+			d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"Style",style,"",ActiveObject,ActiveReference)
+		}
+		
+	}else{
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"Style",$P(ActiveData,"^",4),"",ActiveObject,ActiveReference)
+		
+		if (displaytype'="B")&&(displaytype'="A"){
+			d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"Required",$P(ActiveData,"^",5),"",ActiveObject,ActiveReference)
+			d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"DisplayOnly",$P(ActiveData,"^",6),"",ActiveObject,ActiveReference)
+			d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"ReadOnly",$P(ActiveData,"^",20),"",ActiveObject,ActiveReference)
+			;为了防止分隔符冲突,从界面编辑器传过来时已经把DefaultValueExpression里的"^"转成了"~",所以保存时还要转换回来 fix on 2011.11.17 in XH
+			d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"DefaultValueExpression",$tr($P(ActiveData,"^",12),"~","^"),"",ActiveObject,ActiveReference)
+			d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"DefaultValueAlways",$P(ActiveData,"^",13),"",ActiveObject,ActiveReference)
+		}else{
+			s caption=$P(ActiveData,"^",3)
+			s oldcaption=$g(t(itemname))
+			if caption'=oldcaption {
+				d ##class(websys.Translation).AddItem("COMP",langid,..%Id(),itemname,$P(ActiveData,"^",3),1)
+			}
+		}
+		;Tooltip、ShortcutKey与语言有关
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"Tooltip",$P(ActiveData,"^",7),langid,ActiveObject,ActiveReference)
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"ShortcutKey",$P(ActiveData,"^",8),langid,ActiveObject,ActiveReference)
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"TabSequence",$P(ActiveData,"^",9),"",ActiveObject,ActiveReference)
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"LinkWorkFlow",$P(ActiveData,"^",15),"",ActiveObject,ActiveReference)
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"CustomLookupClassName",$P(ActiveData,"^",16),"",ActiveObject,ActiveReference)
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"CustomLookupQueryName",$P(ActiveData,"^",17),"",ActiveObject,ActiveReference)
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"CustomLookupProperties",$P(ActiveData,"^",18),"",ActiveObject,ActiveReference)
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"CustomLookupBrokerMethod",$P(ActiveData,"^",19),"",ActiveObject,ActiveReference)
+
+		s iconprofileid=##class(epr.CTIconProfile).GetIdFromCodeOrDescription($P(ActiveData,"^",11))
+		d ##class(websys.Translation).AddContextItem(..%Id(),context,itemname,"IconProfile",iconprofileid,"",ActiveObject,ActiveReference)
+	}
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="SetItemTranslation">
+<Description>
+界面编辑器菜单Save Caption To Language Dictionary调用  2011.06.30 zhzhq
+websys.Component.SetItemTranslation
+websys.Dictionary.BuildComponent
+
+s obj1=##class(websys.Component).%OpenId(52284)
+w obj1.SetItemTranslation("Sex","性别",20)</Description>
+<FormalSpec>itemname:%Library.String,itemcaption:%Library.String,langid:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[
+	s ^Temp("SaveCaption",$I(^Temp("SaveCaption")))="SetItemTranslation:"_itemname_","_itemcaption_","_langid
+	n caption,phraseid,cmpid
+	
+	s findItem=0
+	s cmpid=..%Id()
+	
+	;如果Items和TableItems里有名称相同的元素,则不允许更新,不太理解这个逻辑
+	;like是区分大小写的
+	&SQL(Select Caption Into :caption From websys.ComponentItems Where Name like :itemname and ParRef=:cmpid)
+	if SQLCODE=0 {
+		s findItem=1
+	}
+	&SQL(Select Caption Into :caption From websys.ComponentTableItems Where Name like :itemname and ParRef=:cmpid)
+	if SQLCODE=0 {
+		s findItem=findItem+1
+	}
+	
+	if findItem=0 Quit $$$OK
+	if findItem=2 Quit 0
+	
+	s phraseid=##class(websys.Dictionary).AddItem(caption)
+	if phraseid'="" {
+		d ##class(websys.DictionaryTranslated).AddItem(langid,phraseid,itemcaption)
+	}
+	Q $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ShowByObj">
+<Description>
+add by znouzq 2011.05.27  call by Show()</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Comp,isnested:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[
+	s myCompId=Comp.%Id()
+	;w "组件ID =  "_myCompId_"<br>",!
+	s myLangId=%session.Data("LOGON.LANGID")	
+	s myAppKey="LAYOUT"
+	s myAppSubKey=myCompId
+	
+	s myApp=""
+	s myUserID=%session.Data("LOGON.USERID")
+	s myGroupID=%session.Data("LOGON.GROUPID")
+	s mySiteCODE=%session.Data("LOGON.SITECODE")
+	s myHospID = %session.Data("LOGON.HOSPID")
+	s myTrustID=%session.Data("LOGON.TRUSTID")
+	s myContext=$g(%request.Data("CONTEXT",1))
+	s myLocID = %session.Data("LOGON.CTLOCID")
+	s myRegion=%session.Data("LOGON.REGION")
+	//w ##class(websys.Preferences).GetDataEx(1,1,"DHCHEALTH","-100000000000000",.myApp,"COLUMNS","websys.Menu.List","","")
+	//s mydata = ##class(websys.Preferences).GetDataEx(myUserID, myGroupID, mySiteCODE, mycontext, .myApp, myAppKey, myAppSubKey, myLocID, myRegion)
+
+	s data = ##class(websys.Preferences).GetDataExLE(myUserID, myGroupID, myHospID, mySiteCODE, myContext , myAppKey, myAppSubKey , .myActiveObject, .myActiveRef, .myActiveContext, myTrustID, myRegion, myLocID)
+	
+	d ##class(dtwebsys.ComponentXRef).GetXRef(.Comp, myActiveContext, myLangId, myActiveObject, myActiveRef, isnested)
+ 	
+ 	s cmpname=Comp.Name
+ 	s PerformanceStatisticsDisplay=$lg($g(^websys.ConfigurationD(1)),30)
+ 	if PerformanceStatisticsDisplay="1" {
+ 		w "<font color=gray size=1>"_cmpname_" </font><font color=gray size=1>&nbsp;            0.016809 (secs) , &nbsp;512 (lines) , &nbsp;75 (globals)",!
+ 	}
+]]></Implementation>
+</Method>
+
+<Method name="Show">
+<Description>
+Show the component - i.e. write out the HTML.</Description>
+<FormalSpec>isnested:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[	d ..ShowByObj($this,isnested) //2011以上%this->$this wanghc
+]]></Implementation>
+</Method>
+
+<Method name="ShowLayoutCaption">
+<FormalSpec>id:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q "<span CLASS=COMPONENTCAPTION id="""_id_""" name="""_id_""" ></span>"
+]]></Implementation>
+</Method>
+
+<Method name="ShowLayoutEditor">
+<Description>
+Include OBJECT tags for layout editor.
+组件生成的GCOM里会调用</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[	w "<OBJECT ID=""TrakWeb"" CLASSID=""CLSID:B70C2903-B228-4F42-BE0A-3A536B2B86CA"" CODEBASE=""../addins/client/trakWebEdit3.CAB#version=3,0,0,104"" height=""0""></object>"
+]]></Implementation>
+</Method>
+
+<Method name="ShowLayoutLE">
+<Description>
+Generate HTML (as a string) for use in GUI Layout editor - excludes all scripting.
+websys.Configuration.GetDefaultLanguage
+web.SSlanguage.GetDescription
+s obj1=##class(websys.Component).%OpenId(1286) 
+w obj1.ShowLayoutLE(208,100,2,"DHCHEALTH","",20,.ActiveObject,.ActiveContext,.ActiveData,.TrustID,"","")
+w obj1.ShowLayoutLENext()
+s obj2=##class(websys.ComponentItems).%OpenId("1||1568704")
+w obj2.ShowLayout("update")</Description>
+<FormalSpec><![CDATA[&UserID:%Library.String,&GroupID:%Library.String,&HospID:%Library.String,&SiteCODE:%Library.String,context:%Library.String,langid:%Library.String,&ActiveObject:%Library.String,&ActiveContext:%Library.String,&ActiveData:%Library.String,&TrustID:%Library.String="",prefid:%Library.String="",&Region:%String=""]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	n template,data,cmpid,menus,headings,useformsize,formsize,formcenter,objpref
+	s key="LAYOUT"
+	s cmpid=..%Id()
+	s subkey=cmpid
+	s LocID=""
+	;从系统配置参数直接调用界面编辑器时只传递prefid
+	if prefid'="" {
+		s objPref=##class(websys.Preferences).%OpenId(prefid)
+		s ActiveObject=objPref.ObjectType
+		s ActiveReference=objPref.ObjectReference
+		s ActiveContext=$P(objPref.AppKey,"LAYOUT",2)
+		if ActiveObject="User.SSGroup" s GroupID=ActiveReference
+		if ActiveObject="User.SSUser" s UserID=ActiveReference
+		if ActiveObject="SITE" s SiteCODE=ActiveReference
+		s data = objPref.Data
+		d objPref.%Close()
+		s objPref=""
+	}else{
+		s data=##class(websys.Preferences).GetDataExLE(UserID, GroupID, HospID, SiteCODE, context, key, subkey, .ActiveObject,.ActiveReference,.ActiveContext, TrustID, Region, LocID)
+	}
+
+	;s data=##class(websys.Preferences).GetDataExLE(UserID, GroupID, HospID, SiteCODE, context, key, subkey, .ActiveObject,.ActiveReference,.ActiveContext, TrustID, Region, LocID)
+	d ##class(websys.Translation).LoadContext(langid,subkey,context,ActiveObject,ActiveReference)	
+	d ##class(websys.Translation).Load("COMP",langid,subkey)
+	
+	;如果有工作流,而且没有定义过Layout,就在打开界面编辑器时自动选上 Layou For Context,
+	if ActiveObject="SYS" s ActiveContext=context
+
+	s template=$lg(data,1)
+	if template="" {
+		s template=..Template
+		s menus=..HideMenus
+		s headings=..HideHeadings
+		s useformsize=..UseFormSizeAndPosition
+		s formsize=..FormSizeAndPosition
+		s formcenter=..CenterForm
+		s ActiveData="^"_menus_"^"_headings_"^"_useformsize_"^"_formsize_"^"_formcenter
+	}else{
+		for Idx=2:1:$ll(data) {
+			s $p(ActiveData,"^",Idx)=$lg(data,Idx)
+		}
+	}
+	
+	s LayOut=template
+	k ^TMP("WEB",$J)
+	s layoutmanager="",nodes=0
+	;s LayOut=$tr(LayOut,$C(0),"")
+	SET elementcount=$LENGTH(LayOut,"}")
+   	FOR k=1:1:elementcount {
+		Set LayOutTemp=$P(LayOut,"}",k)
+	   	if (k=elementcount) {
+		   	s layoutmanager=layoutmanager_LayOutTemp
+		   	continue
+	   	}
+		Set LayOutTemp1=$P(LayOutTemp,"{",1)
+		//wanghc start 奇怪layout有底色
+		Set LayOutTemp1= $Replace(LayOutTemp1,"bgColor=#b0c000 borderColor=#b0c0a0","")
+		Set LayOutTemp1=$Replace(LayOutTemp1,"<TD style=""COLOR: "" >","<TD>")
+		Set LayOutTemp1=$Replace(LayOutTemp1,"<TD style=""COLOR: "" bgColor=#b0c000 borderColorLight=#b0000c>","<TD>")
+		;end
+		
+		Set LayOutItemId=$P(LayOutTemp,"{",2)
+		if LayOutItemId="table" {
+			s LayOutItem=..ShowLayoutList()
+			s layoutmanager=layoutmanager_LayOutTemp1_LayOutItem
+		}else{
+			Set ItemName=$P(LayOutItemId,"i",2,$length(LayOutItemId,"i"))
+			Set LayOutItemType=$e(LayOutItemId,1)
+			//ALPHAUP
+			s ItemsID=$O(^websys.ComponentItemsI("Name",cmpid," "_$ZCVT($g(ItemName),"U"),0))
+			;w "ItemsID:"_ItemsID
+			i ItemsID'="" {
+				s objCompitem=##class(websys.ComponentItems).%OpenId(cmpid_"||"_ItemsID)
+				if LayOutItemType="c" {
+					s LayOutItem=objCompitem.ShowLayoutCaption(LayOutItemId,"")
+				}else{
+					s LayOutItem=objCompitem.ShowLayout(LayOutItemId)
+				}
+			}else{
+				s LayOutItem="{"_LayOutItemId_"}"
+			}
+			s layoutmanager=layoutmanager_LayOutTemp1_LayOutItem
+		}
+		if $length(layoutmanager)>8000 {
+			s nodes=nodes+1
+			s ^TMP("WEB",$J,nodes)=layoutmanager
+			s layoutmanager=""
+		}
+	}
+	
+	if layoutmanager'="" {
+		s nodes=nodes+1
+		s ^TMP("WEB",$J,nodes)=layoutmanager
+	}
+	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="ShowLayoutLENext">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	n nodes,layout
+	
+	s nodes=$O(^TMP("WEB",$J,0))
+	if nodes="" Quit ""
+
+	s layout=^TMP("WEB",$J,nodes)
+	k ^TMP("WEB",$J,nodes)
+	
+	Q layout
+]]></Implementation>
+</Method>
+
+<Method name="ShowLayoutList">
+<Description>
+/s obj1=##class(websys.Component).%OpenId(50307)
+/w obj1.ShowLayoutList()</Description>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s html="<TABLE CLASS=COMPONENTTABLE id='t"_$TR(..Name,".","_")_"' name='t"_$TR(..Name,".","_")_"'><THEAD>"
+	s count=%this.TableItems.Count()
+	for i=1:1:count {
+		s caption=%this.TableItems.GetAt(i).Caption
+		s displaytype=%this.TableItems.GetAt(i).DisplayType
+		s captionstyle=%this.TableItems.GetAt(i).CaptionStyle
+		s style=%this.TableItems.GetAt(i).Style
+		s tabindex=%this.TableItems.GetAt(i).TabSequence
+		s accesskey=%this.TableItems.GetAt(i).ShortcutKey
+		s linkworkflow=%this.TableItems.GetAt(i).LinkWorkFlow
+		s title=%this.TableItems.GetAt(i).Tooltip
+		s disabled=" "
+		if %this.TableItems.GetAt(i).Hidden s disabled=" disabled "
+		s cls="COMPONENTITEM"
+		if %this.TableItems.GetAt(i).DisplayOnly s cls="COMPONENTITEM"
+		if %this.TableItems.GetAt(i).Required s cls="COMPONENTITEMR"
+		s html=html_"<TH>"
+		if displaytype="A" {
+			s id="d"_..%Id()_"i"_%this.TableItems.GetAt(i).Name
+			s html=html_"<input TYPE=button CLASS="_cls_disabled_"HREF=""#"" id="""_id_""" name="""_id_""" value="""_caption_""" accesskey="""_accesskey_""" tdefaultvalue="""" tdefaultalways="""" lwfl=""1"" linkworkflow="""_linkworkflow_""" tabindex="""_tabindex_""" style="""_style_""" title="""_title_""">"
+		}elseif displaytype="B" {
+			s id="d"_..%Id()_"i"_%this.TableItems.GetAt(i).Name
+			s html=html_"<input TYPE=button CLASS=COMPONENTITEMD"_disabled_"HREF=""#"" id="""_id_""" name="""_id_""" value="""_caption_""" style="""_captionstyle_""">"
+		}elseif displaytype="T" {
+			s id="c"_..%Id()_"i"_%this.TableItems.GetAt(i).Name
+			s html=html_"<input TYPE=button CLASS="_cls_disabled_"HREF=""#"" id="""_id_""" name="""_id_""" value="""_caption_""" style="""_captionstyle_""">"
+		}elseif displaytype="IP" {
+			s id="d"_..%Id()_"i"_%this.TableItems.GetAt(i).Name
+			s iconprofileid=%this.TableItems.GetAt(i).IconProfile
+			s objip=##class(epr.CTIconProfile).%OpenId(iconprofileid)
+			s ipdesc=""
+			i $IsObject(objip) s ipdesc=objip.Description
+			s html=html_"<INPUT disabled CLASS=COMPONENTITEMIP id="""_id_""" name="""_id_""" value="""_caption_""" tabIndex="""_tabindex_""" ticonprofile="""_ipdesc_""">"
+		}elseif displaytype="C" {
+			s id="c"_..%Id()_"i"_%this.TableItems.GetAt(i).Name
+			s html=html_"<input TYPE=button CLASS="_cls_disabled_"HREF=""#"" id="""_id_""" name="""_id_""" value="""_caption_""" style="""_captionstyle_""">"
+		}else{
+			s id="c"_..%Id()_"i"_%this.TableItems.GetAt(i).Name
+			s html=html_"<input TYPE=button CLASS="_cls_disabled_"HREF=""#"" id="""_id_""" name="""_id_""" value="""_caption_""" style="""_captionstyle_""">"
+		}
+		s html=html_"</TH>"
+	}
+
+	s html=html_"</THEAD></TABLE>"
+	Q html
+]]></Implementation>
+</Method>
+
+<Method name="ShowLayoutListLookup">
+<FormalSpec>classqueryname:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="ShowList">
+<Description>
+Generate HTML (as a string) for use in GUI Layout editor - excludes all scripting.</Description>
+<Private>1</Private>
+<Implementation><![CDATA[	s ^zhou($i(^zhou),"ShowList")=""
+]]></Implementation>
+</Method>
+
+<Method name="XMLId">
+<Description>
+Get the ID from the identified by string.
+By default the generated version of this returns the value passed.
+In general this method will be overridden to provide the required behaviour.
+For example - Component name is passed - this will return ..%Id()</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>val:%Library.String</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="pPageUrl">
+<FormalSpec>PageCnt:%Integer</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="pPageUrlSort">
+<FormalSpec>PageCnt:%Library.Integer</FormalSpec>
+<ReturnType>%Library.String</ReturnType>
+<Implementation><![CDATA[	Q ""
+]]></Implementation>
+</Method>
+
+<Method name="pPageUrlX">
+<Description>
+Show a list component i a new window.</Description>
+<FormalSpec>PageCnt:%Library.Integer</FormalSpec>
+<ReturnType>websys.String</ReturnType>
+<Implementation><![CDATA[	Q ""
+]]></Implementation>
+</Method>
+
+<Query name="Find">
+<Type>%SQLQuery</Type>
+<FormalSpec>name:%String</FormalSpec>
+<SqlQuery>SELECT Name
+FROM Component
+WHERE (Name %STARTSWITH :name)</SqlQuery>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Name:%String"/>
+</Query>
+
+<Query name="FindSqlItems">
+<Description>
+Show the data dictionary stuff in a list component in the same format as the layout editor option</Description>
+<Type>%Library.Query</Type>
+<FormalSpec>compname:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="0"/>
+<Parameter name="ROWSPEC" value="Caption,Name,SQLReference,SQLTable,SQLColumn,VBCodeTable,Comment"/>
+</Query>
+
+<Method name="LookUpByNameBroker">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>itmjs:%Library.String="",itmjsex:%Library.String="",val:%Library.String=""</FormalSpec>
+<ReturnType>%Library.Boolean</ReturnType>
+</Method>
+
+<Query name="LookUpByName">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%Library.String</FormalSpec>
+<SqlQuery>SELECT Name, ClassName, QueryName, DisplayType
+FROM websys.Component
+WHERE (Name %STARTSWITH :name)
+ORDER BY Name</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Name:%String,ClassName:%String,QueryName:%String,HIDDEN"/>
+</Query>
+
+<Query name="LookUpWithDisplayType">
+<Type>%Library.Query</Type>
+<FormalSpec>name:%Library.String</FormalSpec>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="Name:%String,DisplayType:%String"/>
+</Query>
+
+<Query name="VBFind">
+<Description>
+Used by component manager</Description>
+<Type>%SQLQuery</Type>
+<FormalSpec>name</FormalSpec>
+<SqlQuery>SELECT ID, Name, ClassName, QueryName, DisplayType
+FROM Component
+WHERE Name %STARTSWITH :name
+ORDER BY Name</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID,Name:%String,ClassName:%String,QueryName:%String,DisplayType:%String"/>
+</Query>
+
+<Query name="VBFindLE">
+<Type>%Library.SQLQuery</Type>
+<FormalSpec>name:%Library.String</FormalSpec>
+<SqlQuery>SELECT ID, Name
+FROM Component
+WHERE Name %STARTSWITH :name
+ORDER BY Name</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="ID:%Library.String,Name:%Library.String"/>
+</Query>
+
+<Property name="CustomListFilter">
+<Description>
+stored in ^websys.TranslationD for udf call to filter rows of list components</Description>
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Method name="CustomListFilterGet">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Quit i%CustomListFilter
+]]></Implementation>
+</Method>
+
+<Method name="ShowDTGCOM">
+<Description>
+显示组件方法  写自己的自定义M</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Comp:websys.Component,isnested:%Library.String=""</FormalSpec>
+<Implementation><![CDATA[
+	
+	;d Comp.Show()
+	
+	;w "测试方法"
+	;Show(name     ,hidemenus,hideheadings,disabled,style              ,shownextinnewwindow,app    ,context         ,nested,listrowsx) ;
+	;    DHCANOPSET,0        ,0           ,        ,LEFT: 0px; TOP: 0px,                   ,SYS.SYS,-100000000000000,      ,
+	s myname=Comp.Name
+	s myhidemenus=Comp.HideMenus
+	s myhideheadings=Comp.HideHeadings
+	s mydisabled=Comp.Disabled
+	s mystyle=Comp.Style
+	s myshownextinnewwindow=Comp.ShowNextInNewWindow
+	s myapp=""
+	s mycontext=""
+	s mynested=isnested
+	s mylistrowsx=Comp.ListRows
+	
+	;根据组件的ID获取  GCOM的序列号
+
+	s myCompId=Comp.%Id()
+	;w "组件ID =  "_myCompId_"<br>",!
+	
+	;Index Master On (ComponentId, Context, LangId, App);
+	;
+	s myContext = -100000000000000
+	s myLangId=%session.Data("LOGON.LANGID")
+	;对象类型 ObjectType 的值
+	; ObjectType = 优先级别： 1. 用户 = User.SSUser  2. 登录位置 = User.CTLoc 
+	; 3. 安全组= User.SSGroup  
+	; 4. 医院 = User.CTHospital
+	; 5. 信任医院 = User.PACTrust
+	; 5. 站点 = SITE  
+	; 6. 区域 = REGION
+	; 换取^websys.PreferencesI("Index", ObjectType, ObjectReference, AppKey, AppSubKey
+	; AppKey ="LAYOUT"
+	; AppSubKey =组件的ID
+	
+	;最后的级别  SYS.SYS
+	;s myApp=""
+	s myCompXRefId=""
+	
+	s myAppKey="LAYOUT"
+	s myAppSubKey=myCompId
+	
+	s myApp=""
+	s myUserID=%session.Data("LOGON.USERID")
+	s myGroupID=%session.Data("LOGON.GROUPID")
+	s mySiteCODE=%session.Data("LOGON.SITECODE")
+	s myHospID = %session.Data("LOGON.HOSPID")
+	s myTrustID=%session.Data("LOGON.TRUSTID")
+	s mycontext=""  ;需要讨论
+	s myLocID = %session.Data("LOGON.CTLOCID")
+	s myRegion=%session.Data("LOGON.REGION")
+	
+	s myActiveObject=""
+	s myActiveObject=""
+	s myActiveRef=""
+	;s mydata = ##class(dtwebsys.Preferences).GetDataEx(myUserID, myGroupID, mySiteCODE, mycontext, .myApp, myAppKey, myAppSubKey, myLocID, myRegion)
+	s mydata = ##class(dtwebsys.Preferences).GetDataExLE(myUserID, myGroupID, myHospID, mySiteCODE, mycontext , myAppKey, myAppSubKey , .myActiveObject, .myActiveRef, .myActiveContext, myTrustID, myRegion, myLocID)
+	i myApp'="" {
+		s myCompXRefId=$o(^websys.ComponentXRefI("Master",myCompId,myContext,myLangId,myApp,0))
+	}
+	
+	s ^TMPComponentXRef =Comp_", "_ myContext_", "_ myLangId_", "_ myActiveObject_", "_ myActiveRef_""
+	d ##class(dtwebsys.ComponentXRef).GetXRef(.Comp, myContext, myLangId, myActiveObject, myActiveRef, mynested)
+]]></Implementation>
+</Method>
+
+<Method name="ShowById">
+<Description>
+根据Id号码显示组件</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Id:%String</FormalSpec>
+<Implementation><![CDATA[
+	;d ##class(dtwebsys.Component).ShowById(86)
+	s obj=##class(websys.Component).%OpenId(Id,-1)
+	d comp.Show(obj)
+	d obj.%Close()
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^websys.ComponentD</DataLocation>
+<DefaultData>ComponentDefaultData</DefaultData>
+<IdLocation>^websys.ComponentD</IdLocation>
+<IndexLocation>^websys.ComponentI</IndexLocation>
+<StreamLocation>^websys.ComponentS</StreamLocation>
+<Data name="ComponentClassName">
+<Attribute>%%CLASSNAME</Attribute>
+<Structure>node</Structure>
+<Subscript>0</Subscript>
+</Data>
+<Data name="ComponentDefaultData">
+<Value name="1">
+<Value>Name</Value>
+</Value>
+<Value name="2">
+<Value>ClassName</Value>
+</Value>
+<Value name="3">
+<Value>QueryName</Value>
+</Value>
+<Value name="4">
+<Value>DisplayType</Value>
+</Value>
+<Value name="5">
+<Value>Caption</Value>
+</Value>
+<Value name="6">
+<Value>Style</Value>
+</Value>
+<Value name="7">
+<Value>TableSequence</Value>
+</Value>
+<Value name="8">
+<Value>Menus</Value>
+</Value>
+<Value name="9">
+<Value>QuerySQL</Value>
+</Value>
+<Value name="10">
+<Value>Script</Value>
+</Value>
+<Value name="11">
+<Value>HideMenus</Value>
+</Value>
+<Value name="12">
+<Value>HideHeadings</Value>
+</Value>
+<Value name="13">
+<Value>MultiPart</Value>
+</Value>
+<Value name="14">
+<Value>Build</Value>
+</Value>
+<Value name="15">
+<Value>BuildDate</Value>
+</Value>
+<Value name="16">
+<Value>BuildTime</Value>
+</Value>
+<Value name="17">
+<Value>Disabled</Value>
+</Value>
+<Value name="18">
+<Value>CustomScript</Value>
+</Value>
+<Value name="19">
+<Value>pOutput</Value>
+</Value>
+<Value name="20">
+<Value>ListRows</Value>
+</Value>
+<Value name="21">
+<Value>ShowNextInNewWindow</Value>
+</Value>
+<Value name="22">
+<Value>OtherScripts</Value>
+</Value>
+<Value name="23">
+<Value>Help</Value>
+</Value>
+<Value name="24">
+<Value>QuerySQLNames</Value>
+</Value>
+<Value name="25">
+<Value>QuerySQLParsed</Value>
+</Value>
+<Value name="26">
+<Value>pNested</Value>
+</Value>
+<Value name="27">
+<Value>CodeTable</Value>
+</Value>
+<Value name="28">
+<Value>ListPrint</Value>
+</Value>
+<Value name="29">
+<Value>PassThruParameters</Value>
+</Value>
+<Value name="30">
+<Value>LockExtraClass</Value>
+</Value>
+<Value name="31">
+<Value>LockExtraId</Value>
+</Value>
+<Value name="32">
+<Value>CenterForm</Value>
+</Value>
+<Value name="33">
+<Value>FormSizeAndPosition</Value>
+</Value>
+<Value name="34">
+<Value>UseFormSizeAndPosition</Value>
+</Value>
+<Value name="35">
+<Value>Caption1</Value>
+</Value>
+<Value name="36">
+<Value>Caption2</Value>
+</Value>
+<Value name="37">
+<Value>Caption3</Value>
+</Value>
+<Value name="38">
+<Value>Caption4</Value>
+</Value>
+<Value name="39">
+<Value>Caption5</Value>
+</Value>
+<Value name="40">
+<Value>Caption6</Value>
+</Value>
+<Value name="41">
+<Value>Caption7</Value>
+</Value>
+<Value name="42">
+<Value>Caption8</Value>
+</Value>
+<Value name="43">
+<Value>Caption9</Value>
+</Value>
+<Value name="44">
+<Value>TableDelimiters</Value>
+</Value>
+<Value name="45">
+<Value>LastUpdateDate</Value>
+</Value>
+<Value name="46">
+<Value>LastUpdateTime</Value>
+</Value>
+<Value name="47">
+<Value>CustomListFilter</Value>
+</Value>
+<Value name="48">
+<Value>ExpandTree</Value>
+</Value>
+<Value name="49">
+<Value>FixedWidthColumns</Value>
+</Value>
+<Value name="50">
+<Value>WrapColumns</Value>
+</Value>
+</Data>
+<Data name="ComponentTemplate">
+<Attribute>Template</Attribute>
+<Structure>node</Structure>
+<Subscript>"Template"</Subscript>
+</Data>
+<Property name="Caption">
+</Property>
+<Property name="Caption1">
+</Property>
+<Property name="Caption2">
+</Property>
+<Property name="Caption3">
+</Property>
+<Property name="Caption4">
+</Property>
+<Property name="Caption5">
+</Property>
+<Property name="Caption6">
+</Property>
+<Property name="Caption7">
+</Property>
+<Property name="Caption8">
+</Property>
+<Property name="Caption9">
+</Property>
+<Property name="CenterForm">
+</Property>
+<Property name="ClassName">
+</Property>
+<Property name="CodeTable">
+</Property>
+<Property name="CustomScript">
+</Property>
+<Property name="Disabled">
+</Property>
+<Property name="DisplayType">
+</Property>
+<Property name="FormSizeAndPosition">
+</Property>
+<Property name="Help">
+</Property>
+<Property name="HideHeadings">
+</Property>
+<Property name="HideMenus">
+</Property>
+<Property name="ListPrint">
+</Property>
+<Property name="ListRows">
+</Property>
+<Property name="LockExtraClass">
+</Property>
+<Property name="LockExtraId">
+</Property>
+<Property name="Menus">
+</Property>
+<Property name="MultiPart">
+</Property>
+<Property name="Name">
+</Property>
+<Property name="OtherScripts">
+</Property>
+<Property name="PassThruParameters">
+</Property>
+<Property name="QueryName">
+</Property>
+<Property name="QuerySQL">
+</Property>
+<Property name="QuerySQLNames">
+</Property>
+<Property name="QuerySQLParsed">
+</Property>
+<Property name="Script">
+</Property>
+<Property name="ShowNextInNewWindow">
+</Property>
+<Property name="Style">
+</Property>
+<Property name="TableSequence">
+</Property>
+<Property name="Template">
+</Property>
+<Property name="UseFormSizeAndPosition">
+</Property>
+</Storage>
+</Class>
+</Export>

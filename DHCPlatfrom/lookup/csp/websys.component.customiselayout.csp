@@ -1,0 +1,233 @@
+<!-- Copyright (c) 2010 DHC Software Co.,Ltd. ALL RIGHTS RESERVED. --> 
+<csp:method name=OnPreHTTP arguments="" returntype=%Boolean>
+ //i ##Class(websys.SessionEvents).SessionExpired()
+ i ##Class(websys.SessionEvents).SessionExpired() q 1
+ quit 1
+</csp:method>
+<HTML XMLNS=TRAK>
+<HEAD>
+<TITLE><EXTHEALTH:TRANSLATE id=title>##(%session.Get("TITLE"))##</EXTHEALTH:TRANSLATE></TITLE>
+<!-- <TRAK:HEAD></TRAK:HEAD> -->
+<EXTHEALTH:HEAD></EXTHEALTH:HEAD>
+<server>
+	; Set up some details for display
+	; Use %request so we don't have to worry about cleaning up the variables
+	; Page Details
+	n compid,comp,context,caps,cols,wids,sorts,app,uRows,uPrint,prefs,appid,uSort,prefid,activecontext,t,uDelims,uSortCol,showthelot,sysdesc
+	;
+	;get translations
+	d ##Class(websys.Component).GetComponentMessages(.t,"websys.Component.CustomiseLayout")
+	s %request.Data("SSUser",1)=$g(t("SSUser"),"User"),%request.Data("SSGroup",1)=$g(t("SSGroup"),"Group")
+	s %request.Data("CTHospital",1)=$g(t("CTHospital"),"Hospital"),%request.Data("PACTrust",1)=$g(t("PACTrust"),"Trust")
+	s %request.Data("SITE",1)=$g(t("SITE"),"Site"),%request.Data("SYS",1)=$g(t("SYS"),"System"),%request.Data("NONE",1)=$g(t("NONE"),"NONE")
+	s %request.Data("REGION",1)=$g(t("REGION"),"Region")
+	;
+	s compid=$g(%request.Data("ID",1)),prefid=$g(%request.Data("PREFID",1))
+	s comp=##Class(websys.Component).%OpenId(compid)
+	i comp d %request.Set("PAGENAME",comp.Name)
+	s sysdesc=%request.Data("SYS",1)_" ("_$s(compid<50000:"TRAK",1:$g(%session.Data("LOGON.SITECODE")))_") "
+	;
+	s context=$g(%request.Data("CONTEXT",1))
+	;
+	i 'prefid {
+		s uSet=##Class(websys.Preferences).GetDataExLE($g(%session.Data("LOGON.USERID")),$g(%session.Data("LOGON.GROUPID")),$g(%session.Data("LOGON.HOSPID")),$g(%session.Data("LOGON.SITECODE")),context,"COLUMNS",comp.Name,.app,.appid,.activecontext,$g(%session.Data("LOGON.TRUSTID")),$g(%session.Data("LOGON.REGION")))
+		s prefs=##Class(websys.Preferences).GetDataExLE($g(%session.Data("LOGON.USERID")),$g(%session.Data("LOGON.GROUPID")),$g(%session.Data("LOGON.HOSPID")),$g(%session.Data("LOGON.SITECODE")),context,"ROWS",comp.Name,.app,.appid,.activecontext,$g(%session.Data("LOGON.TRUSTID")),$g(%session.Data("LOGON.REGION")))
+		i activecontext'="" {
+			if activecontext=$p(context,",",1) s %request.Data("UseContext",1)=1
+			if activecontext=$p(context,",",2) s %request.Data("UseContext2",1)=1
+			if activecontext=$p(context,",",3) s %request.Data("UseContext3",1)=1
+		}
+	}
+	i prefid {
+		s xdata=$g(^websys.PreferencesD(prefid)),app=$lg(xdata,5),appid=$lg(xdata,4),appkey=$lg(xdata,1)
+		i $e(appkey,1,7)="COLUMNS" s uSet=$lg(xdata,3),prefs=##Class(websys.Preferences).GetData(app,appid,"ROWS"_context,comp.Name)
+		i $e(appkey,1,4)="ROWS" s prefs=$lg(xdata,3),uSet=##Class(websys.Preferences).GetData(app,appid,"COLUMNS"_context,comp.Name)
+		i context'="" s %request.Data("UseContext",1)=1,activecontext=context
+	}
+	;
+	s uRows=$lg(prefs,1)
+	i uRows="" s uRows=comp.ListRows
+	s %request.Data("Rows",1)=uRows
+	s uPrint=$lg(prefs,2)
+	i uPrint="" s uPrint=comp.ListPrint
+	s %request.Data("Print",1)=uPrint
+	s WrapColumns=$lg(prefs,3)
+	i WrapColumns="" s WrapColumns=comp.WrapColumns
+	s %request.Data("Wrap",1)=WrapColumns
+	s FixedWidthColumns=$lg(prefs,4)
+	i FixedWidthColumns="" s FixedWidthColumns=comp.FixedWidthColumns
+	s %request.Data("FixedWidth",1)=FixedWidthColumns
+	s ExpandTree=$lg(prefs,5)
+	i ExpandTree="" s ExpandTree=comp.ExpandTree
+	s %request.Data("ExpandTree",1)=ExpandTree
+	s uDelims=$lg(prefs,6)
+	s uSortCol=$lg(prefs,7)
+	s %request.Data("SortOrderDefault",1)=##Class(websys.StandardTypeItem).GetDescription("COLUMNSortOrder",$lg(prefs,8))
+	s uSort2Col=$lg(prefs,9)
+	s %request.Data("SortOrder2",1)=##Class(websys.StandardTypeItem).GetDescription("COLUMNSortOrder",$lg(prefs,10))
+	s FontSize = $lg(prefs,11)
+	s %request.Data("FontSize",1)=FontSize
+	;
+	s activecontext=$g(activecontext)
+	i app="User.SSUser" {
+		i 'prefid s %request.Data("DISPLAYCONTEXT",1)=%request.Data("SSUser",1)_" ("_$g(%session.Data("LOGON.USERCODE"))_") "_activecontext,appid=$g(%session.Data("LOGON.USERID"))
+		i prefid s %request.Data("DISPLAYCONTEXT",1)=%request.Data("SSUser",1)_" ("_$lg(##Class(web.SSUser).GetCodeDescriptionFromId(appid),3)_") "_context
+		s %request.Data("SaveAs",1)=%request.Data("DISPLAYCONTEXT",1),%request.Data("HSAVEAS",1)="U"
+	}
+	i app="User.SSGroup" {
+		i 'prefid s %request.Data("DISPLAYCONTEXT",1)=%request.Data("SSGroup",1)_" ("_$g(%session.Data("LOGON.GROUPDESC"))_") "_activecontext,appid=$g(%session.Data("LOGON.GROUPID"))
+		i prefid s %request.Data("DISPLAYCONTEXT",1)=%request.Data("SSGroup",1)_" ("_$lg(##Class(web.SSGroup).GetCodeDescriptionFromId(appid),1)_") "_context
+		s %request.Data("SaveAs",1)=%request.Data("DISPLAYCONTEXT",1),%request.Data("HSAVEAS",1)="G"
+	}
+	i app="User.CTHospital" {
+		i 'prefid s %request.Data("DISPLAYCONTEXT",1)=%request.Data("CTHospital",1)_" ("_$g(%session.Data("LOGON.HOSPDESC"))_") "_activecontext,appid=$g(%session.Data("LOGON.GROUPID"))
+		i prefid s %request.Data("DISPLAYCONTEXT",1)=%request.Data("CTHospital",1)_" ("_$lg(##Class(web.CTHospital).GetCodeDescriptionFromId(appid),1)_") "_context
+		s %request.Data("SaveAs",1)=%request.Data("DISPLAYCONTEXT",1),%request.Data("HSAVEAS",1)="H"
+	}
+	i app="User.PACTrust" {
+		i 'prefid s %request.Data("DISPLAYCONTEXT",1)=%request.Data("PACTrust",1)_" ("_$g(%session.Data("LOGON.TRUSTDESC"))_") "_activecontext,appid=$g(%session.Data("LOGON.GROUPID"))
+		i prefid s %request.Data("DISPLAYCONTEXT",1)=%request.Data("PACTrust",1)_" ("_$lg(##Class(web.PACTrust).GetCodeDescriptionFromId(appid),1)_") "_context
+		s %request.Data("SaveAs",1)=%request.Data("DISPLAYCONTEXT",1),%request.Data("HSAVEAS",1)="R"
+	}
+	i app="SITE" {
+		s %request.Data("DISPLAYCONTEXT",1)=%request.Data("SITE",1)_" ("_$g(%session.Data("LOGON.SITECODE"))_") "_activecontext,appid=$g(%session.Data("LOGON.SITECODE"))
+		s %request.Data("SaveAs",1)=%request.Data("DISPLAYCONTEXT",1),%request.Data("HSAVEAS",1)="T"
+	}
+	i app="REGION" {
+		s %request.Data("DISPLAYCONTEXT",1)=%request.Data("REGION",1)_" ("_$g(%session.Data("LOGON.REGION"))_") "_activecontext,appid=$g(%session.Data("LOGON.REGION"))
+		s %request.Data("SaveAs",1)=%request.Data("DISPLAYCONTEXT",1),%request.Data("HSAVEAS",1)="N"
+	}
+	i app="SYS" {
+		;s %request.Data("DISPLAYCONTEXT",1)=%request.Data("SYS",1)_" (TRAK) "_activecontext,appid="SYS"
+		s %request.Data("DISPLAYCONTEXT",1)=sysdesc_activecontext,appid="SYS"
+		/* need to default to site and not system as per JW's standardising.
+		i +$lg($g(^websys.ConfigurationD(1)),18) {s %request.Data("SaveAs",1)=%request.Data("DISPLAYCONTEXT",1),%request.Data("HSAVEAS",1)="S"}
+		else {s %request.Data("SaveAs",1)=%request.Data("SSUser",1)_" ("_$g(%session.Data("LOGON.USERCODE"))_") "_activecontext,%request.Data("HSAVEAS",1)="U"}
+		*/
+		s %request.Data("SaveAs",1)=%request.Data("SITE",1)_" ("_$g(%session.Data("LOGON.SITECODE"))_")"_" "_activecontext,%request.Data("HSAVEAS",1)="T"
+	}
+
+	i uSet="",prefs="",'$l(activecontext) {
+		;s uSet=comp.TableSequence,uDelims=comp.TableDelimiters s %request.Data("DISPLAYCONTEXT",1)=%request.Data("SYS",1)_" (TRAK) "
+		s uSet=comp.TableSequence,uDelims=comp.TableDelimiters s %request.Data("DISPLAYCONTEXT",1)=sysdesc
+		/* need to default to site and not system as per JW's standardising.
+		i +$lg($g(^websys.ConfigurationD(1)),18) {
+			s %request.Data("SaveAs",1)=%request.Data("DISPLAYCONTEXT",1),%request.Data("HSAVEAS",1)="S"
+		} else {
+			s %request.Data("SaveAs",1)=%request.Data("SSUser",1)_" ("_$g(%session.Data("LOGON.USERCODE"))_")"_" "_context,%request.Data("HSAVEAS",1)="U" s:context'="" %request.Data("UseContext",1)=1
+		}*/
+		s %request.Data("SaveAs",1)=%request.Data("SITE",1)_" ("_$g(%session.Data("LOGON.SITECODE"))_")"_" "_context,%request.Data("HSAVEAS",1)="T" s:context'="" %request.Data("UseContext",1)=1
+		
+	}
+	;
+	; else show the lot
+	s showthelot=0
+	;
+	;	Re-organise the data for the hidden fields
+	;	HCaptions ('should pick up the translations for these
+	s caps="",cols="",wids="",sorts=""
+	n iselcol,selcol,j,jj,rs,isHidden
+	s iselcol=0
+	
+	//to do depending on display type
+	i comp.DisplayType'="K" {
+		//optimisation opportunity here - we loop thru table items twice...
+		; else show the lot
+		i uSet="",prefs="" {
+			f j=1:1:comp.TableItems.Count() s:$l(uSet) uSet=uSet_"|" s uSet=uSet_j
+			s %request.Data("DISPLAYCONTEXT",1)="("_%request.Data("NONE",1)_") " ;_context
+			i context'="" s %request.Data("UseContext",1)=1,activecontext=$p(context,",",1)
+			s %request.Data("SaveAs",1)=%request.Data("SSUser",1)_" ("_$g(%session.Data("LOGON.USERCODE"))_")"_" "_$p(context,",",1)
+			s %request.Data("HSAVEAS",1)="U"
+		}
+		;
+		;	Re-organise the data for the hidden fields
+		;	HCaptions ('should pick up the translations for these
+		d ##Class(websys.Translation).Load("COMP",$g(%session.Data("LOGON.LANGID")),compid)
+		d ##Class(websys.Translation).LoadContext($g(%session.Data("LOGON.LANGID")),compid,context,app,appid)
+		s caps="",cols="",wids="",sorts=""
+		s iselcol=0
+		f j=1:1:comp.TableItems.Count() {  ; make sure there is an extrat ',' on the end
+			s $p(caps,"^",j)=comp.TableItems.GetAt(j).Caption i ($p(caps,"^",j)="") s $p(caps,"^",j)="["_comp.TableItems.GetAt(j).Name_"]"
+			i comp.TableItems.GetAt(j).Hidden s $p(caps,"^",j)=""
+			s selcol=$p(uSet,"|",j)
+			s isHidden=0
+			i comp.TableItems.GetAt(+selcol),comp.TableItems.GetAt(+selcol).Hidden s isHidden=1
+			if 'isHidden {
+				s iselcol=iselcol+1
+				s $p(cols,",",iselcol)=$p(selcol,",",1)
+				s $p(wids,",",iselcol)=$p(selcol,",",2)
+				s $p(sorts,",",iselcol)=+$p(selcol,",",3)
+			}
+		}
+	} else {
+ 		d ##Class(websys.Translation).LoadLookup($g(%session.Data("LOGON.LANGID")),context)	
+		i uSet="" s showthelot=1
+ 		
+		if showthelot {
+			s %request.Data("DISPLAYCONTEXT",1)="("_%request.Data("NONE",1)_") "_context
+			i context'="" s %request.Data("UseContext",1)=1,activecontext=context
+			s %request.Data("SaveAs",1)=%request.Data("SITE",1)_" ("_$g(%session.Data("LOGON.SITECODE"))_")"_" "_context
+			s %request.Data("HSAVEAS",1)="T"
+		}
+ 		if ($p(context,"K",2,999)'="") { ;for when sites sillily save lookup columns without context
+			s rs=##Class(%Library.ResultSet).%New($p(context,"K",2,999))
+			s rscols=rs.GetColumnCount()
+			f j=1:1:rscols {
+				//don't forget the translations...
+				s $p(caps,"^",j)=$g(t(j),rs.GetColumnHeader(j)) i ($p(caps,"^",j)="") s $p(caps,"^",j)="["_$g(t(j),rs.GetColumnName(j))_"]"
+				i showthelot s:$l(uSet) uSet=uSet_"|" s uSet=uSet_j
+				s selcol=$p(uSet,"|",j)
+				s isHidden=0
+				i $zcvt(rs.GetColumnHeader(j),"U")="HIDDEN" s $p(caps,"^",j)="" 
+				i +selcol,selcol'>rscols,$zcvt(rs.GetColumnHeader(selcol),"U")="HIDDEN" s isHidden=1
+				i +selcol,selcol>rscols s isHidden=1
+				if 'isHidden {
+					s iselcol=iselcol+1
+					s $p(cols,",",iselcol)=$p(selcol,",",1)
+					s $p(wids,",",iselcol)=$p(selcol,",",2)
+					s $p(sorts,",",iselcol)=+$p(selcol,",",3)
+				}
+			}
+			d rs.Close()
+ 		}
+	}
+	s compdisplaytype=comp.DisplayType
+	;whc add 2011.12.09 控制Lookup自定义不可以编辑
+	i compdisplaytype="K",%request.Get("DHCICARE")=1 s compdisplaytype="KLU"	;LOOKUP
+	i compdisplaytype="K",%request.Get("DHCICARE")=2 s compdisplaytype="KG"		;Grid
+	;
+	i comp d comp.%Close()
+	;
+	s caps=caps_"^",cols=cols_",",wids=wids_","
+	s %request.Data("HCAPTIONS",1)=caps
+	s %request.Data("HCOLUMNS",1)=cols
+	s %request.Data("HWIDTHS",1)=wids
+	s %request.Data("HENABLESORT",1)=sorts
+	s %request.Data("HDELIMS",1)=uDelims
+	s %request.Data("HCONTEXT",1)=activecontext
+	i +uSortCol s %request.Data("SortColumnDefault",1)=$p(caps,"^",uSortCol)
+	i +uSort2Col s %request.Data("SortColumn2",1)=$p(caps,"^",uSort2Col)
+</server>
+<script language='javascript'>
+	var local=new Array();
+	local["SYSTEM"]='#(sysdesc)#';
+	local["LOGON.REGION"]='#(%request.Data("REGION",1))# (#($g(%session.Data("LOGON.REGION")))#)';
+	local["LOGON.SITECODE"]='#(%request.Data("SITE",1))# (#($g(%session.Data("LOGON.SITECODE")))#)';
+	local["LOGON.TRUSTDESC"]='#(%request.Data("PACTrust",1))# (#($zcvt($g(%session.Data("LOGON.TRUSTDESC")),"O","JS"))#)';
+	local["LOGON.HOSPDESC"]='#(%request.Data("CTHospital",1))# (#($zcvt($g(%session.Data("LOGON.HOSPDESC")),"O","JS"))#)';
+	local["LOGON.GROUPDESC"]='#(%request.Data("SSGroup",1))# (#($zcvt($g(%session.Data("LOGON.GROUPDESC")),"O","JS"))#)';
+	local["LOGON.USERCODE"]='#(%request.Data("SSUser",1))# (#($zcvt($g(%session.Data("LOGON.USERCODE")),"O","JS"))#)';
+	var isnested=#(+$g(%request.Data("TISNESTED",1)))#;
+	//disable the functions which are not applicable to looKup components
+	//used in the corresponding script/.js file
+	var compdisplaytype='#(compdisplaytype)#';
+</script>
+</head>
+
+<BODY>
+<TRAK:APPLET>
+<TRAK:COMPONENT id="websys.Component.CustomiseLayout" hidemenus=#(+$g(%request.Data("PREFID",1)))#>
+</TRAK:COMPONENT>
+</body>
+</html>

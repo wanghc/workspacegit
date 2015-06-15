@@ -1,0 +1,201 @@
+<DHCCOMPONENTEXPORT>
+<Component><CenterForm>0</CenterForm><ClassName>websys.Component</ClassName><CodeTable>1</CodeTable><CustomScript>0</CustomScript><DisplayType>C</DisplayType><HideHeadings>0</HideHeadings><HideMenus>0</HideMenus><Items>117@%Library.RelationshipObject</Items><LastUpdateDate>63715</LastUpdateDate><LastUpdateTime>57039</LastUpdateTime><Menus>System.Component.CustomiseSave</Menus><Messages>152@%Library.RelationshipObject</Messages><Name>websys.Component.CustomiseLayout</Name><Notes>165@%Library.RelationshipObject</Notes><RowId>5</RowId><Script>1</Script><Style>LEFT: 0px; TOP: 0px</Style><TableItems>212@%Library.RelationshipObject</TableItems><Template><![CDATA[<TABLE style="HEIGHT: 991px; WIDTH: 1267px">
+<TBODY>
+<TR>
+<TD></TD>
+<TD>{c5iPage}</TD>
+<TD></TD>
+<TD>{d5iPage}</TD>
+<TD>{d5iUpdate}</TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iSaveAs}</TD>
+<TD></TD>
+<TD colSpan=2>{d5iSaveAs}</TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iContext}</TD>
+<TD></TD>
+<TD colSpan=2>{d5iContext}</TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iUseContext}</TD>
+<TD></TD>
+<TD colSpan=2>{d5iUseContext}&nbsp;{d5iUseContext2}&nbsp;{d5iUseContext3}</TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iColumns}</TD>
+<TD></TD>
+<TD>{d5iColumns}</TD>
+<TD vAlign=middle>
+<P>{d5iTop}</P>
+<P>{d5iUp}<BR>{d5iDown}</P>
+<P>{d5iBottom}</P>
+<P>{d5iHideShow}</P></TD></TR>
+<TR>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD></TR>
+<TR>
+<TD class=CellCaption style="COLOR: "></TD>
+<TD class=CellCaption colSpan=2><FONT size=2>Against Each Column</FONT></TD>
+<TD></TD>
+<TD></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iWidth}</TD>
+<TD></TD>
+<TD>{d5iWidth}</TD>
+<TD><SPAN style="FONT-SIZE: 12pt; FONT-FAMILY: Arial; mso-fareast-font-family: 'Times New Roman'; mso-bidi-font-family: 'Times New Roman'; mso-ansi-language: EN-AU; mso-fareast-language: EN-US; mso-bidi-language: AR-SA"><FONT size=2 face=Tahoma><FONT face=Arial>By selecting a field, then entering in the number of pixels required for the width of the column, the size of the column is changed accordingly</FONT>.</FONT></SPAN></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iEnableSort}</TD>
+<TD></TD>
+<TD>{d5iEnableSort}</TD>
+<TD><FONT size=2 face=Arial>Unchecked - sort icon will not be displayed.<BR>Checked&nbsp;- sort icon will be displayed.</FONT></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iMerge}</TD>
+<TD></TD>
+<TD>{d5iMerge}</TD>
+<TD><FONT size=2 face=Arial>Display data for this column in the same column as the previous column separated by the entered text</FONT></TD></TR>
+<TR>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+<TD></TD></TR>
+<TR>
+<TD class=CellCaption style="COLOR: "></TD>
+<TD class=CellCaption colSpan=2><FONT size=2>Against Entire List</FONT></TD>
+<TD></TD>
+<TD></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iWrap}</TD>
+<TD></TD>
+<TD>{d5iWrap}</TD>
+<TD><FONT size=2 face=Arial>Unchecked - (NOWRAP) data will be displayed on a single line<BR>Checked - (WRAP) data will wrap to multiple lines</FONT></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iFixedWidth}</TD>
+<TD></TD>
+<TD>{d5iFixedWidth}</TD>
+<TD><FONT face=Arial>&nbsp;</FONT><FONT size=2 face=Arial>Unchecked (AUTO WIDTH) - columns will automatically expand to fit the data<BR>Checked&nbsp;- (FIXED WIDTH) columns will not expand beyond the specified width</FONT></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iExpandTree}</TD>
+<TD></TD>
+<TD>{d5iExpandTree}</TD>
+<TD><FONT size=2 face=Arial>Only applies to to tree structure lists<BR>Unchecked - child branch will initially&nbsp;display closed<BR>Checked - child branch will initially display expanded and visible</FONT></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iRows}</TD>
+<TD></TD>
+<TD>{d5iRows}</TD>
+<TD><FONT size=2 face=Arial>On EPR charts, this number of rows applies when the section is opened in a new window.. There is an override in the chart setup for the number of rows that is shown on the main chart page. See the chart setup for more details.</FONT></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iPrint}</TD>
+<TD></TD>
+<TD>{d5iPrint}</TD>
+<TD><FONT size=2 face=Arial></FONT></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iSortColumnDefault}</TD>
+<TD></TD>
+<TD>{d5iSortColumnDefault}</TD>
+<TD><FONT size=2 face=Arial></FONT></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iSortOrderDefault}</TD>
+<TD></TD>
+<TD>{d5iSortOrderDefault}</TD>
+<TD><FONT size=2 face=Arial></FONT></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iSortColumn2}</TD>
+<TD></TD>
+<TD>{d5iSortColumn2}</TD>
+<TD></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iSortOrder2}</TD>
+<TD></TD>
+<TD>{d5iSortOrder2}</TD>
+<TD><FONT size=2 face=Arial></FONT></TD></TR>
+<TR>
+<TD></TD>
+<TD>{c5iFontSize}</TD>
+<TD></TD>
+<TD>{d5iFontSize}px</TD>
+<TD></TD></TR>
+<TR>
+<TD></TD>
+<TD></TD>
+<TD></TD>
+<TD>{d5iDelete}</TD>
+<TD></TD></TR>
+<TR>
+<TD style="COLOR: " bgColor=#b0c000 borderColor=#b0c0a0></TD>
+<TD></TD>
+<TD style="COLOR: " bgColor=#b0c000 borderColor=#b0c0a0></TD>
+<TD></TD>
+<TD></TD></TR></TBODY></TABLE>]]></Template><UseFormSizeAndPosition>0</UseFormSizeAndPosition></Component>
+<Items>
+<ComponentItems><Caption>Page</Caption><DataType>%String</DataType><DisplayOnly>1</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><Name>Page</Name><ParRef>188@websys.Component</ParRef><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568652</RowId><TabSequence>0</TabSequence><ValueGet>s val=%request.Get("PAGENAME")</ValueGet></ComponentItems>
+<ComponentItems><Caption>Save As</Caption><DataType>%String</DataType><DisplayOnly>1</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><Name>SaveAs</Name><ParRef>7@websys.Component</ParRef><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568653</RowId><TabSequence>0</TabSequence><ValueGet>s val=%request.Get("SaveAs")</ValueGet></ComponentItems>
+<ComponentItems><Caption>Columns</Caption><CaptionStyle>WIDTH: 150px; HEIGHT: 19px</CaptionStyle><DataType>%String</DataType><DisplayOnly>0</DisplayOnly><DisplayType>L</DisplayType><Hidden>0</Hidden><Name>Columns</Name><ParRef>7@websys.Component</ParRef><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568654</RowId><Style>WIDTH: 181px; HEIGHT: 280px</Style><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><Caption>Column Width</Caption><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><Name>Width</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568655</RowId><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><Caption>Update</Caption><ClassMethod>websys.Component,SaveCustomLayout,"U"</ClassMethod><DataType>%String</DataType><DisplayOnly>0</DisplayOnly><DisplayType>B</DisplayType><Hidden>0</Hidden><Image>websys/update.gif</Image><LinkUrl>websys.close.csp</LinkUrl><Name>Update</Name><ParRef>7@websys.Component</ParRef><Required>0</Required><RowId>5||1568656</RowId><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><Caption>删除</Caption><ClassMethod>websys.Component,SaveCustomLayout,"D"</ClassMethod><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>B</DisplayType><Hidden>0</Hidden><Image>websys/delete.gif</Image><LinkUrl>websys.close.csp</LinkUrl><LookupUserDefined>0</LookupUserDefined><Name>Delete</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><Required>0</Required><RowId>5||1568657</RowId><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><Caption>Up</Caption><DataType>%String</DataType><DisplayOnly>0</DisplayOnly><DisplayType>A</DisplayType><Hidden>0</Hidden><Image>websys/moveup.gif</Image><Name>Up</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><Required>0</Required><RowId>5||1568658</RowId><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><Caption>Down</Caption><DataType>%String</DataType><DisplayOnly>0</DisplayOnly><DisplayType>A</DisplayType><Hidden>0</Hidden><Image>websys/movedwn.gif</Image><Name>Down</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><Required>0</Required><RowId>5||1568659</RowId><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><Caption>Hide/Show</Caption><DataType>%String</DataType><DisplayOnly>0</DisplayOnly><DisplayType>A</DisplayType><Hidden>0</Hidden><Image>websys/hideshow.gif</Image><Name>HideShow</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><Required>0</Required><RowId>5||1568660</RowId><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><Caption>HCAPTIONS</Caption><DataType>%String</DataType><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>1</Hidden><Name>HCAPTIONS</Name><ParRef>7@websys.Component</ParRef><Required>0</Required><RowId>5||1568661</RowId><ValueGet>s val=%request.Get("HCAPTIONS")</ValueGet></ComponentItems>
+<ComponentItems><Caption>HCOLUMNS</Caption><DataType>%String</DataType><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>1</Hidden><Name>HCOLUMNS</Name><ParRef>7@websys.Component</ParRef><Required>0</Required><RowId>5||1568662</RowId><ValueGet>s val=%request.Get("HCOLUMNS")</ValueGet></ComponentItems>
+<ComponentItems><Caption>HWIDTHS</Caption><DataType>%String</DataType><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>1</Hidden><Name>HWIDTHS</Name><ParRef>7@websys.Component</ParRef><Required>0</Required><RowId>5||1568663</RowId><ValueGet>s val=%request.Get("HWIDTHS")</ValueGet></ComponentItems>
+<ComponentItems><Caption>HSAVEAS</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>1</Hidden><Name>HSAVEAS</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><Required>0</Required><RowId>5||1568664</RowId><ValueGet>s val=$g(%request.Data("HSAVEAS",1))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Current Context</Caption><DataType>%String</DataType><DisplayOnly>1</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><Name>Context</Name><ParRef>7@websys.Component</ParRef><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568665</RowId><TabSequence>0</TabSequence><ValueGet>s val=%request.Get("DISPLAYCONTEXT")</ValueGet></ComponentItems>
+<ComponentItems><Caption>ID</Caption><DataType>%String</DataType><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>1</Hidden><Name>ID</Name><ParRef>7@websys.Component</ParRef><Required>0</Required><RowId>5||1568666</RowId><ValueGet>s val=%request.Get("ID")</ValueGet></ComponentItems>
+<ComponentItems><Caption>HCONTEXT</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>1</Hidden><LookupUserDefined>0</LookupUserDefined><Name>HCONTEXT</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><Required>0</Required><RowId>5||1568667</RowId><ValueGet>s val=$g(%request.Data("HCONTEXT",1))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Rows</Caption><DataType>%String</DataType><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><Name>Rows</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568668</RowId><TabSequence>0</TabSequence><ValueGet>s val=%request.Get("Rows")</ValueGet></ComponentItems>
+<ComponentItems><Caption>Print</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%Library.Boolean</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><Name>Print</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568669</RowId><TabSequence>0</TabSequence><ValueGet>s val=%request.Get("Print")</ValueGet></ComponentItems>
+<ComponentItems><Caption>Wrap Columns</Caption><DataType>%Boolean</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>C</DisplayType><Hidden>0</Hidden><Name>Wrap</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568670</RowId><TabSequence>0</TabSequence><ValueGet>s val=%request.Get("Wrap")</ValueGet></ComponentItems>
+<ComponentItems><Caption>Fixed Width Columns</Caption><DataType>%Boolean</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>C</DisplayType><Hidden>0</Hidden><Name>FixedWidth</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568671</RowId><TabSequence>0</TabSequence><ValueGet>s val=%request.Get("FixedWidth")</ValueGet></ComponentItems>
+<ComponentItems><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>1</Hidden><Name>HDELIMS</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><Required>0</Required><RowId>5||1568672</RowId><ValueGet>s val=$g(%request.Data("HDELIMS",1))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Expand Tree</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%Library.String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>C</DisplayType><Hidden>0</Hidden><Name>ExpandTree</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568673</RowId><TabSequence>0</TabSequence><ValueGet>s val=$g(%request.Data("ExpandTree",1))</ValueGet></ComponentItems>
+<ComponentItems><Caption>HENABLESORT</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>1</Hidden><Name>HENABLESORT</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><Required>0</Required><RowId>5||1568674</RowId><ValueGet>s val=%request.Get("HENABLESORT")</ValueGet></ComponentItems>
+<ComponentItems><Caption>Column Sort</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>C</DisplayType><Hidden>0</Hidden><Name>EnableSort</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568675</RowId><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>1</Hidden><LookupUserDefined>0</LookupUserDefined><Name>PREFID</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><Required>0</Required><RowId>5||1568676</RowId><ValueGet>s val=$g(%request.Data("PREFID",1))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Merged Delimiter</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><LookupUserDefined>0</LookupUserDefined><Name>Merge</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568677</RowId><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><Caption>Save with Context</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%Library.Boolean</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>C</DisplayType><Hidden>0</Hidden><Name>UseContext</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568678</RowId><TabSequence>0</TabSequence><ValueGet>s val=##Class(websys.Conversions).BooleanLogicalToHtml($g(%request.Data("UseContext",1)))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Default Sort Column</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><LookupBrokerMethod>LookupBrokerList</LookupBrokerMethod><LookupClassName>websys.ComponentItem</LookupClassName><LookupProperties>HCAPTIONS,SortColumnDefault</LookupProperties><LookupQueryName>LookupList</LookupQueryName><LookupUserDefined>0</LookupUserDefined><Name>SortColumnDefault</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568679</RowId><TabSequence>0</TabSequence><ValueGet>s val=$g(%request.Data("SortColumnDefault",1))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Default Sort Order</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><LookupBrokerMethod>LookUpBrokerByType</LookupBrokerMethod><LookupClassName>websys.StandardTypeItem</LookupClassName><LookupProperties>'COLUMNSortOrder',SortOrderDefault</LookupProperties><LookupQueryName>LookUpByType</LookupQueryName><LookupUserDefined>0</LookupUserDefined><Name>SortOrderDefault</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568680</RowId><TabSequence>0</TabSequence><ValueGet>s val=$g(%request.Data("SortOrderDefault",1))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Save with Context2</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%Boolean</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>C</DisplayType><Hidden>0</Hidden><LookupUserDefined>0</LookupUserDefined><Name>UseContext2</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568681</RowId><TabSequence>0</TabSequence><ValueGet>s val=##Class(websys.Conversions).BooleanLogicalToHtml($g(%request.Data("UseContext2",1)))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Save with Context3</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%Boolean</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>C</DisplayType><Hidden>0</Hidden><LookupUserDefined>0</LookupUserDefined><Name>UseContext3</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568682</RowId><TabSequence>0</TabSequence><ValueGet>s val=##Class(websys.Conversions).BooleanLogicalToHtml($g(%request.Data("UseContext3",1)))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Secondary Sort Column</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><LookupBrokerMethod>LookupBrokerList</LookupBrokerMethod><LookupClassName>websys.ComponentItem</LookupClassName><LookupProperties>HCAPTIONS,SortColumn2</LookupProperties><LookupQueryName>LookupList</LookupQueryName><LookupUserDefined>0</LookupUserDefined><Name>SortColumn2</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568683</RowId><TabSequence>0</TabSequence><ValueGet>s val=$g(%request.Data("SortColumn2",1))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Secondary Sort Order</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><LookupBrokerMethod>LookUpBrokerByType</LookupBrokerMethod><LookupClassName>websys.StandardTypeItem</LookupClassName><LookupProperties>'COLUMNSortOrder',SortOrder2</LookupProperties><LookupQueryName>LookUpByType</LookupQueryName><LookupUserDefined>0</LookupUserDefined><Name>SortOrder2</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568684</RowId><TabSequence>0</TabSequence><ValueGet>s val=$g(%request.Data("SortOrder2",1))</ValueGet></ComponentItems>
+<ComponentItems><Caption>Top</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>B</DisplayType><Hidden>0</Hidden><Image>websys/moveup.gif</Image><LookupUserDefined>0</LookupUserDefined><Name>Top</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568685</RowId><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><Caption>Bottom</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>B</DisplayType><Hidden>0</Hidden><Image>websys/movedwn.gif</Image><LookupUserDefined>0</LookupUserDefined><Name>Bottom</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1568686</RowId><TabSequence>0</TabSequence></ComponentItems>
+<ComponentItems><Caption>放大镜字体大小</Caption><ClassMethodIfDirty>0</ClassMethodIfDirty><DataType>%String</DataType><Disabled>0</Disabled><DisplayOnly>0</DisplayOnly><DisplayType>T</DisplayType><Hidden>0</Hidden><LookupUserDefined>0</LookupUserDefined><Name>FontSize</Name><ParRef>7@websys.Component</ParRef><Password>0</Password><ReadOnly>0</ReadOnly><Required>0</Required><RowId>5||1698039</RowId><ValueGet>s val=$g(%request.Data("FontSize",1))</ValueGet></ComponentItems>
+</Items>
+<TableItems>
+</TableItems>
+<Messages>
+<ComponentMessages><Code>REGION</Code><Description>Region</Description><ParRef>28@websys.Component</ParRef><RowId>5||184</RowId></ComponentMessages>
+<ComponentMessages><Code>MERGEPROMPT1</Code><Description>Please enter a separator to merge the item with the above item.</Description><ParRef>10@websys.Component</ParRef><RowId>5||185</RowId></ComponentMessages>
+<ComponentMessages><Code>MERGEPROMPT2</Code><Description>An empty separator will unmerge the items.</Description><ParRef>10@websys.Component</ParRef><RowId>5||186</RowId></ComponentMessages>
+<ComponentMessages><Code>UpdateApplied</Code><Description>Update will be applied to </Description><ParRef>10@websys.Component</ParRef><RowId>5||187</RowId></ComponentMessages>
+<ComponentMessages><Code>DeleteApplied</Code><Description>Delete settings for </Description><ParRef>10@websys.Component</ParRef><RowId>5||188</RowId></ComponentMessages>
+<ComponentMessages><Code>SSUser</Code><Description>User</Description><ParRef>10@websys.Component</ParRef><RowId>5||189</RowId></ComponentMessages>
+<ComponentMessages><Code>SSGroup</Code><Description>Group</Description><ParRef>10@websys.Component</ParRef><RowId>5||190</RowId></ComponentMessages>
+<ComponentMessages><Code>CTHospital</Code><Description>Hospital</Description><ParRef>10@websys.Component</ParRef><RowId>5||191</RowId></ComponentMessages>
+<ComponentMessages><Code>PACTrust</Code><Description>Trust</Description><ParRef>10@websys.Component</ParRef><RowId>5||192</RowId></ComponentMessages>
+<ComponentMessages><Code>SITE</Code><Description>Site</Description><ParRef>10@websys.Component</ParRef><RowId>5||193</RowId></ComponentMessages>
+<ComponentMessages><Code>SYS</Code><Description>System</Description><ParRef>10@websys.Component</ParRef><RowId>5||194</RowId></ComponentMessages>
+<ComponentMessages><Code>NONE</Code><Description>NONE</Description><ParRef>10@websys.Component</ParRef><RowId>5||195</RowId></ComponentMessages>
+</Messages>
+</DHCCOMPONENTEXPORT>
