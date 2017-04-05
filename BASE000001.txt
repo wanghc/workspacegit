@@ -1,0 +1,3 @@
+补丁编号BASE000001。
+当前台界面通过cspRunServerMethod方法与tkMakeServerCall调用后台类时，如果后台类此时在Studio中处理编辑状态下，前端会出现卡，慢，或返回空值现象。
+更新三个文件ext.Util.String.xml,websys.Configuration.xml,websys.Conversions.xml。
